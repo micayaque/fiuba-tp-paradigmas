@@ -1,0 +1,59 @@
+/* Panel principal */
+.info-panel {
+    -fx-background-color: #2B2D2E; /* Fondo oscuro */
+    -fx-border-color: #1E1F20;    /* Borde más oscuro */
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 15px;
+    -fx-alignment: center;
+}
+
+/* Títulos */
+.titulo-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF; /* Blanco */
+}
+
+/* Puntaje */
+.puntaje-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FF4444; /* Rojo brillante */
+}
+
+/* HBox para "Anota al menos" */
+.hbox-puntos-necesarios {
+    -fx-background-color: #804000; /* gris claro */
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+}
+
+/* HBox para "Puntuación ronda" */
+.hbox-puntuacion-ronda {
+    -fx-background-color: #B5B2B2; /* gris claro */
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+}
+
+/* HBox para "Manos" y "Descartes" */
+.hbox-manos-descartes {
+    -fx-background-color: #572364; /* violeta claro */
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+}
+/* HBox para "multiplicador" y "valor" */
+.hbox-multiplicador-valor {
+    -fx-background-color: #008CFF; /* azul vivo */
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-spacing: 20px;
+}

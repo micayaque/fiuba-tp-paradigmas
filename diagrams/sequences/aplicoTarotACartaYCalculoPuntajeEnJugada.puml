@@ -1,0 +1,36 @@
+@startuml
+actor TestCase
+participant Jugada
+participant unaCarta
+participant unTarot
+participant DefinidorDeManos
+participant CartaAlta
+participant Puntaje
+participant puntajeFinal
+
+TestCase -> Jugada: seleccionarCarta(unaCarta, unTarot)
+Jugada -> unaCarta: aplicarModificador(unTarot)
+unaCarta -> unTarot : modificar(puntaje)
+unTarot --> Puntaje : <<create>>
+unTarot -->unaCarta : Puntaje
+Jugada -> DefinidorDeManos: definidorDeManos(cartas)
+DefinidorDeManos -> DefinidorDeManos : tieneUnaCarta() : bool
+DefinidorDeManos --> CartaAlta: <<create>>
+CartaAlta --> puntajeFinal: <<create>>
+    loop recorrerCartas
+        CartaAlta -> Carta : calcularPuntaje()
+        Carta --> CartaAlta:Puntaje
+        CartaAlta -> Puntaje : sumarPuntaje(puntajeFinal)
+        Puntaje -> puntajeFinal: obtenerPuntos()
+        puntajeFinal -->  Puntaje : puntos
+        Puntaje --> CartaAlta : Puntaje
+    end
+
+DefinidorDeManos --> Jugada: CartaAlta
+Jugada -> CartaAlta: calcularPuntaje()
+CartaAlta --> Jugada: puntajeFinal
+Jugada --> TestCase: Puntaje
+
+@enduml
+
+

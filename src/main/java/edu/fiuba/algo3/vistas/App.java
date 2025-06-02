@@ -1,25 +1,22 @@
 package edu.fiuba.algo3.vistas;
-
-import edu.fiuba.algo3.SystemInfo;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import edu.fiuba.algo3.vistas.escenas.*;
 
-/**
- * JavaFX App
- */
+import java.util.Objects;
+
+
 public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
-
-        var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        var scene = new Scene(new StackPane(label), 640, 480);
-        stage.setScene(scene);
+        stage.setTitle("Balatro");
+        Image icono = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icono.jpg")));
+        stage.getIcons().add(icono);
+        stage.setResizable(false);
+        VistaMenu vistaMenu = new VistaMenu(stage, 1280, 720);
+        stage.setScene(vistaMenu);
         stage.show();
     }
 

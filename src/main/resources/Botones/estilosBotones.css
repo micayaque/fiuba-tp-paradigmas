@@ -1,0 +1,19 @@
+.btn-azul {
+    -fx-background-color: #008CFF; /* Azul vivo */
+    -fx-text-fill: white;          /* Texto blanco */
+    -fx-font-size: 16px;           /* Tamaño de fuente */
+    -fx-padding: 15px 30px;        /* Espaciado interno */
+    -fx-background-radius: 8px;   /* Bordes redondeados */
+    -fx-border-color: #005C99;     /* Borde azul oscuro */
+    -fx-border-width: 2px;
+}
+
+.btn-rojo {
+    -fx-background-color: #FF4444; /* Rojo vivo */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 15px 30px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #990000;
+    -fx-border-width: 2px;
+}

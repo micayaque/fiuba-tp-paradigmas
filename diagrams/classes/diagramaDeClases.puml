@@ -1,0 +1,95 @@
+@startuml
+
+
+class Tarot {
+    - valorModificado
+    + aplicarA(Modificable modificable): void
+}
+
+
+
+class Puntaje implements Modificable {
+    - multiplicador: int
+    - valor: int
+    + {static} Puntaje(multiplicador: int, valor: Valor): Puntaje
+    + calcularPuntaje(sumaDeValores: int): int
+    + aplicar(int): void
+}
+
+ class Carta  implements Modificable {
+    - palo: Palo
+    - valor: Valor
+    + {static} Carta(palo: Palo, valor: Valor): Carta
+    + compararPalo(carta: Carta): Bool
+    + compararValor(carta: Carta): Bool
+    + cambiarValor(valor: Valor): void
+}
+
+interface Palo {
+    + Palo(): Palo
+    + compararPalo(palo: Palo): Bool
+}
+
+abstract class Valor {
+    - valorNumerico: Int
+    + {static} Valor(): Valor
+    + compararValor(valor: Valor): Bool
+    + calcularPuntaje(): Puntaje
+}
+
+abstract class ManoDePoker {
+    + jugar(cartas: ArrayList<Carta>): int
+}
+
+
+class Jugada {
+    + Jugada()
+    + seleccionar(carta: Carta): void
+    + cantidadDeCartas(): int
+    + jugar(): int
+    + deseleccionar(carta: Carta):void
+    + descartar(): void
+}
+
+class DefinidorDeManoDePoker {
+    + definirManoDePoker(arrayDeCartas: ArrayList<Carta>): ManoDePoker
+    + tieneUnaCarta(): boolean
+}
+
+class Mano {
+    + Mano(cartas: List<Carta>)
+    + esManoCompleta(): boolean
+}
+
+class Jugador {
+    - nombre: String
+    + Jugador(nombre: String, mano: Mano)
+    + asignarMano(mano: Mano): void
+    + puedeJugar(): boolean
+}
+
+class Turno {
+     + seleccionar(carta: Carta)
+     + aplicar(carta: Carta, tarot: Tarot )
+     + aplicar(tarot: Tarot )
+     + jugar()
+}
+
+
+Jugador --> Mano
+Mano --> "*" Carta
+Jugada  *-- "0..*" Carta
+Jugada  *--  ManoDePoker
+Jugada  *--  DefinidorDeManoDePoker
+DefinidorDeManoDePoker --> "*" Carta
+DefinidorDeManoDePoker <.. ManoDePoker
+ManoDePoker o-- Puntaje
+
+Tarot ..> Modificable : aplica a
+
+
+Carta *-- Palo
+Carta *-- Valor
+Carta <.. Puntaje
+
+@enduml
