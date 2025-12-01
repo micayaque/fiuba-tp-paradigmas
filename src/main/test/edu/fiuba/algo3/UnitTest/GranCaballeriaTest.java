@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GranCaballeriaTest {
     GranCaballeria gc = new GranCaballeria();
     private void jugada(GranCaballeria gc, Jugador jugador) {
-        jugador.sumarCaballero();           // 1. La verdad está en el Jugador
-        gc.registrarCaballeroJugado(jugador); // 2. El árbitro verifica
+        jugador.sumarCaballero();
+        gc.registrarCaballeroJugado(jugador);
     }
 
     @Test
