@@ -2,8 +2,6 @@ package edu.fiuba.algo3.modelo.Recursos;
 
 import java.util.Objects;
 
-
-
 public class Madera extends TipoDeRecurso {
 
     public Madera(int cantidad) {
@@ -24,7 +22,6 @@ public class Madera extends TipoDeRecurso {
     public boolean equals(Object o) {
         return o instanceof Madera;  // solo importa el tipo
     }
-
     @Override
     public int hashCode() {
         return Objects.hash("Madera");

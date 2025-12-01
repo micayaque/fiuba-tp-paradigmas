@@ -7,47 +7,45 @@ import java.util.Map;
 
 public class GranCaballeria {
 
-    private final Map<Jugador, Integer> caballerosJugados = new HashMap<>();
     private Jugador lider = null;
+    private static final int MINIMO_NECESARIO = 3;
 
-    public void registrarCaballeroJugado(Jugador jugador) {
-        int nuevos = caballerosJugados.merge(jugador, 1, Integer::sum);
-        evaluar(jugador, nuevos);
+    public void registrarCaballeroJugado(Jugador aspirante) {
+        // Tell, Don't Ask (parcial): Le pedimos el total al experto (Jugador)
+        int cantidadDelAspirante = aspirante.getCantidadCaballerosUsados();
+
+        evaluarLiderazgo(aspirante, cantidadDelAspirante);
     }
 
-    private void evaluar(Jugador jugador, int caballerosXJugador) {
+    private void evaluarLiderazgo(Jugador aspirante, int cantidadAspirante) {
+        // 1. Regla base: Tener al menos 3
+        if (cantidadAspirante < MINIMO_NECESARIO) return;
 
-
-        if (caballerosXJugador < 3) return;
-
-        // si no hay líder → este jugador lo obtiene
+        // 2. Si no hay líder, tomamos el puesto
         if (lider == null) {
-            asignarA(jugador);
+            asignarNuevoLider(aspirante);
             return;
         }
 
+        // 3. Si soy el líder actual, no hago nada (ya tengo el bonus)
+        if (lider.equals(aspirante)) return;
 
-        if (lider == jugador) return;
+        // 4. Desafío: Para robar el título, debo SUPERAR estrictamente al líder
+        // Le preguntamos al líder actual cuánto tiene (Fuente de verdad viva)
+        int cantidadDelLider = lider.getCantidadCaballerosUsados();
 
-        // si supera al líder → transferencia
-        int jugadosLider = caballerosJugados.get(lider);
-        if (caballerosXJugador > jugadosLider) {
-            transferir(aNuevoLider(jugador));
+        if (cantidadAspirante > cantidadDelLider) {
+            transferirLiderazgo(aspirante);
         }
     }
 
-    private void asignarA(Jugador nuevoLider) {
-        lider = nuevoLider;
+    private void asignarNuevoLider(Jugador nuevoLider) {
+        this.lider = nuevoLider;
         nuevoLider.sumarPuntoDeVictoriaPublico(2);
     }
 
-    private Jugador aNuevoLider(Jugador nuevo) {
-        return nuevo;
-    }
-
-    private void transferir(Jugador nuevoLider) {
-        lider.restarPuntoDeVictoriaPublico(2);
-        nuevoLider.sumarPuntoDeVictoriaPublico(2);
-        lider = nuevoLider;
+    private void transferirLiderazgo(Jugador nuevoLider) {
+        this.lider.restarPuntoDeVictoriaPublico(2); // Quitamos al viejo
+        this.asignarNuevoLider(nuevoLider);         // Damos al nuevo
     }
 }
