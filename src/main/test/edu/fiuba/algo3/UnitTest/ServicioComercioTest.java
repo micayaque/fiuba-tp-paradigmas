@@ -2,6 +2,7 @@ package edu.fiuba.algo3.UnitTest;
 
 import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
 import edu.fiuba.algo3.modelo.Color;
+import edu.fiuba.algo3.modelo.Contruccion.Poblado;
 import edu.fiuba.algo3.modelo.Intercambios.Banco;
 import edu.fiuba.algo3.modelo.Intercambios.ServicioComercio;
 import edu.fiuba.algo3.modelo.Jugador;
@@ -69,7 +70,7 @@ public class ServicioComercioTest {
         jugador.agregarRecurso(new Grano(1));
 
 
-        servicio.venderPoblado(jugador);
+        servicio.comprarObjeto(jugador, new Poblado(jugador.getColor()));
 
         // Verificamos que se restaron los recursos
         // Ladrillo: Tenía 1, gastó 1 => Queda 0

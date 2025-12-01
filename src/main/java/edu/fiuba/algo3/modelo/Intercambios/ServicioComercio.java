@@ -5,8 +5,10 @@ import edu.fiuba.algo3.modelo.Contruccion.Carretera;
 import edu.fiuba.algo3.modelo.Contruccion.Ciudad;
 import edu.fiuba.algo3.modelo.Contruccion.Poblado;
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Mocks.FakeJugador;
 import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.RecursosInsuficientesException;
+import edu.fiuba.algo3.modelo.interfaces.Comprable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,41 +60,47 @@ public class ServicioComercio {
         banco.entregar(recursoRecibido, cantidadRecibida);
     }
 
-    public Poblado venderPoblado(Jugador jugador) throws RecursosInsuficientesException {
-        //  Definir Costo (Madera, Ladrillo, Lana, Grano)
-        List<TipoDeRecurso> costo = List.of(
-                new Madera(1), new Ladrillo(1), new Lana(1), new Grano(1)
-        );
+    public Comprable comprarObjeto(Jugador jugador, Comprable comprable) throws RecursosInsuficientesException {
+        List<TipoDeRecurso> costo = comprable.costoRecursos();
 
         procesarPago(jugador, costo);
 
-        return new Poblado(jugador.getColor()); // Asumiendo que Jugador tiene getColor()
+        return comprable;
     }
 
-    public Ciudad venderCiudad(Jugador jugador) throws RecursosInsuficientesException {
-        List<TipoDeRecurso> costo = List.of(
-                new Grano(2), new Mineral(3)
-        );
-        procesarPago(jugador, costo);
-        return new Ciudad(jugador.getColor());
-    }
+//    public Poblado venderPoblado(Jugador jugador) throws RecursosInsuficientesException {
+//        //  Definir Costo (Madera, Ladrillo, Lana, Grano)
+//        List<TipoDeRecurso> costo = List.of(
+//                new Madera(1), new Ladrillo(1), new Lana(1), new Grano(1)
+//        );
+//
+//        procesarPago(jugador, costo);
+//
+//        return new Poblado(jugador.getColor()); // Asumiendo que Jugador tiene getColor()
+//    }
 
-    public Carretera venderCarretera(Jugador comprador){
+//    public Ciudad venderCiudad(Jugador jugador) throws RecursosInsuficientesException {
+//        List<TipoDeRecurso> costo = List.of(
+//                new Grano(2), new Mineral(3)
+//        );
+//        procesarPago(jugador, costo);
+//        return new Ciudad(jugador.getColor());
+//    }
 
-        List<TipoDeRecurso> costo = List.of(
-                new Madera(1), new Ladrillo(1)
-        );
-        procesarPago(comprador, costo);
-
-        return new Carretera(comprador.getColor());
-
-    }
+//    public Carretera venderCarretera(Jugador comprador){
+//
+//        List<TipoDeRecurso> costo = List.of(
+//                new Madera(1), new Ladrillo(1)
+//        );
+//        procesarPago(comprador, costo);
+//
+//        return new Carretera(comprador.getColor());
+//
+//    }
 
     public CartaDesarrollo venderCartaDesarrollo(Jugador comprador, int turno){
 
-        List<TipoDeRecurso> costo = List.of(
-                new Grano(1), new Mineral(1),new Lana(1)
-        );
+        List<TipoDeRecurso> costo = CartaDesarrollo.costoRecursos();
         procesarPago(comprador, costo);
 
         return sacarCarta(turno);

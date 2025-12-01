@@ -3,6 +3,7 @@ package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.Cartas.*;
 import edu.fiuba.algo3.modelo.Contruccion.Carretera;
 import edu.fiuba.algo3.modelo.Contruccion.Ciudad;
+import edu.fiuba.algo3.modelo.Contruccion.Construccion;
 import edu.fiuba.algo3.modelo.Contruccion.Poblado;
 import edu.fiuba.algo3.modelo.Intercambios.Banco;
 import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
@@ -16,6 +17,7 @@ import edu.fiuba.algo3.modelo.Tablero.Factory.Vertice;
 import edu.fiuba.algo3.modelo.Tablero.ReglaDistanciaException;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.constructoresDeCarreteras.EstrategiaPagoGratuito;
+import edu.fiuba.algo3.modelo.interfaces.Comprable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,7 +50,7 @@ public class ManagerTurno {
 
     public void comprarCarta() {
         Jugador jugador = getJugadorActual();
-        CartaDesarrollo cartaComprada = servicioComercio.venderCartaDesarrollo(jugador, numeroTurnoActual);
+        CartaDesarrollo cartaComprada = servicioComercio.comprarObjeto(jugador, new );
         jugador.agregarCarta(cartaComprada);
         if(cartaComprada instanceof PuntoDeVictoria){
             jugador.sumarPuntoDeVictoriaOculto();
@@ -58,11 +60,11 @@ public class ManagerTurno {
     public void construirCarretera(Coordenada coordenada) throws ConstruccionExistenteException, ReglaConstruccionException {
 
         // 1. El servicio valida recursos, cobra al jugador y guarda en el Banco
-        Carretera carretera = servicioComercio.venderCarretera(getJugadorActual());
+        Comprable carretera = servicioComercio.comprarObjeto(getJugadorActual(), new Carretera(getJugadorActual().getColor()));
 
         try {
             Jugador jugadorActual = getJugadorActual();
-            tablero.colocarEnLado(carretera, coordenada);
+            tablero.colocarEnLado((Construccion) carretera, coordenada);
             List<Lado> ladosJugador = tablero.obtenerLadosDeJugador(jugadorActual.getColor());
             int longitud = granRutaComercial.calcular(ladosJugador);
             granRutaComercial.actualizarRutaDeJugador(jugadorActual, longitud);
@@ -146,12 +148,12 @@ public class ManagerTurno {
     public void construirPoblado(Coordenada coordenada) {
         try {
             // 1. El servicio valida recursos, cobra al jugador y guarda en el Banco
-            Poblado poblado = servicioComercio.venderPoblado(getJugadorActual());
+            Comprable poblado = servicioComercio.comprarObjeto(getJugadorActual(), new Poblado(getJugadorActual().getColor()));
 
             try {
 
                 Jugador jugadorActual = getJugadorActual();
-                tablero.colocarEnVertice(poblado, coordenada);
+                tablero.colocarEnVertice((Construccion) poblado, coordenada);
                 PoliticaDeIntercambio politica= tablero.verificarPuerto(coordenada);
                 if(politica!=null) {
                     jugadorActual.agregarPolitica(politica);
@@ -192,7 +194,7 @@ public class ManagerTurno {
     public void mejorarACiudad(Coordenada coordenada) {
         Jugador jugadorActual = getJugadorActual();
 
-        Ciudad nuevaCiudad = servicioComercio.venderCiudad(jugadorActual);
+        Comprable nuevaCiudad = servicioComercio.comprarObjeto(jugadorActual, new Ciudad(jugadorActual.getColor()));
 
         try {
             tablero.mejoraACiudadEn(coordenada,jugadorActual.getColor());
