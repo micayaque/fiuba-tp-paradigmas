@@ -49,6 +49,20 @@ public class ManagerTurno {
 
         this.ordenInicial = new OrdenTurnosIniciales(jugadores.size());
     }
+    public ManagerTurno(List<Jugador> jugadores, Tablero tablero, Random Random, ServicioComercio servicioComercio) {
+        this.jugadores = jugadores;
+        this.tablero = tablero;
+        this.azar = Random;
+        Banco banco = new Banco();
+
+        banco.recibir(new Madera(10));
+        banco.recibir(new Ladrillo(10));
+        banco.recibir(new Grano(10));
+        banco.recibir(new Lana(10));
+        banco.recibir(new Mineral(10));
+
+        this.servicioComercio = servicioComercio;
+    }
 
     public void comprarCarta() {
         Jugador jugador = getJugadorActual();
