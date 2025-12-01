@@ -103,6 +103,7 @@ public class CasoDeUsoCartasDesarrolloTest {
         Tablero unTablero = TableroFactory.crear(hexagonos, fichasNumeradas);
         ManagerTurno manager = new ManagerTurno(jugadores, unTablero, numeroRandom);
 
+
         comprador.agregarRecurso(new Lana(1));
         comprador.agregarRecurso(new Grano(1));
         comprador.agregarRecurso(new Mineral(1));

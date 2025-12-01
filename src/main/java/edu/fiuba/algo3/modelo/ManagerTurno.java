@@ -82,36 +82,14 @@ public class ManagerTurno {
     }
 
     public void usarUnaCarta(int indice) {
-        CartaDesarrollo cartaSeleccionada = getJugadorActual().agarrarCarta(indice);
-        cartaSeleccionada.usar();
-        if(cartaSeleccionada instanceof CartaCaballero ){
-            granCaballeria.registrarCaballeroJugado(getJugadorActual());
-            //moverLadron(pedir terreno al jugador);
-
-
-            int posicion = getJugadorActual().pedirPosicion();
-
-            List<Color> coloresDeVictimas= tablero.moverLadron(getJugadorActual(), posicion);
-            List<Jugador> victimas =
-                    coloresDeVictimas.stream()
-                            .map(this::getJugadorPorColor)
-                            .collect(Collectors.toList());
-
-            ((CartaCaballero) cartaSeleccionada).usarCarta(getJugadorActual(), victimas);
+        Jugador jugadorActual = getJugadorActual();
+        CartaDesarrollo cartaSeleccionada = jugadorActual.agarrarCarta(indice);
+        try {
+            cartaSeleccionada.ejecutarEfecto(jugadorActual, this.tablero,this.jugadores);
+            this.granCaballeria.registrarCaballeroJugado(jugadorActual);
+        }catch (RuntimeException e){
+            throw e;
         }
-        if (cartaSeleccionada instanceof CartaDescubrimiento) {
-            List<TipoDeRecurso> recursos = getJugadorActual().pedirRecursos();
-            ((CartaDescubrimiento) cartaSeleccionada).usarCarta(getJugadorActual(), servicioComercio, recursos);
-        }
-        if(cartaSeleccionada instanceof CartaConstruccionCarreteras) {
-            EstrategiaPagoGratuito modoFree = new EstrategiaPagoGratuito();
-            this.getJugadorActual().setEstrategiaDePago(modoFree);
-        }
-        if(cartaSeleccionada instanceof CartaMonopolio){
-            ((CartaMonopolio) cartaSeleccionada).ejecutarMonopolio(this.getJugadorActual(), this.jugadores);
-        }
-
-        // Utilidad de las cartas
     }
 
 

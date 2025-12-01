@@ -22,22 +22,6 @@ public class AlmacenDeRecursos {
     private final Map<TipoDeRecurso, TipoDeRecurso> recursos = new HashMap<>();
     private final Random azar;
 
-    public AlmacenDeRecursos() {
-
-        this(new Random());
-        for (TipoDeRecurso tipo : tiposBase()) {
-            recursos.put(tipo, tipo.nuevo(0));
-        }
-    }
-    private List<TipoDeRecurso> tiposBase() {
-        return List.of(
-                new Madera(0),
-                new Grano(0),
-                new Ladrillo(0),
-                new Lana(0),
-                new Mineral(0)
-        );
-    }
 
     public AlmacenDeRecursos(Random azar) {
         this.azar = Objects.requireNonNull(azar);

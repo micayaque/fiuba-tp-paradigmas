@@ -11,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GranCaballeriaTest {
     GranCaballeria gc = new GranCaballeria();
-
+    private void jugada(GranCaballeria gc, Jugador jugador) {
+        jugador.sumarCaballero();           // 1. La verdad está en el Jugador
+        gc.registrarCaballeroJugado(jugador); // 2. El árbitro verifica
+    }
 
     @Test
     public void test01NadieTieneGranCaballeriaConMenosDeTresCaballeros() {
@@ -31,14 +34,14 @@ public class GranCaballeriaTest {
         GranCaballeria gc = new GranCaballeria();
         Jugador j1 = new Jugador("A", new Color("Azul"));
 
-        gc.registrarCaballeroJugado(j1);
-        gc.registrarCaballeroJugado(j1);
-        gc.registrarCaballeroJugado(j1);
-        PuntajeDeVictoria puntosEsperados = new PuntajeDeVictoria();
+        jugada(gc, j1);
+        jugada(gc, j1);
+        jugada(gc, j1);
 
+        PuntajeDeVictoria puntosEsperados = new PuntajeDeVictoria();
         puntosEsperados.agregarPuntos(2);
 
-        assertTrue( j1.mismoPuntaje(puntosEsperados));
+        assertTrue(j1.mismoPuntaje(puntosEsperados));
     }
 
     @Test
@@ -48,22 +51,22 @@ public class GranCaballeriaTest {
         Jugador j2 = new Jugador("R", new Color("Rojo"));
 
         // j1 llega primero
-        gc.registrarCaballeroJugado(j1);
-        gc.registrarCaballeroJugado(j1);
-        gc.registrarCaballeroJugado(j1);
+        jugada(gc, j1);
+        jugada(gc, j1);
+        jugada(gc, j1);
 
         // j2 empata pero no supera
-        gc.registrarCaballeroJugado(j2);
-        gc.registrarCaballeroJugado(j2);
-        gc.registrarCaballeroJugado(j2);
+        jugada(gc, j2);
+        jugada(gc, j2);
+        jugada(gc, j2);
 
         PuntajeDeVictoria puntosEsperados = new PuntajeDeVictoria();
         PuntajeDeVictoria puntosEsperadosDerrota = new PuntajeDeVictoria();
 
         puntosEsperados.agregarPuntos(2);
 
-        assertTrue( j1.mismoPuntaje(puntosEsperados));
-        assertTrue( j2.mismoPuntaje(puntosEsperadosDerrota));
+        assertTrue(j1.mismoPuntaje(puntosEsperados));       // Mantiene
+        assertTrue(j2.mismoPuntaje(puntosEsperadosDerrota)); // No roba
     }
 
     @Test
@@ -73,23 +76,23 @@ public class GranCaballeriaTest {
         Jugador j2 = new Jugador("R", new Color("Rojo"));
 
         // j1 llega a 3 primero
-        gc.registrarCaballeroJugado(j1);
-        gc.registrarCaballeroJugado(j1);
-        gc.registrarCaballeroJugado(j1);
+        jugada(gc, j1);
+        jugada(gc, j1);
+        jugada(gc, j1);
 
-        // j2 juega 4 caballeros → supera
-        gc.registrarCaballeroJugado(j2);
-        gc.registrarCaballeroJugado(j2);
-        gc.registrarCaballeroJugado(j2);
-        gc.registrarCaballeroJugado(j2);
+        // j2 juega 4 caballeros > supera
+        jugada(gc, j2);
+        jugada(gc, j2);
+        jugada(gc, j2);
+        jugada(gc, j2);
 
         PuntajeDeVictoria puntosEsperados = new PuntajeDeVictoria();
         PuntajeDeVictoria puntosEsperadosDerrota = new PuntajeDeVictoria();
 
         puntosEsperados.agregarPuntos(2);
 
-        assertTrue( j1.mismoPuntaje(puntosEsperadosDerrota));
-        assertTrue( j2.mismoPuntaje(puntosEsperados));
+        assertTrue(j1.mismoPuntaje(puntosEsperadosDerrota)); // Pierde
+        assertTrue(j2.mismoPuntaje(puntosEsperados));        // Gana
     }
 
 }
