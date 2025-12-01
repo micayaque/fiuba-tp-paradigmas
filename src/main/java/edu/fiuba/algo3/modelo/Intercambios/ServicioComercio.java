@@ -1,14 +1,10 @@
 package edu.fiuba.algo3.modelo.Intercambios;
 
 import edu.fiuba.algo3.modelo.Cartas.*;
-import edu.fiuba.algo3.modelo.Contruccion.Carretera;
-import edu.fiuba.algo3.modelo.Contruccion.Ciudad;
-import edu.fiuba.algo3.modelo.Contruccion.Poblado;
 import edu.fiuba.algo3.modelo.Jugador;
-import edu.fiuba.algo3.modelo.Mocks.FakeJugador;
 import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.RecursosInsuficientesException;
-import edu.fiuba.algo3.modelo.interfaces.Comprable;
+import edu.fiuba.algo3.modelo.interfaces.FichaComprable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +56,7 @@ public class ServicioComercio {
         banco.entregar(recursoRecibido, cantidadRecibida);
     }
 
-    public Comprable comprarObjeto(Jugador jugador, Comprable comprable) throws RecursosInsuficientesException {
+    public FichaComprable comprarObjeto(Jugador jugador, FichaComprable comprable) throws RecursosInsuficientesException {
         List<TipoDeRecurso> costo = comprable.costoRecursos();
 
         procesarPago(jugador, costo);

@@ -4,7 +4,6 @@ import edu.fiuba.algo3.modelo.Recursos.Grano;
 import edu.fiuba.algo3.modelo.Recursos.Lana;
 import edu.fiuba.algo3.modelo.Recursos.Mineral;
 import edu.fiuba.algo3.modelo.Recursos.TipoDeRecurso;
-import edu.fiuba.algo3.modelo.interfaces.Comprable;
 
 import java.util.List;
 

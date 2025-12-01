@@ -13,11 +13,10 @@ import edu.fiuba.algo3.modelo.Tablero.ConstruccionExistenteException;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Coordenada;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Lado;
 import edu.fiuba.algo3.modelo.Tablero.Factory.ReglaConstruccionException;
-import edu.fiuba.algo3.modelo.Tablero.Factory.Vertice;
 import edu.fiuba.algo3.modelo.Tablero.ReglaDistanciaException;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.constructoresDeCarreteras.EstrategiaPagoGratuito;
-import edu.fiuba.algo3.modelo.interfaces.Comprable;
+import edu.fiuba.algo3.modelo.interfaces.FichaComprable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -60,7 +59,7 @@ public class ManagerTurno {
     public void construirCarretera(Coordenada coordenada) throws ConstruccionExistenteException, ReglaConstruccionException {
 
         // 1. El servicio valida recursos, cobra al jugador y guarda en el Banco
-        Comprable carretera = servicioComercio.comprarObjeto(getJugadorActual(), new Carretera(getJugadorActual().getColor()));
+        FichaComprable carretera = servicioComercio.comprarObjeto(getJugadorActual(), new Carretera(getJugadorActual().getColor()));
 
         try {
             Jugador jugadorActual = getJugadorActual();
@@ -148,7 +147,7 @@ public class ManagerTurno {
     public void construirPoblado(Coordenada coordenada) {
         try {
             // 1. El servicio valida recursos, cobra al jugador y guarda en el Banco
-            Comprable poblado = servicioComercio.comprarObjeto(getJugadorActual(), new Poblado(getJugadorActual().getColor()));
+            FichaComprable poblado = servicioComercio.comprarObjeto(getJugadorActual(), new Poblado(getJugadorActual().getColor()));
 
             try {
 
@@ -194,7 +193,7 @@ public class ManagerTurno {
     public void mejorarACiudad(Coordenada coordenada) {
         Jugador jugadorActual = getJugadorActual();
 
-        Comprable nuevaCiudad = servicioComercio.comprarObjeto(jugadorActual, new Ciudad(jugadorActual.getColor()));
+        FichaComprable nuevaCiudad = servicioComercio.comprarObjeto(jugadorActual, new Ciudad(jugadorActual.getColor()));
 
         try {
             tablero.mejoraACiudadEn(coordenada,jugadorActual.getColor());

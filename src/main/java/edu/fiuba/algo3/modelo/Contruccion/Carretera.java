@@ -2,11 +2,11 @@ package edu.fiuba.algo3.modelo.Contruccion;
 
 import edu.fiuba.algo3.modelo.Color;
 import edu.fiuba.algo3.modelo.Recursos.*;
-import edu.fiuba.algo3.modelo.interfaces.Comprable;
+import edu.fiuba.algo3.modelo.interfaces.FichaComprable;
 
 import java.util.List;
 
-public class Carretera implements  Construccion, Comprable {
+public class Carretera implements  Construccion, FichaComprable {
     private Color  color;
 
 
