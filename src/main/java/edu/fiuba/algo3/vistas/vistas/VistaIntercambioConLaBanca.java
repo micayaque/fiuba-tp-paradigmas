@@ -7,12 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class VistaIntercambioConLaBanca extends Stage {
+    private static final String IMAGEN = "/imagenes/banca.png";
 
     public VistaIntercambioConLaBanca(Stage owner, Catan catan) {
         this.initOwner(owner);
@@ -22,24 +24,31 @@ public class VistaIntercambioConLaBanca extends Stage {
         VBox layout = new VBox(20);
         layout.setPadding(new Insets(20));
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle(
+                "-fx-border-color: #dabf11;" +  // Color del borde
+                        "-fx-border-width: 6;" +        // Grosor (6px se nota bien)
+                        "-fx-border-radius: 0;"        // 0 para cuadrado, 10 para redondeado
 
-        layout.setStyle("-fx-background-color: #2B3A55; -fx-border-color: #FFD700; -fx-border-width: 2;");
+        );
+
+
+        configurarFondo(layout);
 
         Label titulo = new Label("COMERCIO CON BANCA");
-        titulo.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
+        titulo.setStyle("-fx-text-fill: #dabf11; -fx-font-size: 18px; -fx-font-weight: bold;");
 
         // --- SECCIÓN: YO DOY ---
         Label lblDoy = new Label("Yo entrego:");
-        lblDoy.setStyle("-fx-text-fill: white;");
+        lblDoy.setStyle("-fx-text-fill: #dabf11;");
         ComboBox<String> cmbDoy = new ComboBox<>();
-        cmbDoy.getItems().addAll("Madera", "Ladrillo", "Oveja", "Trigo", "Piedra");
+        cmbDoy.getItems().addAll("Madera", "Ladrillo", "Lana", "Grano", "Mineral");
         cmbDoy.setPromptText("Recurso a dar");
 
         // --- SECCIÓN: YO RECIBO ---
         Label lblPido = new Label("A cambio de:");
-        lblPido.setStyle("-fx-text-fill: white;");
+        lblPido.setStyle("-fx-text-fill: #dabf11;");
         ComboBox<String> cmbPido = new ComboBox<>();
-        cmbPido.getItems().addAll("Madera", "Ladrillo", "Oveja", "Trigo", "Piedra");
+        cmbPido.getItems().addAll("Madera", "Ladrillo", "Lana", "Grano", "Mineral");
         cmbPido.setPromptText("Recurso a recibir");
 
         // --- BOTONES ---
@@ -74,4 +83,44 @@ public class VistaIntercambioConLaBanca extends Stage {
         Scene scene = new Scene(layout, 300, 350);
         this.setScene(scene);
     }
+
+    private void configurarFondo(Region region) {
+        try {
+            java.net.URL url = getClass().getResource(IMAGEN);
+
+            if (url == null) {
+                System.out.println("--------------------------------------------------");
+                System.out.println("BUSCADO EN: " + IMAGEN);
+                System.out.println("--------------------------------------------------");
+
+                region.setStyle(
+                        "-fx-background-color: #2B3A55;" +
+                                "-fx-border-color: #dabf11;" +
+                                "-fx-border-width: 6;"
+                );
+                return;
+            }
+
+            Image imagen = new Image(url.toExternalForm());
+
+            BackgroundImage fondoImagen = new BackgroundImage(
+                    imagen,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(150, 150, true, true, false, true)
+            );
+
+            region.setBackground(new Background(fondoImagen));
+
+        } catch (Exception e) {
+            System.out.println("Excepción cargando imagen: " + e.getMessage());
+            region.setStyle(
+                    "-fx-background-color: #2B3A55;" +
+                            "-fx-border-color: #dabf11;" +
+                            "-fx-border-width: 6;"
+            );
+        }
+    }
+
 }

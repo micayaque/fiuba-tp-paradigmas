@@ -2,6 +2,7 @@ package edu.fiuba.algo3.vistas.vistas;
 
 import edu.fiuba.algo3.controllers.*;
 import edu.fiuba.algo3.modelo.Catan;
+import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Tablero.Dados;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
@@ -17,6 +18,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -41,6 +43,9 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     private HBox contenedorDadosVisuales;
     private Stage stage;
     private PantallaPrincipal pantallaPrincipal;
+    private HBox contenedorRecursos;
+    private HBox contenedorCartasDesarrollo;
+    private Label lblNombreJugadorActual;
 
     public VistaTablero2(Stage stage, PantallaPrincipal pantallaPrincipal,Catan catan) {
 
@@ -157,7 +162,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         BotonLanzarDados btnLanzar = new BotonLanzarDados(controladorLanzar);
 
 
-        ControladorTerminarTurno controladorTerminarTurno = new ControladorTerminarTurno(this.catan,btnLanzar );
+        ControladorTerminarTurno controladorTerminarTurno = new ControladorTerminarTurno(this.catan,btnLanzar,this);
         BotonTerminarTurno btnTerminar = new BotonTerminarTurno(controladorTerminarTurno);
 
         btnTerminar.setDisable(true);
@@ -190,10 +195,9 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
         Color colorFondoJavaFX = Color.web(jugador.getColor().getColor());
 
-        //  Aplicamos el fondo con esquinas redondeadas
+        //fondo con esquinas redondeadas
         jugadorBox.setBackground(new Background(new BackgroundFill(colorFondoJavaFX, new CornerRadii(8), null)));
 
-        //  borde sutil
         jugadorBox.setStyle("-fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 8; -fx-border-width: 1;");
 
         // Calculamos qué color de texto (blanco o negro) se ve mejor sobre ese fondo
@@ -231,46 +235,59 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     }
 
     private HBox crearPanelInferior() {
-        HBox panel = new HBox(20);
+        HBox panel = new HBox(20); // 20px de espacio inicial
         panel.setPadding(new Insets(15, 20, 15, 20));
-        panel.setAlignment(Pos.BOTTOM_CENTER);
-        panel.setPrefHeight(180);
+        panel.setAlignment(Pos.BOTTOM_CENTER); // Alineado al centro abajo
+        panel.setPrefHeight(200);
 
-        //  CÁPSULA NEGRA DEL INVENTARIO
-        HBox inventario = new HBox(15);
+        // ---  CÁPSULA NEGRA DEL INVENTARIO (VBox) ---
+        VBox inventario = new VBox(5);
         inventario.setPrefWidth(600);
-        inventario.setPadding(new Insets(10));
-        inventario.setAlignment(Pos.CENTER_LEFT);
-        // Estilo negro redondeado del boceto
-        inventario.setStyle("-fx-background-color: #222; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 4; -fx-border-radius: 20;");
+        inventario.setPadding(new Insets(10, 15, 10, 15));
+        inventario.setAlignment(Pos.TOP_CENTER);
 
-        // Recursos
-        VBox areaRecursos = new VBox(5);
-        Label lblTituloRec = new Label("RECURSOS"); lblTituloRec.setTextFill(Color.WHITE);
-        Label lblDatosRec = new Label("Madera: 0 | Ladrillo: 0 | Lana: 0| Mineral: 0 | Grano: 0"); // Aquí enlazarías con el modelo
-        lblDatosRec.setTextFill(Color.LIGHTGREEN); lblDatosRec.setStyle("-fx-font-weight: bold;");
+        // Estilo cápsula
+        inventario.setStyle("-fx-background-color: #222;" +
+                " -fx-background-radius: 20;" +
+                " -fx-border-color: black; -fx-border-width: 4; -fx-border-radius: 20;");
 
-        areaRecursos.getChildren().addAll(lblTituloRec, lblDatosRec);
-        areaRecursos.setStyle("-fx-border-color: gray; -fx-border-radius: 10; -fx-padding: 10; -fx-min-width: 200;");
-        areaRecursos.setAlignment(Pos.CENTER);
+        // Nombre del Jugador
+        this.lblNombreJugadorActual = new Label("Cargando...");
+        this.lblNombreJugadorActual.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px; -fx-font-weight: bold;");
 
-        // Cartas Interactivas
-        HBox areaCartas = new HBox(10);
-        areaCartas.setAlignment(Pos.CENTER_LEFT);
-        areaCartas.setStyle("-fx-border-color: gray; -fx-border-radius: 10; -fx-padding: 10;");
+        // Título
+        Label lblTitulo = new Label("INVENTARIO");
+        lblTitulo.setStyle("-fx-text-fill: gray; -fx-font-size: 10px; -fx-font-weight: bold; -fx-letter-spacing: 2;");
 
-        // Agregamos cartas de ejemplo
-        areaCartas.getChildren().add(crearCartaInteractiva("Caballero", Color.LIGHTGRAY));
-        areaCartas.getChildren().add(crearCartaInteractiva("Monopolio", Color.LIGHTGREEN));
-        areaCartas.getChildren().add(crearCartaInteractiva("Punto Vic.", Color.GOLD));
+        // Fila de Cartas (Recursos + Desarrollo)
+        HBox filaDeCartas = new HBox(15);
+        filaDeCartas.setAlignment(Pos.CENTER);
+        filaDeCartas.setPrefWidth(580);
 
-        inventario.getChildren().addAll(areaRecursos, areaCartas);
+        this.contenedorRecursos = new HBox(10);
+        this.contenedorRecursos.setAlignment(Pos.CENTER);
 
-        //GRID DE BOTONES DE ACCIÓN (Rojos)
+
+        this.contenedorCartasDesarrollo = new HBox(10);
+        this.contenedorCartasDesarrollo.setAlignment(Pos.CENTER);
+        // Borde separador a la izquierda para distinguirlo de los recursos
+        this.contenedorCartasDesarrollo.setStyle("-fx-padding: 0 0 0 10; -fx-border-color: gray; -fx-border-width: 0 0 0 2;");
+
+        // Agregamos ambos a la fila
+        filaDeCartas.getChildren().addAll(this.contenedorRecursos, this.contenedorCartasDesarrollo);
+
+        // Agregamos al VBox principal (Nombre, Titulo, Fila)
+        inventario.getChildren().addAll(this.lblNombreJugadorActual, lblTitulo, filaDeCartas);
+
+        // Llamamos a actualizar para llenar ambos contenedores
+        actualizarInventario();
+
+
+        // GRID DE BOTONES
         GridPane acciones = new GridPane();
         acciones.setHgap(10);
         acciones.setVgap(10);
-        acciones.setAlignment(Pos.CENTER_RIGHT);
+        acciones.setAlignment(Pos.CENTER_LEFT); // Alineado a la izquierda (cerca del inventario)
 
         acciones.add(crearBotonAccion("Construir\nPoblado",new ControladorConstruirPoblado(this.catan)), 0, 0);
         acciones.add(crearBotonAccion("Construir\nCamino",new ControladorConstruirCamino(this.catan)), 1, 0);
@@ -278,14 +295,16 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
         acciones.add(crearBotonAccion("Banca",new ControladorBanca(this.catan,this)), 0, 1);
         acciones.add(crearBotonAccion("Intercambio",new ControladorIntercambioEntreJugadores(this.catan,this)), 1, 1);
-        acciones.add(crearBotonAccion("JUGAR\nCARTA",new ControladorJugarCarta(this.catan,this)),2,1);
+        acciones.add(crearBotonAccion("JUGAR\nCARTA",new ControladorJugarCarta(this.catan,this)), 2, 1);
 
 
-        // Espaciador para separar inventario de acciones
-        Region espacioCentral = new Region();
-        HBox.setHgrow(espacioCentral, Priority.ALWAYS);
 
-        panel.getChildren().addAll(inventario, espacioCentral, acciones);
+
+        panel.setSpacing(30); // Acercamos los botones al inventario
+        panel.setAlignment(Pos.BOTTOM_CENTER);
+
+        panel.getChildren().addAll(inventario, acciones);
+
         return panel;
     }
 
@@ -395,6 +414,126 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         StackPane d2 = crearDadoVisual(valor2);
 
         this.contenedorDadosVisuales.getChildren().addAll(d1, d2);
+    }
+
+    // Método auxiliar para cargar imágenes de recursos y cartas
+    private VBox crearFichaConImagen(String nombre, int cantidad, String nombreImagen, String colorFondoHex) {
+        VBox ficha = new VBox(5); // Espacio vertical entre elementos
+        ficha.setPrefSize(80, 110); // Un poco más grande para que quepa la imagen
+        ficha.setAlignment(Pos.CENTER);
+
+        // Estilo base de la "Carta"
+        ficha.setStyle(
+                "-fx-background-color: " + colorFondoHex + ";" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-border-color: white;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0, 0, 0);"
+        );
+
+        // LA IMAGEN (Arriba)
+        // Usamos un StackPane para que si falla la imagen, quede el hueco o un color
+        StackPane contenedorImagen = new StackPane();
+        contenedorImagen.setPrefSize(60, 60);
+
+        try {
+            // Intenta cargar la imagen. Asegúrate que la ruta empiece con "/"
+            java.net.URL url = getClass().getResource("/imagenes/" + nombreImagen);
+            if (url != null) {
+                Image img = new Image(url.toExternalForm());
+                javafx.scene.image.ImageView imgView = new javafx.scene.image.ImageView(img);
+                imgView.setFitWidth(50);  // Ajusta el tamaño ancho
+                imgView.setFitHeight(50); // Ajusta el tamaño alto
+                imgView.setPreserveRatio(true);
+                contenedorImagen.getChildren().add(imgView);
+            } else {
+                // Si no encuentra la imagen, pone un texto temporal
+                Label lblNoImg = new Label("IMG?");
+                lblNoImg.setTextFill(Color.WHITE);
+                contenedorImagen.getChildren().add(lblNoImg);
+            }
+        } catch (Exception e) {
+            System.out.println("Error imagen: " + nombreImagen);
+        }
+
+        // 2. EL NOMBRE (Medio)
+        Label lblNombre = new Label(nombre);
+        lblNombre.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 10px;");
+        lblNombre.setEffect(new DropShadow(2, Color.BLACK));
+
+        // 3. LA CANTIDAD (Abajo, Grande)
+        Label lblCantidad = new Label(String.valueOf(cantidad));
+        lblCantidad.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 18px;");
+        lblCantidad.setEffect(new DropShadow(2, Color.BLACK));
+
+        ficha.getChildren().addAll(contenedorImagen, lblNombre, lblCantidad);
+        return ficha;
+    }
+
+    public void actualizarInventario() {
+        if (this.contenedorRecursos == null || this.catan == null) return;
+
+        this.contenedorRecursos.getChildren().clear();
+        this.contenedorCartasDesarrollo.getChildren().clear();
+
+        Jugador jugadorActual;
+        try {
+            jugadorActual = this.catan.getManagerTurno().getJugadorActual();
+        } catch (Exception e) { return; }
+
+        if (this.lblNombreJugadorActual != null) {
+            this.lblNombreJugadorActual.setText(jugadorActual.getNombre());
+            this.lblNombreJugadorActual.setTextFill(Color.web(jugadorActual.getColor().getColor()));
+        }
+
+        // --- A. LLENAR RECURSOS ---
+        this.contenedorRecursos.getChildren().addAll(
+                crearFichaConImagen("Madera",   jugadorActual.cantidadMadera(),   "madera.jpg",   "#228B22"),
+                crearFichaConImagen("Ladrillo", jugadorActual.cantidadLadrillo(), "ladrillo.jpg", "#B22222"),
+                crearFichaConImagen("Lana",     jugadorActual.cantidadLana(),     "lana.jpg",     "#7CB342"),
+                crearFichaConImagen("Grano",    jugadorActual.cantidadGrano(),    "grano.jpg",    "#FFD700"),
+                crearFichaConImagen("Mineral",   jugadorActual.cantidadMineral(),  "piedra.jpg",   "#708090")
+        );
+
+        // --- LLENAR CARTAS DE DESARROLLO ---
+        // Aquí deberías obtener la cantidad real que tiene el jugador.
+        // Por ahora pongo "1" o "0" como ejemplo visual.
+
+        // Ejemplo: int cantCaballeros = jugadorActual.getCantidadCartas("Caballero");
+        int cantCaballeros = 0;
+        int cantMonopolio = 0;
+        int cantPuntos = 0;
+        int cantDesc = 0;
+        int cantCarreteras = 0;
+
+        this.contenedorCartasDesarrollo.getChildren().addAll(
+                crearCartaInteractiva("Caballero", cantCaballeros, "caballero.jpg", "#A9A9A9"), // Gris Claro
+                crearCartaInteractiva("Monopolio", cantMonopolio,  "monopolio.jpg", "#90EE90"), // Verde Claro
+                crearCartaInteractiva("Punto Vic.", cantPuntos,    "PV.jpg",     "#FFD700"),
+                crearCartaInteractiva("Descubrimiento",cantDesc,"descubrimiento.jpg","#FFD700"),
+                crearCartaInteractiva("Carreteras",cantCarreteras,"carreteras.jpg","#FFD700")
+        );
+    }
+    private VBox crearCartaInteractiva(String nombre, int cantidad, String nombreImagen, String colorFondoHex) {
+        VBox carta = crearFichaConImagen(nombre, cantidad, nombreImagen, colorFondoHex);
+
+        // 2. Le agregamos la interactividad (Click)
+        carta.setOnMouseClicked(e -> {
+            this.cartaSeleccionada = nombre;
+            System.out.println("Seleccionaste: " + nombre);
+
+            //  Limpiar borde de todas las cartas hermanas
+            HBox padre = (HBox) carta.getParent();
+            padre.getChildren().forEach(n -> {
+
+                n.setStyle(n.getStyle().replace("-fx-border-color: yellow;", "-fx-border-color: white;"));
+            });
+
+            carta.setStyle(carta.getStyle().replace("-fx-border-color: white;", "-fx-border-color: yellow;"));
+        });
+
+        return carta;
     }
 
 }

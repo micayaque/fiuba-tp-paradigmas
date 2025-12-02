@@ -20,5 +20,7 @@ public class ControladorBanca implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         VistaIntercambioConLaBanca ventana = new VistaIntercambioConLaBanca((Stage) vista.getScene().getWindow(), catan);
         ventana.showAndWait();
+        vista.actualizarInventario();
+
     }
 }

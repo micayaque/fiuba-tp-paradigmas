@@ -27,9 +27,8 @@ public class ControladorIntercambioEntreJugadores implements EventHandler<Action
 
         VistaIntercambioEntreJugadores ventana = new VistaIntercambioEntreJugadores(stagePadre, catan);
         ventana.showAndWait(); // Pausa aquí hasta que se cierre la ventana de intercambio
+        vistaPrincipal.actualizarInventario();
 
-        // Actualizar la vista principal si cambiaron los recursos
-        // vistaPrincipal.actualizarRecursos();
     }
 
 }
