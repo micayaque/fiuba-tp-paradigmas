@@ -11,6 +11,8 @@ public class Catan implements PuntajeListener {
     private final Random rng;
     private final List<Jugador> jugadores= new ArrayList<>();
     private Jugador ganador = null;
+    private ManagerTurno managerTurno;
+    private static Catan instance = null;
 
     private List<Terreno> terrernos = Arrays.asList(
             new Bosque(),
@@ -66,6 +68,14 @@ public class Catan implements PuntajeListener {
         inicializar();
     }
 
+    public static Catan getInstance() {
+        if (instance==null){
+            instance=new Catan();
+
+        }
+        return instance;
+    }
+
     private void inicializar() {
         randomizarTerrenos();
         randomizarFichas();
@@ -78,13 +88,26 @@ public class Catan implements PuntajeListener {
     private void randomizarFichas() {
         Collections.shuffle(fichasNumeradas, rng);
     }
+
     public Tablero crearTablero() {
         return TableroFactory.crear(terrernos, fichasNumeradas);
     }
-    public ManagerTurno iniciarPartida() {
-        if(jugadores.isEmpty())
-            return null;
-        return new ManagerTurno(jugadores,this.crearTablero(), rng);
+
+    public void iniciarPartida() {
+        if (jugadores.isEmpty()) {
+            throw new IllegalStateException("No hay jugadores para iniciar");
+        }
+        this.managerTurno = new ManagerTurno(jugadores,this.crearTablero(), rng);
+   }
+    public ManagerTurno getManagerTurno() {
+        if (this.managerTurno == null) {
+            throw new IllegalStateException("¡La partida no ha iniciado! Llama a iniciarPartida() primero.");
+        }
+        return this.managerTurno;
+    }
+
+    public Tablero getTablero() {
+        return this.managerTurno.getTablero();
     }
 
     public void agregarJugador(Jugador jugador) {
@@ -120,5 +143,13 @@ public class Catan implements PuntajeListener {
             throw new IllegalStateException("No hay ganador aun");
         }
         return ganador;
+    }
+
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void siguienteTurno() {
+        this.managerTurno.siguienteTurnoInicial();
     }
 }

@@ -7,7 +7,6 @@ import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
 import edu.fiuba.algo3.modelo.Intercambios.ServicioComercio;
 import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.Tablero.ConstruccionExistenteException;
-import edu.fiuba.algo3.modelo.Tablero.Dados;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Coordenada;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Lado;
 import edu.fiuba.algo3.modelo.Tablero.Factory.ReglaConstruccionException;
@@ -99,12 +98,11 @@ public class ManagerTurno {
     public void usarUnaCarta(int indice) {
         Jugador jugadorActual = getJugadorActual();
         CartaDesarrollo cartaSeleccionada = jugadorActual.agarrarCarta(indice);
-        if(cartaSeleccionada instanceof CartaCaballero){
-            this.granCaballeria.registrarCaballeroJugado(jugadorActual);
-        }
         try {
             cartaSeleccionada.ejecutarEfecto(jugadorActual, this.tablero,this.jugadores);
-
+            if(cartaSeleccionada instanceof CartaCaballero){
+                this.granCaballeria.registrarCaballeroJugado(jugadorActual);
+            }
         }catch (RuntimeException e){
             throw e;
         }
@@ -290,18 +288,4 @@ public class ManagerTurno {
         return tablero;
     }
 
-    public Dados tirarDadosYDistribuir() {
-        Dados dados = new Dados();
-         int valor =tablero.tirarDados(dados);
-         repartirDividendos(valor);
-         return dados;
-    }
-
-    public Tablero getTablero() {
-        return tablero;
-    }
-
-    public List<Jugador> getJugadores() {
-        return jugadores;
-    }
 }

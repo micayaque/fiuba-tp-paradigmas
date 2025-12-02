@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.controllers;
 
+import edu.fiuba.algo3.modelo.Catan;
 import edu.fiuba.algo3.modelo.Tablero.Dados;
 import edu.fiuba.algo3.vistas.botones.BotonLanzarDados;
 import edu.fiuba.algo3.vistas.botones.BotonTerminarTurno;
@@ -29,18 +30,22 @@ public class ControladorLanzarDados implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        //Lógica del Modelo
+        // 1. Lógica del Modelo
+        Catan catan=Catan.getInstance();
+
         int suma = dados.tirar();
         System.out.println("Dados lanzados: " + dados.getDado1() + " y " + dados.getDado2() + " (Suma: " + suma + ")");
 
-        // Lógica de la Vista (Actualizar dibujos)
+        // 2. Lógica de la Vista (Actualizar dibujos)
         vista.actualizarDadosVisuales(dados.getDado1(), dados.getDado2());
-        vista.actualizarInventario();
+
+        // 3. Bloquear el botón
         if (botonLanzar != null) botonLanzar.setDisable(true);
 
-        // DESBLOQUEAR EL BOTÓN TERMINAR (Ahora ya puede terminar)
+        // 3. DESBLOQUEAR EL BOTÓN TERMINAR (Ahora ya puede terminar)
         if (botonTerminar != null) botonTerminar.setDisable(false);
 
-        // Aquí podríamos llamar a manager.repartirRecursos(suma);
+        // Aquí podrías llamar a manager.repartirRecursos(suma);
+        catan.getManagerTurno().repartirDividendos(suma);
     }
 }
