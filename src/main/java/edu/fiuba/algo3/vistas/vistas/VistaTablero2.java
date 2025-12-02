@@ -236,7 +236,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         panel.setAlignment(Pos.BOTTOM_CENTER);
         panel.setPrefHeight(180);
 
-        // A. CÁPSULA NEGRA DEL INVENTARIO
+        //  CÁPSULA NEGRA DEL INVENTARIO
         HBox inventario = new HBox(15);
         inventario.setPrefWidth(600);
         inventario.setPadding(new Insets(10));
@@ -244,7 +244,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         // Estilo negro redondeado del boceto
         inventario.setStyle("-fx-background-color: #222; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 4; -fx-border-radius: 20;");
 
-        // 1. Recursos
+        // Recursos
         VBox areaRecursos = new VBox(5);
         Label lblTituloRec = new Label("RECURSOS"); lblTituloRec.setTextFill(Color.WHITE);
         Label lblDatosRec = new Label("Madera: 0 | Ladrillo: 0 | Lana: 0| Mineral: 0 | Grano: 0"); // Aquí enlazarías con el modelo
@@ -254,7 +254,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         areaRecursos.setStyle("-fx-border-color: gray; -fx-border-radius: 10; -fx-padding: 10; -fx-min-width: 200;");
         areaRecursos.setAlignment(Pos.CENTER);
 
-        // 2. Cartas Interactivas
+        // Cartas Interactivas
         HBox areaCartas = new HBox(10);
         areaCartas.setAlignment(Pos.CENTER_LEFT);
         areaCartas.setStyle("-fx-border-color: gray; -fx-border-radius: 10; -fx-padding: 10;");
@@ -266,7 +266,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
         inventario.getChildren().addAll(areaRecursos, areaCartas);
 
-        // B. GRID DE BOTONES DE ACCIÓN (Rojos)
+        //GRID DE BOTONES DE ACCIÓN (Rojos)
         GridPane acciones = new GridPane();
         acciones.setHgap(10);
         acciones.setVgap(10);
@@ -310,7 +310,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         return carta;
     }
 
-    private Button crearBotonAccion(String texto, EventHandler<ActionEvent> event) {
+    private BotonGenericoAccionUsuario crearBotonAccion(String texto, EventHandler<ActionEvent> event) {
         BotonGenericoAccionUsuario btn = new BotonGenericoAccionUsuario (event,texto);
         return btn;
     }
@@ -331,11 +331,10 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     }
 
     private StackPane crearDadoVisual(int valor) {
-        // 1. EL FONDO DEL DADO
+        //EL FONDO DEL DADO
         StackPane dado = new StackPane();
         dado.setPrefSize(60, 60); // Tamaño del dado
 
-        // Dibujamos un rectángulo con bordes redondeados
         javafx.scene.shape.Rectangle fondo = new javafx.scene.shape.Rectangle(60, 60);
         fondo.setArcWidth(15); // Redondez de esquinas
         fondo.setArcHeight(15);
@@ -345,8 +344,6 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
         dado.getChildren().add(fondo);
 
-        // 2. LOS PUNTOS (Pips)
-        // Usamos un GridPane de 3x3 para organizar los puntos
         GridPane puntosGrid = new GridPane();
         puntosGrid.setAlignment(Pos.CENTER);
         puntosGrid.setHgap(5); // Espacio horizontal entre puntos

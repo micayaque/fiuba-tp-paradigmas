@@ -42,7 +42,6 @@ public class ControladorCrearPartida implements EventHandler<ActionEvent> {
                 nombre = "Jugador " + (i + 1);
             }
 
-            // Convertimos el color de JavaFX a tu color del Modelo
             // Nota: toString() de ColorPicker devuelve algo como "0xff0000ff"
             String hexColor = colores.get(i).getValue().toString();
 
@@ -59,12 +58,7 @@ public class ControladorCrearPartida implements EventHandler<ActionEvent> {
         try {
 
             catan.iniciarPartida();
-
-            // 4. Creamos la Vista del Tablero
-            // Le pasamos el 'juego' ya listo para que la vista pueda pedirle cosas (getTablero, getManager, etc.)
             VistaTablero2 vistaJuego = new VistaTablero2(stage, pantallaPrincipal, catan);
-
-            // 5. Cambiamos la pantalla
             pantallaPrincipal.setCentro(vistaJuego);
 
         } catch (Exception e) {

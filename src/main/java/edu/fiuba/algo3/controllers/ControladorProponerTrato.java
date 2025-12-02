@@ -34,16 +34,16 @@ public class ControladorProponerTrato implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
-            // 1. Obtener Datos
+            //Obtener Datos
             String nombreDestino = cmbJugadorDestino.getValue();
             String recursoDoyStr = cmbRecursoDoy.getValue();
             String recursoPidoStr = cmbRecursoPido.getValue();
 
-            // 2. Parsear Cantidades (Aquí está lo que pediste)
+            // Parsear Cantidades
             int cantDoy = Integer.parseInt(txtCantDoy.getText());
             int cantPido = Integer.parseInt(txtCantPido.getText());
 
-            // 3. Validaciones Básicas
+            //Validaciones Básicas
             if (nombreDestino == null || recursoDoyStr == null || recursoPidoStr == null) {
                 System.out.println("Por favor completa todos los campos.");
                 return;

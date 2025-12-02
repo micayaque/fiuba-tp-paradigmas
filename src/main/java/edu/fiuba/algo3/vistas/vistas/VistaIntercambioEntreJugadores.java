@@ -35,7 +35,7 @@ public class VistaIntercambioEntreJugadores extends Stage {
         Label titulo = new Label("INTERCAMBIO CON JUGADOR");
         titulo.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px; -fx-font-weight: bold;");
 
-        // --- 1. ELEGIR JUGADOR ---
+        // ELEGIR JUGADOR ---
         ComboBox<String> cmbJugadores = new ComboBox<>();
         cmbJugadores.setPromptText("Seleccionar Jugador...");
 
@@ -47,7 +47,7 @@ public class VistaIntercambioEntreJugadores extends Stage {
             }
         }
 
-        // --- 2. LO QUE YO DOY (Recurso + Cantidad) ---
+        // LO QUE YO DOY (Recurso + Cantidad) ---
         HBox panelDoy = new HBox(10);
         panelDoy.setAlignment(Pos.CENTER);
 
@@ -63,7 +63,7 @@ public class VistaIntercambioEntreJugadores extends Stage {
         panelDoy.getChildren().forEach(n -> { if(n instanceof Label) n.setStyle("-fx-text-fill: white;"); });
 
 
-        // --- 3. LO QUE YO PIDO (Recurso + Cantidad) ---
+        // LO QUE YO PIDO (Recurso + Cantidad) ---
         HBox panelPido = new HBox(10);
         panelPido.setAlignment(Pos.CENTER);
 
@@ -78,7 +78,6 @@ public class VistaIntercambioEntreJugadores extends Stage {
         panelPido.getChildren().forEach(n -> { if(n instanceof Label) n.setStyle("-fx-text-fill: white;"); });
 
 
-        // --- 4. BOTONES ---
         HBox panelBotones = new HBox(15);
         panelBotones.setAlignment(Pos.CENTER);
 

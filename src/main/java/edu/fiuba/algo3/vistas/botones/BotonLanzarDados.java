@@ -18,7 +18,6 @@ public class BotonLanzarDados extends Button {
     public BotonLanzarDados(EventHandler<ActionEvent> controlador) {
         super("Lanzar"); // Texto del botón
 
-        // Estilo Rojo Catan
         super.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
         super.setTextFill(Color.WHITE);
 

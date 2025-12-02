@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class ControladorIntercambioEntreJugadores implements EventHandler<ActionEvent> {
 
     private final Catan catan;
-    private final VistaTablero2 vistaPrincipal; // Necesario para obtener la ventana padre (owner)
+    private final VistaTablero2 vistaPrincipal;
 
     public ControladorIntercambioEntreJugadores(Catan catan, VistaTablero2 vistaPrincipal) {
         this.catan = catan;
@@ -25,7 +25,6 @@ public class ControladorIntercambioEntreJugadores implements EventHandler<Action
         // Obtenemos el Stage principal para bloquearlo (Modalidad)
         Stage stagePadre = (Stage) vistaPrincipal.getScene().getWindow();
 
-        // Creamos y mostramos la ventana de intercambio
         VistaIntercambioEntreJugadores ventana = new VistaIntercambioEntreJugadores(stagePadre, catan);
         ventana.showAndWait(); // Pausa aquí hasta que se cierre la ventana de intercambio
 

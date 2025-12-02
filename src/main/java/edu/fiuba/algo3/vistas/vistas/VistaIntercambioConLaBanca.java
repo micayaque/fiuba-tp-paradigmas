@@ -22,7 +22,7 @@ public class VistaIntercambioConLaBanca extends Stage {
         VBox layout = new VBox(20);
         layout.setPadding(new Insets(20));
         layout.setAlignment(Pos.CENTER);
-        // Estilo oscuro consistente con tu juego
+
         layout.setStyle("-fx-background-color: #2B3A55; -fx-border-color: #FFD700; -fx-border-width: 2;");
 
         Label titulo = new Label("COMERCIO CON BANCA");
