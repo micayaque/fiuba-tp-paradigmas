@@ -89,9 +89,8 @@ public class Tablero {
 
 
   
-    public List<List<Dividendo>> tirarDados(Dados dados){
-        int valor = dados.tirar();
-        return distribuirProduccion(valor);
+    public int tirarDados(Dados dados){
+        return dados.tirar();
 
     }
 

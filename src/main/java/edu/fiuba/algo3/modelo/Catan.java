@@ -81,9 +81,11 @@ public class Catan implements PuntajeListener {
     public Tablero crearTablero() {
         return TableroFactory.crear(terrernos, fichasNumeradas);
     }
-//    public void IniciarPartida() {
-//        this.Manager= new ManagerTurno(jugadores,this.crearTablero(), rng);
-//    }
+    public ManagerTurno iniciarPartida() {
+        if(jugadores.isEmpty())
+            return null;
+        return new ManagerTurno(jugadores,this.crearTablero(), rng);
+    }
 
     public void agregarJugador(Jugador jugador) {
         jugadores.add(jugador);

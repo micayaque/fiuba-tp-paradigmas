@@ -2,7 +2,6 @@ package edu.fiuba.algo3.modelo;
 
 import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
 import edu.fiuba.algo3.modelo.Cartas.CartaProductora;
-import edu.fiuba.algo3.modelo.Cartas.PuntoDeVictoria;
 import edu.fiuba.algo3.modelo.Contruccion.Carretera;
 import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
 import edu.fiuba.algo3.modelo.Recursos.*;
@@ -235,5 +234,9 @@ public class Jugador {
         this.pagar(costo);
 
         tablero.colocarEnLado(new Carretera(this.color), coordenada);
+    }
+
+    public int getPuntajeVictoria() {
+        return this.puntos.obtenerPuntos();
     }
 }

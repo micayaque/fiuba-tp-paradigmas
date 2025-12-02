@@ -3,6 +3,7 @@ package edu.fiuba.algo3.controllers;
 import edu.fiuba.algo3.modelo.Color;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.ManagerTurno;
+import edu.fiuba.algo3.modelo.SesionDeJuego;
 import edu.fiuba.algo3.modelo.Tablero.Factory.TableroFactory;
 import edu.fiuba.algo3.vistas.PantallaPrincipal;
 import edu.fiuba.algo3.vistas.vistas.VistaPedirCantidadJugadores;
@@ -19,26 +20,44 @@ import java.util.List;
 public class ControladorCrearPartida implements EventHandler<ActionEvent> {
     private final Stage stage   ;
     private final PantallaPrincipal pantallaPrincipal   ;
+    private final List<String> nombresJugadores;
+    private final List<Color> coloresJugadores;
+    private ArrayList<TextField> nombresIngresados;
+    private ArrayList<ColorPicker> coloresElegidos;
 
     public ControladorCrearPartida(Stage stage, PantallaPrincipal pantallaPrincipal, ArrayList<TextField> nombresIngresados, ArrayList<ColorPicker> coloresElegidos) {
         this.stage = stage;
         this.pantallaPrincipal = pantallaPrincipal;
-        List<Jugador> jugadores = new ArrayList<>();
-        int i = 0;
-        nombresIngresados.forEach(textField -> {
-            String nombreJugador = textField.getText();
-            System.out.println("nombreJugador: " + nombreJugador);
-
-            String colorJUgador = coloresElegidos.get(i).getValue().toString();
-            System.out.println("colorJUgador: " + colorJUgador);
-            jugadores.add(new Jugador(nombreJugador, new Color(colorJUgador)));
-        });
+        this.nombresJugadores = new ArrayList<>();
+        this.coloresJugadores = new ArrayList<>();
+        this.nombresIngresados = nombresIngresados;
+        this.coloresElegidos = coloresElegidos;
 
 
     }
 
+    private void crearJugadores(ArrayList<TextField> nombresIngresados, ArrayList<ColorPicker> coloresElegidos) {
+        for (int i = 0; i < nombresIngresados.size(); i++) {
+            String nombre = nombresIngresados.get(i).getText();
+            javafx.scene.paint.Color fxColor = coloresElegidos.get(i).getValue();
+
+            String colorJUgador = fxColor.toString();
+            System.out.println("colorJUgador: " + colorJUgador);
+            System.out.println("nombreJUgador: " + nombre);
+            nombresJugadores.add(nombre);
+            coloresJugadores.add(new Color(colorJUgador));
+
+        }
+    }
+
     @Override
     public void handle(ActionEvent actionEvent) {
+        crearJugadores(this.nombresIngresados, this.coloresElegidos);
+        SesionDeJuego sesion = SesionDeJuego.obtenerInstancia();
+        sesion.iniciarPartida(nombresJugadores, coloresJugadores);
         pantallaPrincipal.setCentro(new VistaTablero(stage,pantallaPrincipal));
+        if (!sesion.partidaIniciada()) {
+            System.err.println("Error: No se pudo iniciar la partida");
+        }
     }
 }
