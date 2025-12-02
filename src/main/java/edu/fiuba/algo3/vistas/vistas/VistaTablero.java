@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas.vistas;
 import edu.fiuba.algo3.Estilos;
 import edu.fiuba.algo3.modelo.Catan;
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.SesionDeJuego;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Tablero.Terrenos.Terreno;
 import edu.fiuba.algo3.vistas.PantallaPrincipal;
@@ -28,12 +29,19 @@ import java.util.Map;
 public class VistaTablero extends StackPane {
     private static final double ANCHO_VENTANA = 1280;
     private static final double ALTO_VENTANA = 720;
+    private final SesionDeJuego sesion;
 
     public VistaTablero(Stage stage, PantallaPrincipal pantallaPrincipal) {
-
+        this.sesion = SesionDeJuego.obtenerInstancia();
         HBox layout = topLayuot();
         super.getChildren().addAll(layout);
         super.setBackground(new Background(new BackgroundFill(Color.web("#233850"), null, null)));
+
+
+
+        if (!sesion.partidaIniciada()) {
+            throw new IllegalStateException("La partida no ha sido iniciada");
+        }
     }
 
     private HBox topLayuot (){
@@ -51,8 +59,10 @@ public class VistaTablero extends StackPane {
         HBox mapa = new HBox();
         mapa.setPadding(new Insets(40, 80, 40 ,80));
         mapa.setPrefWidth(ANCHO_VENTANA/2);
-        Catan catan = new Catan();
-        Tablero tablero = catan.crearTablero();
+
+
+
+        Tablero tablero = sesion.getManagerTurno().getTablero();
         Map<Integer, Terreno> terrenos = tablero.getTerrenos();
 
         double centerY =  200.0;
@@ -125,10 +135,10 @@ public class VistaTablero extends StackPane {
     }
 
     private VBox informacionJugadores(){
-        List<Jugador> jugadores = new ArrayList<Jugador>();
-        jugadores.add(new Jugador("Jugador1", new edu.fiuba.algo3.modelo.Color("#aa7785")));
-        jugadores.add(new Jugador("Jugador2", new edu.fiuba.algo3.modelo.Color("#7275bb")));
-        jugadores.add(new Jugador("Jugador3", new edu.fiuba.algo3.modelo.Color("78dd74")));
+        List<Jugador> jugadores = sesion.getManagerTurno().getJugadores();
+//        jugadores.add(new Jugador("Jugador1", new edu.fiuba.algo3.modelo.Color("#aa7785")));
+//        jugadores.add(new Jugador("Jugador2", new edu.fiuba.algo3.modelo.Color("#7275bb")));
+//        jugadores.add(new Jugador("Jugador3", new edu.fiuba.algo3.modelo.Color("78dd74")));
 
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(40, 40    , 0, ANCHO_VENTANA/4));
@@ -153,8 +163,10 @@ public class VistaTablero extends StackPane {
         jugador.setPrefWidth(ANCHO_VENTANA/4);
         jugador.setPadding(new Insets(20));
         jugador.setBackground(new Background(new BackgroundFill(Color.web(modeloJugador.getColor().getColor()), null, null)));
+        System.out.println("JUgadorColor: " + modeloJugador.getColor().getColor());
 
         Label nombreJugador = new Label(modeloJugador.getNombre());
+        System.out.println("JUgador: " + modeloJugador.getNombre());
         nombreJugador.setPrefWidth(105);
         nombreJugador.setPrefHeight(40);
         nombreJugador.setWrapText(true);
@@ -168,7 +180,8 @@ public class VistaTablero extends StackPane {
         pvLabel.setWrapText(true);
         pvLabel.setFont(Font.font(Estilos.FUENTE, FontWeight.BOLD, 14));
         pvLabel.setTextAlignment(TextAlignment.CENTER);
-        Label pvValue = new  Label("0");
+        int puntos = modeloJugador.getPuntajeVictoria();
+        Label pvValue = new Label(Integer.toString(puntos));
         pvValue.setPrefWidth(70);
         pvValue.setFont(Font.font(Estilos.FUENTE, FontWeight.MEDIUM, 18));
         pvValue.setTextAlignment(TextAlignment.CENTER);

@@ -68,7 +68,8 @@ public class CasoDeUsoLanzarDadosTest {
         Dados dadosCargados = Mockito.mock(Dados.class);
         Mockito.when(dadosCargados.tirar()).thenReturn(10);
         //Act
-        tablero.tirarDados(dadosCargados);
+        int valor=tablero.tirarDados(dadosCargados);
+        tablero.distribuirProduccion(valor);
         //Assert
         assertTrue(jugadorMarcos.tiene(new Madera(2),new Ladrillo(0),new Lana(0),new Mineral(0),new Grano(0)));
 
