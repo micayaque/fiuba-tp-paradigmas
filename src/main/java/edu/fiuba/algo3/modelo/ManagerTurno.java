@@ -290,5 +290,8 @@ public class ManagerTurno {
         }
 
     }
+    public Tablero getTablero() {
+        return tablero;
+    }
 
 }
