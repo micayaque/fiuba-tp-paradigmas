@@ -49,7 +49,7 @@ public class ManagerTurno {
 
     public void comprarCarta() {
         Jugador jugador = getJugadorActual();
-        CartaDesarrollo cartaComprada = servicioComercio.comprarObjeto(jugador, new );
+        CartaDesarrollo cartaComprada = servicioComercio.venderCartaDesarrollo(jugador, numeroTurnoActual);
         jugador.agregarCarta(cartaComprada);
         if(cartaComprada instanceof PuntoDeVictoria){
             jugador.sumarPuntoDeVictoriaOculto();

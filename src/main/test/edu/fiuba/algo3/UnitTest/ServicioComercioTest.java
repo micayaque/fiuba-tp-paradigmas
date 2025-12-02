@@ -43,8 +43,7 @@ public class ServicioComercioTest {
         servicio.intercambiarConBanco(
                 jugador,
                 new Madera(4), // Recurso entregado
-                4,             // Cantidad
-                new Ladrillo(0) // Recurso deseado (tipo)
+                new Ladrillo(1) // Recurso deseado (tipo)
         );
 
 

@@ -1,6 +1,9 @@
 package edu.fiuba.algo3.modelo.Intercambios;
 
 import edu.fiuba.algo3.modelo.Cartas.*;
+import edu.fiuba.algo3.modelo.Color;
+import edu.fiuba.algo3.modelo.Contruccion.Ciudad;
+import edu.fiuba.algo3.modelo.Contruccion.Poblado;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.RecursosInsuficientesException;
@@ -26,19 +29,17 @@ public class ServicioComercio {
 
     public void intercambiarConBanco(Jugador jugador,
                                      TipoDeRecurso recursoEntregado,
-                                     int cantidadEntregada,
                                      TipoDeRecurso recursoRecibido) {
-
         int tasa = jugador.mejorTasaPara(recursoEntregado);
 
-        if (cantidadEntregada < tasa || cantidadEntregada % tasa != 0) {
+        if (recursoEntregado.obtenerCantidad() < tasa || recursoEntregado.obtenerCantidad() % tasa != 0) {
             throw new IntercambioInvalidoException(
-                    "Cantidad " + cantidadEntregada + " no compatible con tasa " + tasa + ":1");
+                    "Cantidad " + recursoEntregado.obtenerCantidad() + " no compatible con tasa " + tasa + ":1");
         }
 
-        int cantidadRecibida = cantidadEntregada / tasa;
+        int cantidadRecibida = recursoEntregado.obtenerCantidad() / tasa;
 
-        if (jugador.cantidadRecurso(recursoEntregado) < cantidadEntregada) {
+        if (!jugador.suficienteCantidad(recursoEntregado)) {
             throw new IntercambioInvalidoException(
                     "El jugador no tiene suficientes " + recursoEntregado);
         }
@@ -49,10 +50,10 @@ public class ServicioComercio {
         }
 
         // Ejecutar intercambio
-        jugador.quitarRecurso(recursoEntregado, cantidadEntregada);
+        jugador.quitarRecurso(recursoEntregado);
         jugador.agregarRecurso(recursoRecibido.nuevo(cantidadRecibida));
 
-        banco.recibir(recursoEntregado.nuevo(cantidadEntregada));
+        banco.recibir(recursoEntregado.nuevo(recursoEntregado.obtenerCantidad()));
         banco.entregar(recursoRecibido, cantidadRecibida);
     }
 
@@ -124,13 +125,11 @@ public class ServicioComercio {
     }
 
     public void reembolsarPoblado(Jugador jugador) {
-        List<TipoDeRecurso> costo = List.of(
-                new Madera(1), new Ladrillo(1), new Lana(1), new Grano(1)
-        );
+        List<TipoDeRecurso> costo = new Poblado(new Color("Indefinido")).costoRecursos();
         reembolsar(jugador, costo);
     }
     public void reembolsarCiudad(Jugador jugador) {
-        List<TipoDeRecurso> costo = List.of(new Grano(2), new Mineral(3));
+        List<TipoDeRecurso> costo = new Ciudad(new Color("Indefinido")).costoRecursos();
         reembolsar(jugador, costo);
     }
 
