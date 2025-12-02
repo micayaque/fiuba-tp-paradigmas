@@ -270,5 +270,9 @@ public class Tablero {
     public int obtenerPobladosPorColor(Color color) {
         return pobladosColocadosPorColor.getOrDefault(color, 0);
     }
+
+    public Map<Coordenada, Vertice> getVertices() {
+        return vertices;
+    }
 }
 

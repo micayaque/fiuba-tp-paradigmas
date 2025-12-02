@@ -13,8 +13,8 @@ public class ControladorTerminarTurno implements EventHandler<ActionEvent> {
     private BotonTerminarTurno botonTerminar;
 
     // Recibimos las referencias en el constructor
-    public ControladorTerminarTurno(Catan catan, BotonLanzarDados botonLanzarASdesbloquear) {
-        this.catan = catan;
+    public ControladorTerminarTurno( BotonLanzarDados botonLanzarASdesbloquear) {
+        this.catan = Catan.getInstance();
         this.botonLanzar = botonLanzarASdesbloquear;
     }
     public void setBotonTerminar(BotonTerminarTurno btnTerminar) {

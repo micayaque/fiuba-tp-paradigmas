@@ -12,6 +12,7 @@ public class Catan implements PuntajeListener {
     private final List<Jugador> jugadores= new ArrayList<>();
     private Jugador ganador = null;
     private ManagerTurno managerTurno;
+    private static Catan instance = null;
 
     private List<Terreno> terrernos = Arrays.asList(
             new Bosque(),
@@ -65,6 +66,14 @@ public class Catan implements PuntajeListener {
     public Catan(Random randomFijoParaTest) {
         this.rng = randomFijoParaTest;   // reproducible
         inicializar();
+    }
+
+    public static Catan getInstance() {
+        if (instance==null){
+            instance=new Catan();
+
+        }
+        return instance;
     }
 
     private void inicializar() {
@@ -141,6 +150,6 @@ public class Catan implements PuntajeListener {
     }
 
     public void siguienteTurno() {
-        this.managerTurno.siguienteTurno();
+        this.managerTurno.siguienteTurnoInicial();
     }
 }

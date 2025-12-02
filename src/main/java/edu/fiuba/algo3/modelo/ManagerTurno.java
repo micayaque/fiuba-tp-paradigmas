@@ -100,7 +100,9 @@ public class ManagerTurno {
         CartaDesarrollo cartaSeleccionada = jugadorActual.agarrarCarta(indice);
         try {
             cartaSeleccionada.ejecutarEfecto(jugadorActual, this.tablero,this.jugadores);
-            this.granCaballeria.registrarCaballeroJugado(jugadorActual);
+            if(cartaSeleccionada instanceof CartaCaballero){
+                this.granCaballeria.registrarCaballeroJugado(jugadorActual);
+            }
         }catch (RuntimeException e){
             throw e;
         }

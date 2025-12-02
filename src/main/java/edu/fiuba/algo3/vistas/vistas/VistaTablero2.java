@@ -1,9 +1,14 @@
 package edu.fiuba.algo3.vistas.vistas;
 
+import com.sun.javafx.geom.Point2D;
 import edu.fiuba.algo3.controllers.*;
 import edu.fiuba.algo3.modelo.Catan;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Tablero.Dados;
+import edu.fiuba.algo3.modelo.Tablero.Factory.Axial;
+import edu.fiuba.algo3.modelo.Tablero.Factory.Coordenada;
+import edu.fiuba.algo3.modelo.Tablero.Factory.Cubic;
+import edu.fiuba.algo3.modelo.Tablero.Factory.Vertice;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Tablero.Terrenos.Terreno;
 import edu.fiuba.algo3.vistas.PantallaPrincipal;
@@ -21,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -28,8 +34,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static edu.fiuba.algo3.modelo.Tablero.Factory.TableroFactory.Vertice_OFFSETS;
 
 public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos BorderPane
     private static final double ANCHO_VENTANA = 1280;
@@ -41,14 +48,18 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     private HBox contenedorDadosVisuales;
     private Stage stage;
     private PantallaPrincipal pantallaPrincipal;
+    private Map<Cubic, Circle> verticesUI;
 
-    public VistaTablero2(Stage stage, PantallaPrincipal pantallaPrincipal,Catan catan) {
+
+    public VistaTablero2(Stage stage, PantallaPrincipal pantallaPrincipal) {
 
         this.setBackground(new Background(new BackgroundFill(Color.web("#233850"), null, null)));
-        this.catan = catan;
+        this.catan = Catan.getInstance();
         this.stage = stage;
         this.pantallaPrincipal = pantallaPrincipal;
-        StackPane contenedorMapa = new StackPane(agregarTerrenos());
+        Group grupoTerrenos = agregarTerrenos();
+        Group grupoVertices = agregarVertices(this.catan.getTablero().getTerrenos(), 50);
+        StackPane contenedorMapa = new StackPane(grupoTerrenos, grupoVertices);
         contenedorMapa.setAlignment(Pos.CENTER);
         this.setCenter(contenedorMapa);
 
@@ -70,37 +81,19 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         Group root = new Group();
         double hexRadius = 50;
 
-        Polygon center = createHexagon(centerX, centerY, hexRadius, terrenos.get(1));
-        root.getChildren().add(center);
+        for (Terreno t : terrenos.values()) {
 
-        for (int i = 0; i < 6; i++) {
-            double angle = 2.0 * Math.PI * i / 6;
-            double x = centerX + hexRadius * 1.8 * Math.cos(angle);
-            double y = centerY + hexRadius * 1.8 * Math.sin(angle);
-            Polygon hexagon = createHexagon(x, y, hexRadius, terrenos.get(i + 1));
+            Axial pos = t.getPosicion();
+            double q = pos.q;
+            double r = pos.r;
+
+            // axial → pixel
+            double x = hexRadius * Math.sqrt(3) * (q + r / 2.0);
+            double y = hexRadius * 1.5 * r;
+
+            Polygon hexagon = createHexagon(x, y, hexRadius, t);
             root.getChildren().add(hexagon);
         }
-        for (int i = 0; i < 12; i++) {
-            double angle = 2.0 * Math.PI * i / 12;
-            double x = centerX + hexRadius * 3.6 * Math.cos(angle);
-            double y = centerY + hexRadius * 3.6 * Math.sin(angle);
-            Polygon hexagon = createHexagon(x, y, hexRadius, terrenos.get(i + 7));
-            root.getChildren().add(hexagon);
-        }
-
-        Translate moverAbajo = new Translate(); moverAbajo.setY(25);
-        Translate moverAbajoDerecha = new Translate(); moverAbajoDerecha.setY(13); moverAbajoDerecha.setX(20);
-        Translate moverAbajoIzquierda = new Translate(); moverAbajoIzquierda.setY(13); moverAbajoIzquierda.setX(-20);
-        Translate moverArriba = new Translate(); moverArriba.setY(-25);
-        Translate moverArribaDerecha = new Translate(); moverArribaDerecha.setY(-13); moverArribaDerecha.setX(20);
-        Translate moverArribaIzquierda = new Translate(); moverArribaIzquierda.setY(-13); moverArribaIzquierda.setX(-20);
-
-        root.getChildren().get(8).getTransforms().add(moverArribaIzquierda);
-        root.getChildren().get(10).getTransforms().add(moverArriba);
-        root.getChildren().get(12).getTransforms().add(moverArribaDerecha);
-        root.getChildren().get(14).getTransforms().add(moverAbajoDerecha);
-        root.getChildren().get(16).getTransforms().add(moverAbajo);
-        root.getChildren().get(18).getTransforms().add(moverAbajoIzquierda);
 
         return root;
     }
@@ -123,6 +116,80 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         }
         hexagon.setStroke(Color.BLACK);
         return hexagon;
+    }
+
+    private Group agregarVertices(Map<Integer, Terreno> terrenos, double hexRadius) {
+
+        Group root = new Group();
+        //Set<Cubic> visitados = new HashSet<>();
+        Map<Cubic, Circle> verticesUI = new HashMap<>();
+        //Map<Coordenada, Vertice> verticesModelo = this.catan.getTablero().getVertices();
+
+        for (Terreno terreno : terrenos.values()) {
+
+            Axial axial = terreno.getPosicion();
+
+            // Centro del hexágono en píxeles
+            double cx = hexRadius * Math.sqrt(3) * (axial.q + axial.r / 2.0);
+            double cy = hexRadius * 1.5 * axial.r;
+
+            // Obtener su centro cúbico
+            Cubic centroCubic = axial.toCubic();
+
+            for (int i = 0; i < 6; i++) {
+
+                Cubic vCubic = centroCubic.add(Vertice_OFFSETS[i]);
+
+
+//
+
+                // --- COORDENADAS DE LA PUNTA DEL HEXÁGONO ---
+                double angle = (Math.PI / 6) + i * (Math.PI / 3);
+
+                double px = cx + hexRadius * Math.cos(angle);
+                double py = cy + hexRadius * Math.sin(angle);
+
+                Circle punto = crearVerticeInteractivo(px, py, vCubic, terreno.getId(), i);
+
+                verticesUI.put(vCubic, punto);
+                root.getChildren().add(punto);
+            }
+        }
+        this.verticesUI=verticesUI;
+        return root;
+    }
+
+
+    private Circle crearVerticeInteractivo(double x, double y, Cubic coordenadaCubic, int terrenoId, int verticeIndex) {
+        Circle circulo = new Circle(x, y, 8);
+
+        // Estilo inicial
+        circulo.setFill(Color.TRANSPARENT);
+        circulo.setStroke(Color.BLACK);
+        circulo.setStrokeWidth(1);
+
+        // Guardar datos en propiedades
+        circulo.getProperties().put("coordenadaCubic", coordenadaCubic);
+        circulo.getProperties().put("terrenoId", terrenoId);
+        circulo.getProperties().put("verticeIndex", verticeIndex);
+
+        // Efectos hover
+        circulo.setOnMouseEntered(e -> {
+            //if (!estaConstruido(circulo)) {
+                circulo.setFill(Color.rgb(255, 255, 255, 0.3));
+            //}
+        });
+
+        circulo.setOnMouseExited(e -> {
+            //if (!estaConstruido(circulo)) {
+                circulo.setFill(Color.TRANSPARENT);
+            //}
+        });
+
+        // Evento de clic
+        //circulo.setOnMouseClicked(this::manejarClicVertice);
+
+        return circulo;
     }
 
 
@@ -157,7 +224,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         BotonLanzarDados btnLanzar = new BotonLanzarDados(controladorLanzar);
 
 
-        ControladorTerminarTurno controladorTerminarTurno = new ControladorTerminarTurno(this.catan,btnLanzar );
+        ControladorTerminarTurno controladorTerminarTurno = new ControladorTerminarTurno(btnLanzar );
         BotonTerminarTurno btnTerminar = new BotonTerminarTurno(controladorTerminarTurno);
 
         btnTerminar.setDisable(true);
