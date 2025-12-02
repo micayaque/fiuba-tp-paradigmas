@@ -2,6 +2,7 @@ package edu.fiuba.algo3.vistas;
 
 
 import edu.fiuba.algo3.vistas.utils.BarraDeMenu;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -19,7 +20,7 @@ public class PantallaPrincipal extends BorderPane {
         this.setTop(menu);
     }
 
-    public void setCentro(StackPane centro) {
+    public void setCentro(Node centro) {
         this.setCenter(centro);
     }
 

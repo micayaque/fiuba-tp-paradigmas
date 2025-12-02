@@ -1,7 +1,8 @@
 package edu.fiuba.algo3.vistas.vistas;
-
 import edu.fiuba.algo3.Estilos;
 import edu.fiuba.algo3.controllers.ControladorCrearPartida;
+import edu.fiuba.algo3.controllers.ControladorGanador;
+import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.vistas.Grillas.GrillaBase;
 import edu.fiuba.algo3.vistas.PantallaPrincipal;
 import edu.fiuba.algo3.vistas.botones.BotonGenerico;
@@ -9,6 +10,7 @@ import edu.fiuba.algo3.vistas.mensajes.CatanMensaje;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -19,6 +21,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class VistaPedirNombreJugadores extends StackPane {
 

@@ -3,14 +3,20 @@ package edu.fiuba.algo3.modelo;
 import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
 import edu.fiuba.algo3.modelo.Cartas.CartaProductora;
 import edu.fiuba.algo3.modelo.Cartas.PuntoDeVictoria;
+import edu.fiuba.algo3.modelo.Contruccion.Carretera;
 import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
 import edu.fiuba.algo3.modelo.Recursos.*;
+import edu.fiuba.algo3.modelo.Tablero.ConstruccionExistenteException;
+import edu.fiuba.algo3.modelo.Tablero.Factory.Coordenada;
+import edu.fiuba.algo3.modelo.Tablero.Factory.ReglaConstruccionException;
+import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.constructoresDeCarreteras.EstrategiaPagoEstandar;
 import edu.fiuba.algo3.modelo.constructoresDeCarreteras.IEstrategiaDePago;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
+import java.util.Random;
 
 public class Jugador {
 
@@ -21,14 +27,16 @@ public class Jugador {
     private String nombre;
     private PuntajeDeVictoria puntos;
     private IEstrategiaDePago estrategiaDePago;
+    private int cantidadCaballerosUsados = 0;
 
     public Jugador(String nombre, Color color){
-        this.almacenJugador = new AlmacenDeRecursos();
+        this.almacenJugador = new AlmacenDeRecursos(new Random());
         this.cartas = new MazoDeCartas();
         this.color= color;
         this.nombre = nombre;
         this.puntos = new PuntajeDeVictoria();
         this.estrategiaDePago = new EstrategiaPagoEstandar();
+
     }
 
     public boolean esDelColor(Color colorAComparar) {
@@ -219,5 +227,25 @@ public class Jugador {
             return true;
         }
         return false;
+      
+    public void terminarTurno() {
+        this.cartas.actualizarEstadoDeCartas();
+    }
+
+    public void sumarCaballero() {
+        this.cantidadCaballerosUsados++;
+    }
+    public int getCantidadCaballerosUsados() {
+        return this.cantidadCaballerosUsados;
+    }
+    public int contarRecursos() {
+        return this.almacenJugador.totalRecursos();
+    }
+    public void construirCarretera(Tablero tablero, Coordenada coordenada) throws ConstruccionExistenteException, ReglaConstruccionException {
+        List<TipoDeRecurso> costo = List.of(new Madera(1), new Ladrillo(1));
+
+        this.pagar(costo);
+
+        tablero.colocarEnLado(new Carretera(this.color), coordenada);
     }
 }

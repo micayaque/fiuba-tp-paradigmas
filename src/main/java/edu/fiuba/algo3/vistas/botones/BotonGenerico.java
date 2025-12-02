@@ -16,7 +16,7 @@ public class BotonGenerico extends Button {
     private ReproductorEfectos sfx = new ReproductorEfectos();
 
     public BotonGenerico(EventHandler<ActionEvent> controlador,String mensaje) {
-        super.setText(mensaje);
+        setearMensaje(mensaje);
 
         super.setFont(Font.font(Estilos.FUENTE, FontWeight.BOLD, 24));
         super.setTextFill(Color.WHITE); // Texto blanco
@@ -63,5 +63,9 @@ public class BotonGenerico extends Button {
         super.setOnMouseExited(e -> {
             super.setStyle(estiloNormal);
         });
+    }
+
+    private void setearMensaje(String mensaje) {
+        super.setText(mensaje);
     }
 }

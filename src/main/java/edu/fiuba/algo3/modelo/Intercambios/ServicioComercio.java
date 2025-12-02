@@ -5,28 +5,66 @@ import edu.fiuba.algo3.modelo.Color;
 import edu.fiuba.algo3.modelo.Contruccion.Ciudad;
 import edu.fiuba.algo3.modelo.Contruccion.Poblado;
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.MazoDeCartas;
 import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.RecursosInsuficientesException;
 import edu.fiuba.algo3.modelo.interfaces.FichaComprable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class ServicioComercio {
-
+    private  List<CartaDesarrollo> cartasDisponibles;
     private final Banco banco;
     private final Random azar;
-
+    private static final int CANTIDAD_CABALLEROS = 14;
+    private static final int CANTIDAD_PUNTOS_VICTORIA = 5;
+    private static final int CANTIDAD_MONOPOLIO = 2;
+    private static final int CANTIDAD_DESCUBRIMIENTO = 2;
+    private static final int CANTIDAD_CONSTRUCCION_CARRETERAS = 2;
     public ServicioComercio(Banco banco) {
         this.banco = banco;
         this.azar = new Random();
+        llenarMazo();
     }
     public ServicioComercio(Banco banco, Random azar) {
         this.banco = banco;
         this.azar = azar;
+        llenarMazo();
+    }
+    public ServicioComercio(Banco banco, Random azar,List<CartaDesarrollo> cartasDisponibles) {
+        this.banco = banco;
+        this.azar = azar;
+        this.cartasDisponibles = cartasDisponibles;
     }
 
+    private void llenarMazo(){
+        List<CartaDesarrollo> cartas = new ArrayList<>();
+        agregarCartas(cartas, () -> new CartaCaballero(), CANTIDAD_CABALLEROS);
+        agregarCartas(cartas, () -> new PuntoDeVictoria(), CANTIDAD_PUNTOS_VICTORIA);
+        agregarCartas(cartas, () -> new CartaMonopolio(), CANTIDAD_MONOPOLIO);
+        agregarCartas(cartas, () -> new CartaDescubrimiento(), CANTIDAD_DESCUBRIMIENTO);
+        agregarCartas(cartas, () -> new CartaConstruccionCarreteras(), CANTIDAD_CONSTRUCCION_CARRETERAS);
+        Collections.shuffle(cartas, azar);
+
+        List<CartaDesarrollo> mazoFinal = new ArrayList<CartaDesarrollo>();
+
+        for (CartaDesarrollo carta : cartas) {
+            mazoFinal.add(carta);
+        }
+        this.cartasDisponibles = mazoFinal;
+    }
+
+
+
+    private void agregarCartas(List<CartaDesarrollo> lista, Supplier<CartaDesarrollo> fabrica, int cantidad) {
+        for (int i = 0; i < cantidad; i++) {
+            lista.add(fabrica.get());
+        }
+    }
     public void intercambiarConBanco(Jugador jugador,
                                      TipoDeRecurso recursoEntregado,
                                      TipoDeRecurso recursoRecibido) {
@@ -163,15 +201,7 @@ public class ServicioComercio {
 
 
     private CartaDesarrollo sacarCarta(int turno){
-        List<CartaDesarrollo> cartasDisponibles = new ArrayList<>();
-        cartasDisponibles.add(new CartaCaballero(turno));
-        cartasDisponibles.add(new CartaConstruccionCarreteras(turno));
-        cartasDisponibles.add(new CartaDescubrimiento(turno));
-        cartasDisponibles.add(new CartaMonopolio(turno));
-        cartasDisponibles.add(new PuntoDeVictoria(turno));
-
-        int NumeroAleatorio = azar.nextInt(cartasDisponibles.size());
-
+        int NumeroAleatorio = azar.nextInt(this.cartasDisponibles.size());
         return cartasDisponibles.get(NumeroAleatorio);
     }
 
