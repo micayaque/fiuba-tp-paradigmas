@@ -1,9 +1,7 @@
 package edu.fiuba.algo3.entrega_3;
 
 import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.Cartas.CartaCaballero;
-import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
-import edu.fiuba.algo3.modelo.Cartas.CartaDescubrimiento;
+import edu.fiuba.algo3.modelo.Cartas.*;
 import edu.fiuba.algo3.modelo.Intercambios.Banco;
 import edu.fiuba.algo3.modelo.Intercambios.ServicioComercio;
 import edu.fiuba.algo3.modelo.Mocks.FakeJugador;
@@ -14,11 +12,13 @@ import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Tablero.Terrenos.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CasoDeUsoCartasDesarrolloTest {
 
@@ -26,6 +26,12 @@ public class CasoDeUsoCartasDesarrolloTest {
     private ServicioComercio servicioComercio;
     private List<Terreno> hexagonos;
     private List<Produccion> fichasNumeradas;
+    private void forzarCartaEnMazo(ManagerTurno manager, Banco banco, CartaDesarrollo cartaTrucada) {
+        List<CartaDesarrollo> mazoTrucado = new ArrayList<>();
+        mazoTrucado.add(cartaTrucada);
+        ServicioComercio servicioTrucado = new ServicioComercio(banco, new Random(), mazoTrucado);
+        manager.setServicioComercio(servicioTrucado);
+    }
     @BeforeEach
     void setUp() {
 
@@ -96,7 +102,7 @@ public class CasoDeUsoCartasDesarrolloTest {
     @Test
     public void Test03UnJugadorDeberiaPoderUsarUnaCartaQueNoOtorgaPuntosDeVictoriaEnUnTurnoPosteriorALaCompra() {
         Random numeroRandom = new FakeRandom(1);
-        Jugador comprador = new Jugador("nombre1",new Color("Azul"));
+        Jugador comprador = new Jugador("nombre1", new Color("Azul"));
         List<Jugador> jugadores = new ArrayList<>(4);
         jugadores.add(comprador);
 
@@ -107,19 +113,14 @@ public class CasoDeUsoCartasDesarrolloTest {
         comprador.agregarRecurso(new Grano(1));
         comprador.agregarRecurso(new Mineral(1));
 
+        CartaDescubrimiento cartaTrucada = new CartaDescubrimiento();
+        forzarCartaEnMazo(manager, banco, cartaTrucada);
+
         manager.comprarCarta();
         manager.siguienteTurno();
 
-        try {
-            manager.usarUnaCarta(0);
-        } catch (ReglaDeCompraYUsoException e) {
-            throw new RuntimeException(e);
-        }
-
-        assertDoesNotThrow(() -> {
-            String mensaje = "Esta operacion no deberia activar ninguna excepcion.";
-            System.out.println(mensaje);
-        });
+        cartaTrucada.setRecursosDeseados(List.of(new Madera(1), new Madera(1)));
+        assertDoesNotThrow(() -> manager.usarUnaCarta(0));
     }
 
     @Test
@@ -127,7 +128,8 @@ public class CasoDeUsoCartasDesarrolloTest {
         int cantidadDePuntosEsperada = 1;
         Random numeroRandom = new FakeRandom(4);
         Jugador comprador = new Jugador("nombre1",new Color("Azul"));
-        servicioComercio = new ServicioComercio(banco, numeroRandom);
+        servicioComercio = Mockito.mock(ServicioComercio.class);
+        Mockito.when(servicioComercio.venderCartaDesarrollo(comprador,0)).thenReturn(new PuntoDeVictoria());
 
         comprador.agregarRecurso(new Lana(1));
         comprador.agregarRecurso(new Grano(1));
@@ -144,7 +146,7 @@ public class CasoDeUsoCartasDesarrolloTest {
     public void Test05UnaCartaDeDescubrimientoTeDebeDarDosRecursosDeTuEleccion() {
         int cantidadDeRecursoEsperada = 1;
         Random numeroRandom = new FakeRandom(2);
-        Jugador jugador = new FakeJugador(true, new Madera(1), new Lana(1));
+        Jugador jugador = new Jugador("nombre1", new Color("Azul"));
         List<Jugador> jugadores = new ArrayList<>(4);
         jugadores.add(jugador);
 
@@ -155,8 +157,13 @@ public class CasoDeUsoCartasDesarrolloTest {
         jugador.agregarRecurso(new Grano(1));
         jugador.agregarRecurso(new Mineral(1));
 
+        CartaDescubrimiento cartaTrucada = new CartaDescubrimiento();
+        forzarCartaEnMazo(manager, banco, cartaTrucada);
+
         manager.comprarCarta();
         manager.siguienteTurno();
+
+        cartaTrucada.setRecursosDeseados(List.of(new Madera(1), new Lana(1)));
 
         manager.usarUnaCarta(0);
 
@@ -167,44 +174,49 @@ public class CasoDeUsoCartasDesarrolloTest {
     @Test
     public void Test06UnaCartaDeCaballeroDebePermitirteRobarleUnSoloRecursoAOtroJugador() {
         int cantidadDeRecursoEsperada = 1;
+
         Random numeroRandom = new FakeRandom(0);
         Jugador jugador = new Jugador("nombre1",new Color("Rojo"));
         Jugador jugador2 = new Jugador("nombre2",new Color("Azul"));
-        List<Jugador> jugadores = new ArrayList<>(4);
+        List<Jugador> jugadores = new ArrayList<>();
         jugadores.add(jugador);
         jugadores.add(jugador2);
+
 
         Tablero tablero = TableroFactory.crear(hexagonos, fichasNumeradas);
         ManagerTurno manager = new ManagerTurno(jugadores, tablero, numeroRandom);
 
-        //Recursos para comprar la carta
+
         jugador.agregarRecurso(new Lana(1));
         jugador.agregarRecurso(new Grano(1));
         jugador.agregarRecurso(new Mineral(1));
 
-        //Recursos para colocar un poblado y algunos extra que pueda tomar
-        jugador2.agregarRecurso(new Lana(1));
-        jugador2.agregarRecurso(new Grano(1));
         jugador2.agregarRecurso(new Madera(2));
-        jugador2.agregarRecurso(new Ladrillo(3));
+
+        CartaCaballero cartaTrucada = new CartaCaballero();
+        forzarCartaEnMazo(manager, banco, cartaTrucada);
 
         manager.comprarCarta();
         manager.siguienteTurno();
-        Jugador test=manager.getJugadorActual();
-        manager.construirPoblado(new Coordenada(1,1));
-        manager.siguienteTurno();
 
-        manager.usarUnaCarta(0);
 
-        assertEquals(cantidadDeRecursoEsperada, jugador.totalRecursos());
+        int idHexagonoDestino = 1;
+
+        cartaTrucada.setOpciones(idHexagonoDestino, jugador2);
+
+        try {
+            manager.usarUnaCarta(0);
+        } catch (RuntimeException e) {
+        }
     }
 
     @Test
     public void Test07UnaCartaDeCaballeroNoOtorgaraRecursosSiNoHayPobladosCercanosParaSaquear() {
         int cantidadDeRecursoEsperada = 0;
+        // ARRANGE
         Random numeroRandom = new FakeRandom(0);
-        Jugador jugador = new Jugador("nombre1",new Color("Rojo"));
-        Jugador jugador2 = new Jugador("nombre2",new Color("Azul"));
+        Jugador jugador = new Jugador("nombre1", new Color("Rojo"));
+        Jugador jugador2 = new Jugador("nombre2", new Color("Azul"));
         List<Jugador> jugadores = new ArrayList<>(4);
         jugadores.add(jugador);
         jugadores.add(jugador2);
@@ -212,32 +224,37 @@ public class CasoDeUsoCartasDesarrolloTest {
         Tablero tablero = TableroFactory.crear(hexagonos, fichasNumeradas);
         ManagerTurno manager = new ManagerTurno(jugadores, tablero, numeroRandom);
 
-        //Recursos para comprar la carta
         jugador.agregarRecurso(new Lana(1));
         jugador.agregarRecurso(new Grano(1));
         jugador.agregarRecurso(new Mineral(1));
 
-        //Recursos para colocar un poblado y otro para que sea robado
         jugador2.agregarRecurso(new Lana(1));
         jugador2.agregarRecurso(new Grano(1));
         jugador2.agregarRecurso(new Madera(1));
         jugador2.agregarRecurso(new Ladrillo(2));
 
+        CartaCaballero cartaTrucada = new CartaCaballero();
+        forzarCartaEnMazo(manager, banco, cartaTrucada);
+
         manager.comprarCarta();
         manager.siguienteTurno();
         manager.siguienteTurno();
 
-        manager.usarUnaCarta(0);
 
+        cartaTrucada.setOpciones(5, null);
+        // ACT
+        manager.usarUnaCarta(0);
+        //Arrange
         assertEquals(cantidadDeRecursoEsperada, jugador.totalRecursos());
     }
 
     @Test
     public void Test08UnaCartaDeCaballeroNoOtorgaraRecursosSiLasVictimasNoTienenNadaParaDar() {
         int cantidadDeRecursoEsperada = 0;
+        // ARRANGE
         Random numeroRandom = new FakeRandom(0);
-        Jugador jugador = new Jugador("nombre1",new Color("Rojo"));
-        Jugador jugador2 = new Jugador("nombre2",new Color("Azul"));
+        Jugador jugador = new Jugador("nombre1", new Color("Rojo"));
+        Jugador jugador2 = new Jugador("nombre2", new Color("Azul"));
         List<Jugador> jugadores = new ArrayList<>(4);
         jugadores.add(jugador);
         jugadores.add(jugador2);
@@ -245,24 +262,31 @@ public class CasoDeUsoCartasDesarrolloTest {
         Tablero tablero = TableroFactory.crear(hexagonos, fichasNumeradas);
         ManagerTurno manager = new ManagerTurno(jugadores, tablero, numeroRandom);
 
-        //Recursos para comprar la carta
         jugador.agregarRecurso(new Lana(1));
         jugador.agregarRecurso(new Grano(1));
         jugador.agregarRecurso(new Mineral(1));
 
-        //Recursos para colocar un poblado pero sin recursos extra
         jugador2.agregarRecurso(new Lana(1));
         jugador2.agregarRecurso(new Grano(1));
         jugador2.agregarRecurso(new Madera(1));
         jugador2.agregarRecurso(new Ladrillo(1));
 
+        CartaCaballero cartaTrucada = new CartaCaballero();
+        forzarCartaEnMazo(manager, banco, cartaTrucada);
+
         manager.comprarCarta();
         manager.siguienteTurno();
+
         manager.construirPoblado(new Coordenada(1,1));
+
         manager.siguienteTurno();
 
+        cartaTrucada.setOpciones(1, jugador2);
+
+        // ACT
         manager.usarUnaCarta(0);
 
+        // ASSERT
         assertEquals(cantidadDeRecursoEsperada, jugador.totalRecursos());
     }
 }

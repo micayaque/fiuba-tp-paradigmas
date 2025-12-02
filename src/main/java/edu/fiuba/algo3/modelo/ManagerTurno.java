@@ -49,6 +49,20 @@ public class ManagerTurno {
 
         this.ordenInicial = new OrdenTurnosIniciales(jugadores.size());
     }
+    public ManagerTurno(List<Jugador> jugadores, Tablero tablero, Random Random, ServicioComercio servicioComercio) {
+        this.jugadores = jugadores;
+        this.tablero = tablero;
+        this.azar = Random;
+        Banco banco = new Banco();
+
+        banco.recibir(new Madera(10));
+        banco.recibir(new Ladrillo(10));
+        banco.recibir(new Grano(10));
+        banco.recibir(new Lana(10));
+        banco.recibir(new Mineral(10));
+
+        this.servicioComercio = servicioComercio;
+    }
 
     public void comprarCarta() {
         Jugador jugador = getJugadorActual();
@@ -82,36 +96,14 @@ public class ManagerTurno {
     }
 
     public void usarUnaCarta(int indice) {
-        CartaDesarrollo cartaSeleccionada = getJugadorActual().agarrarCarta(indice);
-        cartaSeleccionada.usar();
-        if(cartaSeleccionada instanceof CartaCaballero ){
-            granCaballeria.registrarCaballeroJugado(getJugadorActual());
-            //moverLadron(pedir terreno al jugador);
-
-
-            int posicion = getJugadorActual().pedirPosicion();
-
-            List<Color> coloresDeVictimas= tablero.moverLadron(getJugadorActual(), posicion);
-            List<Jugador> victimas =
-                    coloresDeVictimas.stream()
-                            .map(this::getJugadorPorColor)
-                            .collect(Collectors.toList());
-
-            ((CartaCaballero) cartaSeleccionada).usarCarta(getJugadorActual(), victimas);
+        Jugador jugadorActual = getJugadorActual();
+        CartaDesarrollo cartaSeleccionada = jugadorActual.agarrarCarta(indice);
+        try {
+            cartaSeleccionada.ejecutarEfecto(jugadorActual, this.tablero,this.jugadores);
+            this.granCaballeria.registrarCaballeroJugado(jugadorActual);
+        }catch (RuntimeException e){
+            throw e;
         }
-        if (cartaSeleccionada instanceof CartaDescubrimiento) {
-            List<TipoDeRecurso> recursos = getJugadorActual().pedirRecursos();
-            ((CartaDescubrimiento) cartaSeleccionada).usarCarta(getJugadorActual(), servicioComercio, recursos);
-        }
-        if(cartaSeleccionada instanceof CartaConstruccionCarreteras) {
-            EstrategiaPagoGratuito modoFree = new EstrategiaPagoGratuito();
-            this.getJugadorActual().setEstrategiaDePago(modoFree);
-        }
-        if(cartaSeleccionada instanceof CartaMonopolio){
-            ((CartaMonopolio) cartaSeleccionada).ejecutarMonopolio(this.getJugadorActual(), this.jugadores);
-        }
-
-        // Utilidad de las cartas
     }
 
 
