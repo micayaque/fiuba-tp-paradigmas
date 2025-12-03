@@ -861,7 +861,7 @@ private Group agregarTerrenos() {
                 double yCentro = hexRadius * 1.5 * pos.r;
 
                 int i = coord.indice();
-                double angle = (2.0 * Math.PI * i / 6) + (Math.PI / 6);
+                double angle = (Math.PI / 2) + i * (Math.PI / 3) + Math.PI;
 
                 // Posición del Vértice (Donde iría la el poblado)
                 double xVertice = xCentro + hexRadius * Math.cos(angle);
