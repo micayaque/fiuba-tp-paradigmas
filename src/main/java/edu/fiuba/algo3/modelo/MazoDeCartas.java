@@ -4,6 +4,7 @@ import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
 import edu.fiuba.algo3.modelo.Cartas.PuntoDeVictoria;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class MazoDeCartas {
     ArrayList<CartaDesarrollo> cartas = new ArrayList<>();
@@ -34,5 +35,14 @@ public class MazoDeCartas {
         for (CartaDesarrollo carta : this.cartas) {
             carta.nuevoTurno();
         }
+    }
+    public int contarPor(Predicate<CartaDesarrollo> criterio) {
+        int cantidad = 0;
+        for (CartaDesarrollo carta : cartas) {
+            if (criterio.test(carta)) {
+                cantidad++;
+            }
+        }
+        return cantidad;
     }
 }

@@ -1,6 +1,5 @@
 package edu.fiuba.algo3.vistas.vistas;
 
-import edu.fiuba.algo3.ControladorComprarCarta;
 import edu.fiuba.algo3.controllers.*;
 import edu.fiuba.algo3.modelo.Catan;
 
@@ -370,11 +369,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         // --- BOTON COMPRAR CARTA (IMPLEMENTADO) ---
         // Asumiendo que ControladorComprarCarta existe y recibe (Catan, VistaTablero) o similar
         // Si no tienes el controlador aún, usa uno genérico para probar
-        this.btnComprarCarta = crearBotonAccion("Comprar\nCarta D.", e -> {
-            System.out.println("Comprar carta presionado");
-            // Catan.getInstance().getManagerTurno().getJugadorActual().comprarCartaDesarrollo(...)
-            actualizarInventario(); // Refrescar vista tras compra
-        });
+        this.btnComprarCarta = crearBotonAccion("Comprar\nCarta D.",new ControladorComprarCarta(this));
 
         // this.btnMoverLadron = crearBotonAccion("MOVER\nLADRÓN", new ControladorMoverLadron()); // Opcional
 
@@ -611,16 +606,11 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
                 crearFichaConImagen("Mineral",   jugadorActual.cantidadMineral(),  "piedra.jpg",   "#708090")
         );
 
-        // --- LLENAR CARTAS DE DESARROLLO ---
-        // Aquí deberías obtener la cantidad real que tiene el jugador.
-        // Por ahora pongo "1" o "0" como ejemplo visual.
-
-        // Ejemplo: int cantCaballeros = jugadorActual.getCantidadCartas("Caballero");
-        int cantCaballeros = 0;
-        int cantMonopolio = 0;
-        int cantPuntos = 0;
-        int cantDesc = 0;
-        int cantCarreteras = 0;
+        int cantCaballeros = jugadorActual.cantidadCartasCaballero();
+        int cantMonopolio = jugadorActual.cantidadCartasMonopolio();
+        int cantPuntos = jugadorActual.cantidadCartasPuntoVictoria();
+        int cantDesc = jugadorActual.cantidadCartasDescubrimiento();
+        int cantCarreteras = jugadorActual.cantidadCartasCarreteras();
 
         this.contenedorCartasDesarrollo.getChildren().addAll(
                 crearCartaInteractiva("Caballero", cantCaballeros, "caballero.jpg", "#A9A9A9"), // Gris Claro

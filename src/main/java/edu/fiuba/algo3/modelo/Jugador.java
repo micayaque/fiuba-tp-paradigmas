@@ -1,7 +1,6 @@
 package edu.fiuba.algo3.modelo;
 
-import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
-import edu.fiuba.algo3.modelo.Cartas.CartaProductora;
+import edu.fiuba.algo3.modelo.Cartas.*;
 import edu.fiuba.algo3.modelo.Contruccion.Carretera;
 import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
 import edu.fiuba.algo3.modelo.Recursos.*;
@@ -51,6 +50,7 @@ public class Jugador {
     public Color getColor(){
         return color;
     }
+
     public boolean tiene(Madera madera, Ladrillo ladrillos, Lana lana, Mineral mineral, Grano grano) {
         return (
                 (madera.obtenerCantidad() >= cantidadRecurso(madera)) &
@@ -168,6 +168,25 @@ public class Jugador {
         return this.cantidadRecurso(new Mineral(0));
     }
 
+    public int cantidadCartasCaballero() {
+        return cartas.contarPor(c -> c instanceof CartaCaballero);
+    }
+
+    public int cantidadCartasMonopolio() {
+        return cartas.contarPor(c -> c instanceof CartaMonopolio);
+    }
+
+    public int cantidadCartasDescubrimiento() {
+        return cartas.contarPor(c -> c instanceof CartaDescubrimiento);
+    }
+
+    public int cantidadCartasCarreteras() {
+        return cartas.contarPor(c -> c instanceof CartaConstruccionCarreteras);
+    }
+
+    public int cantidadCartasPuntoVictoria() {
+        return cartas.contarPor(c -> c instanceof PuntoDeVictoria);
+    }
 
 
     public void actualizarPuntosDeVictoria(PuntajeDeVictoria pv) {
