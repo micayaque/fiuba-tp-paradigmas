@@ -306,4 +306,52 @@ public class ManagerTurno {
                 .orElse(null); // Retorna null si no existe
     }
 
+    public boolean estaEsperandoPobladoInicial() {
+        return this.esperandoPoblado;
+    }
+
+    public boolean haTerminadoFaseInicial() {
+        return ordenInicial.haTerminado();
+    }
+
+    // En ManagerTurno.java
+    public Coordenada getUltimaCoordenadaPoblado() {
+        return this.ultimaCoordenadaPoblado;
+    }
+
+    public String manejarLanzamientoDados(int suma) {
+        if (suma == 7) {
+            // Devuelve el reporte de quién perdió cartas
+            return aplicarReglaDescartePorSiete();
+        } else {
+            repartirDividendos(suma);
+            return "Se produjeron recursos.";
+        }
+    }
+
+    private String aplicarReglaDescartePorSiete() {
+        StringBuilder reporte = new StringBuilder();
+        boolean alguienDescarto = false;
+
+        for (Jugador j : jugadores) {
+            // Usamos el método existente en tu clase Jugador
+            if (j.totalRecursos() > 7) {
+                // Este método ya hace la lógica de borrar del almacén y retorna qué borró
+                Map<TipoDeRecurso, Integer> descartado = j.descartarMitadDeRecursos();
+
+                // Calculamos cuánto perdió para el mensaje
+                int cantidadPerdida = descartado.values().stream().mapToInt(Integer::intValue).sum();
+
+                reporte.append("- ").append(j.getNombre())
+                        .append(" descartó ").append(cantidadPerdida).append(" cartas.\n");
+                alguienDescarto = true;
+            }
+        }
+
+        if (!alguienDescarto) {
+            return "Nadie tenía más de 7 cartas.";
+        }
+        return reporte.toString();
+    }
+
 }

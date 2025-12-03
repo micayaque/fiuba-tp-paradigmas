@@ -61,13 +61,13 @@ public class ControladorLanzarDados implements EventHandler<ActionEvent> {
         // pero eso depende de tu modelo. Asumo que repartirDividendos maneja eso internamente.
         catan.getManagerTurno().repartirDividendos(suma);
 
-        Jugador jugador = catan.getManagerTurno().getJugadorActual();
-        jugador.agregarRecurso(new Lana(2));
-        jugador.agregarRecurso(new Grano(2));
-        jugador.agregarRecurso(new Mineral(2));
-        jugador.agregarRecurso(new Madera(2));
-        jugador.agregarRecurso(new Ladrillo(2));
-        System.out.println("DEBUG: Se regalaron recursos al jugador para testear compra.");
+//        Jugador jugador = catan.getManagerTurno().getJugadorActual();
+//        jugador.agregarRecurso(new Lana(2));
+//        jugador.agregarRecurso(new Grano(2));
+//        jugador.agregarRecurso(new Mineral(2));
+//        jugador.agregarRecurso(new Madera(2));
+//        jugador.agregarRecurso(new Ladrillo(2));
+//        System.out.println("DEBUG: Se regalaron recursos al jugador para testear compra.");
         vista.actualizarInventario();
     }
 }
