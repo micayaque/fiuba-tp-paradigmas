@@ -109,10 +109,17 @@ public class ManagerTurno {
         }
     }
 
-    public void intercambiarConBanca(TipoDeRecurso RecursoSolicitado,TipoDeRecurso RecursoEsperado){
+    public void intercambiarConBanca(TipoDeRecurso recursoDoy, TipoDeRecurso recursoRecibo) {
+        Jugador jugadorActual = getJugadorActual();
 
-        servicioComercio.intercambiarConBanco(getJugadorActual(), RecursoSolicitado, RecursoEsperado);
 
+        int tasa = jugadorActual.mejorTasaPara(recursoDoy);
+
+        TipoDeRecurso aEntregar = recursoDoy.nuevo(tasa);
+
+        TipoDeRecurso aRecibir = recursoRecibo.nuevo(1);
+
+        servicioComercio.intercambiarConBanco(jugadorActual, aEntregar, aRecibir);
     }
 
 

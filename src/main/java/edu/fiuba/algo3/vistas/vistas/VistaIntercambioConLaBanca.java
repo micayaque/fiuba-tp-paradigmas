@@ -70,6 +70,7 @@ public class VistaIntercambioConLaBanca extends Stage {
                 try {
                     TipoDeRecurso recursoQueDoy = crearRecursoPorNombre(recursoDoy);
                     TipoDeRecurso recursoQuePido = crearRecursoPorNombre(recursoPido);
+
                     Catan.getInstance().getManagerTurno().intercambiarConBanca(recursoQueDoy, recursoQuePido);
                     System.out.println("Intercambio Banca: Doy " + recursoDoy + " -> Recibo " + recursoPido);
                     this.close();
