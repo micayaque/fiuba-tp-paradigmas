@@ -31,22 +31,33 @@ public class ControladorLanzarDados implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         // 1. Lógica del Modelo
-        Catan catan=Catan.getInstance();
+        Catan catan = Catan.getInstance();
 
         int suma = dados.tirar();
         System.out.println("Dados lanzados: " + dados.getDado1() + " y " + dados.getDado2() + " (Suma: " + suma + ")");
 
-        // 2. Lógica de la Vista (Actualizar dibujos)
+        // 2. Lógica de la Vista (Aquí la vista detecta el 7 y prepara el modo robo)
         vista.actualizarDadosVisuales(dados.getDado1(), dados.getDado2());
 
-        // 3. Bloquear el botón
+        // 3. Bloquear el botón de lanzar (siempre se bloquea tras tirar)
         if (botonLanzar != null) botonLanzar.setDisable(true);
 
-        // 3. DESBLOQUEAR EL BOTÓN TERMINAR (Ahora ya puede terminar)
-        if (botonTerminar != null) botonTerminar.setDisable(false);
+        // --- CORRECCIÓN CRUCIAL ---
+        // Solo habilitamos "Terminar Turno" si NO salió un 7.
+        // Si salió 7, es obligación del jugador mover el ladrón antes de poder terminar.
+        if (botonTerminar != null) {
+            if (suma == 7) {
+                botonTerminar.setDisable(true); // Bloqueo forzoso
+            } else {
+                botonTerminar.setDisable(false); // Turno normal
+            }
+        }
 
-        // Aquí podrías llamar a manager.repartirRecursos(suma);
-        vista.actualizarInventario();
+        // 4. Actualización de recursos y lógica de negocio
+        // NOTA: Si sale 7, Catan NO reparte dividendos, reparte "castigos" (descarte),
+        // pero eso depende de tu modelo. Asumo que repartirDividendos maneja eso internamente.
         catan.getManagerTurno().repartirDividendos(suma);
+        vista.actualizarInventario();
     }
 }
+
