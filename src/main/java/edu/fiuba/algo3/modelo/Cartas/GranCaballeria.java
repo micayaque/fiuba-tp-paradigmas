@@ -48,4 +48,8 @@ public class GranCaballeria {
         this.lider.restarPuntoDeVictoriaPublico(2); // Quitamos al viejo
         this.asignarNuevoLider(nuevoLider);         // Damos al nuevo
     }
+
+    public Jugador getLider() {
+        return lider;
+    }
 }

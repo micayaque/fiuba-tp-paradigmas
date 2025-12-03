@@ -94,4 +94,8 @@ public class GranRutaComercial {
 
         return max;
     }
+
+    public Jugador getLider() {
+        return liderActual;
+    }
 }

@@ -12,7 +12,6 @@ import edu.fiuba.algo3.modelo.Tablero.Factory.Lado;
 import edu.fiuba.algo3.modelo.Tablero.Factory.ReglaConstruccionException;
 import edu.fiuba.algo3.modelo.Tablero.ReglaDistanciaException;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
-import edu.fiuba.algo3.modelo.constructoresDeCarreteras.EstrategiaPagoGratuito;
 import edu.fiuba.algo3.modelo.interfaces.FichaComprable;
 
 import java.util.*;
@@ -354,4 +353,11 @@ public class ManagerTurno {
         return reporte.toString();
     }
 
+    public Jugador getRutaComercialLider() {
+        return granRutaComercial.getLider();
+    }
+
+    public Jugador getGranCaballeriaLider() {
+        return granCaballeria.getLider();
+    }
 }

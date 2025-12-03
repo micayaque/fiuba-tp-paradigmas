@@ -36,6 +36,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -92,6 +93,8 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     private CartaConstruccionCarreteras cartaCarreterasActiva = null;
     // Estado para "Caballero" (Saber si el robo viene de una carta o de los dados)
     private CartaDesarrollo cartaCaballeroActiva = null;
+
+    private ControladorPanelJugadores controladorJugadores;
 
     public VistaTablero2(Stage stage, PantallaPrincipal pantallaPrincipal) {
 
@@ -284,6 +287,8 @@ private Group agregarTerrenos() {
                 setModoRobo(false);
                 actualizarInventario();
                 verificarGanador();
+                btnLanzar.setDisable(true);
+                btnTerminar.setDisable(false);
             }
         });
 
@@ -307,11 +312,14 @@ private Group agregarTerrenos() {
         panel.setAlignment(Pos.TOP_CENTER);
 
         List<Jugador> jugadores = Catan.getInstance().getJugadores();
+        ControladorPanelJugadores controladorPanelJugadores = new ControladorPanelJugadores(this);
         for (Jugador j : jugadores) {
             HBox infoJugador = agregarJugador(j);
             HBox separador = new HBox(); separador.setPrefHeight(15);
+            controladorPanelJugadores.agregarPanelyJugador(infoJugador,j);
             panel.getChildren().addAll(infoJugador, separador);
         }
+        this.controladorJugadores=controladorPanelJugadores;
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
@@ -376,11 +384,59 @@ private Group agregarTerrenos() {
         pvValue.setAlignment(Pos.CENTER);
         pvValue.setTextFill(colorTexto);
 
+        VBox logros = crearPanelLogros();
+
+
         puntosVictoria.getChildren().addAll(pvLabel, pvValue);
-        jugadorBox.getChildren().addAll(nombreJugador, puntosVictoria);
+        jugadorBox.getChildren().addAll(nombreJugador, puntosVictoria,logros);
 
         return jugadorBox;
     }
+
+    private VBox crearPanelLogros() {
+        VBox logrosBox = new VBox(5);
+        logrosBox.setAlignment(Pos.CENTER);
+
+        java.net.URL url = getClass().getResource("/imagenes/caballero.jpg" );
+
+        Image img = new Image(url.toExternalForm());
+        // Gran Caballería
+        ImageView iconoCaballeria = new ImageView(
+                img
+        );
+        iconoCaballeria.setFitWidth(20);
+        iconoCaballeria.setFitHeight(20);
+        iconoCaballeria.setId("caballeria");
+
+        java.net.URL url1 = getClass().getResource("/imagenes/carreteras.jpg" );
+
+        Image img1 = new Image(url1.toExternalForm());
+
+        // Gran Camino
+        ImageView iconoCamino = new ImageView(
+                img1
+        );
+        iconoCamino.setFitWidth(20);
+        iconoCamino.setFitHeight(20);
+        iconoCamino.setId("camino");
+
+        // Contenedor para iconos
+        HBox iconosBox = new HBox(5, iconoCaballeria, iconoCamino);
+        iconosBox.setAlignment(Pos.CENTER);
+        iconoCaballeria.setOpacity(0.3);
+        iconoCamino.setOpacity( 0.3);
+        // Label
+        Label labelLogros = new Label("Logros");
+        labelLogros.setFont(Font.font("Verdana", 10));
+        labelLogros.setTextFill(Color.WHITE);
+
+        logrosBox.getChildren().addAll(labelLogros, iconosBox);
+
+
+
+        return logrosBox;
+    }
+
 
     private HBox crearPanelInferior() {
         HBox panel = new HBox(20);
@@ -873,7 +929,7 @@ private Group agregarTerrenos() {
 
             // Restaurar botones de construcción según recursos
             actualizarEstadoBotones();
-
+            if(btnLanzar !=null)btnLanzar.setDisable(true);
             // Reactivar otros botones genéricos si corresponde
             btnIntercambioJugadores.setDisable(false);
             btnJugarCarta.setDisable(false);
@@ -1161,6 +1217,9 @@ private Group agregarTerrenos() {
                     actualizarInventario();
                     verificarGanador();
                 }
+
+                controladorJugadores.actualizarRutaComercial();
+
                 return; // Salimos para no ejecutar lógica normal
             }
 
@@ -1179,6 +1238,7 @@ private Group agregarTerrenos() {
                 actualizarEstadoBotones();
                 verificarGanador();
             }
+            controladorJugadores.actualizarRutaComercial();
 
         } catch (Exception | ConstruccionExistenteException | ReglaConstruccionException e) {
             mostrarAlerta("Error", e.getMessage());
@@ -1369,6 +1429,7 @@ private Group agregarTerrenos() {
 
     public void setModoCaballero(CartaDesarrollo carta) {
         this.cartaCaballeroActiva = carta;
+        controladorJugadores.actualizarGranCaballeria();
         // Nota: El controlador llamará a setModoRobo(true) inmediatamente después de esto.
     }
 
@@ -1402,4 +1463,17 @@ private Group agregarTerrenos() {
     }
 
 
+    public void actualizarRutaComercial(HBox panelLider) {
+        ImageView iconoCamino = (ImageView) panelLider.lookup("#camino");
+        if(iconoCamino != null){
+            iconoCamino.setOpacity(1);
+        }
+    }
+
+    public void actualizarGranCaballeria(HBox panelLider) {
+        ImageView iconoCaballero = (ImageView) panelLider.lookup("#caballeria");
+        if(iconoCaballero != null){
+            iconoCaballero.setOpacity(1);
+        }
+    }
 }
