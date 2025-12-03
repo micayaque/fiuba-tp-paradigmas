@@ -1268,8 +1268,15 @@ private Group agregarTerrenos() {
                     Line camino = new Line(x1, y1, x2, y2);
                     camino.setStrokeWidth(6);
 
+
+                    Color colorJugador = Color.BLACK;
+                    try {
+                        String hex = lado.getPropietario().getColor();
+                        colorJugador = Color.web(hex);
+                    } catch (Exception e) { }
+
                     // Color c = Color.web(lado.getConstruccion().getColorActual().getColor());
-                    camino.setStroke(Color.BLACK); // Color por defecto si no tienes getter directo
+                    camino.setStroke(colorJugador); // Color por defecto si no tienes getter directo
                     grupoConstrucciones.getChildren().add(camino);
                 }
             }
