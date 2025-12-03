@@ -89,10 +89,11 @@ public class ServicioComercio {
         }
 
         // Ejecutar intercambio
+        TipoDeRecurso recursoEntregadoCopia = recursoEntregado.nuevo(recursoEntregado.obtenerCantidad());
         jugador.quitarRecurso(recursoEntregado);
         jugador.agregarRecurso(recursoRecibido.nuevo(cantidadRecibida));
 
-        banco.recibir(recursoEntregado.nuevo(recursoEntregado.obtenerCantidad()));
+        banco.recibir(recursoEntregadoCopia);
         banco.entregar(recursoRecibido, cantidadRecibida);
     }
 
