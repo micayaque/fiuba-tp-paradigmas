@@ -1316,8 +1316,6 @@ private Group agregarTerrenos() {
         Tablero tablero = Catan.getInstance().getTablero();
         Terreno t = tablero.getTerrenos().get(coord.numHex());
 
-        // Si es un borde exterior (null), intentamos buscar un vecino válido
-        // (Opcional: implementar búsqueda de vecinos si t es null, pero por ahora devolvemos null)
         if (t == null) return null;
 
         Axial pos = t.getPosicion();
