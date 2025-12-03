@@ -109,6 +109,11 @@ public class ManagerTurno {
         }
     }
 
+    public void intercambiarConBanca(TipoDeRecurso RecursoSolicitado,TipoDeRecurso RecursoEsperado){
+
+        servicioComercio.intercambiarConBanco(getJugadorActual(), RecursoSolicitado, RecursoEsperado);
+
+    }
 
 
     public Jugador getJugadorActual() {
@@ -285,6 +290,13 @@ public class ManagerTurno {
     }
     public Tablero getTablero() {
         return tablero;
+    }
+
+    public Jugador buscarJugador(String nombre) {
+        return this.jugadores.stream()
+                .filter(jugador -> jugador.getNombre().equalsIgnoreCase(nombre)) // Compara ignorando mayúsculas
+                .findFirst()
+                .orElse(null); // Retorna null si no existe
     }
 
 }

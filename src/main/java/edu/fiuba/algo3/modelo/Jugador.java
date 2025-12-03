@@ -1,8 +1,6 @@
 package edu.fiuba.algo3.modelo;
 
-import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
-import edu.fiuba.algo3.modelo.Cartas.CartaProductora;
-import edu.fiuba.algo3.modelo.Cartas.PuntoDeVictoria;
+import edu.fiuba.algo3.modelo.Cartas.*;
 import edu.fiuba.algo3.modelo.Contruccion.Carretera;
 import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
 import edu.fiuba.algo3.modelo.Recursos.*;
@@ -176,6 +174,26 @@ public class Jugador {
         return this.cantidadRecurso(new Mineral(0));
     }
 
+    public int cantidadCartasCaballero() {
+        return cartas.contarPor(c -> c instanceof CartaCaballero);
+    }
+
+    public int cantidadCartasMonopolio() {
+        return cartas.contarPor(c -> c instanceof CartaMonopolio);
+    }
+
+    public int cantidadCartasDescubrimiento() {
+        return cartas.contarPor(c -> c instanceof CartaDescubrimiento);
+    }
+
+    public int cantidadCartasCarreteras() {
+        return cartas.contarPor(c -> c instanceof CartaConstruccionCarreteras);
+    }
+
+    public int cantidadCartasPuntoVictoria() {
+        return cartas.contarPor(c -> c instanceof PuntoDeVictoria);
+    }
+
 
 
     public void actualizarPuntosDeVictoria(PuntajeDeVictoria pv) {
@@ -243,6 +261,7 @@ public class Jugador {
     public int contarRecursos() {
         return this.almacenJugador.totalRecursos();
     }
+
     public void construirCarretera(Tablero tablero, Coordenada coordenada) throws ConstruccionExistenteException, ReglaConstruccionException {
         List<TipoDeRecurso> costo = List.of(new Madera(1), new Ladrillo(1));
 

@@ -623,7 +623,6 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     private VBox crearCartaInteractiva(String nombre, int cantidad, String nombreImagen, String colorFondoHex) {
         VBox carta = crearFichaConImagen(nombre, cantidad, nombreImagen, colorFondoHex);
 
-        // 2. Le agregamos la interactividad (Click)
         carta.setOnMouseClicked(e -> {
             this.cartaSeleccionada = nombre;
             System.out.println("Seleccionaste: " + nombre);
