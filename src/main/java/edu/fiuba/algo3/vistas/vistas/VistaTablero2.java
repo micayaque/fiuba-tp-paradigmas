@@ -642,10 +642,9 @@ private Group agregarTerrenos() {
     }
 
     public void actualizarDadosVisuales(int valor1, int valor2) {
-        // 1. Actualizamos lo visual
+
         soloDibujarDados(valor1, valor2);
 
-        // 2. Ejecutamos la lógica de negocio
         int suma = valor1 + valor2;
         ManagerTurno manager = Catan.getInstance().getManagerTurno();
 
@@ -803,7 +802,7 @@ private Group agregarTerrenos() {
      */
     public void setModoRobo(boolean activar) {
         if (activar) {
-            // 1. Bloquear TODAS las acciones de construcción y fin de turno
+            // Bloquear TODAS las acciones de construcción y fin de turno
             btnConstruirCamino.setDisable(true);
             btnConstruirPoblado.setDisable(true);
             btnConstruirCiudad.setDisable(true);
@@ -814,29 +813,28 @@ private Group agregarTerrenos() {
 
             if (btnTerminar != null) btnTerminar.setDisable(true);
 
-            // 2. Habilitar SOLO lo relacionado al ladrón
+            //  Habilitar SOLO lo relacionado al ladrón
             if (btnMoverLadron != null) btnMoverLadron.setDisable(false);
 
             mostrarAlerta("¡LADRÓN ACTIVO!", "Se han bloqueado las acciones.\nDebes mover el ladrón para continuar.");
 
         } else {
-            // 1. Deshabilitar botón ladrón (ya se usó)
+            // Deshabilitar botón ladrón (ya se usó)
             if (btnMoverLadron != null) btnMoverLadron.setDisable(true);
 
-            // 2. Habilitar botón terminar
+            //  Habilitar botón terminar
             if (btnTerminar != null) btnTerminar.setDisable(false);
 
-            // 3. Restaurar botones de construcción según recursos
+            // Restaurar botones de construcción según recursos
             actualizarEstadoBotones();
 
-            // 4. Reactivar otros botones genéricos si corresponde
+            // Reactivar otros botones genéricos si corresponde
             btnIntercambioJugadores.setDisable(false);
             btnJugarCarta.setDisable(false);
             btnBanca.setDisable(false);
         }
     }
 
-// Reemplaza el método dibujarPuertos existente en VistaTablero2.java
 
     private void dibujarPuertos(double hexRadius) {
         grupoPuertos.getChildren().clear();
@@ -855,7 +853,6 @@ private Group agregarTerrenos() {
             if (v != null && v.esPuerto() && !visitados.contains(v)) {
                 visitados.add(v);
 
-                // 1. Datos para calcular geometría
                 Terreno t = tablero.getTerrenos().get(coord.numHex());
                 if (t == null) continue;
 
@@ -864,14 +861,13 @@ private Group agregarTerrenos() {
                 double yCentro = hexRadius * 1.5 * pos.r;
 
                 int i = coord.indice();
-                // Ángulo del vértice respecto al centro del hexágono
                 double angle = (2.0 * Math.PI * i / 6) + (Math.PI / 6);
 
-                // 2. Posición del Vértice (Donde iría la casa)
+                // Posición del Vértice (Donde iría la el poblado)
                 double xVertice = xCentro + hexRadius * Math.cos(angle);
                 double yVertice = yCentro + hexRadius * Math.sin(angle);
 
-                // 3. Posición del Puerto (Más afuera)
+                //Posición del Puerto (Más afuera)
                 double radioPuerto = hexRadius + distanciaExtra;
                 double xPuerto = xCentro + radioPuerto * Math.cos(angle);
                 double yPuerto = yCentro + radioPuerto * Math.sin(angle);
@@ -890,13 +886,11 @@ private Group agregarTerrenos() {
                 plataforma.setStroke(Color.WHITE);
                 plataforma.setStrokeWidth(2);
 
-                // C. Lógica de Texto y Color según Tasa
+                //  Lógica de Texto y Color según Tasa
                 String texto = "?";
                 Color colorTexto = Color.WHITE;
 
                 try {
-                    // Aquí usas tu lógica para detectar el tipo
-                    // Si no tienes acceso directo, usa el truco del toString()
                     String desc = v.obtenerPoliticaDeIntercambio().toString().toLowerCase();
 
                     if (v.obtenerPoliticaDeIntercambio().tasa() == 3) {
@@ -915,12 +909,10 @@ private Group agregarTerrenos() {
                 Label lbl = new Label(texto);
                 lbl.setFont(Font.font("Arial", FontWeight.BOLD, 10));
                 lbl.setTextFill(colorTexto);
-                // Centrar label en la plataforma
                 lbl.setTranslateX(xPuerto - 9);
                 lbl.setTranslateY(yPuerto - 7);
                 lbl.setMouseTransparent(true);
 
-                // Añadir todo al grupo
                 grupoPuertos.getChildren().addAll(lineaConectora, plataforma, lbl);
             }
         }
@@ -940,9 +932,6 @@ private Group agregarTerrenos() {
             // Si el vértice es válido y no tiene nada construido
             if (v != null && !v.tieneConstruccion()) {
 
-                // FILTRO DE DISTANCIA VISUAL
-                // Aunque el Manager valida, mostrar visualmente solo los válidos ayuda
-                // (Opcional: Si v.tieneConstruccionAdyacente() continue;)
 
                 Point2D posVisual = calcularPosicionVisual(coord, hexRadius);
                 if (posVisual == null) continue; // Si no pudimos calcular (borde raro)
@@ -995,7 +984,7 @@ private Group agregarTerrenos() {
                 int indexActual = coordLado.indice();
                 int indexSiguiente = (indexActual + 1) % 6;
 
-                // Creamos las coordenadas de los DOS extremos del lado
+                //coordenadas de los DOS extremos del lado
                 Coordenada coordV1 = new Coordenada(coordLado.numHex(), indexActual);
                 Coordenada coordV2 = new Coordenada(coordLado.numHex(), indexSiguiente);
 
@@ -1021,7 +1010,6 @@ private Group agregarTerrenos() {
         grupoSugestiones.getChildren().clear();
         Tablero tablero = Catan.getInstance().getTablero();
 
-        // Necesitamos saber quién es el jugador actual para validar que sea SU poblado
         Jugador jugadorActual;
         try {
             jugadorActual = Catan.getInstance().getManagerTurno().getJugadorActual();
@@ -1103,14 +1091,14 @@ private Group agregarTerrenos() {
         ManagerTurno manager = Catan.getInstance().getManagerTurno();
         try {
             if (!manager.haTerminadoFaseInicial()) {
-                // 1. EL MANAGER COLOCA Y AVANZA EL TURNO INTERNAMENTE
+                //EL MANAGER COLOCA Y AVANZA EL TURNO INTERNAMENTE
                 manager.colocacionInicial(coord);
 
-                // 2. Limpiamos sugerencias visuales y redibujamos el tablero
+                // Limpiamos sugerencias visuales y redibujamos el tablero
                 grupoSugestiones.getChildren().clear();
                 dibujarElementos();
 
-                // 3. CRÍTICO: Llamamos al gestor de flujo.
+                //Llamamos al gestor de flujo.
                 // Como el manager ya avanzó el turno en el paso 1,
                 // este método leerá el NUEVO jugador y actualizará el cartel.
                 gestionarFlujoFaseInicial();
@@ -1222,7 +1210,6 @@ private Group agregarTerrenos() {
                     Line camino = new Line(x1, y1, x2, y2);
                     camino.setStrokeWidth(6);
 
-                    // Intentar obtener color (si tu modelo lo permite)
                     // Color c = Color.web(lado.getConstruccion().getColorActual().getColor());
                     camino.setStroke(Color.BLACK); // Color por defecto si no tienes getter directo
                     grupoConstrucciones.getChildren().add(camino);
@@ -1234,7 +1221,7 @@ private Group agregarTerrenos() {
     private void gestionarFlujoFaseInicial() {
         ManagerTurno manager = Catan.getInstance().getManagerTurno();
 
-        // 1. CHEQUEO DE FINALIZACIÓN
+        //CHEQUEO DE FINALIZACIÓN
         if (manager.haTerminadoFaseInicial()) {
             if(this.enFaseInicial) {
                 this.enFaseInicial = false;
@@ -1250,11 +1237,11 @@ private Group agregarTerrenos() {
             return;
         }
 
-        // 2. FORZAR LA ACTUALIZACIÓN VISUAL DEL JUGADOR
+        //  FORZAR LA ACTUALIZACIÓN VISUAL DEL JUGADOR
         // Esto lee manager.getJugadorActualInicial() y cambia el color/nombre en el panel
         actualizarInventario();
 
-        // 3. Configuración de botones y alertas
+        //Configuración de botones y alertas
         this.btnLanzar.setDisable(true);
         Jugador jugadorActual = manager.getJugadorActualInicial();
 
@@ -1280,7 +1267,7 @@ private Group agregarTerrenos() {
         double yCentro = hexRadius * 1.5 * pos.r;
 
         int i = coord.indice();
-        // IMPORTANTE: Este offset debe ser IDÉNTICO al de createHexagon (Math.PI / 6)
+
         double angle = (2.0 * Math.PI * i / 6) + (Math.PI / 6);
 
         double x = xCentro + hexRadius * Math.cos(angle);
