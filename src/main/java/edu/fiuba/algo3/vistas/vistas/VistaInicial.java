@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.vistas.vistas;
 
 
+import edu.fiuba.algo3.controllers.ControladorGanador;
 import edu.fiuba.algo3.controllers.ControladorIniciarJuego;
 import edu.fiuba.algo3.controllers.ReproductorMusica;
 import edu.fiuba.algo3.vistas.Grillas.GrillaBase;
@@ -38,7 +39,8 @@ public class VistaInicial extends StackPane {
 
         cajaPrincipal.getChildren().add(cantanMensaje);
 
-        BotonGenerico botonInicio = new BotonGenerico(new ControladorIniciarJuego(stagePrincipal, contenedorPrincipal),"Iniciar Juego");
+         BotonGenerico botonInicio = new BotonGenerico(new ControladorIniciarJuego(stagePrincipal, contenedorPrincipal),"Iniciar Juego");
+
         cajaPrincipal.getChildren().add(botonInicio);
 
         stage.setTitle("Catan");

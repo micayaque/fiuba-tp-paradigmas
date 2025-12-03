@@ -15,12 +15,12 @@ public class ReproductorMusica {
         reproducirTema(temaInicial);
     }
     public void escucharTema(String direccion) {
-        // 1. Si ya hay algo sonando, lo detenemos
+        //Si ya hay algo sonando, lo detenemos
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
 
-        // 2. Si la dirección es válida, reproducimos el nuevo tema
+        //Si la dirección es válida, reproducimos el nuevo tema
         if (direccion != null && !direccion.isEmpty()) {
             reproducirTema(direccion);
         }
@@ -40,7 +40,6 @@ public class ReproductorMusica {
 
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
-            // Volumen al 50% (0.5).
             mediaPlayer.setVolume(0.1);
 
             mediaPlayer.play();

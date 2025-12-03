@@ -2,6 +2,7 @@ package edu.fiuba.algo3.entrega_3;
 
 import edu.fiuba.algo3.modelo.Cartas.CartaConstruccionCarreteras;
 import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
+import edu.fiuba.algo3.modelo.Cartas.EstadoCartaDisponible;
 import edu.fiuba.algo3.modelo.Color;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.ManagerTurno;
@@ -80,18 +81,18 @@ public class CartaConstruccionDeCarreterasPermiteDosConstruccionesGratuitas {
         assertEquals(0, jugador.cantidadRecurso(new Madera(0)));
         assertEquals(0, jugador.cantidadRecurso(new Ladrillo(0)));
 
-        CartaDesarrollo cartaCarreteras = new CartaConstruccionCarreteras(1);
+        CartaConstruccionCarreteras cartaCarreteras = new CartaConstruccionCarreteras(new EstadoCartaDisponible());
         jugador.agregarCarta(cartaCarreteras);
 
+        cartaCarreteras.setCoordenadas(coordCalle1, coordCalle2);
+
+        // ACT
         manager.usarUnaCarta(0);
+        // ASSERT
+        assertTrue(tablero.tieneCarreteraEn(coordCalle1));
+        assertTrue(tablero.tieneCarreteraEn(coordCalle2));
 
-        assertDoesNotThrow(() -> manager.construirCarretera(coordCalle1),
-                "La primera carretera debe ser gratuita. El jugador no tiene recursos pero la estrategia lo permite.");
-
-        assertDoesNotThrow(() -> manager.construirCarretera(coordCalle2),
-                "La segunda carretera debe ser gratuita. Al finalizar, la estrategia debe autodestruirse.");
-
-        assertTrue(jugador.tiene(new Madera(0),new Ladrillo(0),new Lana(0),new Mineral(0),new Grano(0)));
+        assertTrue(jugador.tiene(new Madera(0), new Ladrillo(0), new Lana(0), new Mineral(0), new Grano(0)));
     }
 
 }

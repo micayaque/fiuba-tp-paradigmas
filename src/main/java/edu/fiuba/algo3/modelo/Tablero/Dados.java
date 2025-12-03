@@ -7,19 +7,16 @@ import java.util.Random;
 public class Dados {
     int dado1;
     int dado2;
+
     private int generarNumero() {
         Random random = new Random();
         return random.nextInt(6) + 1;  // 1 a 6
     }
 
     public int tirar() {
-        int dado1 = generarNumero();
-        int dado2 = generarNumero();
-        List<Integer> dados = new ArrayList<>();
-        dados.add(dado1);
-        dados.add(dado2);
-        int suma = dado1 + dado2;
-        return suma;
+        this.dado1 = generarNumero();
+        this.dado2 = generarNumero();
+        return dado1 + dado2;
     }
     public int getDado1() {
         return dado1;
@@ -27,5 +24,7 @@ public class Dados {
     public int getDado2() {
         return dado2;
     }
+
+
 
 }
