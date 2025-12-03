@@ -273,4 +273,14 @@ public class Jugador {
     public boolean necesitoPagar(FichaComprable comprable) {
         return estrategiaDePago.seDebePagar(comprable);
     }
+
+    // Usado por el Controlador
+    public CartaDesarrollo buscarCartaParaJugar(String nombreCarta) {
+        return cartas.buscarCartaJugable(nombreCarta);
+    }
+
+    // Usado por la Vista
+    public boolean tieneCartaHabilitada(String nombreCarta) {
+        return cartas.existeCartaJugable(nombreCarta);
+    }
 }
