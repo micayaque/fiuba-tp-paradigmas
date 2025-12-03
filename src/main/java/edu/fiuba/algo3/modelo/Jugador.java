@@ -228,7 +228,8 @@ public class Jugador {
             return true;
         }
         return false;
-      
+    }
+
     public void terminarTurno() {
         this.cartas.actualizarEstadoDeCartas();
     }
