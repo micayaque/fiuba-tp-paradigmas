@@ -209,12 +209,10 @@ public class ManagerTurno {
         this.servicioComercio = servicioComercio;
     }
 
-    public void intercambiarConJugadores(Jugador jugador1, TipoDeRecurso recursoAentregar, int cantidadAentregar, TipoDeRecurso recursoArecibir, int cantidadArecibir, List<Jugador> jugadores){
+    public void intercambiarConJugadores(Jugador jugador1, TipoDeRecurso recursoAentregar, TipoDeRecurso recursoArecibir, List<Jugador> jugadores){
         servicioComercio.intercambiarConJugadores(jugador1,
                 recursoAentregar,
-                cantidadAentregar,
                 recursoArecibir,
-                cantidadArecibir,
                 jugadores);
     }
 

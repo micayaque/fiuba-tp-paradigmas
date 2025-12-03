@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
 import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.constructoresDeCarreteras.EstrategiaPagoEstandar;
 import edu.fiuba.algo3.modelo.constructoresDeCarreteras.IEstrategiaDePago;
+import edu.fiuba.algo3.modelo.interfaces.FichaComprable;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -130,21 +131,21 @@ public class Jugador {
         return puntos.obtenerPuntos();
     }
 
-    public void intercambiar(TipoDeRecurso recursoEntregar, int cantidadEntregar, Jugador jugador2, TipoDeRecurso recursoRecibir, int cantidadRecibir) throws RecursosIsuficientesException {
-        if(!jugador2.cambiar(recursoRecibir, cantidadRecibir, recursoEntregar, cantidadEntregar)){
+    public void intercambiar(TipoDeRecurso recursoEntregar, Jugador jugador2, TipoDeRecurso recursoRecibir) throws RecursosIsuficientesException {
+        if(!jugador2.cambiar(recursoRecibir, recursoEntregar)){
             throw new RecursosIsuficientesException("El segundo jugador no tiene suficientes recursos.");
         }
-        if(!this.cambiar(recursoEntregar, cantidadEntregar, recursoRecibir, cantidadRecibir)){
-            jugador2.cambiar(recursoEntregar, cantidadEntregar, recursoRecibir, cantidadRecibir);
+        if(!this.cambiar(recursoEntregar, recursoRecibir)){
+            jugador2.cambiar(recursoEntregar, recursoRecibir);
             throw new RecursosIsuficientesException("El primer jugador no tiene suficientes recursos.");
         };
     }
 
-    public boolean cambiar(TipoDeRecurso recursoEntregar, int cantidadEntregar, TipoDeRecurso recursoRecibir, int cantidadRecibir) {
-        if(!this.almacenJugador.quitar(recursoEntregar,cantidadEntregar)) {
+    public boolean cambiar(TipoDeRecurso recursoEntregar, TipoDeRecurso recursoRecibir) {
+        if(!this.almacenJugador.quitar(recursoEntregar)) {
             return false;
         }
-        this.almacenJugador.agregarRecurso(recursoRecibir.nuevo(cantidadRecibir));
+        this.almacenJugador.agregarRecurso(recursoRecibir);
         return true;
     }
     public int cantidadMadera() {
@@ -219,5 +220,9 @@ public class Jugador {
             return true;
         }
         return false;
+    }
+
+    public boolean necesitoPagar(FichaComprable comprable) {
+        return estrategiaDePago.seDebePagar(comprable);
     }
 }
