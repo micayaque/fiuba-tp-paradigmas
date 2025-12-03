@@ -114,6 +114,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
         btnLanzar.setDisable(true);
         btnTerminar.setDisable(true);
+        deshabilitarBotonesJuegoNormal();
         gestionarFlujoFaseInicial();
     }
 
@@ -631,6 +632,18 @@ private Group agregarTerrenos() {
         btnBanca.setDisable(false);
         btnJugarCarta.setDisable(false);
         if(btnTerminar != null) btnTerminar.setDisable(false);
+    }
+    public void deshabilitarBotonesJuegoNormal() {
+
+        btnIntercambioJugadores.setDisable(true);
+        btnBanca.setDisable(true);
+        btnJugarCarta.setDisable(true);
+        btnConstruirCamino.setDisable(true);
+        btnConstruirPoblado.setDisable(true);
+        btnConstruirCiudad.setDisable(true);
+        btnComprarCarta.setDisable(true);
+        //btnMoverLadron.setDisable(true);
+        //if(btnTerminar != null) btnTerminar.setDisable(false);
     }
 
     public void habilitarMoverLadron(boolean habilitar) {
