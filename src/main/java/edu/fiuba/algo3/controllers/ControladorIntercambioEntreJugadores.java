@@ -25,7 +25,7 @@ public class ControladorIntercambioEntreJugadores implements EventHandler<Action
         // Obtenemos el Stage principal para bloquearlo (Modalidad)
         Stage stagePadre = (Stage) vistaPrincipal.getScene().getWindow();
 
-        VistaIntercambioEntreJugadores ventana = new VistaIntercambioEntreJugadores(stagePadre, catan);
+        VistaIntercambioEntreJugadores ventana = new VistaIntercambioEntreJugadores(stagePadre);
         ventana.showAndWait(); // Pausa aquí hasta que se cierre la ventana de intercambio
         vistaPrincipal.actualizarInventario();
 

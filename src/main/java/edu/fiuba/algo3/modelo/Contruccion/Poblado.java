@@ -9,7 +9,6 @@ public class Poblado implements  Construccion,Productor{
     public Poblado(Color color) {
         this.color = color;
     }
-    private Jugador propietario;
 
 
     @Override

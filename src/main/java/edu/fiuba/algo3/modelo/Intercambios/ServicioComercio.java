@@ -167,7 +167,12 @@ public class ServicioComercio {
         List<TipoDeRecurso> costo = List.of(new Grano(2), new Mineral(3));
         reembolsar(jugador, costo);
     }
-
+    public void reembolsarCamino(Jugador jugador) {
+        List<TipoDeRecurso> costo = List.of(
+                new Madera(1), new Ladrillo(1)
+        );
+        reembolsar(jugador, costo);
+    }
     private void reembolsar(Jugador jugador, List<TipoDeRecurso> costo) {
         for (TipoDeRecurso r : costo) {
             // El banco devuelve (entregar)

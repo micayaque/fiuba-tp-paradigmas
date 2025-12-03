@@ -5,7 +5,7 @@ import edu.fiuba.algo3.modelo.Recursos.TipoDeRecurso;
 
 public class PuertoGenerico implements PoliticaDeIntercambio {
 
-    private final int tasa; // normalmente 3
+    private final int tasa;  // ej: 3 para 3:1
 
     public PuertoGenerico(int tasa) {
         this.tasa = tasa;
@@ -13,7 +13,7 @@ public class PuertoGenerico implements PoliticaDeIntercambio {
 
     @Override
     public boolean aplicaA(Jugador jugador, TipoDeRecurso recursoEntregado) {
-        return true; // sirve para cualquier recurso
+        return recursoEntregado != null;
     }
 
     @Override

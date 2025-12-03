@@ -29,14 +29,26 @@ public class TableroFactory {
             new Axial(0, -1)   // 5
     };
     private static final Coordenada[][] POSICIONES_PUERTOS = {
-            { new Coordenada(1,0), new Coordenada(1,1) },
-            { new Coordenada(2,3), new Coordenada(2,4) },
-            { new Coordenada(4,3), new Coordenada(4,4) },
+            // Arriba izquierda
+            { new Coordenada(1,5), new Coordenada(1,0) },
+            // Arriba centro
+            { new Coordenada(2,0), new Coordenada(2,1) },
+            // Arriba derecha
+            { new Coordenada(3,1), new Coordenada(3,2) },
+
+            // Lateral izquierdo arriba
+            { new Coordenada(4,5), new Coordenada(4,0) },
+            // Lateral derecho arriba
             { new Coordenada(7,1), new Coordenada(7,2) },
-            { new Coordenada(8,0), new Coordenada(8,5) },
-            { new Coordenada(11,3), new Coordenada(11,4) },
-            { new Coordenada(14,1), new Coordenada(14,2) },
-            { new Coordenada(16,5), new Coordenada(16,0) },
+
+            // Lateral izquierdo medio
+            { new Coordenada(8,4), new Coordenada(8,5) },
+            // Lateral derecho medio
+            { new Coordenada(12,2), new Coordenada(12,3) },
+
+            // Abajo izquierda
+            { new Coordenada(17,3), new Coordenada(17,4) },
+            // Abajo derecha
             { new Coordenada(19,2), new Coordenada(19,3) }
     };
     private static final Puerto[] PUERTOS = {

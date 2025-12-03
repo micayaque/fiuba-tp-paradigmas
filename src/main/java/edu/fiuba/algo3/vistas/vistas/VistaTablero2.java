@@ -2,9 +2,16 @@ package edu.fiuba.algo3.vistas.vistas;
 
 import edu.fiuba.algo3.controllers.*;
 import edu.fiuba.algo3.modelo.Catan;
+import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
 import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Tablero.ConstruccionExistenteException;
 import edu.fiuba.algo3.modelo.Tablero.Dados;
+import edu.fiuba.algo3.modelo.Tablero.Factory.Coordenada;
+import edu.fiuba.algo3.modelo.Tablero.Factory.Lado;
+import edu.fiuba.algo3.modelo.Tablero.Factory.ReglaConstruccionException;
+import edu.fiuba.algo3.modelo.Tablero.Factory.Vertice;
+import edu.fiuba.algo3.modelo.Tablero.ReglaDistanciaException;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Tablero.Terrenos.Terreno;
 import edu.fiuba.algo3.vistas.PantallaPrincipal;
@@ -23,13 +30,18 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+import javafx.geometry.Point2D;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +51,6 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
     // Variable para controlar la selección de cartas
     private String cartaSeleccionada = null;
-    private Catan catan;
     private HBox contenedorDadosVisuales;
     private Stage stage;
     private PantallaPrincipal pantallaPrincipal;
@@ -47,10 +58,21 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     private HBox contenedorCartasDesarrollo;
     private Label lblNombreJugadorActual;
 
-    public VistaTablero2(Stage stage, PantallaPrincipal pantallaPrincipal,Catan catan) {
+    private BotonGenericoAccionUsuario btnConstruirPoblado;
+    private BotonGenericoAccionUsuario btnConstruirCamino;
+    private BotonGenericoAccionUsuario btnConstruirCiudad;
+    private BotonGenericoAccionUsuario btnBanca;
+    private BotonGenericoAccionUsuario btnIntercambioJugadores;
+    private BotonGenericoAccionUsuario btnJugarCarta;
+
+    private BotonLanzarDados btnLanzar;
+    private BotonTerminarTurno btnTerminar;
+
+    private Map<Coordenada, Point2D> mapaVisualVertices = new HashMap<>();
+
+    public VistaTablero2(Stage stage, PantallaPrincipal pantallaPrincipal) {
 
         this.setBackground(new Background(new BackgroundFill(Color.web("#233850"), null, null)));
-        this.catan = catan;
         this.stage = stage;
         this.pantallaPrincipal = pantallaPrincipal;
         StackPane contenedorMapa = new StackPane(agregarTerrenos());
@@ -62,11 +84,13 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
         // ABAJO: Inventario + Acciones
         this.setBottom(crearPanelInferior());
+
+        actualizarInventario();
     }
 
     private Group agregarTerrenos() {
 
-        Tablero tablero = this.catan.crearTablero();
+        Tablero tablero = Catan.getInstance().crearTablero();
         Map<Integer, Terreno> terrenos = tablero.getTerrenos();
 
         double centerY = 0;
@@ -131,6 +155,48 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     }
 
 
+
+    // Modificamos para recibir el ID y guardar las coordenadas de los vértices
+    private Polygon createHexagon(double x, double y, double radius, Terreno terreno, int hexId) {
+        Polygon hexagon = new Polygon();
+
+        // Offset angular para "Pointy topped" (punta arriba) es Math.PI / 6 (30 grados)
+        double angleOffset = Math.PI / 6;
+
+        for (int i = 0; i < 6; i++) {
+            double angle = (2.0 * Math.PI * i / 6) + angleOffset;
+            double xPos = x + radius * Math.cos(angle);
+            double yPos = y + radius * Math.sin(angle);
+            hexagon.getPoints().addAll(xPos, yPos);
+
+            // --- MAGIA AQUÍ ---
+            // Guardamos dónde está este vértice en la pantalla
+            // i = índice del vértice (0-5)
+            mapaVisualVertices.put(new Coordenada(hexId, i), new Point2D(xPos, yPos));
+        }
+
+        // Estilos e Imagen (Igual que antes)
+        if(terreno != null) {
+            String nombreImg = terreno.getTipoTerreno().toLowerCase();
+            try {
+                // ... tu logica de imagen
+                // Si usas getClass().getResource es más seguro que System.getProperty
+                Image img = new Image(getClass().getResource("/imagenes/" + nombreImg + ".jpg").toExternalForm());
+                hexagon.setFill(new ImagePattern(img));
+            } catch (Exception e) {
+                hexagon.setFill(Color.BROWN);
+            }
+        }
+        hexagon.setStroke(Color.BLACK);
+        hexagon.setStrokeWidth(2);
+
+        // Evento click para debuggear coordenadas (Opcional)
+        hexagon.setOnMouseClicked(e -> System.out.println("Hex ID: " + hexId));
+
+        return hexagon;
+    }
+
+
     private VBox crearPanelDerecho() {
         VBox panel = new VBox();
         panel.setPadding(new Insets(20));
@@ -138,7 +204,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         panel.setAlignment(Pos.TOP_CENTER);
 
         // LISTA DE JUGADORES
-        List<Jugador> jugadores = this.catan.getJugadores();
+        List<Jugador> jugadores = Catan.getInstance().getJugadores();
         for (Jugador j : jugadores) {
             HBox infoJugador = agregarJugador(j);
             HBox separador = new HBox(); separador.setPrefHeight(15);
@@ -159,11 +225,11 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         Dados dados = new Dados();
 
         ControladorLanzarDados controladorLanzar = new ControladorLanzarDados(dados, this);
-        BotonLanzarDados btnLanzar = new BotonLanzarDados(controladorLanzar);
+         this.btnLanzar = new BotonLanzarDados(controladorLanzar);
 
 
-        ControladorTerminarTurno controladorTerminarTurno = new ControladorTerminarTurno(this.catan,btnLanzar,this);
-        BotonTerminarTurno btnTerminar = new BotonTerminarTurno(controladorTerminarTurno);
+        ControladorTerminarTurno controladorTerminarTurno = new ControladorTerminarTurno( btnLanzar, this);
+        this.btnTerminar = new BotonTerminarTurno(controladorTerminarTurno);
 
         btnTerminar.setDisable(true);
 
@@ -253,7 +319,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
         // Nombre del Jugador
         this.lblNombreJugadorActual = new Label("Cargando...");
-        this.lblNombreJugadorActual.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px; -fx-font-weight: bold;");
+        this.lblNombreJugadorActual.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
         // Título
         Label lblTitulo = new Label("INVENTARIO");
@@ -289,15 +355,20 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         acciones.setVgap(10);
         acciones.setAlignment(Pos.CENTER_LEFT); // Alineado a la izquierda (cerca del inventario)
 
-        acciones.add(crearBotonAccion("Construir\nPoblado",new ControladorConstruirPoblado(this.catan)), 0, 0);
-        acciones.add(crearBotonAccion("Construir\nCamino",new ControladorConstruirCamino(this.catan)), 1, 0);
-        acciones.add(crearBotonAccion("Construir\nCiudad",new ControladorConstruirCiudad(this.catan)), 2, 0);
 
-        acciones.add(crearBotonAccion("Banca",new ControladorBanca(this.catan,this)), 0, 1);
-        acciones.add(crearBotonAccion("Intercambio",new ControladorIntercambioEntreJugadores(this.catan,this)), 1, 1);
-        acciones.add(crearBotonAccion("JUGAR\nCARTA",new ControladorJugarCarta(this.catan,this)), 2, 1);
+        this.btnConstruirPoblado = crearBotonAccion("Construir\nPoblado",new ControladorConstruirPoblado(Catan.getInstance()));
+        this.btnConstruirCamino = crearBotonAccion("Construir\nCamino",new ControladorConstruirCamino(Catan.getInstance()));
+        this.btnConstruirCiudad = crearBotonAccion("Construir\nCiudad",new ControladorConstruirCiudad(Catan.getInstance()));
+        this.btnBanca = crearBotonAccion("Banca",new ControladorBanca(Catan.getInstance(),this));
+        this.btnIntercambioJugadores = crearBotonAccion("Intercambio",new ControladorIntercambioEntreJugadores(Catan.getInstance(),this));
+        this.btnJugarCarta = crearBotonAccion("JUGAR\nCARTA",new ControladorJugarCarta(Catan.getInstance(),this));
 
-
+        acciones.add(this.btnConstruirPoblado,0,0);
+        acciones.add(this.btnConstruirCamino,1,0);
+        acciones.add(this.btnConstruirCiudad,2,0);
+        acciones.add(this.btnBanca,0,1);
+        acciones.add(this.btnIntercambioJugadores,1,1);
+        acciones.add(this.btnJugarCarta,2,1);
 
 
         panel.setSpacing(30); // Acercamos los botones al inventario
@@ -306,6 +377,27 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         panel.getChildren().addAll(inventario, acciones);
 
         return panel;
+    }
+
+    public void actualizarEstadoBotones() {
+        Jugador jugador = Catan.getInstance().getManagerTurno().getJugadorActual();
+
+        // Validar Camino (Madera + Ladrillo)
+        boolean tieneCamino = jugador.cantidadMadera() >= 1 && jugador.cantidadLadrillo() >= 1;
+        this.btnConstruirCamino.setDisable(!tieneCamino);
+
+        // Validar Poblado (Madera + Ladrillo + Lana + Grano)
+        boolean tienePoblado = jugador.cantidadMadera() >= 1 &&
+                jugador.cantidadLadrillo() >= 1 &&
+                jugador.cantidadLana() >= 1 &&
+                jugador.cantidadGrano() >= 1;
+        this.btnConstruirPoblado.setDisable(!tienePoblado);
+
+
+        // Además, requiere tener un poblado propio (esto es más difícil de validar desde aquí sin preguntar al tablero,
+        // pero al menos validamos recursos).
+        boolean tieneCiudad = jugador.cantidadMineral() >= 3 && jugador.cantidadGrano() >= 2;
+        this.btnConstruirCiudad.setDisable(!tieneCiudad);
     }
 
     private VBox crearCartaInteractiva(String nombre, Color color) {
@@ -457,12 +549,11 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
             System.out.println("Error imagen: " + nombreImagen);
         }
 
-        // 2. EL NOMBRE (Medio)
+
         Label lblNombre = new Label(nombre);
         lblNombre.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 10px;");
         lblNombre.setEffect(new DropShadow(2, Color.BLACK));
 
-        // 3. LA CANTIDAD (Abajo, Grande)
         Label lblCantidad = new Label(String.valueOf(cantidad));
         lblCantidad.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 18px;");
         lblCantidad.setEffect(new DropShadow(2, Color.BLACK));
@@ -472,14 +563,14 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
     }
 
     public void actualizarInventario() {
-        if (this.contenedorRecursos == null || this.catan == null) return;
+        if (this.contenedorRecursos == null || Catan.getInstance() == null) return;
 
         this.contenedorRecursos.getChildren().clear();
         this.contenedorCartasDesarrollo.getChildren().clear();
 
         Jugador jugadorActual;
         try {
-            jugadorActual = this.catan.getManagerTurno().getJugadorActual();
+            jugadorActual = Catan.getInstance().getManagerTurno().getJugadorActual();
         } catch (Exception e) { return; }
 
         if (this.lblNombreJugadorActual != null) {
@@ -490,7 +581,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         // --- A. LLENAR RECURSOS ---
         this.contenedorRecursos.getChildren().addAll(
                 crearFichaConImagen("Madera",   jugadorActual.cantidadMadera(),   "madera.jpg",   "#228B22"),
-                crearFichaConImagen("Ladrillo", jugadorActual.cantidadLadrillo(), "ladrillo.jpg", "#B22222"),
+                crearFichaConImagen("Ladrillo", jugadorActual.cantidadLadrillo(), "ladrilo.jpg", "#B22222"),
                 crearFichaConImagen("Lana",     jugadorActual.cantidadLana(),     "lana.jpg",     "#7CB342"),
                 crearFichaConImagen("Grano",    jugadorActual.cantidadGrano(),    "grano.jpg",    "#FFD700"),
                 crearFichaConImagen("Mineral",   jugadorActual.cantidadMineral(),  "piedra.jpg",   "#708090")
@@ -535,5 +626,26 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
         return carta;
     }
+
+
+
+
+
+
+    // Opcional: Una alerta visual simple
+    private void mostrarAlerta(String titulo, String mensaje) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+
+
+
+
+
+
 
 }

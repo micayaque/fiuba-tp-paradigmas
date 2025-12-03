@@ -98,7 +98,9 @@ public class Catan implements PuntajeListener {
             throw new IllegalStateException("No hay jugadores para iniciar");
         }
         this.managerTurno = new ManagerTurno(jugadores,this.crearTablero(), rng);
-   }
+
+    }
+
     public ManagerTurno getManagerTurno() {
         if (this.managerTurno == null) {
             throw new IllegalStateException("¡La partida no ha iniciado! Llama a iniciarPartida() primero.");

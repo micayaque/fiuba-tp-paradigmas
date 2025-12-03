@@ -273,5 +273,13 @@ public class Tablero {
     public Map<Coordenada, Vertice> getVertices() {
         return vertices;
     }
+
+    public Map<Coordenada, Vertice> getMapaVertices() {
+        return this.vertices;
+    }
+
+    public Map<Coordenada, Lado> getMapaLados() {
+        return this.lados;
+    }
 }
 

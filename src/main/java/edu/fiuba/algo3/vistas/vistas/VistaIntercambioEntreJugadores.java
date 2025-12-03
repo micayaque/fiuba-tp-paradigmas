@@ -22,7 +22,8 @@ import java.util.List;
 public class VistaIntercambioEntreJugadores extends Stage {
     private static final String IMAGEN = "/imagenes/intercambioj.png";
 
-    public VistaIntercambioEntreJugadores(Stage owner, Catan catan) {
+    public VistaIntercambioEntreJugadores(Stage owner) {
+        Catan catan = Catan.getInstance();
         this.initOwner(owner);
         this.initModality(Modality.APPLICATION_MODAL); // Bloquea la ventana de atrás
         this.initStyle(StageStyle.UNDECORATED);

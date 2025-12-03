@@ -46,6 +46,7 @@ public class ControladorLanzarDados implements EventHandler<ActionEvent> {
         if (botonTerminar != null) botonTerminar.setDisable(false);
 
         // Aquí podrías llamar a manager.repartirRecursos(suma);
+        vista.actualizarInventario();
         catan.getManagerTurno().repartirDividendos(suma);
     }
 }

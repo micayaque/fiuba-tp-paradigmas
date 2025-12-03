@@ -39,7 +39,7 @@ public class SesionDeJuego {
         }
 
         // Iniciar partida en Catan
-        this.managerTurno = catan.iniciarPartida();
+        this.managerTurno = Catan.getInstance().getManagerTurno();
     }
 
     // Métodos que la UI necesita
@@ -55,9 +55,9 @@ public class SesionDeJuego {
 
     }
 
-    public Dados tirarDados() {
-        return managerTurno.tirarDadosYDistribuir();
-    }
+//    public Dados tirarDados() {
+//        return managerTurno.tirarDadosYDistribuir();
+//    }
 
     public void pasarTurno() {
         managerTurno.siguienteTurno();

@@ -9,9 +9,11 @@ import edu.fiuba.algo3.modelo.ManagerTurno;
 import edu.fiuba.algo3.modelo.Mocks.FakeRandom;
 import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.RecursosInsuficientesException;
+import edu.fiuba.algo3.modelo.Tablero.ConstruccionExistenteException;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Coordenada;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Produccion;
 import edu.fiuba.algo3.modelo.Tablero.Factory.TableroFactory;
+import edu.fiuba.algo3.modelo.Tablero.ReglaDistanciaException;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Tablero.Terrenos.Bosque;
 import edu.fiuba.algo3.modelo.Tablero.Terrenos.Desierto;
@@ -27,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CartaConstruccionDeCarreterasPermiteDosConstruccionesGratuitas {
     @Test
-    public void Test01CartaConstruccionDeCarreterasPermiteDosConstruccionesGratuitas() {
+    public void Test01CartaConstruccionDeCarreterasPermiteDosConstruccionesGratuitas() throws ConstruccionExistenteException, ReglaDistanciaException {
         //ARRANGE
         Random numeroRandom = new FakeRandom(0);
         Jugador jugador = new Jugador("Constructor", new Color("Amarillo"));
