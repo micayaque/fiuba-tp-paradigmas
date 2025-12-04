@@ -16,6 +16,8 @@ public class ControladorPanelJugadores {
     private VistaTablero2 vista;
     private final Map<Jugador, HBox> panelesPorJugador = new HashMap<>();
     private Catan juego = Catan.getInstance();
+    private Jugador liderCamino=null;
+    private Jugador liderCaballeria=null;
 
     public ControladorPanelJugadores(VistaTablero2 vistaTablero2) {
         this.vista = vistaTablero2;
@@ -29,19 +31,25 @@ public class ControladorPanelJugadores {
 
     public void actualizarRutaComercial() {
         Jugador lider= juego.getManagerTurno().getRutaComercialLider();
-        if(lider!=null){
-            HBox panelLider= panelesPorJugador.get(lider);
-
-            vista.actualizarRutaComercial( panelLider);
+        if(!lider.equals(liderCamino) && liderCamino!=null){
+            HBox panelLiderAntiguo= panelesPorJugador.get(liderCamino);
+            vista.actualizarRutaComercial( panelLiderAntiguo,0.3);
         }
+        liderCamino=lider;
+        HBox panelLider = panelesPorJugador.get(lider);
+
+        vista.actualizarRutaComercial( panelLider,1);
     }
 
     public void actualizarGranCaballeria() {
         Jugador lider= juego.getManagerTurno().getGranCaballeriaLider();
-        if(lider!=null){
-            HBox panelLider= panelesPorJugador.get(lider);
-            vista.actualizarGranCaballeria(panelLider);
+        if(!lider.equals(liderCaballeria) && liderCaballeria!=null){
+            HBox panelLiderAntiguo= panelesPorJugador.get(liderCaballeria);
+            vista.actualizarGranCaballeria( panelLiderAntiguo,0.3);
         }
+        liderCaballeria=lider;
+        HBox panelLider = panelesPorJugador.get(lider);
+        vista.actualizarGranCaballeria(panelLider,1);
     }
 
 

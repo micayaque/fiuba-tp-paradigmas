@@ -6,8 +6,6 @@ import edu.fiuba.algo3.modelo.Cartas.CartaConstruccionCarreteras;
 import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
 import edu.fiuba.algo3.modelo.Catan;
 
-import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
-import edu.fiuba.algo3.modelo.Intercambios.Puerto;
 import edu.fiuba.algo3.modelo.Jugador;
 
 import edu.fiuba.algo3.modelo.ManagerTurno;
@@ -31,9 +29,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,7 +42,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.geometry.Point2D;
 
@@ -1463,17 +1458,17 @@ private Group agregarTerrenos() {
     }
 
 
-    public void actualizarRutaComercial(HBox panelLider) {
+    public void actualizarRutaComercial(HBox panelLider, double opacidad) {
         ImageView iconoCamino = (ImageView) panelLider.lookup("#camino");
         if(iconoCamino != null){
-            iconoCamino.setOpacity(1);
+            iconoCamino.setOpacity(opacidad);
         }
     }
 
-    public void actualizarGranCaballeria(HBox panelLider) {
+    public void actualizarGranCaballeria(HBox panelLider,double opacidad) {
         ImageView iconoCaballero = (ImageView) panelLider.lookup("#caballeria");
         if(iconoCaballero != null){
-            iconoCaballero.setOpacity(1);
+            iconoCaballero.setOpacity(opacidad);
         }
     }
 }
