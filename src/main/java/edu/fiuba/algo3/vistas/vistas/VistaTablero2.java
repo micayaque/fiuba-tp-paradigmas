@@ -97,6 +97,7 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
         this.setBackground(new Background(new BackgroundFill(Color.web("#233850"), null, null)));
         this.stage = stage;
         this.pantallaPrincipal = pantallaPrincipal;
+        this.controladorJugadores = new ControladorPanelJugadores(this);
         StackPane contenedorMapa = new StackPane(agregarTerrenos());
         contenedorMapa.setAlignment(Pos.CENTER);
         this.setCenter(contenedorMapa);
@@ -346,23 +347,24 @@ private Group agregarTerrenos() {
     private void actualizarPanelJugadores() {
         if (this.contenedorInfoJugadores == null) return;
 
-        this.contenedorInfoJugadores.getChildren().clear(); // Limpiamos solo la lista
+        this.contenedorInfoJugadores.getChildren().clear();
+        // Limpiamos solo la lista
 
         List<Jugador> jugadores = Catan.getInstance().getJugadores();
 
         // Instanciamos el controlador del panel (para los logros visuales)
-        ControladorPanelJugadores controladorPanel = new ControladorPanelJugadores(this);
-        this.controladorJugadores = controladorPanel;
+
 
         for (Jugador j : jugadores) {
             HBox infoJugador = agregarJugador(j); // Crea la ficha con puntos actualizados
-            controladorPanel.agregarPanelyJugador(infoJugador, j);
+
+            this.controladorJugadores.agregarPanelyJugador(infoJugador, j);
             this.contenedorInfoJugadores.getChildren().add(infoJugador);
         }
 
         // Actualizamos los íconos de logros si corresponde
-        controladorPanel.actualizarGranCaballeria();
-        controladorPanel.actualizarRutaComercial();
+        this.controladorJugadores.actualizarGranCaballeria();
+        this.controladorJugadores.actualizarRutaComercial();
     }
 
     private HBox agregarJugador(Jugador jugador) {
