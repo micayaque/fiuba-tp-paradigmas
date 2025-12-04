@@ -7,7 +7,9 @@ import edu.fiuba.algo3.modelo.Intercambios.ServicioComercio;
 import edu.fiuba.algo3.modelo.Mocks.FakeJugador;
 import edu.fiuba.algo3.modelo.Mocks.FakeRandom;
 import edu.fiuba.algo3.modelo.Recursos.*;
+import edu.fiuba.algo3.modelo.Tablero.ConstruccionExistenteException;
 import edu.fiuba.algo3.modelo.Tablero.Factory.*;
+import edu.fiuba.algo3.modelo.Tablero.ReglaDistanciaException;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Tablero.Terrenos.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +28,7 @@ public class CasoDeUsoCartasDesarrolloTest {
     private ServicioComercio servicioComercio;
     private List<Terreno> hexagonos;
     private List<Produccion> fichasNumeradas;
+
     private void forzarCartaEnMazo(ManagerTurno manager, Banco banco, CartaDesarrollo cartaTrucada) {
         List<CartaDesarrollo> mazoTrucado = new ArrayList<>();
         mazoTrucado.add(cartaTrucada);
@@ -249,7 +252,7 @@ public class CasoDeUsoCartasDesarrolloTest {
     }
 
     @Test
-    public void Test08UnaCartaDeCaballeroNoOtorgaraRecursosSiLasVictimasNoTienenNadaParaDar() {
+    public void Test08UnaCartaDeCaballeroNoOtorgaraRecursosSiLasVictimasNoTienenNadaParaDar() throws ConstruccionExistenteException, ReglaDistanciaException {
         int cantidadDeRecursoEsperada = 0;
         // ARRANGE
         Random numeroRandom = new FakeRandom(0);

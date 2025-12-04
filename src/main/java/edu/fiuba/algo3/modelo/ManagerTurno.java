@@ -12,7 +12,6 @@ import edu.fiuba.algo3.modelo.Tablero.Factory.Lado;
 import edu.fiuba.algo3.modelo.Tablero.Factory.ReglaConstruccionException;
 import edu.fiuba.algo3.modelo.Tablero.ReglaDistanciaException;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
-import edu.fiuba.algo3.modelo.constructoresDeCarreteras.EstrategiaPagoGratuito;
 import edu.fiuba.algo3.modelo.interfaces.FichaComprable;
 
 import java.util.*;
@@ -40,11 +39,11 @@ public class ManagerTurno {
         this.azar = Random;
         Banco banco = new Banco();
 
-        banco.recibir(new Madera(10));
-        banco.recibir(new Ladrillo(10));
-        banco.recibir(new Grano(10));
-        banco.recibir(new Lana(10));
-        banco.recibir(new Mineral(10));
+        banco.recibir(new Madera(20));
+        banco.recibir(new Ladrillo(20));
+        banco.recibir(new Grano(20));
+        banco.recibir(new Lana(20));
+        banco.recibir(new Mineral(20));
 
         this.servicioComercio = new ServicioComercio(banco, azar);
 
@@ -68,10 +67,11 @@ public class ManagerTurno {
     public void comprarCarta() {
         Jugador jugador = getJugadorActual();
         CartaDesarrollo cartaComprada = servicioComercio.venderCartaDesarrollo(jugador, numeroTurnoActual);
+        cartaComprada.setTurnoDeCompra(this.numeroTurnoActual);
         jugador.agregarCarta(cartaComprada);
-        if(cartaComprada instanceof PuntoDeVictoria){
-            jugador.sumarPuntoDeVictoriaOculto();
-        }
+//        if(cartaComprada instanceof PuntoDeVictoria){
+//            jugador.sumarPuntoDeVictoriaOculto();
+//        }
     }
 
     public void construirCarretera(Coordenada coordenada) throws ConstruccionExistenteException, ReglaConstruccionException {
@@ -99,14 +99,35 @@ public class ManagerTurno {
     public void usarUnaCarta(int indice) {
         Jugador jugadorActual = getJugadorActual();
         CartaDesarrollo cartaSeleccionada = jugadorActual.agarrarCarta(indice);
+        if (!cartaSeleccionada.sePuedeUsar(this.numeroTurnoActual)) {
+            throw new RuntimeException("No puedes usar una carta el mismo turno que la compraste.");
+        }
         try {
-            cartaSeleccionada.ejecutarEfecto(jugadorActual, this.tablero,this.jugadores);
-            this.granCaballeria.registrarCaballeroJugado(jugadorActual);
-        }catch (RuntimeException e){
+            cartaSeleccionada.ejecutarEfecto(jugadorActual, this.tablero, this.jugadores);
+
+
+            cartaSeleccionada.marcarComoUsada();
+
+            if(cartaSeleccionada instanceof CartaCaballero){
+                this.granCaballeria.registrarCaballeroJugado(jugadorActual);
+            }
+        } catch (RuntimeException e){
             throw e;
         }
     }
 
+    public void intercambiarConBanca(TipoDeRecurso recursoDoy, TipoDeRecurso recursoRecibo) {
+        Jugador jugadorActual = getJugadorActual();
+
+
+        int tasa = jugadorActual.mejorTasaPara(recursoDoy);
+
+        TipoDeRecurso aEntregar = recursoDoy.nuevo(tasa);
+
+        TipoDeRecurso aRecibir = recursoRecibo.nuevo(1);
+
+        servicioComercio.intercambiarConBanco(jugadorActual, aEntregar, aRecibir);
+    }
 
 
     public Jugador getJugadorActual() {
@@ -139,9 +160,13 @@ public class ManagerTurno {
 
     }
     public void contarPuntos(){
-        Jugador jugador = getJugadorActual();
-        PuntajeDeVictoria pv= tablero.calcularPuntosDeVictoriaPorConstruccion(jugador.getColor());
-        jugador.actualizarPuntosDeVictoria(pv);
+//        Jugador jugador = getJugadorActual();
+//        PuntajeDeVictoria pv= tablero.calcularPuntosDeVictoriaPorConstruccion(jugador.getColor());
+//        jugador.actualizarPuntosDeVictoria(pv);
+        Jugador jugadorAPuntuar = ordenInicial.haTerminado() ? getJugadorActual() : getJugadorActualInicial();
+
+         PuntajeDeVictoria pv= tablero.calcularPuntosDeVictoriaPorConstruccion(jugadorAPuntuar.getColor());
+        jugadorAPuntuar.actualizarPuntosDeVictoria(pv);
     }
 
     public void repartirDividendos(int sumaDeDados) {
@@ -159,7 +184,7 @@ public class ManagerTurno {
     }
     public void construirPoblado(Coordenada coordenada) {
         try {
-            // 1. El servicio valida recursos, cobra al jugador y guarda en el Banco
+            //El servicio valida recursos, cobra al jugador y guarda en el Banco
             FichaComprable poblado = servicioComercio.comprarObjeto(getJugadorActual(), new Poblado(getJugadorActual().getColor()));
 
             try {
@@ -171,7 +196,7 @@ public class ManagerTurno {
                     jugadorActual.agregarPolitica(politica);
                 }
             } catch (ReglaDistanciaException | ConstruccionExistenteException e){
-                // 3. ¡Error! El lugar estaba ocupado o muy cerca. Devolvemos la plata.
+                //¡Error! El lugar estaba ocupado o muy cerca. Devolvemos la plata.
                 servicioComercio.reembolsarPoblado(getJugadorActual());
                 throw e; // Avisamos a la vista
             }
@@ -183,18 +208,26 @@ public class ManagerTurno {
 
     public void moverLadron(Integer posicion){
         Jugador jugadorActual = getJugadorActual();
-        List<Color> coloresDeVictimas= tablero.moverLadron(jugadorActual, posicion);
-        List<Jugador> victimas =
-                coloresDeVictimas.stream()
-                        .map(this::getJugadorPorColor)
-                        .collect(Collectors.toList());
+        List<Color> coloresDeVictimas = tablero.moverLadron(jugadorActual, posicion);
+
+        // Convertir colores a jugadores
+        List<Jugador> victimas = coloresDeVictimas.stream()
+                .map(this::getJugadorPorColor)
+                .collect(Collectors.toList());
 
         if(!victimas.isEmpty()){
+            // Elegir víctima al azar
             Jugador victima = victimas.get(azar.nextInt(victimas.size()));
-            //Selecciona una victima al azar por ahora, depues vemos como hacer para que el jugador elija desde la interfaz
-            jugadorActual.robarRecurso(victima);
-        }
 
+            // Ejecutar robo
+            boolean roboExitoso = jugadorActual.robarRecurso(victima);
+
+            if (roboExitoso) {
+                System.out.println("Se robó un recurso a " + victima.getNombre());
+            } else {
+                System.out.println("La víctima no tenía recursos para robar.");
+            }
+        }
     }
 
     private Jugador getJugadorPorColor(Color color) {
@@ -211,7 +244,7 @@ public class ManagerTurno {
         try {
             tablero.mejoraACiudadEn(coordenada,jugadorActual.getColor());
         } catch (IllegalStateException e) {
-            // 3. ROLLBACK: Si falló (no era dueño, no había poblado, etc.), devolvemos la plata.
+            // ROLLBACK: Si falló (no era dueño, no había poblado, etc.), devolvemos la plata.
             servicioComercio.reembolsarCiudad(jugadorActual);
             throw e; // Avisar a la vista del error
         }
@@ -222,12 +255,10 @@ public class ManagerTurno {
         this.servicioComercio = servicioComercio;
     }
 
-    public void intercambiarConJugadores(Jugador jugador1, TipoDeRecurso recursoAentregar, int cantidadAentregar, TipoDeRecurso recursoArecibir, int cantidadArecibir, List<Jugador> jugadores){
+    public void intercambiarConJugadores(Jugador jugador1, TipoDeRecurso recursoAentregar, TipoDeRecurso recursoArecibir, List<Jugador> jugadores){
         servicioComercio.intercambiarConJugadores(jugador1,
                 recursoAentregar,
-                cantidadAentregar,
                 recursoArecibir,
-                cantidadArecibir,
                 jugadores);
     }
 
@@ -236,9 +267,11 @@ public class ManagerTurno {
 
         if (esperandoPoblado) {
 
-            // 1) Colocar poblado
+            //Colocar poblado
             Poblado poblado = new Poblado(jugador.getColor());
             Dividendo dividendo = colocarEn(poblado, coordenada);
+
+            contarPuntos();
 
             ultimaCoordenadaPoblado = coordenada;
             esperandoPoblado = false; // la próxima acción será colocar carretera
@@ -254,7 +287,6 @@ public class ManagerTurno {
 
         } else {
 
-            // 2) Colocar carretera conectada al último poblado
             Carretera carretera = new Carretera(jugador.getColor());
 
             colocarEn(carretera, coordenada);
@@ -287,4 +319,74 @@ public class ManagerTurno {
         return tablero;
     }
 
+    public Jugador buscarJugador(String nombre) {
+        return this.jugadores.stream()
+                .filter(jugador -> jugador.getNombre().equalsIgnoreCase(nombre)) // Compara ignorando mayúsculas
+                .findFirst()
+                .orElse(null); // Retorna null si no existe
+    }
+
+    public boolean estaEsperandoPobladoInicial() {
+        return this.esperandoPoblado;
+    }
+
+    public boolean haTerminadoFaseInicial() {
+        return ordenInicial.haTerminado();
+    }
+
+    // En ManagerTurno.java
+    public Coordenada getUltimaCoordenadaPoblado() {
+        return this.ultimaCoordenadaPoblado;
+    }
+
+    public String manejarLanzamientoDados(int suma) {
+        if (suma == 7) {
+            // Devuelve el reporte de quién perdió cartas
+            return aplicarReglaDescartePorSiete();
+        } else {
+            repartirDividendos(suma);
+            return "Se produjeron recursos.";
+        }
+    }
+
+    private String aplicarReglaDescartePorSiete() {
+        StringBuilder reporte = new StringBuilder();
+        boolean alguienDescarto = false;
+
+        for (Jugador j : jugadores) {
+            // Usamos el método existente en tu clase Jugador
+            if (j.totalRecursos() > 7) {
+                // Este método ya hace la lógica de borrar del almacén y retorna qué borró
+                Map<TipoDeRecurso, Integer> descartado = j.descartarMitadDeRecursos();
+
+                // Calculamos cuánto perdió para el mensaje
+                int cantidadPerdida = descartado.values().stream().mapToInt(Integer::intValue).sum();
+
+                reporte.append("- ").append(j.getNombre())
+                        .append(" descartó ").append(cantidadPerdida).append(" cartas.\n");
+                alguienDescarto = true;
+            }
+        }
+
+        if (!alguienDescarto) {
+            return "Nadie tenía más de 7 cartas.";
+        }
+        return reporte.toString();
+    }
+
+    public Jugador getRutaComercialLider() {
+        return granRutaComercial.getLider();
+    }
+
+    public Jugador getGranCaballeriaLider() {
+        return granCaballeria.getLider();
+    }
+
+    public GranRutaComercial getGranRutaComercial() {
+        return granRutaComercial;
+    }
+
+    public void notificarGranCaballeria() {
+        this.granCaballeria.registrarCaballeroJugado(this.getJugadorActual());
+    }
 }

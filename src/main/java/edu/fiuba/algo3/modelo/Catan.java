@@ -12,6 +12,7 @@ public class Catan implements PuntajeListener {
     private final List<Jugador> jugadores= new ArrayList<>();
     private Jugador ganador = null;
     private ManagerTurno managerTurno;
+    private static Catan instance = null;
 
     private List<Terreno> terrernos = Arrays.asList(
             new Bosque(),
@@ -67,6 +68,14 @@ public class Catan implements PuntajeListener {
         inicializar();
     }
 
+    public static Catan getInstance() {
+        if (instance==null){
+            instance=new Catan();
+
+        }
+        return instance;
+    }
+
     private void inicializar() {
         randomizarTerrenos();
         randomizarFichas();
@@ -89,7 +98,9 @@ public class Catan implements PuntajeListener {
             throw new IllegalStateException("No hay jugadores para iniciar");
         }
         this.managerTurno = new ManagerTurno(jugadores,this.crearTablero(), rng);
-   }
+
+    }
+
     public ManagerTurno getManagerTurno() {
         if (this.managerTurno == null) {
             throw new IllegalStateException("¡La partida no ha iniciado! Llama a iniciarPartida() primero.");
@@ -141,6 +152,10 @@ public class Catan implements PuntajeListener {
     }
 
     public void siguienteTurno() {
-        this.managerTurno.siguienteTurno();
+        this.managerTurno.siguienteTurnoInicial();
+    }
+
+    public void reset() {
+        instance = null;
     }
 }

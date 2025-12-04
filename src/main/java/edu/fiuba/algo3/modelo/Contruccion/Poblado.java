@@ -12,7 +12,6 @@ public class Poblado implements  Construccion,Productor, FichaComprable {
     public Poblado(Color color) {
         this.color = color;
     }
-    private Jugador propietario;
 
 
     @Override

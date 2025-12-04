@@ -1,5 +1,8 @@
 package edu.fiuba.algo3.controllers;
 
+import edu.fiuba.algo3.modelo.Catan;
+import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Recursos.*;
 import edu.fiuba.algo3.modelo.Tablero.Dados;
 import edu.fiuba.algo3.vistas.botones.BotonLanzarDados;
 import edu.fiuba.algo3.vistas.botones.BotonTerminarTurno;
@@ -27,21 +30,43 @@ public class ControladorLanzarDados implements EventHandler<ActionEvent> {
         this.botonTerminar = boton;
     }
 
-    @Override
-    public void handle(ActionEvent actionEvent) {
-        // 1. Lógica del Modelo
+@Override
+public void handle(ActionEvent actionEvent) {
+    try {
         int suma = dados.tirar();
         System.out.println("Dados lanzados: " + dados.getDado1() + " y " + dados.getDado2() + " (Suma: " + suma + ")");
 
-        // 2. Lógica de la Vista (Actualizar dibujos)
+
         vista.actualizarDadosVisuales(dados.getDado1(), dados.getDado2());
 
-        // 3. Bloquear el botón
-        if (botonLanzar != null) botonLanzar.setDisable(true);
+    } catch (Exception e) {
+        // Capturamos el error para que no congele la interfaz
+        System.out.println("ADVERTENCIA: Error procesando el turno (posible error de Color): " + e.getMessage());
+        e.printStackTrace(); // Útil para ver dónde falló exactamente
+    } finally {
 
-        // 3. DESBLOQUEAR EL BOTÓN TERMINAR (Ahora ya puede terminar)
-        if (botonTerminar != null) botonTerminar.setDisable(false);
+        // Deshabilitar botón lanzar para evitar loops infinitos
+        if (botonLanzar != null) {
+            botonLanzar.setDisable(true);
+        }
 
-        // Aquí podrías llamar a manager.repartirRecursos(suma);
+
+        int sumaActual = dados.getDado1() + dados.getDado2();
+        if (botonTerminar != null) {
+            if (sumaActual == 7) {
+                botonTerminar.setDisable(true);
+            } else {
+                botonTerminar.setDisable(false);
+            }
+        }
+        // comentar estas lineas, son para testear
+//        Catan.getInstance().getManagerTurno().getJugadorActual().agregarRecurso(new Madera(20));
+//        Catan.getInstance().getManagerTurno().getJugadorActual().agregarRecurso(new Ladrillo(20));
+//        Catan.getInstance().getManagerTurno().getJugadorActual().agregarRecurso(new Grano(20));
+//        Catan.getInstance().getManagerTurno().getJugadorActual().agregarRecurso(new Lana(20));
+//        Catan.getInstance().getManagerTurno().getJugadorActual().agregarRecurso(new Mineral(20));
+        vista.actualizarInventario();
     }
 }
+}
+

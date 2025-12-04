@@ -29,15 +29,15 @@ public class TableroFactory {
             new Axial(0, -1)   // 5
     };
     private static final Coordenada[][] POSICIONES_PUERTOS = {
-            { new Coordenada(1,0), new Coordenada(1,1) },
-            { new Coordenada(2,3), new Coordenada(2,4) },
-            { new Coordenada(4,3), new Coordenada(4,4) },
-            { new Coordenada(7,1), new Coordenada(7,2) },
-            { new Coordenada(8,0), new Coordenada(8,5) },
-            { new Coordenada(11,3), new Coordenada(11,4) },
-            { new Coordenada(14,1), new Coordenada(14,2) },
-            { new Coordenada(16,5), new Coordenada(16,0) },
-            { new Coordenada(19,2), new Coordenada(19,3) }
+            { new Coordenada(1,0), new Coordenada(1,5) },
+            { new Coordenada(2,0), new Coordenada(2,1) },
+            { new Coordenada(4,5), new Coordenada(4,4) },
+            { new Coordenada(7,1), new Coordenada(7,0) },
+            { new Coordenada(12,2), new Coordenada(12,1) },
+            { new Coordenada(13,4), new Coordenada(13,5) },
+            { new Coordenada(17,3), new Coordenada(17,4) },
+            { new Coordenada(16,2), new Coordenada(16,3) },
+            { new Coordenada(18,2), new Coordenada(18,3) }
     };
     private static final Puerto[] PUERTOS = {
             new Puerto(new PuertoGenerico(3)), new Puerto(new PuertoGenerico(3)), new Puerto(new PuertoGenerico(3)), new Puerto(new PuertoGenerico(3)),
@@ -73,7 +73,6 @@ public class TableroFactory {
 
         List<Axial> posicionesHexagonos = generarLayoutHexagonal();
 
-        // 1. Asignar hexágonos fijos a los terrenos
         for (int id = 1; id <= terrenos.size(); id++) {
             Terreno terrenoActual = terrenos.get(id - 1);
             terrenoActual.asignarHexagono(new Hexagono());
@@ -210,7 +209,7 @@ public class TableroFactory {
             Map<Coordenada, Vertice> verticesPorCoordenada,
             Map<String, Lado> ladosUnicos) {
 
-        // 1. Asignar puntas (v1, v2) a cada lado
+        //  Asignar puntas (v1, v2) a cada lado
         for (Map.Entry<Coordenada, Lado> entry : ladosPorCoordenada.entrySet()) {
             int hex = entry.getKey().numHex();
             int edge = entry.getKey().indice();
@@ -224,7 +223,7 @@ public class TableroFactory {
             lado.agregarPunta(v2);
         }
 
-        // 2. Conectar lados adyacentes
+        //Conectar lados adyacentes
         for (Lado lado : ladosUnicos.values()) {
             Vertice a = lado.getPunta(0);
             Vertice b = lado.getPunta(1);
@@ -309,17 +308,18 @@ public class TableroFactory {
     private static void asignarPuertos(Map<Coordenada, Vertice> verticesPorCoordenada,
                                       Random random) {
 
-        // 1. Copiar lista de puertos y mezclar
+        // Copiar lista de puertos y mezclar
         List<Puerto> lista = new ArrayList<>(Arrays.asList(PUERTOS));
         Collections.shuffle(lista, random);
 
-        // 2. Copiar y mezclar posiciones fijas de pares de vértices
+        //  Copiar y mezclar posiciones fijas de pares de vértices
         List<Coordenada[]> posiciones = new ArrayList<>(Arrays.asList(POSICIONES_PUERTOS));
         Collections.shuffle(posiciones, random);
 
-        // 3. Asignar cada puerto a su par de vértices
+        //  Asignar cada puerto a su par de vértices
         for (int i = 0; i < lista.size(); i++) {
             Puerto p = lista.get(i);
+
             Coordenada[] par = posiciones.get(i);
 
             Vertice v1 = verticesPorCoordenada.get(par[0]);

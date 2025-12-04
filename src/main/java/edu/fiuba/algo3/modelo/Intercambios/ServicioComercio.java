@@ -2,6 +2,7 @@ package edu.fiuba.algo3.modelo.Intercambios;
 
 import edu.fiuba.algo3.modelo.Cartas.*;
 import edu.fiuba.algo3.modelo.Color;
+import edu.fiuba.algo3.modelo.Contruccion.Carretera;
 import edu.fiuba.algo3.modelo.Contruccion.Ciudad;
 import edu.fiuba.algo3.modelo.Contruccion.Poblado;
 import edu.fiuba.algo3.modelo.Jugador;
@@ -88,52 +89,27 @@ public class ServicioComercio {
         }
 
         // Ejecutar intercambio
+        TipoDeRecurso recursoEntregadoCopia = recursoEntregado.nuevo(recursoEntregado.obtenerCantidad());
         jugador.quitarRecurso(recursoEntregado);
         jugador.agregarRecurso(recursoRecibido.nuevo(cantidadRecibida));
 
-        banco.recibir(recursoEntregado.nuevo(recursoEntregado.obtenerCantidad()));
+        banco.recibir(recursoEntregadoCopia);
         banco.entregar(recursoRecibido, cantidadRecibida);
     }
 
     public FichaComprable comprarObjeto(Jugador jugador, FichaComprable comprable) throws RecursosInsuficientesException {
         List<TipoDeRecurso> costo = comprable.costoRecursos();
 
-        procesarPago(jugador, costo);
+        if (jugador.necesitoPagar(comprable)) {
+            procesarPago(jugador, costo);
+        }
 
         return comprable;
     }
 
-//    public Poblado venderPoblado(Jugador jugador) throws RecursosInsuficientesException {
-//        //  Definir Costo (Madera, Ladrillo, Lana, Grano)
-//        List<TipoDeRecurso> costo = List.of(
-//                new Madera(1), new Ladrillo(1), new Lana(1), new Grano(1)
-//        );
-//
-//        procesarPago(jugador, costo);
-//
-//        return new Poblado(jugador.getColor()); // Asumiendo que Jugador tiene getColor()
-//    }
 
-//    public Ciudad venderCiudad(Jugador jugador) throws RecursosInsuficientesException {
-//        List<TipoDeRecurso> costo = List.of(
-//                new Grano(2), new Mineral(3)
-//        );
-//        procesarPago(jugador, costo);
-//        return new Ciudad(jugador.getColor());
-//    }
 
-//    public Carretera venderCarretera(Jugador comprador){
-//
-//        List<TipoDeRecurso> costo = List.of(
-//                new Madera(1), new Ladrillo(1)
-//        );
-//        procesarPago(comprador, costo);
-//
-//        return new Carretera(comprador.getColor());
-//
-//    }
-
-    public CartaDesarrollo venderCartaDesarrollo(Jugador comprador, int turno){
+    public CartaDesarrollo venderCartaDesarrollo(Jugador comprador, int turno) {
 
         List<TipoDeRecurso> costo = CartaDesarrollo.costoRecursos();
         procesarPago(comprador, costo);
@@ -144,15 +120,17 @@ public class ServicioComercio {
 
     // Método auxiliar para no repetir lógica de cobro
     private void procesarPago(Jugador jugador, List<TipoDeRecurso> costo) throws RecursosInsuficientesException {
-        jugador.pagar(costo);
 
         //Posible violacion de Tell Dont Ask
         //Jugador tienes esto ? -> "NO/Si" -> entonces hago esto
-//        for (TipoDeRecurso r : costo) {
-//            if (jugador.cantidadRecurso(r.nuevo(0)) < r.obtenerCantidad()) {
-//                throw new RecursosInsuficientesException("No tienes suficientes recursos: " + r.nombre());
-//            }
-//        }
+
+        for (TipoDeRecurso r : costo) {
+            if (!jugador.suficienteCantidad(r)) {
+                throw new RecursosInsuficientesException("No tienes suficientes recursos: " + r.nombre());
+            }
+        }
+
+        jugador.pagar(costo);
 
         for (TipoDeRecurso recurso : costo) {
             int cantidad = recurso.obtenerCantidad();
@@ -170,7 +148,12 @@ public class ServicioComercio {
         List<TipoDeRecurso> costo = new Ciudad(new Color("Indefinido")).costoRecursos();
         reembolsar(jugador, costo);
     }
-
+    public void reembolsarCamino(Jugador jugador) {
+        List<TipoDeRecurso> costo = List.of(
+                new Madera(1), new Ladrillo(1)
+        );
+        reembolsar(jugador, costo);
+    }
     private void reembolsar(Jugador jugador, List<TipoDeRecurso> costo) {
         for (TipoDeRecurso r : costo) {
             // El banco devuelve (entregar)
@@ -188,10 +171,11 @@ public class ServicioComercio {
         reembolsar(jugador, recursosElegidos);
     }
 
-    public void intercambiarConJugadores(Jugador jugador1, TipoDeRecurso recursoAentregar, int cantidadAentregar, TipoDeRecurso recursoArecibir, int cantidadArecibir, List<Jugador> jugadores) {
+    //Esto fue cambiado para que la cantidad este directamente en el recurso pasado como parametro en vez de ser un int separado.
+    public void intercambiarConJugadores(Jugador jugador1, TipoDeRecurso recursoAentregar, TipoDeRecurso recursoArecibir, List<Jugador> jugadores) {
         for (Jugador jugador : jugadores) {
             try {
-                jugador1.intercambiar(recursoAentregar, cantidadAentregar, jugador, recursoArecibir, cantidadArecibir);
+                jugador1.intercambiar(recursoAentregar, jugador, recursoArecibir);
                 break;
             } catch (RecursosIsuficientesException ignored) {
             }

@@ -13,6 +13,7 @@ import edu.fiuba.algo3.modelo.Tablero.Factory.Coordenada;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Produccion;
 import edu.fiuba.algo3.modelo.Tablero.Factory.TableroFactory;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Vertice;
+import edu.fiuba.algo3.modelo.Tablero.ReglaDistanciaException;
 import edu.fiuba.algo3.modelo.Tablero.Tablero;
 import edu.fiuba.algo3.modelo.Tablero.Terrenos.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -101,7 +102,7 @@ public class CasoDeUsoMejorarPoblado {
     }
 
     @Test
-    public void test02JugadorMejoraPobladoACiudadExitosamente() throws Exception {
+    public void test02JugadorMejoraPobladoACiudadExitosamente() throws Exception, ConstruccionExistenteException, ReglaDistanciaException {
         Tablero tablero = TableroFactory.crear(hexagonos, fichasNumeradas);
         ServicioComercio servicio = new ServicioComercio(banco);
         ManagerTurno manager = new ManagerTurno(List.of(jugador), tablero, new Random());

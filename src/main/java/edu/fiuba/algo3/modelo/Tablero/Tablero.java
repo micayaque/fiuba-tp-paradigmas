@@ -89,9 +89,8 @@ public class Tablero {
 
 
   
-    public List<List<Dividendo>> tirarDados(Dados dados){
-        int valor = dados.tirar();
-        return distribuirProduccion(valor);
+    public int tirarDados(Dados dados){
+        return dados.tirar();
 
     }
 
@@ -106,10 +105,7 @@ public class Tablero {
         if (vertice.tieneConstruccion() || vertice.tieneConstruccionAdyacente()) {
             throw new ReglaDistanciaException("No se puede construir tan cerca de otro poblado.");
         }
-        /*
-        construye directamente, falta implementar el chequeo de recursos del jugardor.
-        Con algo como jugador.recursosPoblado()
-        */
+
         try {
             vertice.colocar(new Poblado(jugador));
         } catch (ConstruccionExistenteException e) {
@@ -269,6 +265,18 @@ public class Tablero {
 
     public int obtenerPobladosPorColor(Color color) {
         return pobladosColocadosPorColor.getOrDefault(color, 0);
+    }
+
+    public Map<Coordenada, Vertice> getVertices() {
+        return vertices;
+    }
+
+    public Map<Coordenada, Vertice> getMapaVertices() {
+        return this.vertices;
+    }
+
+    public Map<Coordenada, Lado> getMapaLados() {
+        return this.lados;
     }
 }
 

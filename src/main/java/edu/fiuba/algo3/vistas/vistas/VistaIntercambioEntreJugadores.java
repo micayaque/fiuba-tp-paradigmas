@@ -11,8 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,8 +20,10 @@ import javafx.stage.StageStyle;
 import java.util.List;
 
 public class VistaIntercambioEntreJugadores extends Stage {
+    private static final String IMAGEN = "/imagenes/intercambioj.png";
 
-    public VistaIntercambioEntreJugadores(Stage owner, Catan catan) {
+    public VistaIntercambioEntreJugadores(Stage owner) {
+        Catan catan = Catan.getInstance();
         this.initOwner(owner);
         this.initModality(Modality.APPLICATION_MODAL); // Bloquea la ventana de atrás
         this.initStyle(StageStyle.UNDECORATED);
@@ -29,8 +31,14 @@ public class VistaIntercambioEntreJugadores extends Stage {
         VBox layout = new VBox(20);
         layout.setPadding(new Insets(20));
         layout.setAlignment(Pos.CENTER);
-        // Fondo oscuro con borde dorado (Estilo Comercio)
-        layout.setStyle("-fx-background-color: #2B3A55; -fx-border-color: #FFD700; -fx-border-width: 2;");
+        layout.setStyle(
+                "-fx-border-color: #dabf11;" +
+                        "-fx-border-width: 6;" +
+                        "-fx-border-radius: 0;"
+        );
+
+        configurarFondo(layout);
+
 
         Label titulo = new Label("INTERCAMBIO CON JUGADOR");
         titulo.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px; -fx-font-weight: bold;");
@@ -52,7 +60,7 @@ public class VistaIntercambioEntreJugadores extends Stage {
         panelDoy.setAlignment(Pos.CENTER);
 
         ComboBox<String> cmbRecursoDoy = new ComboBox<>();
-        cmbRecursoDoy.getItems().addAll("Madera", "Ladrillo", "Oveja", "Trigo", "Piedra");
+        cmbRecursoDoy.getItems().addAll("Madera", "Ladrillo", "Lana", "Grano", "Mineral");
         cmbRecursoDoy.setPromptText("Doy...");
 
         TextField txtCantDoy = new TextField("1"); // Valor por defecto 1
@@ -68,7 +76,7 @@ public class VistaIntercambioEntreJugadores extends Stage {
         panelPido.setAlignment(Pos.CENTER);
 
         ComboBox<String> cmbRecursoPido = new ComboBox<>();
-        cmbRecursoPido.getItems().addAll("Madera", "Ladrillo", "Oveja", "Trigo", "Piedra");
+        cmbRecursoPido.getItems().addAll("Madera", "Ladrillo", "Lana", "Grano", "Mineral");
         cmbRecursoPido.setPromptText("Pido...");
 
         TextField txtCantPido = new TextField("1");
@@ -89,8 +97,7 @@ public class VistaIntercambioEntreJugadores extends Stage {
         btnConfirmar.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;");
 
         // CONECTAMOS EL CONTROLADOR ESPECÍFICO
-        ControladorProponerTrato controlador = new ControladorProponerTrato(
-                catan, this,
+        ControladorProponerTrato controlador = new ControladorProponerTrato(this,
                 cmbJugadores,
                 cmbRecursoDoy, txtCantDoy,
                 cmbRecursoPido, txtCantPido
@@ -104,4 +111,43 @@ public class VistaIntercambioEntreJugadores extends Stage {
         Scene scene = new Scene(layout, 400, 350);
         this.setScene(scene);
     }
+
+    private void configurarFondo(Region region) {
+        try {
+            java.net.URL url = getClass().getResource(IMAGEN);
+
+            if (url == null) {
+                System.out.println("BUSCADO EN: " + IMAGEN);
+                System.out.println("--------------------------------------------------");
+
+                region.setStyle(
+                        "-fx-background-color: #2B3A55;" +
+                                "-fx-border-color: #dabf11;" +
+                                "-fx-border-width: 6;"
+                );
+                return;
+            }
+
+            Image imagen = new Image(url.toExternalForm());
+
+            BackgroundImage fondoImagen = new BackgroundImage(
+                    imagen,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(100, 100, true, true, false, true)
+            );
+
+            region.setBackground(new Background(fondoImagen));
+
+        } catch (Exception e) {
+            System.out.println("Excepción cargando imagen: " + e.getMessage());
+            region.setStyle(
+                    "-fx-background-color: #2B3A55;" +
+                            "-fx-border-color: #dabf11;" +
+                            "-fx-border-width: 6;"
+            );
+        }
+    }
+
 }

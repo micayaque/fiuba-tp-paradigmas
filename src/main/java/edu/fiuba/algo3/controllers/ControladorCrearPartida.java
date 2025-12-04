@@ -53,12 +53,12 @@ public class ControladorCrearPartida implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        Catan catan = new Catan();
+        Catan catan = Catan.getInstance();
         crearJugadores(catan);
         try {
 
             catan.iniciarPartida();
-            VistaTablero2 vistaJuego = new VistaTablero2(stage, pantallaPrincipal, catan);
+            VistaTablero2 vistaJuego = new VistaTablero2(stage, pantallaPrincipal);
             pantallaPrincipal.setCentro(vistaJuego);
 
         } catch (Exception e) {
