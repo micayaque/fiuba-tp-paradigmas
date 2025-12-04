@@ -14,6 +14,9 @@ public class PuertoEspecifico implements PoliticaDeIntercambio {
         this.tasa = tasa;
     }
 
+    public TipoDeRecurso getRecurso() {
+        return recurso;
+    }
 
     @Override
     public boolean aplicaA(Jugador jugador, TipoDeRecurso recursoEntregado) {

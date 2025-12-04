@@ -44,14 +44,13 @@ public void handle(ActionEvent actionEvent) {
         System.out.println("ADVERTENCIA: Error procesando el turno (posible error de Color): " + e.getMessage());
         e.printStackTrace(); // Útil para ver dónde falló exactamente
     } finally {
-        // 3. ESTE BLOQUE SIEMPRE SE EJECUTA (Éxito o Error)
 
         // Deshabilitar botón lanzar para evitar loops infinitos
         if (botonLanzar != null) {
             botonLanzar.setDisable(true);
         }
 
-        // Gestionar botón terminar (Salvo que sea un 7 que bloquea el turno)
+
         int sumaActual = dados.getDado1() + dados.getDado2();
         if (botonTerminar != null) {
             if (sumaActual == 7) {
@@ -60,7 +59,7 @@ public void handle(ActionEvent actionEvent) {
                 botonTerminar.setDisable(false);
             }
         }
-
+        // comentar estas lineas, son para testear
         Catan.getInstance().getManagerTurno().getJugadorActual().agregarRecurso(new Madera(20));
         Catan.getInstance().getManagerTurno().getJugadorActual().agregarRecurso(new Ladrillo(20));
         Catan.getInstance().getManagerTurno().getJugadorActual().agregarRecurso(new Grano(20));

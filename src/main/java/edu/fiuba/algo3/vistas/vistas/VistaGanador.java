@@ -24,9 +24,12 @@ import javafx.stage.Stage;
 
 public class VistaGanador extends StackPane {
 
+    private static final String IMAGEN_RUTA = "imagenes/pantalla-inicial.png";
+
     public VistaGanador(Stage stage, PantallaPrincipal pantallaPrincipal, Jugador ganador) {
         // Fondo Oscuro
-        this.setBackground(new Background(new BackgroundFill(Color.web("#233850"), null, null)));
+        //this.setBackground(new Background(new BackgroundFill(Color.web("#233850"), null, null)));
+        configurarFondo();
 
         VBox contenido = new VBox(30);
         contenido.setAlignment(Pos.CENTER);
@@ -59,5 +62,16 @@ public class VistaGanador extends StackPane {
 
         contenido.getChildren().addAll(lblTitulo, lblGanador, lblPuntos, botones);
         this.getChildren().add(contenido);
+    }
+
+    private void configurarFondo() {
+        Image imagen = new Image(IMAGEN_RUTA);
+        BackgroundImage fondoImagen = new BackgroundImage(imagen,
+                BackgroundRepeat.ROUND,
+                BackgroundRepeat.SPACE,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, false));
+        Background fondo = new Background(fondoImagen);
+        super.setBackground(fondo);
     }
 }
