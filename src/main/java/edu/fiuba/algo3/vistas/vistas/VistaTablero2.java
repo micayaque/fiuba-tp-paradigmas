@@ -1090,7 +1090,6 @@ private Group agregarTerrenos() {
                     } else if (politica instanceof PuertoEspecifico) {
                         PuertoEspecifico pe = (PuertoEspecifico) politica;
 
-                        // Asumo que agregaste getRecurso() en PuertoEspecifico
                         TipoDeRecurso recurso = pe.getRecurso();
                         String nombreRecurso = (recurso != null) ? recurso.nombre() : "";
 
