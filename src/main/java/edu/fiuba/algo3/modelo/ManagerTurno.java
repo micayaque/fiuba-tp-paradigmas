@@ -69,9 +69,9 @@ public class ManagerTurno {
         CartaDesarrollo cartaComprada = servicioComercio.venderCartaDesarrollo(jugador, numeroTurnoActual);
         cartaComprada.setTurnoDeCompra(this.numeroTurnoActual);
         jugador.agregarCarta(cartaComprada);
-        if(cartaComprada instanceof PuntoDeVictoria){
-            jugador.sumarPuntoDeVictoriaOculto();
-        }
+//        if(cartaComprada instanceof PuntoDeVictoria){
+//            jugador.sumarPuntoDeVictoriaOculto();
+//        }
     }
 
     public void construirCarretera(Coordenada coordenada) throws ConstruccionExistenteException, ReglaConstruccionException {
@@ -165,7 +165,7 @@ public class ManagerTurno {
 //        jugador.actualizarPuntosDeVictoria(pv);
         Jugador jugadorAPuntuar = ordenInicial.haTerminado() ? getJugadorActual() : getJugadorActualInicial();
 
-        PuntajeDeVictoria pv = tablero.calcularPuntosDeVictoriaPorConstruccion(jugadorAPuntuar.getColor());
+         PuntajeDeVictoria pv= tablero.calcularPuntosDeVictoriaPorConstruccion(jugadorAPuntuar.getColor());
         jugadorAPuntuar.actualizarPuntosDeVictoria(pv);
     }
 
@@ -380,5 +380,13 @@ public class ManagerTurno {
 
     public Jugador getGranCaballeriaLider() {
         return granCaballeria.getLider();
+    }
+
+    public GranRutaComercial getGranRutaComercial() {
+        return granRutaComercial;
+    }
+
+    public void notificarGranCaballeria() {
+        this.granCaballeria.registrarCaballeroJugado(this.getJugadorActual());
     }
 }
