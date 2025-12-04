@@ -100,7 +100,7 @@ public class ManagerTurno {
         Jugador jugadorActual = getJugadorActual();
         CartaDesarrollo cartaSeleccionada = jugadorActual.agarrarCarta(indice);
         if (!cartaSeleccionada.sePuedeUsar(this.numeroTurnoActual)) {
-            throw new RuntimeException("No puedes usar una carta el mismo turno que la compraste.");
+            throw new ReglaDeCompraYUsoException("No puedes usar una carta el mismo turno que la compraste.");
         }
         try {
             cartaSeleccionada.ejecutarEfecto(jugadorActual, this.tablero, this.jugadores);
