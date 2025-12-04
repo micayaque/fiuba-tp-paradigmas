@@ -31,25 +31,37 @@ public class ControladorPanelJugadores {
 
     public void actualizarRutaComercial() {
         Jugador lider= juego.getManagerTurno().getRutaComercialLider();
-        if(!lider.equals(liderCamino) && liderCamino!=null){
-            HBox panelLiderAntiguo= panelesPorJugador.get(liderCamino);
-            vista.actualizarRutaComercial( panelLiderAntiguo,0.3);
+        if (liderCamino != null && !liderCamino.equals(lider)) {
+            HBox panelLiderAntiguo = panelesPorJugador.get(liderCamino);
+            if (panelLiderAntiguo != null) {
+                vista.actualizarRutaComercial(panelLiderAntiguo, 0.3); // Opacidad baja
+            }
         }
         liderCamino=lider;
-        HBox panelLider = panelesPorJugador.get(lider);
 
-        vista.actualizarRutaComercial( panelLider,1);
+        if (lider!= null) {
+            HBox panelLider = panelesPorJugador.get(lider);
+            if (panelLider != null) {
+                vista.actualizarRutaComercial(panelLider, 1.0); // Opacidad total
+            }
+        }
     }
 
     public void actualizarGranCaballeria() {
         Jugador lider= juego.getManagerTurno().getGranCaballeriaLider();
-        if(!lider.equals(liderCaballeria) && liderCaballeria!=null){
-            HBox panelLiderAntiguo= panelesPorJugador.get(liderCaballeria);
-            vista.actualizarGranCaballeria( panelLiderAntiguo,0.3);
+        if (liderCaballeria != null && !liderCaballeria.equals(lider)) {
+            HBox panelLiderAntiguo = panelesPorJugador.get(liderCaballeria);
+            if (panelLiderAntiguo != null) {
+                vista.actualizarGranCaballeria(panelLiderAntiguo, 0.3);
+            }
         }
         liderCaballeria=lider;
-        HBox panelLider = panelesPorJugador.get(lider);
-        vista.actualizarGranCaballeria(panelLider,1);
+        if (lider != null) {
+            HBox panelLider = panelesPorJugador.get(lider);
+            if (panelLider != null) {
+                vista.actualizarGranCaballeria(panelLider, 1.0);
+            }
+        }
     }
 
 
