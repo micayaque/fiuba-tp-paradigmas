@@ -8,7 +8,7 @@ import java.util.Map;
 public class GranCaballeria {
 
     private Jugador lider = null;
-    private static final int MINIMO_NECESARIO = 3;
+    private static final int MINIMO_NECESARIO = 2;
 
     public void registrarCaballeroJugado(Jugador aspirante) {
         int cantidadDelAspirante = aspirante.getCantidadCaballerosUsados();
