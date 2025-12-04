@@ -206,7 +206,6 @@ private Group agregarTerrenos() {
         }
     }
 
-    // 3. Agregar resto de capas
     dibujarPuertos(hexRadius);
 
     root.getChildren().add(this.grupoPuertos);
@@ -227,7 +226,6 @@ private Group agregarTerrenos() {
 }
 
 
-    // He unificado tus métodos createHexagon y añadido lógica de Ladrón
     private Polygon createHexagon(double x, double y, double radius, Terreno terreno) {
         Polygon hexagon = new Polygon();
         double angleOffset = Math.PI / 6;
