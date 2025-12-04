@@ -5,4 +5,6 @@ public interface IEstadoCarta {
     IEstadoCarta actualizarEstado();
 
     void comprobarUso();
+
+    boolean estaUsada();
 }

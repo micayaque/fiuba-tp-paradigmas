@@ -50,4 +50,8 @@ abstract public class CartaDesarrollo {
         this.estado.comprobarUso();
     }
     public abstract void ejecutarEfecto(Jugador jugador, Tablero tablero, List<Jugador> oponentes);
+
+    public boolean estaUsada() {
+        return estado.estaUsada();
+    }
 }

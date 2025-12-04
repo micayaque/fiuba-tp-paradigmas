@@ -14,4 +14,9 @@ public class EstadoCartaDisponible implements IEstadoCarta{
     @Override
     public void comprobarUso() {
     }
+
+    @Override
+    public boolean estaUsada() {
+        return false;
+    }
 }

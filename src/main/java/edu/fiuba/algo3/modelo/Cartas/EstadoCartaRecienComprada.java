@@ -17,4 +17,9 @@ public class EstadoCartaRecienComprada implements IEstadoCarta{
     public void comprobarUso() {
         throw new ReglaDeCompraYUsoException("La carta no puede ser usada el mismo turno en el que se compra.");
     }
+
+    @Override
+    public boolean estaUsada() {
+        return false;
+    }
 }

@@ -17,4 +17,9 @@ public class EstadoCartaUsada implements IEstadoCarta{
     public void comprobarUso() {
         throw new ReglaDeCompraYUsoException("Esta carta ya fue utilizada.");
     }
+
+    @Override
+    public boolean estaUsada() {
+        return true;
+    }
 }

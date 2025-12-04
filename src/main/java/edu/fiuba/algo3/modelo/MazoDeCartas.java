@@ -85,7 +85,7 @@ public class MazoDeCartas {
     public int contarPor(Predicate<CartaDesarrollo> criterio) {
         int cantidad = 0;
         for (CartaDesarrollo carta : cartas) {
-            if (criterio.test(carta)) {
+            if (criterio.test(carta) & !carta.estaUsada()) {
                 cantidad++;
             }
         }
