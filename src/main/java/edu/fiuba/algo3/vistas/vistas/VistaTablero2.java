@@ -6,6 +6,8 @@ import edu.fiuba.algo3.modelo.Cartas.CartaConstruccionCarreteras;
 import edu.fiuba.algo3.modelo.Cartas.CartaDesarrollo;
 import edu.fiuba.algo3.modelo.Catan;
 
+import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
+import edu.fiuba.algo3.modelo.Intercambios.Puerto;
 import edu.fiuba.algo3.modelo.Jugador;
 
 import edu.fiuba.algo3.modelo.ManagerTurno;
@@ -13,6 +15,12 @@ import edu.fiuba.algo3.modelo.Tablero.ConstruccionExistenteException;
 import edu.fiuba.algo3.modelo.Tablero.Dados;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Axial;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Coordenada;
+
+
+import edu.fiuba.algo3.modelo.Intercambios.PoliticaDeIntercambio;
+import edu.fiuba.algo3.modelo.Intercambios.PuertoEspecifico;
+import edu.fiuba.algo3.modelo.Intercambios.PuertoGenerico;
+import edu.fiuba.algo3.modelo.Recursos.TipoDeRecurso;
 
 import edu.fiuba.algo3.modelo.Tablero.Factory.ReglaConstruccionException;
 import edu.fiuba.algo3.modelo.Tablero.Factory.Vertice;
@@ -921,87 +929,211 @@ private Group agregarTerrenos() {
     }
 
 
+
+//    private void dibujarPuertos(double hexRadius) {
+//        grupoPuertos.getChildren().clear();
+//        Tablero tablero = Catan.getInstance().getTablero();
+//
+//        // Set para evitar duplicados
+//        java.util.Set<Vertice> visitados = new java.util.HashSet<>();
+//
+//        // Distancia extra desde el vértice hacia afuera
+//        double distanciaExtra = 25.0;
+//
+//        for (Map.Entry<Coordenada, Vertice> entry : tablero.getMapaVertices().entrySet()) {
+//            Vertice v = entry.getValue();
+//            Coordenada coord = entry.getKey();
+//
+//            if (v != null && v.esPuerto() && !visitados.contains(v)) {
+//                visitados.add(v);
+//
+//                Terreno t = tablero.getTerrenos().get(coord.numHex());
+//                if (t == null) continue;
+//
+//                Axial pos = t.getPosicion();
+//                double xCentro = hexRadius * Math.sqrt(3) * (pos.q + pos.r / 2.0);
+//                double yCentro = hexRadius * 1.5 * pos.r;
+//
+//                int i = coord.indice();
+//                double angle = (Math.PI / 2) + i * (Math.PI / 3) + Math.PI;
+//
+//                // Posición del Vértice (Donde iría la el poblado)
+//                double xVertice = xCentro + hexRadius * Math.cos(angle);
+//                double yVertice = yCentro + hexRadius * Math.sin(angle);
+//
+//                //Posición del Puerto (Más afuera)
+//                double radioPuerto = hexRadius + distanciaExtra;
+//                double xPuerto = xCentro + radioPuerto * Math.cos(angle);
+//                double yPuerto = yCentro + radioPuerto * Math.sin(angle);
+//
+//                // --- DIBUJAR ---
+//
+//                // A. Línea conectora (Muelle)
+//                Line lineaConectora = new Line(xVertice, yVertice, xPuerto, yPuerto);
+//                lineaConectora.setStroke(Color.SADDLEBROWN);
+//                lineaConectora.setStrokeWidth(4);
+//                lineaConectora.setMouseTransparent(true);
+//
+//                // B. Círculo del puerto (La plataforma)
+//                Circle plataforma = new Circle(xPuerto, yPuerto, 14);
+//                plataforma.setFill(Color.SADDLEBROWN);
+//                plataforma.setStroke(Color.WHITE);
+//                plataforma.setStrokeWidth(2);
+//
+//                //  Lógica de Texto y Color según Tasa
+//                String texto = "?";
+//                Color colorTexto = Color.WHITE;
+//
+//                try {
+//                    String desc = v.obtenerPoliticaDeIntercambio().toString().toLowerCase();
+//
+//                    if (v.obtenerPoliticaDeIntercambio().tasa() == 3) {
+//                        texto = "3:1";
+//                    } else {
+//                        // Es 2:1, intentamos adivinar el recurso por el string o lo ponemos genérico
+//                        if (desc.contains("madera")) { texto = "Mad"; colorTexto = Color.LIGHTGREEN; }
+//                        else if (desc.contains("ladrillo")) { texto = "Lad"; colorTexto = Color.TOMATO; }
+//                        else if (desc.contains("lana")) { texto = "Lan"; colorTexto = Color.LIGHTGREEN; }
+//                        else if (desc.contains("grano")) { texto = "Gra"; colorTexto = Color.GOLD; }
+//                        else if (desc.contains("mineral")) { texto = "Min"; colorTexto = Color.LIGHTGRAY; }
+//                        else { texto = "2:1"; }
+//                    }
+//                } catch (Exception e) { texto = "P"; }
+//
+//                Label lbl = new Label(texto);
+//                lbl.setFont(Font.font("Arial", FontWeight.BOLD, 10));
+//                lbl.setTextFill(colorTexto);
+//                lbl.setTranslateX(xPuerto - 9);
+//                lbl.setTranslateY(yPuerto - 7);
+//                lbl.setMouseTransparent(true);
+//
+//                grupoPuertos.getChildren().addAll(lineaConectora, plataforma, lbl);
+//            }
+//        }
+//    }
+
     private void dibujarPuertos(double hexRadius) {
+
         grupoPuertos.getChildren().clear();
         Tablero tablero = Catan.getInstance().getTablero();
 
-        // Set para evitar duplicados
+        // Evitar dibujar el mismo vértice-puerto más de una vez
         java.util.Set<Vertice> visitados = new java.util.HashSet<>();
 
-        // Distancia extra desde el vértice hacia afuera
+        // Qué tan afuera del hexágono dibujamos el círculo del puerto
         double distanciaExtra = 25.0;
 
         for (Map.Entry<Coordenada, Vertice> entry : tablero.getMapaVertices().entrySet()) {
+
             Vertice v = entry.getValue();
             Coordenada coord = entry.getKey();
 
-            if (v != null && v.esPuerto() && !visitados.contains(v)) {
-                visitados.add(v);
-
-                Terreno t = tablero.getTerrenos().get(coord.numHex());
-                if (t == null) continue;
-
-                Axial pos = t.getPosicion();
-                double xCentro = hexRadius * Math.sqrt(3) * (pos.q + pos.r / 2.0);
-                double yCentro = hexRadius * 1.5 * pos.r;
-
-                int i = coord.indice();
-                double angle = (Math.PI / 2) + i * (Math.PI / 3) + Math.PI;
-
-                // Posición del Vértice (Donde iría la el poblado)
-                double xVertice = xCentro + hexRadius * Math.cos(angle);
-                double yVertice = yCentro + hexRadius * Math.sin(angle);
-
-                //Posición del Puerto (Más afuera)
-                double radioPuerto = hexRadius + distanciaExtra;
-                double xPuerto = xCentro + radioPuerto * Math.cos(angle);
-                double yPuerto = yCentro + radioPuerto * Math.sin(angle);
-
-                // --- DIBUJAR ---
-
-                // A. Línea conectora (Muelle)
-                Line lineaConectora = new Line(xVertice, yVertice, xPuerto, yPuerto);
-                lineaConectora.setStroke(Color.SADDLEBROWN);
-                lineaConectora.setStrokeWidth(4);
-                lineaConectora.setMouseTransparent(true);
-
-                // B. Círculo del puerto (La plataforma)
-                Circle plataforma = new Circle(xPuerto, yPuerto, 14);
-                plataforma.setFill(Color.SADDLEBROWN);
-                plataforma.setStroke(Color.WHITE);
-                plataforma.setStrokeWidth(2);
-
-                //  Lógica de Texto y Color según Tasa
-                String texto = "?";
-                Color colorTexto = Color.WHITE;
-
-                try {
-                    String desc = v.obtenerPoliticaDeIntercambio().toString().toLowerCase();
-
-                    if (v.obtenerPoliticaDeIntercambio().tasa() == 3) {
-                        texto = "3:1";
-                    } else {
-                        // Es 2:1, intentamos adivinar el recurso por el string o lo ponemos genérico
-                        if (desc.contains("madera")) { texto = "Mad"; colorTexto = Color.LIGHTGREEN; }
-                        else if (desc.contains("ladrillo")) { texto = "Lad"; colorTexto = Color.TOMATO; }
-                        else if (desc.contains("lana")) { texto = "Lan"; colorTexto = Color.LIGHTGREEN; }
-                        else if (desc.contains("grano")) { texto = "Gra"; colorTexto = Color.GOLD; }
-                        else if (desc.contains("mineral")) { texto = "Min"; colorTexto = Color.LIGHTGRAY; }
-                        else { texto = "2:1"; }
-                    }
-                } catch (Exception e) { texto = "P"; }
-
-                Label lbl = new Label(texto);
-                lbl.setFont(Font.font("Arial", FontWeight.BOLD, 10));
-                lbl.setTextFill(colorTexto);
-                lbl.setTranslateX(xPuerto - 9);
-                lbl.setTranslateY(yPuerto - 7);
-                lbl.setMouseTransparent(true);
-
-                grupoPuertos.getChildren().addAll(lineaConectora, plataforma, lbl);
+            // Solo vértices que sean puerto y que no hayamos procesado aún
+            if (v == null || !v.esPuerto() || visitados.contains(v)) {
+                continue;
             }
+            visitados.add(v);
+
+            Terreno t = tablero.getTerrenos().get(coord.numHex());
+            if (t == null) continue;
+
+            Axial pos = t.getPosicion();
+
+            // Centro del hexágono al que pertenece este vértice
+            double xCentro = hexRadius * Math.sqrt(3) * (pos.q + pos.r / 2.0);
+            double yCentro = hexRadius * 1.5 * pos.r;
+
+            // Índice del vértice (0..5)
+            int i = coord.indice();
+
+            // Mismo esquema de ángulos que usás en el resto de la vista
+            double angle = (Math.PI / 2) + i * (Math.PI / 3) + Math.PI;
+
+            // Posición del vértice donde iría el poblado/ciudad
+            double xVertice = xCentro + hexRadius * Math.cos(angle);
+            double yVertice = yCentro + hexRadius * Math.sin(angle);
+
+            // Posición del puerto, un poco más afuera
+            double radioPuerto = hexRadius + distanciaExtra;
+            double xPuerto = xCentro + radioPuerto * Math.cos(angle);
+            double yPuerto = yCentro + radioPuerto * Math.sin(angle);
+
+            // --- DIBUJO ---
+
+            // A. Línea marrón que conecta vértice con puerto (muelle)
+            Line lineaConectora = new Line(xVertice, yVertice, xPuerto, yPuerto);
+            lineaConectora.setStroke(Color.SADDLEBROWN);
+            lineaConectora.setStrokeWidth(4);
+            lineaConectora.setMouseTransparent(true);
+
+            // B. Círculo del puerto
+            Circle plataforma = new Circle(xPuerto, yPuerto, 14);
+            plataforma.setFill(Color.SADDLEBROWN);
+            plataforma.setStroke(Color.WHITE);
+            plataforma.setStrokeWidth(2);
+
+            // C. Texto: tasa + recurso (si es específico)
+            String texto = "?";
+            Color colorTexto = Color.WHITE;
+
+            try {
+                PoliticaDeIntercambio politica = v.obtenerPoliticaDeIntercambio();
+
+                if (politica != null) {
+                    int tasa = politica.tasa();
+
+                    if (politica instanceof PuertoGenerico) {
+                        // Puerto 3:1 genérico
+                        texto = tasa + ":1";          // "3:1"
+                        colorTexto = Color.WHITE;
+
+                    } else if (politica instanceof PuertoEspecifico) {
+                        PuertoEspecifico pe = (PuertoEspecifico) politica;
+
+                        // Asumo que agregaste getRecurso() en PuertoEspecifico
+                        TipoDeRecurso recurso = pe.getRecurso();
+                        String nombreRecurso = (recurso != null) ? recurso.nombre() : "";
+
+                        // Ej: "2:1\nMadera"
+                        texto = tasa + ":1\n" + nombreRecurso;
+
+                        String lower = nombreRecurso.toLowerCase();
+                        if (lower.contains("madera"))      colorTexto = Color.LIGHTGREEN;
+                        else if (lower.contains("ladrillo")) colorTexto = Color.TOMATO;
+                        else if (lower.contains("lana"))     colorTexto = Color.LIGHTGREEN;
+                        else if (lower.contains("grano"))    colorTexto = Color.GOLD;
+                        else if (lower.contains("mineral"))  colorTexto = Color.LIGHTGRAY;
+                        else                                 colorTexto = Color.WHITE;
+
+                    } else {
+                        // Cualquier otra implementación rara de PoliticaDeIntercambio
+                        texto = tasa + ":1";
+                        colorTexto = Color.WHITE;
+                    }
+                } else {
+                    texto = "";
+                }
+
+            } catch (Exception e) {
+                texto = "?";
+                colorTexto = Color.WHITE;
+            }
+
+            Label lbl = new Label(texto);
+            lbl.setFont(Font.font("Arial", FontWeight.BOLD, 10));
+            lbl.setTextFill(colorTexto);
+            lbl.setMouseTransparent(true);
+            lbl.setTextAlignment(TextAlignment.CENTER);
+
+            // Ajuste a mano para centrar texto sobre el círculo
+            lbl.setTranslateX(xPuerto - 14);
+            lbl.setTranslateY(yPuerto - 10);
+
+            grupoPuertos.getChildren().addAll(lineaConectora, plataforma, lbl);
         }
     }
+
+
 
     private void mostrarLugaresPoblado() {
         grupoSugestiones.getChildren().clear();

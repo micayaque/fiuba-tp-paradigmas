@@ -122,10 +122,14 @@ public class Vertice{
         return puerto != null;
     }
 
+    public Puerto getPuerto() { return puerto; }
+
+
     public PoliticaDeIntercambio obtenerPoliticaDeIntercambio() {
 
         return this.puerto.getPolitica();
     }
+
     public boolean esCiudad() {
         // Si no hay construcción, no es ciudad
         if (this.tipo == null) {
