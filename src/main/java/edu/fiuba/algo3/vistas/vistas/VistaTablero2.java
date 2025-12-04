@@ -58,6 +58,7 @@ import java.util.*;
 public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos BorderPane
     private static final double ANCHO_VENTANA = 1280;
     private static final double ALTO_VENTANA = 720;
+    private static final String IMAGEN_RUTA = "imagenes/mapafondotablero.png";
 
 
     private HBox contenedorDadosVisuales;
@@ -102,7 +103,11 @@ public class VistaTablero2 extends BorderPane { // CAMBIO: Ahora extendemos Bord
 
     public VistaTablero2(Stage stage, PantallaPrincipal pantallaPrincipal) {
 
-        this.setBackground(new Background(new BackgroundFill(Color.web("#233850"), null, null)));
+        this.setPrefSize(ANCHO_VENTANA, ALTO_VENTANA);
+        stage.setMinWidth(ANCHO_VENTANA);
+        stage.setMinHeight(ALTO_VENTANA);
+        //this.setBackground(new Background(new BackgroundFill(Color.web("#233850"), null, null)));
+        configurarFondo();
         this.stage = stage;
         this.pantallaPrincipal = pantallaPrincipal;
         StackPane contenedorMapa = new StackPane(agregarTerrenos());
@@ -302,22 +307,71 @@ private Group agregarTerrenos() {
 
 
 
-    private VBox crearPanelDerecho() {
-        VBox panel = new VBox();
-        panel.setPadding(new Insets(20));
-        panel.setPrefWidth(300);
-        panel.setAlignment(Pos.TOP_CENTER);
+//    private VBox crearPanelDerecho() {
+//        VBox panel = new VBox();
+//        panel.setPadding(new Insets(20));
+//        panel.setPrefWidth(300);
+//        panel.setAlignment(Pos.TOP_CENTER);
+//
+//        // 1. ZONA JUGADORES (Dinámica)
+//        this.contenedorInfoJugadores = new VBox();
+//        this.contenedorInfoJugadores.setSpacing(10); // Espacio entre fichas de jugadores
+//        actualizarPanelJugadores(); // Llenar por primera vez
+//
+//        // 2. ESPACIADOR
+//        Region spacer = new Region();
+//        VBox.setVgrow(spacer, Priority.ALWAYS);
+//
+//        // 3. ZONA DADOS Y CONTROLES (Estática)
+//        this.contenedorDadosVisuales = new HBox(15);
+//        this.contenedorDadosVisuales.setAlignment(Pos.CENTER);
+//
+//        Dados dados = new Dados();
+//        ControladorLanzarDados controladorLanzar = new ControladorLanzarDados(dados, this);
+//        this.btnLanzar = new BotonLanzarDados(controladorLanzar);
+//
+//        ControladorTerminarTurno controladorTerminarTurno = new ControladorTerminarTurno(btnLanzar, this);
+//        this.btnTerminar = new BotonTerminarTurno(controladorTerminarTurno);
+//
+//        // Configuración inicial de botones
+//        btnTerminar.setDisable(true);
+//        controladorLanzar.setBoton(btnLanzar);
+//        controladorLanzar.setBotonTerminar(btnTerminar);
+//        controladorTerminarTurno.setBotonTerminar(btnTerminar);
+//
+//        HBox contenedorBotones = new HBox(15);
+//        contenedorBotones.setAlignment(Pos.CENTER);
+//        contenedorBotones.getChildren().addAll(btnLanzar, btnTerminar);
+//
+//        VBox zonaControl = new VBox(20);
+//        zonaControl.setAlignment(Pos.CENTER);
+//        zonaControl.getChildren().addAll(this.contenedorDadosVisuales, contenedorBotones);
+//
+//        // 4. ARMAR EL PANEL FINAL
+//        panel.getChildren().addAll(this.contenedorInfoJugadores, spacer, zonaControl);
+//
+//        // Dibujo inicial de dados
+//        soloDibujarDados(1, 1);
+//
+//        return panel;
+//    }
 
-        // 1. ZONA JUGADORES (Dinámica)
-        this.contenedorInfoJugadores = new VBox();
-        this.contenedorInfoJugadores.setSpacing(10); // Espacio entre fichas de jugadores
-        actualizarPanelJugadores(); // Llenar por primera vez
+    private Pane crearPanelDerecho() {
 
-        // 2. ESPACIADOR
-        Region spacer = new Region();
-        VBox.setVgrow(spacer, Priority.ALWAYS);
+        // Usamos BorderPane para separar claramente TOP (jugadores) y BOTTOM (dados+botones)
+        BorderPane panel = new BorderPane();
+        panel.setPrefWidth(280);
+        panel.setMinWidth(260);
+        panel.setPadding(new Insets(10, 15, 10, 10));
 
-        // 3. ZONA DADOS Y CONTROLES (Estática)
+        // --- ZONA JUGADORES (arriba) ---
+        this.contenedorInfoJugadores = new VBox(10);
+        this.contenedorInfoJugadores.setFillWidth(true);
+        this.contenedorInfoJugadores.setAlignment(Pos.TOP_CENTER);
+        panel.setTop(this.contenedorInfoJugadores);
+        actualizarPanelJugadores(); // carga inicial
+
+        // --- ZONA DADOS + BOTONES (abajo) ---
         this.contenedorDadosVisuales = new HBox(15);
         this.contenedorDadosVisuales.setAlignment(Pos.CENTER);
 
@@ -328,7 +382,6 @@ private Group agregarTerrenos() {
         ControladorTerminarTurno controladorTerminarTurno = new ControladorTerminarTurno(btnLanzar, this);
         this.btnTerminar = new BotonTerminarTurno(controladorTerminarTurno);
 
-        // Configuración inicial de botones
         btnTerminar.setDisable(true);
         controladorLanzar.setBoton(btnLanzar);
         controladorLanzar.setBotonTerminar(btnTerminar);
@@ -338,18 +391,16 @@ private Group agregarTerrenos() {
         contenedorBotones.setAlignment(Pos.CENTER);
         contenedorBotones.getChildren().addAll(btnLanzar, btnTerminar);
 
-        VBox zonaControl = new VBox(20);
+        VBox zonaControl = new VBox(10);
         zonaControl.setAlignment(Pos.CENTER);
         zonaControl.getChildren().addAll(this.contenedorDadosVisuales, contenedorBotones);
 
-        // 4. ARMAR EL PANEL FINAL
-        panel.getChildren().addAll(this.contenedorInfoJugadores, spacer, zonaControl);
-
-        // Dibujo inicial de dados
+        panel.setBottom(zonaControl);
         soloDibujarDados(1, 1);
 
         return panel;
     }
+
 
     private void actualizarPanelJugadores() {
         if (this.contenedorInfoJugadores == null) return;
@@ -373,84 +424,82 @@ private Group agregarTerrenos() {
         controladorPanel.actualizarRutaComercial();
     }
 
-    private HBox agregarJugador(Jugador jugador) {
-        HBox jugadorBox = new HBox();
-        jugadorBox.setPadding(new Insets(10));
-        Color colorFondoJavaFX = Color.web(jugador.getColor().getColor());
-        jugadorBox.setBackground(new Background(new BackgroundFill(colorFondoJavaFX, new CornerRadii(8), null)));
-        jugadorBox.setStyle("-fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 8; -fx-border-width: 1;");
-        Color colorTexto = obtenerColorTextoContraste(colorFondoJavaFX);
 
-        Label nombreJugador = new Label(jugador.getNombre());
-        nombreJugador.setPrefWidth(110);
-        nombreJugador.setWrapText(true);
-        nombreJugador.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
-        nombreJugador.setTextFill(colorTexto);
+private HBox agregarJugador(Jugador jugador) {
+    HBox jugadorBox = new HBox(10);
+    jugadorBox.setPadding(new Insets(8));
+    jugadorBox.setPrefWidth(260);
+    jugadorBox.setMaxWidth(Double.MAX_VALUE);
 
-        VBox puntosVictoria = new VBox(2);
-        puntosVictoria.setAlignment(Pos.CENTER);
+    Color colorFondoJavaFX = Color.web(jugador.getColor().getColor());
+    jugadorBox.setBackground(new Background(
+            new BackgroundFill(colorFondoJavaFX, new CornerRadii(8), null)));
+    jugadorBox.setStyle(
+            "-fx-border-color: rgba(255,255,255,0.3); " +
+                    "-fx-border-radius: 8; -fx-border-width: 1;");
 
-        Label pvLabel = new Label("Puntos de\nVictoria");
-        pvLabel.setFont(Font.font("Verdana", FontWeight.NORMAL, 10));
-        pvLabel.setTextAlignment(TextAlignment.CENTER);
-        pvLabel.setTextFill(colorTexto);
+    Color colorTexto = obtenerColorTextoContraste(colorFondoJavaFX);
 
-        String puntosReales = String.valueOf(jugador.totalPuntos());
-        Label pvValue = new Label(puntosReales);
-        pvValue.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-        pvValue.setAlignment(Pos.CENTER);
-        pvValue.setTextFill(colorTexto);
+    Label nombreJugador = new Label(jugador.getNombre());
+    nombreJugador.setWrapText(true);
+    nombreJugador.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+    nombreJugador.setTextFill(colorTexto);
 
-        VBox logros = crearPanelLogros();
+    // Que el nombre se expanda y empuje al resto sin cortar el panel
+    nombreJugador.setMaxWidth(Double.MAX_VALUE);
+    HBox.setHgrow(nombreJugador, Priority.ALWAYS);
+
+    VBox puntosVictoria = new VBox(2);
+    puntosVictoria.setAlignment(Pos.CENTER);
+
+    Label pvLabel = new Label("Puntos de\nVictoria");
+    pvLabel.setFont(Font.font("Verdana", FontWeight.NORMAL, 10));
+    pvLabel.setTextAlignment(TextAlignment.CENTER);
+    pvLabel.setTextFill(colorTexto);
+
+    String puntosReales = String.valueOf(jugador.totalPuntos());
+    Label pvValue = new Label(puntosReales);
+    pvValue.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+    pvValue.setAlignment(Pos.CENTER);
+    pvValue.setTextFill(colorTexto);
+
+    VBox logros = crearPanelLogros(colorTexto);
+
+    puntosVictoria.getChildren().addAll(pvLabel, pvValue);
+    jugadorBox.getChildren().addAll(nombreJugador, puntosVictoria, logros);
+
+    return jugadorBox;
+}
 
 
-        puntosVictoria.getChildren().addAll(pvLabel, pvValue);
-        jugadorBox.getChildren().addAll(nombreJugador, puntosVictoria,logros);
-
-        return jugadorBox;
-    }
-
-    private VBox crearPanelLogros() {
+    private VBox crearPanelLogros(Color colorTexto) {
         VBox logrosBox = new VBox(5);
         logrosBox.setAlignment(Pos.CENTER);
 
         java.net.URL url = getClass().getResource("/imagenes/caballero.jpg" );
-
         Image img = new Image(url.toExternalForm());
-        // Gran Caballería
-        ImageView iconoCaballeria = new ImageView(
-                img
-        );
+        ImageView iconoCaballeria = new ImageView(img);
         iconoCaballeria.setFitWidth(20);
         iconoCaballeria.setFitHeight(20);
         iconoCaballeria.setId("caballeria");
 
         java.net.URL url1 = getClass().getResource("/imagenes/carreteras.jpg" );
-
         Image img1 = new Image(url1.toExternalForm());
-
-        // Gran Camino
-        ImageView iconoCamino = new ImageView(
-                img1
-        );
+        ImageView iconoCamino = new ImageView(img1);
         iconoCamino.setFitWidth(20);
         iconoCamino.setFitHeight(20);
         iconoCamino.setId("camino");
 
-        // Contenedor para iconos
         HBox iconosBox = new HBox(5, iconoCaballeria, iconoCamino);
         iconosBox.setAlignment(Pos.CENTER);
         iconoCaballeria.setOpacity(0.3);
-        iconoCamino.setOpacity( 0.3);
-        // Label
+        iconoCamino.setOpacity(0.3);
+
         Label labelLogros = new Label("Logros");
         labelLogros.setFont(Font.font("Verdana", 10));
-        labelLogros.setTextFill(Color.WHITE);
+        labelLogros.setTextFill(colorTexto);
 
         logrosBox.getChildren().addAll(labelLogros, iconosBox);
-
-
-
         return logrosBox;
     }
 
@@ -1581,5 +1630,16 @@ private Group agregarTerrenos() {
         if(iconoCaballero != null){
             iconoCaballero.setOpacity(opacidad);
         }
+    }
+
+    private void configurarFondo() {
+        Image imagen = new Image(IMAGEN_RUTA);
+        BackgroundImage fondoImagen = new BackgroundImage(imagen,
+                BackgroundRepeat.ROUND,
+                BackgroundRepeat.SPACE,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, false));
+        Background fondo = new Background(fondoImagen);
+        super.setBackground(fondo);
     }
 }
