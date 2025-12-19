@@ -1,0 +1,22 @@
+package edu.fiuba.algo3.modelo.Cartas;
+
+public class EstadoCartaDisponible implements IEstadoCarta{
+    @Override
+    public boolean sePuedeUsar() {
+        return true;
+    }
+
+    @Override
+    public IEstadoCarta actualizarEstado() {
+        return this;
+    }
+
+    @Override
+    public void comprobarUso() {
+    }
+
+    @Override
+    public boolean estaUsada() {
+        return false;
+    }
+}

@@ -1,0 +1,97 @@
+@startuml
+
+package "controllers" #DDDDDD {
+  class ControladorAcercaDeAyuda {
+  }
+  class ControladorActivarBoton {
+  }
+  class ControladorAyudaDelJuego {
+  }
+  class ControladorBanca {
+  }
+  class ControladorCantidadJugadores {
+  }
+  class ControladorComprarCarta {
+  }
+  class ControladorConstruirCamino {
+  }
+  class ControladorConstruirCiudad {
+  }
+  class ControladorConstruirPoblado {
+  }
+  class ControladorCrearPartida {
+  }
+  class ControladorDesactivarBoton {
+  }
+  class ControladorFinalizarJuego {
+  }
+  class ControladorIntercambioEntreJugadores {
+  }
+  class ControladorJugarCarta {
+  }
+  class ControladorLanzarDados {
+  }
+  class ControladorMoverLadron {
+  }
+  class ControladorPanelJugadores {
+  }
+  class ControladorPantallaCompleta {
+  }
+  class ControladorProponerTrato {
+  }
+  class ControladorReiniciarJuego {
+  }
+  class ControladorTeclaPresionada {
+  }
+  class ControladorTerminarTurno {
+  }
+  class ReproductorEfectos {
+  }
+  class ReproductorMusica {
+  }
+}
+
+package "vista" #DDDDDD {
+    package "botones" #DDDDDD {
+    }
+    package "Grillas" #DDDDDD {
+    }
+    package "mensajes" #DDDDDD {
+    }
+    package "utils" #DDDDDD {
+    }
+    package "vistas" #DDDDDD {
+    }
+
+}
+
+
+package "modelo" #DDDDDD {
+    package "Cartas" #DDDDDD {
+    }
+    package "CasosDeUso" #DDDDDD {
+    }
+    package "constructoresDeCarreteras" #DDDDDD {
+    }
+    package "Construccion" #DDDDDD {
+    }
+    package "Entidades" #DDDDDD {
+    }
+    package "Intercambios" #DDDDDD {
+    }
+    package "Interfaces" #DDDDDD {
+    }
+    package "Juego" #DDDDDD {
+    }
+    package "Mocks" #DDDDDD {
+    }
+    package "Recursos" #DDDDDD {
+    }
+    package "Tablero" #DDDDDD {
+    }
+    package "Terrenos" #DDDDDD {
+    }
+
+}
+
+@enduml
