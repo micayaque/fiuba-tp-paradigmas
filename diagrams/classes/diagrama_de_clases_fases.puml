@@ -1,0 +1,72 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+title Diagrama de clases - Fases
+
+class FaseNocturna {
+    - Collection<Victimario>
+    - Collection<Investigador>
+    - Collection<Protector>
+    + ejecutar(Collection<Jugador>) : ResultadoNocturno
+}
+
+TurnoDebate <|.. FaseDiurna
+class FaseDiurna {
+    + ejecutar(Collection<Jugador>) : ResultadoDiurno
+    - ejecutarDebate(Collection<Jugador>)
+    - ejecutarNominacion(Collection<Jugador>) : Collection<Jugador>
+    - ejecutarVotacion(Collection<Jugador>, Collection<Jugador> nominados) : Jugador
+}
+
+ResultadoDiurno --> VotacionDiurna
+class VotacionDiurna {
+    - votos : Map<Jugador, Jugador>
+    + registrarVoto(Jugador votante, Jugador voto)
+    + obtenerResultadoVotacion() : Jugador
+    + getHistorialVotacion() : Map<Jugador, Jugador>
+}
+
+ResultadoDiurno --> NominacionDiurna
+class NominacionDiurna {
+    - nominaciones : Map<Jugador, Jugador>
+    + registrarNominacion(Jugador nominador, Jugador nominado)
+    + obtenerNominados() : Collection<Jugador>
+    + getHistorialNominacion() : Map<Jugador, Jugador>
+}
+
+interface TurnoDebate {
+    visitar(ReveladorRol)
+    visitar(ReveladorInvestigacion)
+    visitar(Rol sinAccionDiurna)
+}
+
+TurnoNocturno ..|> FaseNocturna
+interface TurnoNocturno {
+    + visitar(Victimario victimario)
+    + visitar(Investigador investigador)
+    + visitar(Protector protector)
+    + visitar(Rol sinAccionNocturna)
+}
+
+class ResultadoNocturno {
+    - victimaElegida : Jugador
+    - investigacion : ResultadoInvestigacion
+    - proteccion : Jugador
+}
+
+class ResultadoDiurno {
+    - votacion : VotacionDiurna
+    - nominacion : NominacionDiurna
+}
+
+ResultadoNocturno ..|> ResultadoFase
+ResultadoDiurno .|> ResultadoFase
+interface ResultadoFase {
+    + huboEliminacion() : boolean
+    + obtenerJugadorElegido() : Jugador
+}
+
+FaseDiurna --> ResultadoDiurno
+FaseNocturna --> ResultadoNocturno
+
+@enduml

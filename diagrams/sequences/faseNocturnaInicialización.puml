@@ -1,0 +1,60 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide footbox
+
+title Diagrama de secuencia fase nocturna completa - Inicializacion de objetos
+
+actor "Moderador" as mod
+
+participant ":Mazo" as mazo
+
+participant ":CondicionDeVictoria" as cdv
+mod -> cdv ** : <<create>> CondicionDeVictoria()
+
+participant ":HistorialPartida" as h
+mod -> h ** : <<create>> HistorialPartida()
+
+mod -> mazo ** : <<create>> Mazo(cantidadDeJugadores)
+
+mod -> mazo : asignarCartasAJugadores([mafioso1, mafioso2, detective, medico, ciudadano1, ciudadano2, ciudadano3])
+
+activate mazo
+
+participant "carta1:Mafioso" as rolmica
+participant "mafioso1:Jugador" as mica
+mazo -> rolmica ** : <<create>> CartaRol(MAFIA, MAFIOSO)
+mazo -> mica ** : <<create>> Jugador("mafioso1", Mafioso)
+
+participant "carta2:Mafioso" as rolsonny
+participant "mafioso2:Jugador" as sonny
+mazo -> rolsonny ** : <<create>> CartaRol(MAFIA, MAFIOSO)
+mazo -> sonny ** : <<create>> Jugador("mafioso2", Mafioso)
+
+participant "cartaD:Detective" as roldetective
+participant "detective:Jugador" as cami
+mazo -> roldetective ** : <<create>> CartaRol(CIUDADANOS, DETECTIVE)
+mazo -> cami ** : <<create>> Jugador("detective", Detective)
+
+participant "cartaM:Medico" as rolmedico
+participant "medico:Jugador" as franco
+mazo -> rolmedico ** : <<create>> CartaRol(CIUDADANOS, MEDICO)
+mazo -> franco ** : <<create>> Jugador("medico", Medico)
+
+participant "cartaC1:Ciudadano" as rolro
+participant "ciudadano:Jugador" as rodrigo
+mazo -> rolro ** : <<create>> CartaRol(CIUDADANOS, CIUDADANO)
+mazo -> rodrigo ** : <<create>> Jugador("ciudadano1", Ciudadano)
+
+participant "cartaI:Ciudadano" as rolma
+participant "investigado:Jugador" as maria
+mazo -> rolma ** : <<create>> CartaRol(CIUDADANOS, CIUDADANO)
+mazo -> maria ** : <<create>> Jugador("ciudadano2", Ciudadano)
+
+participant "cartaV:Ciudadano" as rolju
+participant "victima:Jugador" as juan
+mazo -> rolju ** : <<create>> CartaRol(CIUDADANOS, CIUDADANO)
+mazo -> juan ** : <<create>> Jugador("ciudadano3", Ciudadano)
+
+deactivate mazo
+
+@enduml
