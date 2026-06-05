@@ -1,0 +1,47 @@
+!include estilos.puml
+
+title Diagrama de clases - Moderador
+
+package Moderador {
+    class Moderador {
+        - estado : EstadoPartida
+        - condicion : CondicionDeVictoria
+        - historial : HistorialPartida
+        + iniciarPartida(Number: cantidadJugadores)
+        + ejecutarRonda(Collection<Jugador>)
+        + anunciarResultados()
+        - ejecutarFaseNocturna(Collection<Jugador>) : ResultadoFase
+        - ejecutarFaseDiurna(Collection<Jugador>) : ResultadoFase
+    }
+
+    class HistorialPartida {
+        - resultados : Collection<ResultadoFase>
+        + registrarResultado(ResultadoFase resultado)
+        + mostrarResumen()
+    }
+
+    class FaseApertura {
+        + ejecutar(Collection<Jugador>)
+    }
+
+    class Mazo {
+        + generarPara(Number: cantidadJugadores) : Collection<Rol>
+        + asignarCartas(Collection<Jugador>)
+    }
+
+    class CondicionDeVictoria {
+        + verificar(EstadoPartida estado)
+    }
+
+    class EstadoPartida {
+        - rondaActual : Number
+        + jugadores : Collection<Jugador>
+        + jugadoresVivos() : Collection<Jugador>
+    }
+
+    Moderador ..> FaseApertura
+    Moderador ..> Mazo
+    Moderador -> EstadoPartida
+    Moderador --> CondicionDeVictoria
+    HistorialPartida <- Moderador
+}
