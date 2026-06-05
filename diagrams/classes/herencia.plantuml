@@ -1,8 +1,0 @@
-@startuml
-
-
-!include diagrama_de_clases_jugadores.puml
-!include diagrama_de_clases_fases.puml
-!include diagrama_de_clases_moderador.puml
-
-@enduml
