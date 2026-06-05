@@ -1,0 +1,4 @@
+!include estilos.puml
+interface ResultadoFase {
+    + huboEliminacion() : boolean
+}
