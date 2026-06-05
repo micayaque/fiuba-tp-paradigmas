@@ -1,0 +1,10 @@
+@startuml
+
+    skinparam classAttributeIconSize 0
+    skinparam classBackgroundColor #FEFECE
+    skinparam classBorderColor #A80036
+    skinparam defaultFontName sans-serif
+    skinparam arrowColor #A80036
+    skinparam shadowing true
+
+@enduml
