@@ -1,0 +1,38 @@
+@startuml
+
+!include estilos.puml
+!include resultado_fase.puml
+!include votacion_nocturna.puml
+
+title Diagrama de clases - Fase Nocturna
+
+package FaseNocturna {
+
+    interface TurnoNocturno {
+        + pedirAccion(Mafioso mafioso)
+        + pedirAccion(Detective detective)
+        + pedirAccion(Medico medico)
+        + pedirAccion(Rol sinAccionNocturna)
+    }
+
+    class FaseNocturna {
+        + ejecutar(Collection<Jugador>) : ResultadoNocturno
+        - ejecutarEleccionMafia() : Jugador
+        - ejecutarInvestigacion() : ResultadoInvestigacion
+        - ejecutarProteccion() : Jugador
+    }
+
+    class ResultadoNocturno {
+        - victimaElegida : Jugador
+        - investigacion : ResultadoInvestigacion
+        - proteccion : Jugador
+    }
+
+    TurnoNocturno ..|> FaseNocturna
+    ResultadoNocturno ..|> ResultadoFase
+    FaseNocturna --> ResultadoNocturno
+}
+
+FaseNocturna ..> VotacionNocturna
+
+@enduml
