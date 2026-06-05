@@ -1,0 +1,18 @@
+@startuml
+
+package Jugadores {
+    !include jugador.puml
+    !include rol.puml
+    Jugador *-- Rol
+}
+
+!include moderador.puml
+
+package Fases {
+    !include fase_diurna.puml
+    !include fase_nocturna.puml
+}
+
+title Diagrama de clases - Mafia
+
+@enduml
