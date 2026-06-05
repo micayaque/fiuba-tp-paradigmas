@@ -1,0 +1,46 @@
+!include estilos.puml
+package Rol {
+    abstract class Rol {
+        - bando : Bando
+        + bandoAparente() : Bando
+        + {abstract} aceptarAccion(TurnoNocturno)
+        + {abstract} aceptarAccion(TurnoDebate)
+    }
+
+    class Mafioso {
+        - complices : Collection<Jugador>
+        + registrarComplices(Collection<Jugador>)
+        + elegirVictima(Collection<Jugador>) : Jugador
+    }
+
+    class Padrino {
+        + bandoAparente() : Bando
+    }
+
+    class Sheriff {
+        - rolRevelado : boolean
+        + puedeRevelarRol() : boolean
+        + revelarRol()
+    }
+
+    class Detective {
+        - ultimaInvestigacion : Jugador
+        + investigar(Collection<Jugador>) : ResultadoInvestigacion
+    }
+
+    class Medico {
+        - ultimaProteccion : Jugador    
+        + proteger(Collection<Jugador>) : Jugador
+    }
+
+
+    class Ciudadano {}
+
+    Rol <|- Ciudadano
+    Rol <|-- Mafioso
+    Rol <|-- Medico
+    Rol <|--- Detective
+    Rol <|-- Sheriff
+    Mafioso <|-- Padrino
+
+}
