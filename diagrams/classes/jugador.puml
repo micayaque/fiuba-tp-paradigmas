@@ -1,0 +1,23 @@
+!include estilos.puml
+
+package Jugador {
+    class Jugador {
+        - nombre : String
+        - carta : Rol
+        - estado : EstadoJugador
+        + Jugador(String: nombre, Rol: carta)
+        + acusar(Collection<Jugador>) : Jugador
+        + defender(Collection<Jugador>) : Jugador
+        + nominar(Collection<Jugador>) : Jugador
+        + votar(Collection<Jugador>) : Voto
+    }
+
+    interface EstadoJugador {
+        + puedeJugar() : boolean
+        + eliminar()
+    }
+
+    EstadoJugador <|.. Vivo
+    EstadoJugador <|.. Eliminado
+    Jugador *-- EstadoJugador
+}
