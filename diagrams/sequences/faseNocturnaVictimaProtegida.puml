@@ -1,0 +1,111 @@
+@startuml
+!include estilos.puml
+
+title Diagrama de secuencia fase nocturna completa - se protege a la victima
+
+actor "Moderador" as mod
+
+participant ":FaseNocturna" as fn
+
+participant ":VotacionNocturna" as vn
+
+participant ":Jugador" as j
+participant "carta:Rol" as carta
+
+participant "carta1:Mafioso" as carta1
+participant "carta2:Mafioso" as carta2
+
+participant ":ResultadoNocturno" as resultado
+
+participant "cartaD:Detective" as cartaD
+participant "investigado:Jugador" as maria
+participant "cartaI:Ciudadano" as cartaI
+participant ":ResultadoInvestigacion" as ResultadoInvestigacion
+participant "cartaM:Medico" as cartaF
+
+mod -> fn ** : <<create>> FaseNocturna()
+mod -> fn : ejecutar(jugadoresVivos)
+
+activate fn
+
+    loop para cada jugador en jugadoresVivos
+        fn -> j : aceptarAccion() 
+        activate j
+        j -> carta : aceptarAccion()
+        activate carta
+        carta --> j : carta
+        deactivate carta
+        j --> fn : cartaDeRol
+        deactivate j
+    fn -> fn : guardar(cartaDeRol)
+    end
+
+    fn -> vn ** : <<create>> VotacionNocturna()
+    fn -> carta1 : elegirVictima(jugadoresVivos)
+    activate carta1
+    carta1 --> fn : juan
+    deactivate carta1
+    fn -> vn : registrarVoto(carta1, juan)
+    fn -> carta2 : elegirVictima(jugadoresVivos)
+    activate carta2
+    carta2 --> fn : juan
+    deactivate carta2
+    fn -> vn : registrarVoto(carta2, juan)
+
+    fn -> vn : resultadoVotacion()
+    activate vn
+    vn --> fn : juan
+    deactivate vn
+
+
+    fn -> cartaD : investigar(jugadoresVivos)
+    activate cartaD
+    
+    cartaD -> maria : bandoAparente()
+    activate maria
+    maria -> cartaI : bandoAparente()
+    activate cartaI
+    cartaI --> maria : CIUDADANOS
+    deactivate cartaI
+    maria --> cartaD : CIUDADANOS
+    deactivate maria
+
+    cartaD -> ResultadoInvestigacion ** : <<create>> ResultadoInvestigacion(maria, CIUDADANOS)    
+    cartaD --> fn : resultadoInvestigacion
+    deactivate cartaD
+
+
+    fn -> cartaF : proteger(jugadoresVivos)
+    activate cartaF
+    cartaF --> fn : juan
+    deactivate cartaF
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''
+    fn -> resultado ** : <<create>> ResultadoNocturno(victima: juan, investigación: resultadoInvestigacion, protegido: juan)
+    fn -> resultado : resolverResultado()
+    activate resultado
+    resultado --> fn : ResultadoNocturno
+    deactivate resultado
+    
+    fn --> mod : ResultadoNocturno
+
+deactivate fn
+
+' mod -> estado : registrarResultado(ResultadoNocturno)
+' mod -> h : registrarResultado(ResultadoNocturno)
+
+' mod -> resultado : getEliminado()
+' activate resultado
+' resultado --> mod : juan
+' deactivate resultado
+
+' mod -> estado : eliminarJugador(juan)
+
+' mod -> cdv : verificarCondicion(estado)
+
+' cdv --> mod : No se cumple la condición de victoria
+
+
+
+
+@enduml

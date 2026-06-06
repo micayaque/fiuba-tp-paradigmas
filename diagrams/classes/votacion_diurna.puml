@@ -1,0 +1,13 @@
+!include estilos.puml
+!include eleccion.puml
+package VotacionDiurna {
+
+    class VotacionDiurna {
+        - votos : Collection<EleccionJugador>
+        + jugadoresVotados() : Collection<Jugador>
+        + votaciones() : Collection<EleccionJugador>
+        + resultadoVotacion() : Voto
+    }
+
+    VotacionDiurna --> Eleccion
+}

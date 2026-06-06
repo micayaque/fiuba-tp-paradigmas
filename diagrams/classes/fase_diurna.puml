@@ -1,0 +1,34 @@
+@startuml
+!include estilos.puml
+!include resultado_fase.puml
+!include votacion_diurna.puml
+
+title - Diagrama de clases - Fase Diurna
+
+package FaseDiurna {
+    
+    interface TurnoDebate {
+        pedirAccion(Sheriff sheriff)
+        pedirAccion(Rol sinAccionDiurna)
+    }
+
+    class FaseDiurna {
+        + ejecutar(Collection<Jugador>) : ResultadoDiurno
+        - ejecutarDebate(Collection<Jugador>)
+        - ejecutarNominacion(Collection<Jugador>)
+        - ejecutarVotacion(Collection<Jugador> vivos, Collection<Jugador> nominados)
+    }
+
+    class ResultadoDiurno {
+        - votacion : VotacionDiurna
+        - nominacion : VotacionDiurna
+    }
+
+    TurnoDebate <|.. FaseDiurna
+    
+    FaseDiurna --> ResultadoDiurno
+}
+
+ResultadoDiurno --> VotacionDiurna
+ResultadoDiurno ..|> ResultadoFase
+@enduml

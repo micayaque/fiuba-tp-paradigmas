@@ -1,0 +1,17 @@
+!include estilos.puml
+abstract class Eleccion {
+    - votante : Jugador
+    + Eleccion(Jugador votante)
+}
+
+class Voto {
+    - votado : Jugador
+    + Voto(Jugador votante, Jugador votado)
+}
+
+class VotoEnBlanco {
+    + VotoEnBlanco(Jugador)
+}
+
+Eleccion <|-- Voto
+Eleccion <|-- VotoEnBlanco
