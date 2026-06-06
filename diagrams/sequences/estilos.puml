@@ -1,0 +1,20 @@
+@startuml
+skinparam shadowing true
+skinparam classAttributeIconSize 0
+hide footbox
+
+skinparam sequence {
+    ArrowColor #A80036
+    LifeLineBorderColor #A80036
+    LifeLineBackgroundColor #FFFFFF
+    
+    ParticipantBorderColor #A80036
+    ParticipantBackgroundColor #FEFECE
+    
+    ActorBorderColor #A80036
+    ActorBackgroundColor #FEFECE
+}
+
+skinparam NoteBackgroundColor #FBFB77
+skinparam NoteBorderColor #A80036
+@enduml

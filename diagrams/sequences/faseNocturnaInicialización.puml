@@ -1,6 +1,5 @@
 @startuml
-skinparam classAttributeIconSize 0
-hide footbox
+!include estilos.puml
 
 title Diagrama de secuencia fase nocturna completa - Inicializacion de objetos
 
@@ -20,41 +19,52 @@ mod -> mazo : asignarCartasAJugadores([mafioso1, mafioso2, detective, medico, ci
 
 activate mazo
 
-participant "carta1:Mafioso" as rolmica
-participant "mafioso1:Jugador" as mica
-mazo -> rolmica ** : <<create>> CartaRol(MAFIA, MAFIOSO)
-mazo -> mica ** : <<create>> Jugador("mafioso1", Mafioso)
+participant "carta1:Mafioso" as rolmafioso1
+participant "mafioso1:Jugador" as mafioso1
+mazo -> rolmafioso1 ** : <<create>> CartaRol(MAFIA, MAFIOSO)
+mazo -> mafioso1 ** : <<create>> Jugador("mafioso1", carta1)
 
-participant "carta2:Mafioso" as rolsonny
-participant "mafioso2:Jugador" as sonny
-mazo -> rolsonny ** : <<create>> CartaRol(MAFIA, MAFIOSO)
-mazo -> sonny ** : <<create>> Jugador("mafioso2", Mafioso)
+participant "carta2:Mafioso" as rolmafioso2
+participant "mafioso2:Jugador" as mafioso2
+mazo -> rolmafioso2 ** : <<create>> CartaRol(MAFIA, MAFIOSO)
+mazo -> mafioso2 ** : <<create>> Jugador("mafioso2", carta2)
 
 participant "cartaD:Detective" as roldetective
 participant "detective:Jugador" as cami
 mazo -> roldetective ** : <<create>> CartaRol(CIUDADANOS, DETECTIVE)
-mazo -> cami ** : <<create>> Jugador("detective", Detective)
+mazo -> cami ** : <<create>> Jugador("detective", cartaD)
 
 participant "cartaM:Medico" as rolmedico
 participant "medico:Jugador" as franco
 mazo -> rolmedico ** : <<create>> CartaRol(CIUDADANOS, MEDICO)
-mazo -> franco ** : <<create>> Jugador("medico", Medico)
+mazo -> franco ** : <<create>> Jugador("medico", cartaM)
 
 participant "cartaC1:Ciudadano" as rolro
 participant "ciudadano:Jugador" as rodrigo
 mazo -> rolro ** : <<create>> CartaRol(CIUDADANOS, CIUDADANO)
-mazo -> rodrigo ** : <<create>> Jugador("ciudadano1", Ciudadano)
+mazo -> rodrigo ** : <<create>> Jugador("ciudadano1", cartaC1)
 
 participant "cartaI:Ciudadano" as rolma
 participant "investigado:Jugador" as maria
 mazo -> rolma ** : <<create>> CartaRol(CIUDADANOS, CIUDADANO)
-mazo -> maria ** : <<create>> Jugador("ciudadano2", Ciudadano)
+mazo -> maria ** : <<create>> Jugador("ciudadano2", cartaI)
 
 participant "cartaV:Ciudadano" as rolju
 participant "victima:Jugador" as juan
 mazo -> rolju ** : <<create>> CartaRol(CIUDADANOS, CIUDADANO)
-mazo -> juan ** : <<create>> Jugador("ciudadano3", Ciudadano)
+mazo -> juan ** : <<create>> Jugador("ciudadano3", cartaV)
 
 deactivate mazo
 
+participant ":EstadoPartida" as estado
+mod -> estado ** : <<create>> EstadoPartida([mafioso1, mafioso2, detective, medico, ciudadano1, ciudadano2, ciudadano3])
+
+participant ":FaseApertura" as fa
+mod -> fa ** : <<create>> FaseApertura()
+activate fa
+mod -> fa : ejecutar(jugadoresMafiosos)
+fa -> mafioso1 : registrarComplices([mafioso2])
+fa -> mafioso2 : registrarComplices([mafioso1])
+
+deactivate fa
 @enduml

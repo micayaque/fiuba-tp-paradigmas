@@ -1,50 +1,27 @@
 @startuml
-skinparam classAttributeIconSize 0
-hide footbox
+!include estilos.puml
 
 title Diagrama de secuencia fase nocturna completa - se elimina a una victima
 
 actor "Moderador" as mod
 
-' participant ":EstadoPartida" as estado
-' mod -> estado ** : <<create>> EstadoPartida([mica, sonny, cami, franco, rodrigo, maria, juan])
-
-
-' participant ":FaseApertura" as fa
-' mod -> fa ** : <<create>> FaseApertura()
-' mod -> fa : ejecutar(jugadoresMafiosos)
-' activate fa
-
 participant ":FaseNocturna" as fn
+
 participant ":VotacionNocturna" as vn
 
 participant ":Jugador" as j
 participant "carta:Rol" as carta
 
-'participant "mafioso1:Jugador" as mafioso1
 participant "carta1:Mafioso" as carta1
-
-'participant "mafioso2:Jugador" as mafioso2
 participant "carta2:Mafioso" as carta2
-
-' fa -> mafioso1 : registrarComplices([mafioso2])
-' fa -> mafioso2 : registrarComplices([mafioso1])
-
-' deactivate fa
-
 
 participant ":ResultadoNocturno" as resultado
 
-'participant "detective:Jugador" as cami
 participant "cartaD:Detective" as cartaD
 participant "investigado:Jugador" as maria
 participant "cartaI:Ciudadano" as cartaI
 participant ":ResultadoInvestigacion" as ResultadoInvestigacion
-'participant "medico:Jugador" as franco
 participant "cartaM:Medico" as cartaF
-
-' participant ":HistorialPartida" as h
-' participant ":CondicionDeVictoria" as cdv
 
 mod -> fn ** : <<create>> FaseNocturna()
 mod -> fn : ejecutar(jugadoresVivos)
@@ -52,18 +29,15 @@ mod -> fn : ejecutar(jugadoresVivos)
 activate fn
 
     loop para cada jugador en jugadoresVivos
-    fn -> j : c = getCarta()
-    activate j
-    j --> fn : carta
-    deactivate j
-
-    fn -> carta : aceptar(this)
-    activate carta
-    carta -> fn : visitar(this)
-    activate fn
-    fn -> fn : guardar(c)
-    deactivate fn
-    deactivate carta
+        fn -> j : aceptarAccion() 
+        activate j
+        j -> carta : aceptarAccion()
+        activate carta
+        carta --> j : carta
+        deactivate carta
+        j --> fn : cartaDeRol
+        deactivate j
+    fn -> fn : guardar(cartaDeRol)
     end
 
     fn -> vn ** : <<create>> VotacionNocturna()
@@ -78,7 +52,7 @@ activate fn
     deactivate carta2
     fn -> vn : registrarVoto(carta2, juan)
 
-    fn -> vn : resolverVictima()
+    fn -> vn : resultadoVotacion()
     activate vn
     vn --> fn : juan
     deactivate vn
@@ -87,16 +61,14 @@ activate fn
     fn -> cartaD : investigar(jugadoresVivos)
     activate cartaD
     
-    cartaD -> maria : cI = getCarta()
+    cartaD -> maria : bandoAparente()
     activate maria
-    maria --> cartaD : cartaI
-    deactivate maria
-
-    cartaD -> cartaI : bandoAparente()
+    maria -> cartaI : bandoAparente()
     activate cartaI
-    
-    cartaI --> cartaD : CIUDADANOS
+    cartaI --> maria : CIUDADANOS
     deactivate cartaI
+    maria --> cartaD : CIUDADANOS
+    deactivate maria
 
     cartaD -> ResultadoInvestigacion ** : <<create>> ResultadoInvestigacion(maria, CIUDADANOS)    
     cartaD --> fn : resultadoInvestigacion
