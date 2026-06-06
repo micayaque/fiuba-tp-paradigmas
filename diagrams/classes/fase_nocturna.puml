@@ -33,6 +33,6 @@ package FaseNocturna {
     FaseNocturna --> ResultadoNocturno
 }
 
-FaseNocturna ..> VotacionNocturna
+ResultadoNocturno ..> VotacionNocturna
 
 @enduml

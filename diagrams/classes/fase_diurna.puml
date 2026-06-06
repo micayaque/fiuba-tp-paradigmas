@@ -25,10 +25,10 @@ package FaseDiurna {
     }
 
     TurnoDebate <|.. FaseDiurna
-
+    
     FaseDiurna --> ResultadoDiurno
 }
 
-FaseDiurna --> VotacionDiurna
+ResultadoDiurno --> VotacionDiurna
 ResultadoDiurno ..|> ResultadoFase
 @enduml

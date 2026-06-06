@@ -1,4 +1,5 @@
 !include estilos.puml
+!include eleccion.puml
 package VotacionNocturna {
 
     class VotacionNocturna {
@@ -6,13 +7,6 @@ package VotacionNocturna {
         + votaciones() : Collection<Voto>
         + resultadoVotacion() : Jugador
     }
-
-    class Voto {
-        - votante : Jugador
-        - votado : Jugador
-        + Voto(Jugador votante, Jugador votado)
-    }
-
-    VotacionNocturna --> Voto
+    VotacionNocturna ---> Voto
 
 }

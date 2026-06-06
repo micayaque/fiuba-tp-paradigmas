@@ -9,8 +9,8 @@ package Jugadores {
 !include moderador.puml
 
 package Fases {
-    !include fase_diurna.puml
     !include fase_nocturna.puml
+    !include fase_diurna.puml
 }
 
 title Diagrama de clases - Mafia

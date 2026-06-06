@@ -1,4 +1,5 @@
 !include estilos.puml
+!include eleccion.puml
 package VotacionDiurna {
 
     class VotacionDiurna {
@@ -7,23 +8,6 @@ package VotacionDiurna {
         + votaciones() : Collection<EleccionJugador>
         + resultadoVotacion() : Voto
     }
-
-    abstract class Eleccion {
-        - votante : Jugador
-        + Eleccion(Jugador votante)
-    }
-
-    class Voto {
-        - votado : Jugador
-        + Voto(Jugador votante, Jugador votado)
-    }
-
-    class VotoEnBlanco {
-        + VotoEnBlanco(Jugador)
-    }
-
-    Eleccion <|-- Voto
-    Eleccion <|-- VotoEnBlanco
 
     VotacionDiurna --> Eleccion
 }
