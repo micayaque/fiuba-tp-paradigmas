@@ -1,10 +1,7 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.excepciones.JugadorYaTieneRol;
 import edu.fiuba.algo3.modelo.jugadores.Jugador;
 import edu.fiuba.algo3.modelo.mazo.Mazo;
-import edu.fiuba.algo3.modelo.roles.Ciudadano;
-import edu.fiuba.algo3.modelo.roles.Mafioso;
 import edu.fiuba.algo3.modelo.roles.Rol;
 import org.junit.jupiter.api.Test;
 
@@ -19,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RepartoTest {
 
-    private List<Jugador> crearJugadores(int cantidad) {
-        List<Jugador> jugadores = new ArrayList<>();
+    private List<String> nombres(int cantidad) {
+        List<String> nombres = new ArrayList<>();
         for (int i = 0; i < cantidad; i++) {
-            jugadores.add(new Jugador("Jugador " + i));
+            nombres.add("Jugador " + i);
         }
-        return jugadores;
+        return nombres;
     }
 
     private Map<Class<?>, Long> clasificarPorTipo(List<Rol> roles) {
@@ -32,24 +29,21 @@ public class RepartoTest {
     }
 
     @Test
-    public void cadaJugadorRecibeExactamenteUnRol() {
-        List<Jugador> jugadores = crearJugadores(7);
+    public void cadaJugadorRecibeExactamenteUnRolDesdeSuCreacion() {
+        List<Jugador> jugadores = new Mazo().repartir(nombres(7));
 
-        new Mazo().asignarCartas(jugadores);
-
+        assertEquals(7, jugadores.size());
         for (Jugador jugador : jugadores) {
-            assertTrue(jugador.tieneRol());
             assertNotNull(jugador.miRol());
         }
     }
 
     @Test
     public void seRepartenTodasLasCartasDelMazoSinPerdidasNiDuplicados() {
-        List<Jugador> jugadores = crearJugadores(7);
         Mazo mazo = new Mazo();
 
         Map<Class<?>, Long> composicionEsperada = clasificarPorTipo(mazo.generarPara(7));
-        mazo.asignarCartas(jugadores);
+        List<Jugador> jugadores = mazo.repartir(nombres(7));
 
         Map<Class<?>, Long> composicionRepartida = jugadores.stream()
                 .collect(Collectors.groupingBy(jugador -> jugador.miRol().getClass(), Collectors.counting()));
@@ -62,19 +56,11 @@ public class RepartoTest {
         Set<Class<?>> rolesVistosEnLaPrimeraPosicion = new HashSet<>();
 
         for (int intento = 0; intento < 50; intento++) {
-            List<Jugador> jugadores = crearJugadores(7);
-            new Mazo().asignarCartas(jugadores);
+            List<Jugador> jugadores = new Mazo().repartir(nombres(7));
             rolesVistosEnLaPrimeraPosicion.add(jugadores.get(0).miRol().getClass());
         }
 
         assertTrue(rolesVistosEnLaPrimeraPosicion.size() > 1,
                 "El reparto deberia asignar distintos roles a un mismo jugador entre partidas");
-    }
-
-    @Test
-    public void unJugadorNoPuedeRecibirDosRoles() {
-        Jugador jugador = new Jugador("Ana", new Ciudadano());
-
-        assertThrows(JugadorYaTieneRol.class, () -> jugador.asignarCarta(new Mafioso()));
     }
 }

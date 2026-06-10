@@ -20,13 +20,9 @@ package Moderador {
         + mostrarResumen()
     }
 
-    class FaseApertura {
-        + ejecutar(Collection<Jugador>)
-    }
-
     class Mazo {
         + generarPara(Number: cantidadJugadores) : Collection<Rol>
-        + asignarCartas(Collection<Jugador>)
+        + repartir(Collection<String> nombres) : Collection<Jugador>
     }
 
     class CondicionDeVictoria {
@@ -39,7 +35,11 @@ package Moderador {
         + jugadoresVivos() : Collection<Jugador>
     }
 
-    Moderador ..> FaseApertura
+    note bottom of Mazo
+        Los jugadores nacen con su carta:
+        no existe un Jugador sin rol.
+    end note
+
     Moderador ..> Mazo
     Moderador -> EstadoPartida
     Moderador --> CondicionDeVictoria

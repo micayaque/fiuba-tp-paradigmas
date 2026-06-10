@@ -1,16 +1,27 @@
 !include estilos.puml
 package Rol {
     abstract class Rol {
-        - bando : Bando
+        + {abstract} bando() : Bando
         + bandoAparente() : Bando
-        + {abstract} aceptarAccion(TurnoNocturno)
-        + {abstract} aceptarAccion(TurnoDebate)
+        + conoceElRolDe(Jugador) : boolean
+        + votoNocturno(Jugador votante, Jugador objetivo) : Eleccion
+    }
+
+    abstract class Bando {
+        + {abstract} esMafia() : boolean
+    }
+
+    class Mafia {
+        + esMafia() : boolean
+    }
+
+    class Ciudadanos {
+        + esMafia() : boolean
     }
 
     class Mafioso {
-        - complices : Collection<Jugador>
-        + registrarComplices(Collection<Jugador>)
-        + elegirVictima(Collection<Jugador>) : Jugador
+        + conoceElRolDe(Jugador) : boolean
+        + votoNocturno(Jugador votante, Jugador objetivo) : Voto
     }
 
     class Padrino {
@@ -18,23 +29,25 @@ package Rol {
     }
 
     class Sheriff {
-        - rolRevelado : boolean
-        + puedeRevelarRol() : boolean
-        + revelarRol()
     }
 
     class Detective {
-        - ultimaInvestigacion : Jugador
-        + investigar(Collection<Jugador>) : ResultadoInvestigacion
     }
 
     class Medico {
-        - ultimaProteccion : Jugador    
-        + proteger(Collection<Jugador>) : Jugador
     }
 
-
     class Ciudadano {}
+
+    note bottom of Bando
+        E3: gano(mafiososVivos, ciudadanosVivos)
+        condicion de victoria polimorfica por bando
+    end note
+
+    note bottom of Detective
+        E2: investigar(Jugador) usando
+        bandoAparente() del investigado
+    end note
 
     Rol <|- Ciudadano
     Rol <|-- Mafioso
@@ -43,4 +56,7 @@ package Rol {
     Rol <|-- Sheriff
     Mafioso <|-- Padrino
 
+    Bando <|-- Mafia
+    Bando <|-- Ciudadanos
+    Rol ..> Bando
 }

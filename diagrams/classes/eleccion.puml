@@ -2,15 +2,18 @@
 abstract class Eleccion {
     - votante : Jugador
     + Eleccion(Jugador votante)
+    + {abstract} registrarEn(Conteo)
 }
 
 class Voto {
     - votado : Jugador
     + Voto(Jugador votante, Jugador votado)
+    + registrarEn(Conteo)
 }
 
 class VotoEnBlanco {
     + VotoEnBlanco(Jugador)
+    + registrarEn(Conteo)
 }
 
 Eleccion <|-- Voto

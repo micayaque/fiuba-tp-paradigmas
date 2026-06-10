@@ -15,8 +15,8 @@ public class MazoTest {
         return roles.stream().filter(rol -> rol.getClass() == tipo).count();
     }
 
-    private long contarBando(List<Rol> roles, Bando bando) {
-        return roles.stream().filter(rol -> rol.bando().equals(bando)).count();
+    private long contarMafia(List<Rol> roles) {
+        return roles.stream().filter(rol -> rol.bando().esMafia()).count();
     }
 
     @Test
@@ -63,8 +63,8 @@ public class MazoTest {
         for (int cantidad = 5; cantidad <= 12; cantidad++) {
             List<Rol> roles = new Mazo().generarPara(cantidad);
 
-            long mafia = contarBando(roles, new Mafia());
-            long ciudadanos = contarBando(roles, new Ciudadanos());
+            long mafia = contarMafia(roles);
+            long ciudadanos = roles.size() - mafia;
 
             assertEquals(cantidad, roles.size(), "Mazo para " + cantidad + " jugadores");
             assertTrue(mafia < ciudadanos, "La mafia debe ser minoria con " + cantidad + " jugadores");

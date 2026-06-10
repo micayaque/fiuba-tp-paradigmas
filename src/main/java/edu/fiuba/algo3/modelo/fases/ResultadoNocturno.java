@@ -6,12 +6,16 @@ public class ResultadoNocturno implements ResultadoFase {
 
     private final Jugador victimaElegida;
     private final Jugador protegido;
-    private final boolean huboEliminacion;
 
-    public ResultadoNocturno(Jugador victimaElegida, Jugador protegido, boolean huboEliminacion) {
+    public ResultadoNocturno(Jugador victimaElegida, Jugador protegido) {
         this.victimaElegida = victimaElegida;
         this.protegido = protegido;
-        this.huboEliminacion = huboEliminacion;
+    }
+
+    void aplicar() {
+        if (huboEliminacion()) {
+            victimaElegida.eliminar();
+        }
     }
 
     public Jugador victimaElegida() {
@@ -23,11 +27,11 @@ public class ResultadoNocturno implements ResultadoFase {
     }
 
     public Jugador jugadorEliminado() {
-        return huboEliminacion ? victimaElegida : null;
+        return huboEliminacion() ? victimaElegida : null;
     }
 
     @Override
     public boolean huboEliminacion() {
-        return huboEliminacion;
+        return victimaElegida != null && !victimaElegida.equals(protegido);
     }
 }

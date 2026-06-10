@@ -6,16 +6,18 @@ package Jugador {
         - nombre : String
         - carta : Rol
         - estado : EstadoJugador
-        + Jugador(String: nombre, Rol: carta)
-        + acusar(Collection<Jugador>) : Jugador
-        + defender(Collection<Jugador>) : Jugador
-        + nominar(Collection<Jugador>) : Jugador
-        + votar(Collection<Jugador>) : Voto
+        + Jugador(String nombre, Rol carta)
+        + miRol() : Rol
+        + bando() : Bando
+        + conoceElRolDe(Jugador) : boolean
+        + votoNocturno(Jugador objetivo) : Eleccion
+        + estaVivo() : boolean
+        + eliminar()
     }
 
     interface EstadoJugador {
-        + puedeJugar() : boolean
-        + eliminar()
+        + estaVivo() : boolean
+        + eliminar() : EstadoJugador
     }
 
     EstadoJugador <|.. Vivo

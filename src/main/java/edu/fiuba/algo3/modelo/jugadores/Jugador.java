@@ -1,18 +1,14 @@
 package edu.fiuba.algo3.modelo.jugadores;
 
-import edu.fiuba.algo3.modelo.excepciones.JugadorSinRol;
-import edu.fiuba.algo3.modelo.excepciones.JugadorYaTieneRol;
+import edu.fiuba.algo3.modelo.roles.Bando;
 import edu.fiuba.algo3.modelo.roles.Rol;
+import edu.fiuba.algo3.modelo.votacion.Eleccion;
 
 public class Jugador {
 
     private final String nombre;
-    private Rol carta;
+    private final Rol carta;
     private EstadoJugador estado = new Vivo();
-
-    public Jugador(String nombre) {
-        this.nombre = nombre;
-    }
 
     public Jugador(String nombre, Rol carta) {
         this.nombre = nombre;
@@ -23,29 +19,23 @@ public class Jugador {
         return nombre;
     }
 
-    public void asignarCarta(Rol carta) {
-        if (this.carta != null) {
-            throw new JugadorYaTieneRol(nombre + " ya tiene un rol asignado");
-        }
-        this.carta = carta;
-    }
-
-    public boolean tieneRol() {
-        return carta != null;
-    }
-
     public Rol miRol() {
-        if (carta == null) {
-            throw new JugadorSinRol(nombre + " todavia no tiene un rol asignado");
-        }
         return carta;
+    }
+
+    public Bando bando() {
+        return carta.bando();
     }
 
     public boolean conoceElRolDe(Jugador otro) {
         if (otro == this) {
             return true;
         }
-        return miRol().conoceElRolDe(otro);
+        return carta.conoceElRolDe(otro);
+    }
+
+    public Eleccion votoNocturno(Jugador objetivo) {
+        return carta.votoNocturno(this, objetivo);
     }
 
     public boolean estaVivo() {

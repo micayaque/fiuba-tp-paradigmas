@@ -3,10 +3,17 @@
 package VotacionNocturna {
 
     class VotacionNocturna {
-        - votos : Collection<Voto>
-        + votaciones() : Collection<Voto>
+        - votos : Collection<Eleccion>
+        + registrarVoto(Eleccion)
         + resultadoVotacion() : Jugador
     }
-    VotacionNocturna ---> Voto
+
+    class Conteo {
+        + sumarVotoPara(Jugador)
+        + masVotado() : Jugador
+    }
+
+    VotacionNocturna --> Eleccion
+    VotacionNocturna ..> Conteo
 
 }

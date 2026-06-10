@@ -8,31 +8,23 @@ title Diagrama de clases - Fase Nocturna
 
 package FaseNocturna {
 
-    interface TurnoNocturno {
-        + pedirAccion(Mafioso mafioso)
-        + pedirAccion(Detective detective)
-        + pedirAccion(Medico medico)
-        + pedirAccion(Rol sinAccionNocturna)
-    }
-
     class FaseNocturna {
-        + ejecutar(Collection<Jugador>) : ResultadoNocturno
-        - ejecutarEleccionMafia() : Jugador
-        - ejecutarInvestigacion() : ResultadoInvestigacion
-        - ejecutarProteccion() : Jugador
+        - protegido : Jugador
+        + laMafiaVotaA(Jugador mafioso, Jugador objetivo) : FaseNocturna
+        + elMedicoProtegeA(Jugador objetivo) : FaseNocturna
+        + ejecutar() : ResultadoNocturno
     }
 
     class ResultadoNocturno {
         - victimaElegida : Jugador
-        - investigacion : ResultadoInvestigacion
-        - proteccion : Jugador
+        - protegido : Jugador
+        + huboEliminacion() : boolean
+        + jugadorEliminado() : Jugador
     }
 
-    TurnoNocturno ..|> FaseNocturna
     ResultadoNocturno ..|> ResultadoFase
     FaseNocturna --> ResultadoNocturno
+    FaseNocturna --> VotacionNocturna
 }
-
-ResultadoNocturno ..> VotacionNocturna
 
 @enduml

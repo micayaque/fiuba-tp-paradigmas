@@ -1,8 +1,5 @@
 package edu.fiuba.algo3.modelo.roles;
 
-import edu.fiuba.algo3.modelo.fases.TurnoNocturno;
-import edu.fiuba.algo3.modelo.jugadores.Jugador;
-
 public class Detective extends Rol {
 
     @Override
@@ -10,8 +7,5 @@ public class Detective extends Rol {
         return new Ciudadanos();
     }
 
-    @Override
-    public void aceptarAccion(Jugador propio, TurnoNocturno turno) {
-        turno.pedirAccion(propio, this);
-    }
+    // La investigacion (con bandoAparente del investigado) se incorpora en la Entrega 2.
 }

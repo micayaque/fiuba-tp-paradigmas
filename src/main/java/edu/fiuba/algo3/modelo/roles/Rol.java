@@ -1,9 +1,8 @@
 package edu.fiuba.algo3.modelo.roles;
 
-import edu.fiuba.algo3.modelo.fases.TurnoNocturno;
 import edu.fiuba.algo3.modelo.jugadores.Jugador;
-
-import java.util.Collection;
+import edu.fiuba.algo3.modelo.votacion.Eleccion;
+import edu.fiuba.algo3.modelo.votacion.VotoEnBlanco;
 
 public abstract class Rol {
 
@@ -17,11 +16,8 @@ public abstract class Rol {
         return false;
     }
 
-    public void reconocerComplices(Jugador propio, Collection<Jugador> jugadores) {
-        // Por defecto un rol no reconoce complices. La Mafia redefine este comportamiento.
-    }
-
-    public void aceptarAccion(Jugador propio, TurnoNocturno turno) {
-        turno.pedirAccion(propio, this);
+    // Null Object: un rol sin voto nocturno se abstiene (no suma a ningun jugador).
+    public Eleccion votoNocturno(Jugador votante, Jugador objetivo) {
+        return new VotoEnBlanco(votante);
     }
 }

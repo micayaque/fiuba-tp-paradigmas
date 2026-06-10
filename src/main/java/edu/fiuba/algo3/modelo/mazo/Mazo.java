@@ -40,12 +40,15 @@ public class Mazo {
         return roles;
     }
 
-    public void asignarCartas(List<Jugador> jugadores) {
-        List<Rol> roles = generarPara(jugadores.size());
+    // Los jugadores nacen con su carta: no existe un Jugador sin rol.
+    public List<Jugador> repartir(List<String> nombres) {
+        List<Rol> roles = generarPara(nombres.size());
         Collections.shuffle(roles);
-        for (int i = 0; i < jugadores.size(); i++) {
-            jugadores.get(i).asignarCarta(roles.get(i));
+        List<Jugador> jugadores = new ArrayList<>();
+        for (int i = 0; i < nombres.size(); i++) {
+            jugadores.add(new Jugador(nombres.get(i), roles.get(i)));
         }
+        return jugadores;
     }
 
     private int totalDeMafiosos(int cantidadJugadores) {
