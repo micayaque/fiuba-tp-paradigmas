@@ -1,8 +1,8 @@
 package edu.fiuba.algo3.modelo.roles;
 
 import edu.fiuba.algo3.modelo.excepciones.VictimaInvalida;
+import edu.fiuba.algo3.modelo.fases.TurnoNocturno;
 import edu.fiuba.algo3.modelo.jugadores.Jugador;
-import edu.fiuba.algo3.modelo.votacion.Eleccion;
 import edu.fiuba.algo3.modelo.votacion.Voto;
 
 public class Mafioso extends Rol {
@@ -20,7 +20,11 @@ public class Mafioso extends Rol {
     }
 
     @Override
-    public Eleccion votoNocturno(Jugador votante, Jugador objetivo) {
+    public void aceptarAccion(Jugador propio, TurnoNocturno turno) {
+        turno.pedirAccion(propio, this);
+    }
+
+    public Voto votoNocturno(Jugador votante, Jugador objetivo) {
         if (!objetivo.estaVivo()) {
             throw new VictimaInvalida("La victima debe ser un jugador vivo");
         }

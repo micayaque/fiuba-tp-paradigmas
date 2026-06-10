@@ -1,8 +1,7 @@
 package edu.fiuba.algo3.modelo.roles;
 
+import edu.fiuba.algo3.modelo.fases.TurnoNocturno;
 import edu.fiuba.algo3.modelo.jugadores.Jugador;
-import edu.fiuba.algo3.modelo.votacion.Eleccion;
-import edu.fiuba.algo3.modelo.votacion.VotoEnBlanco;
 
 public abstract class Rol {
 
@@ -16,8 +15,10 @@ public abstract class Rol {
         return false;
     }
 
-    // Null Object: un rol sin voto nocturno se abstiene (no suma a ningun jugador).
-    public Eleccion votoNocturno(Jugador votante, Jugador objetivo) {
-        return new VotoEnBlanco(votante);
+    // Doble despacho: los roles con accion nocturna redefinen este metodo con el
+    // mismo cuerpo. No es codigo repetido: al cambiar el tipo estatico de `this`
+    // se resuelve la sobrecarga de pedirAccion que corresponde a cada rol.
+    public void aceptarAccion(Jugador propio, TurnoNocturno turno) {
+        turno.pedirAccion(propio, this);
     }
 }

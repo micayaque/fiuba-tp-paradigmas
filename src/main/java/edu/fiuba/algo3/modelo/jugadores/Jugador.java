@@ -2,7 +2,6 @@ package edu.fiuba.algo3.modelo.jugadores;
 
 import edu.fiuba.algo3.modelo.roles.Bando;
 import edu.fiuba.algo3.modelo.roles.Rol;
-import edu.fiuba.algo3.modelo.votacion.Eleccion;
 
 public class Jugador {
 
@@ -32,10 +31,6 @@ public class Jugador {
             return true;
         }
         return carta.conoceElRolDe(otro);
-    }
-
-    public Eleccion votoNocturno(Jugador objetivo) {
-        return carta.votoNocturno(this, objetivo);
     }
 
     public boolean estaVivo() {

@@ -10,7 +10,6 @@ package Jugador {
         + miRol() : Rol
         + bando() : Bando
         + conoceElRolDe(Jugador) : boolean
-        + votoNocturno(Jugador objetivo) : Eleccion
         + estaVivo() : boolean
         + eliminar()
     }

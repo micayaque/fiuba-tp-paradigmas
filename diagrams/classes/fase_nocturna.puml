@@ -8,11 +8,20 @@ title Diagrama de clases - Fase Nocturna
 
 package FaseNocturna {
 
+    interface TurnoNocturno {
+        + pedirAccion(Jugador, Mafioso)
+        + pedirAccion(Jugador, Detective)
+        + pedirAccion(Jugador, Medico)
+        + pedirAccion(Jugador, Rol sinAccionNocturna)
+    }
+
     class FaseNocturna {
+        - objetivosDeLaMafia : Map<Jugador, Jugador>
+        - protegidoElegido : Jugador
         - protegido : Jugador
         + laMafiaVotaA(Jugador mafioso, Jugador objetivo) : FaseNocturna
         + elMedicoProtegeA(Jugador objetivo) : FaseNocturna
-        + ejecutar() : ResultadoNocturno
+        + ejecutar(Collection<Jugador>) : ResultadoNocturno
     }
 
     class ResultadoNocturno {
@@ -22,6 +31,13 @@ package FaseNocturna {
         + jugadorEliminado() : Jugador
     }
 
+    note bottom of FaseNocturna
+        ejecutar() recorre a los vivos:
+        jugador.miRol().aceptarAccion(jugador, this)
+        (doble despacho rol <-> turno)
+    end note
+
+    TurnoNocturno <|.. FaseNocturna
     ResultadoNocturno ..|> ResultadoFase
     FaseNocturna --> ResultadoNocturno
     FaseNocturna --> VotacionNocturna

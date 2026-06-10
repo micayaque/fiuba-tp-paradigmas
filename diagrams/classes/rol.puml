@@ -4,7 +4,7 @@ package Rol {
         + {abstract} bando() : Bando
         + bandoAparente() : Bando
         + conoceElRolDe(Jugador) : boolean
-        + votoNocturno(Jugador votante, Jugador objetivo) : Eleccion
+        + aceptarAccion(Jugador propio, TurnoNocturno turno)
     }
 
     abstract class Bando {
@@ -21,6 +21,7 @@ package Rol {
 
     class Mafioso {
         + conoceElRolDe(Jugador) : boolean
+        + aceptarAccion(Jugador, TurnoNocturno)
         + votoNocturno(Jugador votante, Jugador objetivo) : Voto
     }
 
@@ -32,9 +33,11 @@ package Rol {
     }
 
     class Detective {
+        + aceptarAccion(Jugador, TurnoNocturno)
     }
 
     class Medico {
+        + aceptarAccion(Jugador, TurnoNocturno)
     }
 
     class Ciudadano {}
