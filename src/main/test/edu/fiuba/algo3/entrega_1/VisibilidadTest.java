@@ -1,73 +1,81 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.fases.FaseApertura;
 import edu.fiuba.algo3.modelo.jugadores.Jugador;
-import edu.fiuba.algo3.modelo.roles.Ciudadano;
-import edu.fiuba.algo3.modelo.roles.Detective;
-import edu.fiuba.algo3.modelo.roles.Mafioso;
-import edu.fiuba.algo3.modelo.roles.Rol;
+import edu.fiuba.algo3.modelo.roles.*;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
+import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VisibilidadTest {
 
+    private List<Jugador> jugadores;
+    private List<Jugador> mafiosos;
+    private List<Jugador> ciudadanos;
+    private Jugador detective;
+
+    @BeforeEach
+    public void setUp() {
+        this.jugadores = JugadorTestFactory.crearJugadores(12);
+        this.mafiosos = jugadores.stream()
+                                .filter(j -> j.rol().getClass().equals(Mafioso.class))
+                                .collect(Collectors.toList());
+        this.ciudadanos = jugadores.stream()
+                                   .filter(j -> j.rol().getClass().equals(Ciudadano.class))
+                                   .collect(Collectors.toList());
+        this.detective = jugadores.stream()
+                                  .filter(j -> j.rol().getClass().equals(Detective.class))
+                                  .findFirst()
+                                  .orElseThrow();
+    }
+
     @Test
     public void unJugadorPuedeVerSuPropioRol() {
-        Rol rol = new Ciudadano();
-        Jugador ana = new Jugador("Ana", rol);
 
-        assertEquals(rol, ana.miRol());
-        assertTrue(ana.conoceElRolDe(ana));
+        Jugador jugador = jugadores.get(0);
+
+        assertTrue(jugador.conoceElRolDe(jugador, jugador.rol()));
     }
 
     @Test
     public void unJugadorNoConoceElRolDeLosDemas() {
-        Jugador ana = new Jugador("Ana", new Ciudadano());
-        Jugador beto = new Jugador("Beto", new Detective());
 
-        assertFalse(ana.conoceElRolDe(beto));
-        assertFalse(beto.conoceElRolDe(ana));
+        Jugador ciudadano = ciudadanos.get(0);
+
+        assertFalse(ciudadano.conoceElRolDe(detective, ciudadano.rol()));
+        assertFalse(detective.conoceElRolDe(ciudadano, detective.rol()));
     }
 
     @Test
     public void losMafiososConocenLaIdentidadDeSusComplicesAlIniciarLaPartida() {
-        Jugador mafioso1 = new Jugador("Mafioso 1", new Mafioso());
-        Jugador mafioso2 = new Jugador("Mafioso 2", new Mafioso());
-        Jugador ciudadano = new Jugador("Ciudadano", new Ciudadano());
-        List<Jugador> jugadores = List.of(mafioso1, mafioso2, ciudadano);
 
-        new FaseApertura().ejecutar(jugadores);
+        Jugador mafioso1 = mafiosos.get(0);
+        Jugador mafioso2 = mafiosos.get(1);
 
-        assertTrue(mafioso1.conoceElRolDe(mafioso2));
-        assertTrue(mafioso2.conoceElRolDe(mafioso1));
+        assertTrue(mafioso1.conoceElRolDe(mafioso2, mafioso2.rol()));
+        assertTrue(mafioso2.conoceElRolDe(mafioso1, mafioso1.rol()));
     }
 
     @Test
     public void losMafiososNoConocenElRolDeLosCiudadanos() {
-        Jugador mafioso1 = new Jugador("Mafioso 1", new Mafioso());
-        Jugador mafioso2 = new Jugador("Mafioso 2", new Mafioso());
-        Jugador ciudadano = new Jugador("Ciudadano", new Ciudadano());
-        List<Jugador> jugadores = List.of(mafioso1, mafioso2, ciudadano);
 
-        new FaseApertura().ejecutar(jugadores);
+        Jugador mafioso = mafiosos.get(0);
+        Jugador ciudadano = ciudadanos.get(0);
 
-        assertFalse(mafioso1.conoceElRolDe(ciudadano));
-        assertFalse(ciudadano.conoceElRolDe(mafioso1));
+        assertFalse(mafioso.conoceElRolDe(ciudadano, ciudadano.rol()));
+        assertFalse(ciudadano.conoceElRolDe(mafioso, mafioso.rol()));
     }
 
     @Test
     public void unCiudadanoNoConoceElRolDeNadieAunDespuesDeLaApertura() {
-        Jugador mafioso = new Jugador("Mafioso", new Mafioso());
-        Jugador ciudadano1 = new Jugador("Ciudadano 1", new Ciudadano());
-        Jugador ciudadano2 = new Jugador("Ciudadano 2", new Ciudadano());
-        List<Jugador> jugadores = List.of(mafioso, ciudadano1, ciudadano2);
 
-        new FaseApertura().ejecutar(jugadores);
+        Jugador mafioso = mafiosos.get(0);
+        Jugador ciudadano1 = ciudadanos.get(0);
+        Jugador ciudadano2 = ciudadanos.get(1);
 
-        assertFalse(ciudadano1.conoceElRolDe(ciudadano2));
-        assertFalse(ciudadano1.conoceElRolDe(mafioso));
+        assertFalse(ciudadano1.conoceElRolDe(ciudadano2, ciudadano2.rol()));
+        assertFalse(ciudadano1.conoceElRolDe(mafioso, mafioso.rol()));
     }
 }
