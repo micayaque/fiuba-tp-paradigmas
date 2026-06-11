@@ -4,7 +4,10 @@ import edu.fiuba.algo3.modelo.excepciones.VictimaInvalida;
 import edu.fiuba.algo3.modelo.fases.FaseNocturna;
 import edu.fiuba.algo3.modelo.fases.ResultadoNocturno;
 import edu.fiuba.algo3.modelo.jugadores.Jugador;
+import edu.fiuba.algo3.modelo.jugadores.JugadorNulo;
 import edu.fiuba.algo3.modelo.roles.*;
+import edu.fiuba.algo3.modelo.votacion.VotacionNocturna;
+import edu.fiuba.algo3.modelo.votacion.Voto;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,12 +33,12 @@ public class FaseNocturnaTest {
 
         this.jugadores = JugadorTestFactory.crearJugadores(12);
         this.mafiosos = jugadores.stream()
-                                .filter(j -> j.rol().getClass().equals(Mafioso.class))
-                                .collect(Collectors.toList());
+                .filter(j -> j.rol().getClass().equals(Mafioso.class))
+                .collect(Collectors.toList());
         this.ciudadanos = jugadores.stream()
-                                   .filter(j -> j.rol().getClass().equals(Ciudadano.class))
-                                   .collect(Collectors.toList());
-            faseNocturna = new FaseNocturna(jugadores);
+                .filter(j -> j.rol().getClass().equals(Ciudadano.class))
+                .collect(Collectors.toList());
+        faseNocturna = new FaseNocturna(jugadores);
     }
 
     @Test
@@ -50,7 +53,8 @@ public class FaseNocturnaTest {
         Jugador victima = resultado.victimaElegida();
 
         assertNotNull(victima, "La mafia debería haber elegido a una víctima");
-        assertTrue(victima.estaVivo(), "La víctima elegida debería ser un jugador vivo y eliminarse al finalizar la fase nocturna");
+        assertTrue(victima.estaVivo(),
+                "La víctima elegida debería ser un jugador vivo y eliminarse al finalizar la fase nocturna");
 
         for (Jugador mafioso : mafiosos) {
             assertNotEquals(mafioso, victima, "La mafia no puede elegir a otro mafioso como víctima");
@@ -59,11 +63,13 @@ public class FaseNocturnaTest {
 
     @Test
     public void laMafiaNoPuedeElegirUnaVictimaYaEliminada() {
-        
+
         jugadores.forEach(j -> j.eliminar());
         FaseNocturna faseNocturnaJugadoresEliminados = new FaseNocturna(jugadores);
 
-        assertThrows(VictimaInvalida.class, () -> { faseNocturnaJugadoresEliminados.ejecutar();}, "No se puede elegir a un jugador muerto");
+        assertThrows(VictimaInvalida.class, () -> {
+            faseNocturnaJugadoresEliminados.ejecutar();
+        }, "No se puede elegir a un jugador muerto");
     }
 
     @Test
@@ -71,7 +77,9 @@ public class FaseNocturnaTest {
 
         FaseNocturna faseNocturnaSoloMafiosos = new FaseNocturna(mafiosos);
 
-        assertThrows(VictimaInvalida.class, () -> { faseNocturnaSoloMafiosos.ejecutar();}, "No se puede elegir a un jugador mafioso");
+        assertThrows(VictimaInvalida.class, () -> {
+            faseNocturnaSoloMafiosos.ejecutar();
+        }, "No se puede elegir a un jugador mafioso");
     }
 
     @Test
@@ -84,10 +92,10 @@ public class FaseNocturnaTest {
 
         ResultadoNocturno resultado = faseNocturna.ejecutar();
 
-        if(resultado.huboEliminacion()) {
+        if (resultado.huboEliminacion()) {
             resultado.victimaElegida().eliminar();
         }
-        
+
         assertFalse(resultado.huboEliminacion(), "El resultado debe indicar que la eliminación fue anulada");
         assertTrue(victimaEsperada.estaVivo(), "El ciudadano debe seguir vivo gracias a la protección del médico");
     }
@@ -99,7 +107,7 @@ public class FaseNocturnaTest {
 
         jugadores.remove(protegidoPorMedico);
         jugadores.remove(victimaDeLaMafia);
-        
+
         jugadores.add(1, protegidoPorMedico);
         jugadores.add(0, victimaDeLaMafia);
 
@@ -110,6 +118,32 @@ public class FaseNocturnaTest {
         }
 
         assertFalse(victimaDeLaMafia.estaVivo(), "El ciudadano atacado debe estar en estado eliminado");
+    }
+
+    @Test
+    public void siHayEmpateEnLaVotacionNocturnaElPadrinoDesempata() {
+        Jugador padrino = new Jugador("Michael Corleone", new Padrino());
+        Jugador victima1 = new Jugador("Ciudadano A", new Ciudadano());
+        Jugador victima2 = new Jugador("Ciudadano B", new Ciudadano());
+
+        VotacionNocturna votacion = new VotacionNocturna();
+        votacion.registrarVoto(new Voto(victima1));
+        votacion.registrarVoto(new Voto(victima2));
+
+        Jugador victimaDefinitiva;
+
+        if (votacion.huboEmpate()) {
+            List<Jugador> candidatos = votacion.jugadoresMasVotados();
+            victimaDefinitiva = ((Padrino) padrino.rol()).decidirVotoFinal(candidatos);
+        } else {
+            victimaDefinitiva = votacion.resultadoVotacion();
+        }
+
+        assertNotEquals(JugadorNulo.obtenerInstancia(), victimaDefinitiva,
+                "El Padrino debe evitar que el resultado sea un JugadorNulo");
+
+        boolean eligioAUnCandidatoValido = victimaDefinitiva.equals(victima1) || victimaDefinitiva.equals(victima2);
+        assertTrue(eligioAUnCandidatoValido, "El Padrino debe elegir a uno de los jugadores empatados");
     }
 
 }

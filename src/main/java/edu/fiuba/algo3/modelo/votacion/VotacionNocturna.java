@@ -16,12 +16,35 @@ public class VotacionNocturna {
         votos.add(voto);
     }
 
+    private Map<Jugador, Long> agruparVotos() {
+        return votos.stream()
+                .collect(Collectors.groupingBy(Voto::votado, Collectors.counting()));
+    }
+
+    public List<Jugador> jugadoresMasVotados() {
+        Map<Jugador, Long> conteo = agruparVotos();
+
+        Long maxVotos = conteo.values().stream()
+                .max(Long::compareTo)
+                .orElse(0L);
+
+        return conteo.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(maxVotos))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
+    public boolean huboEmpate() {
+        return jugadoresMasVotados().size() > 1;
+    }
+
     public Jugador resultadoVotacion() {
-    return votos.stream()
-                    .collect(Collectors.groupingBy(Voto::votado, Collectors.counting()))
-                    .entrySet().stream()
-                    .max(Map.Entry.comparingByValue())
-                    .map(Map.Entry::getKey)
-                    .orElse(JugadorNulo.obtenerInstancia());
+        List<Jugador> masVotados = jugadoresMasVotados();
+
+        if (masVotados.size() == 1) {
+            return masVotados.get(0);
+        }
+
+        return JugadorNulo.obtenerInstancia();
     }
 }
