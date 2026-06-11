@@ -44,8 +44,8 @@ public class VisibilidadTest {
 
         Jugador ciudadano = ciudadanos.get(0);
 
-        assertFalse(ciudadano.conoceElRolDe(detective, ciudadano.rol()));
-        assertFalse(detective.conoceElRolDe(ciudadano, detective.rol()));
+        assertFalse(ciudadano.conoceElRolDe(detective, detective.rol()));
+        assertFalse(detective.conoceElRolDe(ciudadano, ciudadano.rol()));
     }
 
     @Test
