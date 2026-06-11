@@ -2,21 +2,16 @@ package edu.fiuba.algo3.modelo.votacion;
 
 import edu.fiuba.algo3.modelo.jugadores.Jugador;
 
-public class Voto extends Eleccion {
+public class Voto {
 
     private final Jugador votado;
 
-    public Voto(Jugador votante, Jugador votado) {
-        super(votante);
+    public Voto(Jugador votado) {
         this.votado = votado;
     }
 
     public Jugador votado() {
         return votado;
     }
-
-    @Override
-    public void registrarEn(Conteo conteo) {
-        conteo.sumarVotoPara(votado);
-    }
+    
 }
