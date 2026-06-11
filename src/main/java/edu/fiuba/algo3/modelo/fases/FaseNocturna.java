@@ -15,6 +15,8 @@ public class FaseNocturna implements TurnoNocturno {
     private List<Jugador> jugadores;
     private final Map<Jugador, Jugador> objetivosDeLaMafia = new HashMap<>();
     private Jugador jugadorProtegido = JugadorNulo.obtenerInstancia();
+    private Padrino padrinoRol;
+    private Jugador padrino;
 
     public FaseNocturna(List<Jugador> jugadores) {
         this.jugadores = jugadores;
@@ -28,10 +30,15 @@ public class FaseNocturna implements TurnoNocturno {
 
         VotacionNocturna votacion = new VotacionNocturna();
 
-        for (Jugador mafioso : this.objetivosDeLaMafia.keySet()) {        
+        for (Jugador mafioso : this.objetivosDeLaMafia.keySet()) {
             Jugador elegido = objetivosDeLaMafia.get(mafioso);
             Voto voto = new Voto(elegido);
             votacion.registrarVoto(voto);
+        }
+
+        if (votacion.huboEmpate() && padrino.estaVivo()) {
+            Jugador eleccionPadrino = padrinoRol.decidirVotoFinal(votacion.jugadoresMasVotados());
+            votacion.registrarVoto(new Voto(eleccionPadrino));
         }
 
         Jugador victimaElegida = votacion.resultadoVotacion();
@@ -58,5 +65,11 @@ public class FaseNocturna implements TurnoNocturno {
     @Override
     public void pedirAccion(Jugador jugador, Rol sinAccionNocturna) {
 
+    }
+
+    @Override
+    public void pedirAccion(Jugador jugador, Padrino padrino) {
+        this.padrino = jugador;
+        this.padrinoRol = padrino;
     }
 }
