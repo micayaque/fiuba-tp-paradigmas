@@ -7,10 +7,6 @@ public abstract class Rol {
 
     public abstract Bando bando();
 
-    public Bando bandoAparente() {
-        return bando();
-    }
-
     public boolean conoceElRolDe(Rol otro) {
         return false;
     }
