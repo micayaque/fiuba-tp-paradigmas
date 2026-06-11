@@ -30,7 +30,7 @@ public class FaseNocturna implements TurnoNocturno {
 
         for (Jugador mafioso : this.objetivosDeLaMafia.keySet()) {        
             Jugador elegido = objetivosDeLaMafia.get(mafioso);
-            Voto voto = new Voto(mafioso, elegido);
+            Voto voto = new Voto(elegido);
             votacion.registrarVoto(voto);
         }
 
