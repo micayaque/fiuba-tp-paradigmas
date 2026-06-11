@@ -11,4 +11,6 @@ public abstract class Bando {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    public abstract boolean esMafioso();
 }
