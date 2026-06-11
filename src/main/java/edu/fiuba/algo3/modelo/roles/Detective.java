@@ -11,7 +11,7 @@ public class Detective extends Rol {
     }
 
     @Override
-    public void aceptarAccion(Jugador propio, TurnoNocturno turno) {
+    public void aceptarAccionNocturna(Jugador propio, TurnoNocturno turno) {
         turno.pedirAccion(propio, this);
     }
 }
