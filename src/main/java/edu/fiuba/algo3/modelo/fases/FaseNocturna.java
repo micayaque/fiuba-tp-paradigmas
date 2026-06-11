@@ -1,66 +1,62 @@
 package edu.fiuba.algo3.modelo.fases;
 
-import edu.fiuba.algo3.modelo.jugadores.Jugador;
-import edu.fiuba.algo3.modelo.roles.Detective;
-import edu.fiuba.algo3.modelo.roles.Mafioso;
-import edu.fiuba.algo3.modelo.roles.Medico;
-import edu.fiuba.algo3.modelo.roles.Rol;
-import edu.fiuba.algo3.modelo.votacion.VotacionNocturna;
-import edu.fiuba.algo3.modelo.votacion.VotoEnBlanco;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+
+import edu.fiuba.algo3.modelo.jugadores.Jugador;
+import edu.fiuba.algo3.modelo.jugadores.JugadorNulo;
+import edu.fiuba.algo3.modelo.roles.*;
+import edu.fiuba.algo3.modelo.votacion.VotacionNocturna;
+import edu.fiuba.algo3.modelo.votacion.Voto;
 
 public class FaseNocturna implements TurnoNocturno {
 
-    private final AccionesNocturnas acciones;
-    private final VotacionNocturna votacionDeLaMafia = new VotacionNocturna();
-    private List<Jugador> vivos = new ArrayList<>();
-    private Jugador protegido;
+    private List<Jugador> jugadores;
+    private final Map<Jugador, Jugador> objetivosDeLaMafia = new HashMap<>();
+    private Jugador jugadorProtegido = JugadorNulo.obtenerInstancia();
 
-    public FaseNocturna(AccionesNocturnas acciones) {
-        this.acciones = acciones;
+    public FaseNocturna(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
     }
 
-    public ResultadoNocturno ejecutar(List<Jugador> jugadores) {
-        vivos = jugadores.stream().filter(Jugador::estaVivo).collect(Collectors.toList());
+    public ResultadoNocturno ejecutar() {
 
-        for (Jugador jugador : vivos) {
-            jugador.miRol().aceptarAccion(jugador, this);
+        for (Jugador jugador : jugadores) {
+            jugador.rol().aceptarAccionNocturna(jugador, this);
         }
 
-        Jugador victima = votacionDeLaMafia.resultadoVotacion();
-        boolean huboEliminacion = victima != null && !victima.equals(protegido);
-        if (huboEliminacion) {
-            victima.eliminar();
+        VotacionNocturna votacion = new VotacionNocturna();
+
+        for (Jugador mafioso : this.objetivosDeLaMafia.keySet()) {        
+            Jugador elegido = objetivosDeLaMafia.get(mafioso);
+            Voto voto = new Voto(mafioso, elegido);
+            votacion.registrarVoto(voto);
         }
-        return new ResultadoNocturno(victima, protegido, huboEliminacion);
+
+        Jugador victimaElegida = votacion.resultadoVotacion();
+
+        ResultadoNocturno resultado = new ResultadoNocturno(victimaElegida, jugadorProtegido);
+        return resultado;
     }
 
     @Override
     public void pedirAccion(Jugador jugador, Mafioso mafioso) {
-        if (!acciones.tieneVotoDe(jugador)) {
-            votacionDeLaMafia.registrarVoto(new VotoEnBlanco(jugador));
-            return;
-        }
-        votacionDeLaMafia.registrarVoto(mafioso.elegirVictima(jugador, acciones.objetivoDe(jugador), vivos));
+        objetivosDeLaMafia.put(jugador, mafioso.elegirVictima(jugadores));
     }
 
     @Override
     public void pedirAccion(Jugador jugador, Detective detective) {
-        votacionDeLaMafia.registrarVoto(new VotoEnBlanco(jugador));
-        // La investigacion del Detective se incorpora en la Entrega 2.
+
     }
 
     @Override
     public void pedirAccion(Jugador jugador, Medico medico) {
-        votacionDeLaMafia.registrarVoto(new VotoEnBlanco(jugador));
-        this.protegido = medico.proteger(acciones.protegido(), vivos);
+        this.jugadorProtegido = medico.proteger(jugadores);
     }
 
     @Override
     public void pedirAccion(Jugador jugador, Rol sinAccionNocturna) {
-        votacionDeLaMafia.registrarVoto(new VotoEnBlanco(jugador));
+
     }
 }
