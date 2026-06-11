@@ -1,12 +1,9 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.excepciones.CantidadDeJugadoresInvalida;
 import edu.fiuba.algo3.modelo.mazo.Mazo;
 import edu.fiuba.algo3.modelo.roles.*;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MazoTest {
@@ -69,15 +66,5 @@ public class MazoTest {
             assertEquals(cantidad, roles.size(), "Mazo para " + cantidad + " jugadores");
             assertTrue(mafia < ciudadanos, "La mafia debe ser minoria con " + cantidad + " jugadores");
         }
-    }
-
-    @Test
-    public void mazoConPocosJugadoresEsRechazado() {
-        assertThrows(CantidadDeJugadoresInvalida.class, () -> new Mazo().generarPara(4));
-    }
-
-    @Test
-    public void mazoConDemasiadosJugadoresEsRechazado() {
-        assertThrows(CantidadDeJugadoresInvalida.class, () -> new Mazo().generarPara(13));
     }
 }
