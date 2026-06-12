@@ -1,6 +1,6 @@
-package edu.fiuba.algo3.vistas;
+package edu.fiuba.paradigmas.vistas;
 
-import edu.fiuba.algo3.SystemInfo;
+import edu.fiuba.paradigmas.SystemInfo;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;

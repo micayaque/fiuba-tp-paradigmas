@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>edu.fiuba.algo3</groupId>
+  <groupId>edu.fiuba.paradigmas</groupId>
   <artifactId>tp2</artifactId>
   <version>0.0.1</version>
   <properties>
@@ -20,7 +20,7 @@
     <javafx-version>17.0.2</javafx-version>
     <pitest-plugin-version>1.17.3</pitest-plugin-version>
     <pitest-junit5-plugin-version>1.0.0</pitest-junit5-plugin-version>
-    <main-class>edu.fiuba.algo3.Main</main-class>
+    <main-class>edu.fiuba.paradigmas.Main</main-class>
   </properties>
   <dependencies>
     <dependency>
@@ -84,7 +84,6 @@
     </profile>
   </profiles>
   <build>
-    <testSourceDirectory>src/main/test</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.pitest</groupId>
@@ -111,7 +110,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.6</version>
         <configuration>
-          <mainClass>edu.fiuba.algo3/${main-class}</mainClass>
+          <mainClass>edu.fiuba.paradigmas/${main-class}</mainClass>
         </configuration>
       </plugin>
       <plugin>
