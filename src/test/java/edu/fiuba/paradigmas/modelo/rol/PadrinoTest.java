@@ -17,10 +17,10 @@ public class PadrinoTest {
         int cantidadMedicosEsperadosEnElContador = 0;
         int cantidadPadrinosEsperadosEnElContador = 1;
 
-        assertEquals(cantidadDetectivesEsperadosEnElContador, contador.cantidadDetectives());
-        assertEquals(cantidadMafiososEsperadosEnElContador, contador.cantidadMafiosos());
-        assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadCiudadanos());
-        assertEquals(cantidadMedicosEsperadosEnElContador, contador.cantidadMedicos());
-        assertEquals(cantidadPadrinosEsperadosEnElContador, contador.cantidadPadrinos());
+        assertEquals(cantidadDetectivesEsperadosEnElContador, contador.cantidadDeDetectives());
+        assertEquals(cantidadMafiososEsperadosEnElContador, contador.cantidadDeMafiosos());
+        assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadDeCiudadanos());
+        assertEquals(cantidadMedicosEsperadosEnElContador, contador.cantidadDeMedicos());
+        assertEquals(cantidadPadrinosEsperadosEnElContador, contador.cantidadDePadrinos());
     }
 }

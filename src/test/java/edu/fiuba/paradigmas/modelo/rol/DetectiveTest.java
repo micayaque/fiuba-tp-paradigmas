@@ -15,8 +15,8 @@ public class DetectiveTest {
         int cantidadMafiososEsperadosEnElContador = 0;
         int cantidadCiudadanosEsperadosEnElContador = 0;
 
-        assertEquals(cantidadDetectivesEsperadosEnElContador, contador.cantidadDetectives());
-        assertEquals(cantidadMafiososEsperadosEnElContador, contador.cantidadMafiosos());
-        assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadCiudadanos());
+        assertEquals(cantidadDetectivesEsperadosEnElContador, contador.cantidadDeDetectives());
+        assertEquals(cantidadMafiososEsperadosEnElContador, contador.cantidadDeMafiosos());
+        assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadDeCiudadanos());
     }
 }

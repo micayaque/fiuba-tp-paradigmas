@@ -1,5 +1,7 @@
 package edu.fiuba.paradigmas.entrega_1;
 
+import edu.fiuba.paradigmas.modelo.excepciones.CantidadDeJugadoresInvalidaExcepcion;
+import edu.fiuba.paradigmas.modelo.excepciones.ComposicionInvalidaExcepcion;
 import edu.fiuba.paradigmas.modelo.mazo.Mazo;
 import edu.fiuba.paradigmas.modelo.rol.*;
 import org.junit.jupiter.api.Test;
@@ -11,80 +13,59 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ComposicionMazoTest {
 
     @Test
-    public void mazoPara5JugadoresConDetectiveY1MafiosoTieneLaComposicionCorrecta() {
-        List<Rol> rolesElegidos = List.of(new Detective(), new Mafioso(), new Ciudadano(), new Ciudadano(), new Ciudadano());
-
-        Mazo mazo = new Mazo();
-        List<Rol> cartasGeneradas = mazo.generarPara(rolesElegidos);
-        int cantidadRolesGenerados = 0;
-        ContadorDeRoles contadorDeRolesGenerados = new ContadorDeRoles();
-        for (Rol rol : cartasGeneradas) {
-            rol.contarseEn(contadorDeRolesGenerados);
-            cantidadRolesGenerados++;
-        }
-
-        int cantidadDetectivesEsperada = 1;
-        int cantidadMafiososEsperada = 1;
-        int cantidadCiudadanosEsperada = 3;
-        int cantidadRolesEsperada = 5;
-
-        assertEquals(cantidadRolesEsperada, cantidadRolesGenerados);
-        assertEquals(cantidadDetectivesEsperada, contadorDeRolesGenerados.cantidadDetectives());
-        assertEquals(cantidadMafiososEsperada, contadorDeRolesGenerados.cantidadMafiosos());
-        assertEquals(cantidadCiudadanosEsperada, contadorDeRolesGenerados.cantidadCiudadanos());
+    public void con5Jugadores_1MafiosoYUnEspecialEsValido() {
+        List<Rol> roles = List.of(new Mafioso(), new Detective(),
+                                  new Ciudadano(), new Ciudadano(), new Ciudadano());
+        assertDoesNotThrow(() -> new Mazo().validar(roles));
     }
 
     @Test
-    public void mazoPara7JugadoresTieneLaComposicionCorrecta() {
-        List<Rol> rolesElegidos = List.of(new Detective(), new Mafioso(), new Ciudadano(), new Ciudadano(), new Ciudadano(),
-                                            new Medico(), new Mafioso());
-
-        Mazo mazo = new Mazo();
-        List<Rol> cartasGeneradas = mazo.generarPara(rolesElegidos);
-        int cantidadRolesGenerados = 0;
-        ContadorDeRoles contadorDeRolesGenerados = new ContadorDeRoles();
-        for (Rol rol : cartasGeneradas) {
-            rol.contarseEn(contadorDeRolesGenerados);
-            cantidadRolesGenerados++;
-        }
-
-        int cantidadDetectivesEsperada = 1;
-        int cantidadMafiososEsperada = 2;
-        int cantidadCiudadanosEsperada = 3;
-        int cantidadMedicosEsperada = 1;
-        int cantidadRolesEsperada = 7;
-
-        assertEquals(cantidadRolesEsperada, cantidadRolesGenerados);
-        assertEquals(cantidadDetectivesEsperada, contadorDeRolesGenerados.cantidadDetectives());
-        assertEquals(cantidadMafiososEsperada, contadorDeRolesGenerados.cantidadMafiosos());
-        assertEquals(cantidadCiudadanosEsperada, contadorDeRolesGenerados.cantidadCiudadanos());
-        assertEquals(cantidadMedicosEsperada, contadorDeRolesGenerados.cantidadMedicos());
+    public void con5Jugadores_2MafiososTambienEsValido() {
+        List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(),
+                                  new Ciudadano(), new Ciudadano());
+        assertDoesNotThrow(() -> new Mazo().validar(roles));
     }
 
     @Test
-    public void mazoPara10JugadoresConPadrinoYSheriffTieneLaComposicionCorrecta() {
-        List<Rol> rolesElegidos = List.of(new Detective(), new Mafioso(), new Ciudadano(), new Ciudadano(), new Ciudadano(),
-                                            new Medico(), new Mafioso(), new Padrino(), new Mafioso(), new Ciudadano());
+    public void con7Jugadores_2MafiososDetectiveYMedicoEsValido() {
+        List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(), new Medico(),
+                                  new Ciudadano(), new Ciudadano(), new Ciudadano());
+        assertDoesNotThrow(() -> new Mazo().validar(roles));
+    }
 
-        Mazo mazo = new Mazo();
-        List<Rol> cartasGeneradas = mazo.generarPara(rolesElegidos);
-        int cantidadRolesGenerados = 0;
-        ContadorDeRoles contadorDeRolesGenerados = new ContadorDeRoles();
-        for (Rol rol : cartasGeneradas) {
-            rol.contarseEn(contadorDeRolesGenerados);
-            cantidadRolesGenerados++;
-        }
+    @Test
+    public void con10Jugadores_3DeMafiaConPadrinoYTodosLosEspecialesEsValido() {
+        List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Padrino(),
+                                  new Detective(), new Medico(), new Sheriff(),
+                                  new Ciudadano(), new Ciudadano(), new Ciudadano(), new Ciudadano());
+        assertDoesNotThrow(() -> new Mazo().validar(roles));
+    }
 
-        int cantidadDetectivesEsperada = 1;
-        int cantidadMafiososEsperada = 3;
-        int cantidadCiudadanosEsperada = 4;
-        int cantidadMedicosEsperada = 1;
-        int cantidadRolesEsperada = 10;
 
-        assertEquals(cantidadRolesEsperada, cantidadRolesGenerados);
-        assertEquals(cantidadDetectivesEsperada, contadorDeRolesGenerados.cantidadDetectives());
-        assertEquals(cantidadMafiososEsperada, contadorDeRolesGenerados.cantidadMafiosos());
-        assertEquals(cantidadCiudadanosEsperada, contadorDeRolesGenerados.cantidadCiudadanos());
-        assertEquals(cantidadMedicosEsperada, contadorDeRolesGenerados.cantidadMedicos());
+    @Test
+    public void laMafiaEnMayoriaEsRechazada() {              
+        List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Padrino(),
+                                  new Detective(), new Ciudadano());
+        assertThrows(ComposicionInvalidaExcepcion.class, () -> new Mazo().validar(roles));
+    }
+
+    @Test
+    public void demasiadosEspecialesParaPocosJugadoresEsRechazado() {
+        List<Rol> roles = List.of(new Mafioso(), new Detective(), new Medico(),
+                                  new Ciudadano(), new Ciudadano());
+        assertThrows(ComposicionInvalidaExcepcion.class, () -> new Mazo().validar(roles));
+    }
+
+    @Test
+    public void dosDelMismoRolEspecialEsRechazado() {
+        List<Rol> roles = List.of(new Mafioso(), new Detective(), new Detective(),
+                                  new Ciudadano(), new Ciudadano());
+        assertThrows(ComposicionInvalidaExcepcion.class, () -> new Mazo().validar(roles));
+    }
+
+    @Test
+    public void menosDe5JugadoresEsRechazado() {
+        List<Rol> roles = List.of(new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano());
+        assertThrows(CantidadDeJugadoresInvalidaExcepcion.class, () -> new Mazo().validar(roles));
     }
 }

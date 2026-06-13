@@ -26,11 +26,11 @@ public class ContadorDeRolesTest {
         int cantidadMedicoEsperada = 1;
         int cantidadPadrinoEsperada = 1;
 
-        assertEquals(cantidadCiudadanosEsperada, contadorDeRoles.cantidadCiudadanos());
-        assertEquals(cantidadDetectiveEsperada, contadorDeRoles.cantidadDetectives());
-        assertEquals(cantidadMafiososEsperada, contadorDeRoles.cantidadMafiosos());
-        assertEquals(cantidadSheriffsEsperada, contadorDeRoles.cantidadSheriffs());
-        assertEquals(cantidadMedicoEsperada, contadorDeRoles.cantidadMedicos());
-        assertEquals(cantidadPadrinoEsperada, contadorDeRoles.cantidadPadrinos());
+        assertEquals(cantidadCiudadanosEsperada, contadorDeRoles.cantidadDeCiudadanos());
+        assertEquals(cantidadDetectiveEsperada, contadorDeRoles.cantidadDeDetectives());
+        assertEquals(cantidadMafiososEsperada, contadorDeRoles.cantidadDeMafiosos());
+        assertEquals(cantidadSheriffsEsperada, contadorDeRoles.cantidadDeSheriffs());
+        assertEquals(cantidadMedicoEsperada, contadorDeRoles.cantidadDeMedicos());
+        assertEquals(cantidadPadrinoEsperada, contadorDeRoles.cantidadDePadrinos());
     }
 }

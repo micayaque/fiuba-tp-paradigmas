@@ -18,9 +18,9 @@ public class MedicoTest {
         int cantidadCiudadanosEsperadosEnElContador = 0;
         int cantidadMedicosEsperadosEnElContador = 3;
 
-        assertEquals(cantidadDetectivesEsperadosEnElContador, contador.cantidadDetectives());
-        assertEquals(cantidadMafiososEsperadosEnElContador, contador.cantidadMafiosos());
-        assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadCiudadanos());
-        assertEquals(cantidadMedicosEsperadosEnElContador, contador.cantidadMedicos());
+        assertEquals(cantidadDetectivesEsperadosEnElContador, contador.cantidadDeDetectives());
+        assertEquals(cantidadMafiososEsperadosEnElContador, contador.cantidadDeMafiosos());
+        assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadDeCiudadanos());
+        assertEquals(cantidadMedicosEsperadosEnElContador, contador.cantidadDeMedicos());
     }
 }
