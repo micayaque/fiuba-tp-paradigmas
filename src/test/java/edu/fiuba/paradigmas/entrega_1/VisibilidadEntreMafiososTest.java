@@ -1,8 +1,9 @@
 package edu.fiuba.paradigmas.entrega_1;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.rol.*;
-
+import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
+import edu.fiuba.paradigmas.modelo.rol.Mafioso;
+import edu.fiuba.paradigmas.modelo.rol.Padrino;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VisibilidadEntreMafiososTest {
+
     @Test
     public void losMafiososConocenASusComplicesDeLaMafia() {
         Jugador mafioso1 = new Jugador("1", new Mafioso());
@@ -30,6 +32,17 @@ public class VisibilidadEntreMafiososTest {
     }
 
     @Test
+    public void elPadrinoEsReconocidoComoComplicePorLaMafia() {
+        Jugador mafioso = new Jugador("Vito", new Mafioso());
+        Jugador padrino = new Jugador("Michael", new Padrino());
+
+        List<Jugador> conocidos = new ArrayList<>();
+        mafioso.puedeConocerElRolDe(padrino, conocidos);
+
+        assertTrue(conocidos.contains(padrino), "El Padrino debería ser visto como cómplice de la mafia");
+    }
+
+    @Test
     public void losMafiososNoConocenAOtrosRolesNoMafiosos() {
         Jugador mafioso = new Jugador("mafioso", new Mafioso());
         Jugador ciudadano1 = new Jugador("1", new Ciudadano());
@@ -46,5 +59,4 @@ public class VisibilidadEntreMafiososTest {
         assertFalse(conocidos.contains(ciudadano1), "El mafioso NO debería ver al ciudadano 1");
         assertFalse(conocidos.contains(ciudadano2), "El mafioso NO debería ver al ciudadano 2");
     }
-
 }
