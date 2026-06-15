@@ -15,6 +15,10 @@ public class FaseNocturna {
         mafioso.votarComoVictimaA(victimaElegida, this.urnaDeMafia);
     }
 
+    public void recibirProteccion(Jugador medico, Jugador protegido) {
+        medico.protegerA(protegido);
+    }
+
     public ResultadoFase ejecutarResultadoVotacion() {
         Jugador elegidoPorMafia = this.urnaDeMafia.jugadorMasVotado();
         elegidoPorMafia.morir();

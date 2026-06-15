@@ -41,4 +41,9 @@ public class Muerto extends Estado {
     public void desempatarVotacionMafia(Jugador jugador, Jugador victima) {
         throw new JugadorMuertoExcepcion("Un jugador muerto intentó votar a otro jugador.");
     }
+
+    @Override
+    public void serProtegido(Jugador jugador) {
+        // Null Object: no se puede proteger a un jugador muerto
+    }
 }

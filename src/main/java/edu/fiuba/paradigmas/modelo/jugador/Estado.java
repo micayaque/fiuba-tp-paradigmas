@@ -18,4 +18,6 @@ public abstract class Estado {
     public abstract void vistoPorMafia(Jugador jugador, List<Jugador> complices);
 
     public abstract void desempatarVotacionMafia(Jugador jugador, Jugador victima);
+
+    public abstract void serProtegido(Jugador jugador);
 }

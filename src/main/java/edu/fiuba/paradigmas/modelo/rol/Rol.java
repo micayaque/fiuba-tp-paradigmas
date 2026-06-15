@@ -31,4 +31,8 @@ public abstract class Rol {
     public void desempatarVotacionMafia(Jugador victima) {
         throw new PadrinoImpostorExcepcion("Un jugador que no es Padrino intentó desempatar la votación.");
     }
+
+    public void protegerComoMedico(Jugador protegido) {
+        // un rol que no es Médico no protege a nadie
+    }
 }

@@ -1,8 +1,10 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
+import edu.fiuba.paradigmas.modelo.excepciones.VictimaInvalidaExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.Urna;
 import edu.fiuba.paradigmas.modelo.fase.Voto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Vivo extends Estado {
@@ -19,6 +21,11 @@ public class Vivo extends Estado {
 
     @Override
     public void recibirVotoMafioso(Jugador jugador, Urna urna) {
+        List<Jugador> candidatosValidos = new ArrayList<>();
+        jugador.postularseComoCandidatoParaMafia(candidatosValidos);
+        if (candidatosValidos.isEmpty()) {
+            throw new VictimaInvalidaExcepcion("La Mafia no puede elegir a otro mafioso");
+        }
         urna.agregarVoto(new Voto(jugador));
     }
 
@@ -40,6 +47,11 @@ public class Vivo extends Estado {
     @Override
     public void desempatarVotacionMafia(Jugador jugador, Jugador victima) {
         jugador.continuarDesempateConCarta(victima);
+    }
+
+    @Override
+    public void serProtegido(Jugador jugador) {
+        jugador.cambiarEstado(new Protegido());
     }
 
 }

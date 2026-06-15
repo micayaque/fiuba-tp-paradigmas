@@ -58,6 +58,14 @@ public class Jugador {
         this.estado.recibirVotoMafioso(this, urnaDeMafia);
     }
 
+    public void protegerA(Jugador protegido) {
+        this.carta.protegerComoMedico(protegido);
+    }
+
+    public void serProtegido() {
+        this.estado.serProtegido(this);
+    }
+
     public void estaVivo(List<Jugador> vivos) {
         this.estado.estaVivo(this, vivos);
     }
