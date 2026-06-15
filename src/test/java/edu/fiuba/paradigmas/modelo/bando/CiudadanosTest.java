@@ -32,4 +32,15 @@ public class CiudadanosTest {
 
         assertTrue(conocidos.isEmpty());
     }
+
+    @Test
+    public void losCiudadanosSiSePostulanComoCandidatosParaLaFaseNocturna() {
+        Jugador jugador = new Jugador("ciudadano", new Ciudadano());
+
+        List<Jugador> opcionesParaMatar = new ArrayList<>();
+        new Ciudadanos().postularseComoCandidatoParaMafia(jugador, opcionesParaMatar);
+
+        assertTrue(opcionesParaMatar.contains(jugador), "El ciudadano debe agregarse a la lista de candidatos");
+        assertEquals(1, opcionesParaMatar.size());
+    }
 }

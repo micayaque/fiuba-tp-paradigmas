@@ -7,6 +7,7 @@ import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,21 +30,21 @@ public class RepartidorTest {
     }
 
     @Test
-    public void repartirAsignaTodasLasCartasSinPerderlasNiDuplicarlas() {
+    public void repartirAsignaCorrectamenteUnRolACadaNombre() {
+        List<String> nombres = List.of("unMafioso", "unCiudadano", "otroCiudadano");
         Rol unaCarta = new Mafioso();
         Rol otraCarta = new Ciudadano();
         Rol unaTercera = new Ciudadano();
 
         List<Jugador> jugadores = new Repartidor()
-                .repartir(List.of("Ana", "Beto", "Cami"), List.of(unaCarta, otraCarta, unaTercera));
+                .repartir(nombres, new ArrayList<>(List.of(unaCarta, otraCarta, unaTercera)));
 
-        Set<Rol> cartasRepartidas = new HashSet<>();
-        for (Jugador jugador : jugadores) {
-            cartasRepartidas.add(jugador.miRol());
-        }
+        assertEquals(3, jugadores.size(), "Debería haber creado exactamente 3 jugadores");
 
-        assertEquals(Set.of(unaCarta, otraCarta, unaTercera), cartasRepartidas);
-    }
+        assertEquals("unMafioso", jugadores.get(0).nombre());
+        assertEquals("unCiudadano", jugadores.get(1).nombre());
+        assertEquals("otroCiudadano", jugadores.get(2).nombre());
+   }
 
     @Test
     public void repartirNoMutaLaListaDeRolesRecibida() {

@@ -10,13 +10,10 @@ import java.util.List;
 
 public class Repartidor {
 
-    public List<Jugador> repartir(List<String> nombres, List<Rol> roles) {
-        if (nombres.size() != roles.size()) {
+    public List<Jugador> repartir(List<String> nombres, List<Rol> mezclados) {
+        if (nombres.size() != mezclados.size()) {
             throw new RepartoInvalidoExcepcion("Debe haber exactamente un rol por cada jugador");
         }
-
-        List<Rol> mezclados = new ArrayList<>(roles);   
-        Collections.shuffle(mezclados);                 
 
         List<Jugador> jugadores = new ArrayList<>();
         for (int i = 0; i < nombres.size(); i++) {

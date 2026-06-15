@@ -1,0 +1,48 @@
+package edu.fiuba.paradigmas.modelo.jugador;
+
+import edu.fiuba.paradigmas.modelo.fase.Urna;
+import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class VivoTest {
+
+    @Test
+    public void unEstadoVivoAgregaAlJugadorALaListaDeVivos() {
+        Estado vivo = new Vivo();
+        Jugador jugador = new Jugador("ciudadano", new Ciudadano());
+
+        List<Jugador> vivos = new ArrayList<>();
+        vivo.estaVivo(jugador, vivos);
+
+        assertTrue(vivos.contains(jugador), "El estado Vivo debe agregar al jugador a la lista");
+        assertEquals(1, vivos.size());
+    }
+
+    @Test
+    public void unEstadoVivoCreaUnVotoYLoMeteEnLaUrna() {
+        Estado vivo = new Vivo();
+        Jugador victima = new Jugador("ciudadano", new Ciudadano());
+
+        Urna urna = new Urna();
+        vivo.recibirVotoMafioso(victima, urna);
+
+        assertEquals(victima, urna.jugadorMasVotado(), "El estado Vivo debe haber creado el voto y registrado en la urna");
+    }
+
+    @Test
+    public void unEstadoVivoPasaAlEstadoMuertoAlRecibirMorir() {
+        Estado vivo = new Vivo();
+        Jugador jugador = new Jugador("ciudadano", new Ciudadano());
+
+        List<Jugador> vivos = new ArrayList<>();
+        vivo.morir(jugador);
+        jugador.estaVivo(vivos);
+
+        assertTrue(vivos.isEmpty(), "El jugador debió cambiar su estado a Muerto");
+    }
+}

@@ -22,12 +22,22 @@ public class MafiaTest {
     }
 
     @Test
-    public void laMafiaAlIntentarVerAUnMafiosoLoAgrega() {
-        Jugador otroMafioso = new Jugador("Sonny", new Mafioso());
-        List<Jugador> conocidos = new ArrayList<>();
+    public void laMafiaAlIntentarVerAUnJugadorDelegaParaQueSeDejeVer() {
+        Jugador otroMafioso = new Jugador("mafioso", new Mafioso());
 
+        List<Jugador> conocidos = new ArrayList<>();
         new Mafia().intentarVerA(otroMafioso, conocidos);
 
-        assertTrue(conocidos.contains(otroMafioso));
+        assertTrue(conocidos.contains(otroMafioso), "La delegación debió llegar hasta el bando y agregarlo");
+    }
+
+    @Test
+    public void laMafiaNoSePostulaComoCandidataParaLaFaseNocturna() {
+        Jugador jugador = new Jugador("mafioso", new Mafioso());
+
+        List<Jugador> opcionesParaMatar = new ArrayList<>();
+        new Mafia().postularseComoCandidatoParaMafia(jugador, opcionesParaMatar);
+
+        assertTrue(opcionesParaMatar.isEmpty(), "La mafia no debe ser candidata a morir");
     }
 }

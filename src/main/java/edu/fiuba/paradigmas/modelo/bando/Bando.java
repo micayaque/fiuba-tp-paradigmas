@@ -6,8 +6,9 @@ import java.util.List;
 
 public abstract class Bando {
 
-    public abstract void intentarVerA(Jugador otroJugador, List<Jugador> conocidos);
+    public abstract void intentarVerA(Jugador otroJugador, List<Jugador> complices);
 
-    public abstract void vistoPorMafia(Jugador jugador, List<Jugador> conocidos);
+    public abstract void vistoPorMafia(Jugador jugador, List<Jugador> complices);
 
+    public abstract void postularseComoCandidatoParaMafia(Jugador jugador, List<Jugador> opciones);
 }

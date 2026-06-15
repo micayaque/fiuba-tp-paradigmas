@@ -4,13 +4,13 @@ import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.mazo.Mazo;
 import edu.fiuba.paradigmas.modelo.reparto.Repartidor;
 import edu.fiuba.paradigmas.modelo.rol.*;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RepartoDeCartasTest {
@@ -25,9 +25,9 @@ public class RepartoDeCartasTest {
 
     @Test
     public void cadaJugadorRecibeUnaCartaYSeRespetaLaComposicion() {
-        List<Rol> roles = new Mazo().validar(List.of(
+        List<Rol> roles = new Mazo().generarPara(new ArrayList<>(List.of(
                 new Mafioso(), new Mafioso(), new Detective(), new Medico(),
-                new Ciudadano(), new Ciudadano(), new Ciudadano()));
+                new Ciudadano(), new Ciudadano(), new Ciudadano())));
 
         List<Jugador> jugadores = new Repartidor().repartir(nombres(7), roles);
 
@@ -45,18 +45,20 @@ public class RepartoDeCartasTest {
     }
 
     @Test
-    public void elRepartoEsAleatorioEntrePartidas() {
-        List<Rol> roles = List.of(
+    public void elOrdenDeCreacionDelMazoDeRolesEsAleatorioEntrePartidas() {
+        List<Rol> roles = new ArrayList<>(List.of(
                 new Mafioso(), new Mafioso(), new Detective(), new Medico(),
-                new Ciudadano(), new Ciudadano(), new Ciudadano());
+                new Ciudadano(), new Ciudadano(), new Ciudadano()));
+        Mazo mazo = new Mazo();
 
-        Set<Rol> cartasEnLaPrimeraPosicion = new HashSet<>();
+        Set<List<Rol>> asignacionesDeRolesVistas = new HashSet<>();
+
         for (int intento = 0; intento < 50; intento++) {
-            List<Jugador> jugadores = new Repartidor().repartir(nombres(7), roles);
-            cartasEnLaPrimeraPosicion.add(jugadores.get(0).miRol());
+            List<Rol> rolesAsignados = mazo.generarPara(roles);
+            asignacionesDeRolesVistas.add(rolesAsignados);
         }
 
-        assertTrue(cartasEnLaPrimeraPosicion.size() > 1,
-                "El reparto deberia asignar cartas distintas al primer jugador entre partidas");
+        assertTrue(asignacionesDeRolesVistas.size() > 1,
+                "El reparto deberia asignar distintos roles a un mismo jugador entre partidas");
     }
 }

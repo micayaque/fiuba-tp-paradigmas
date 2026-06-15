@@ -22,7 +22,7 @@ public class VisibilidadDeRolesTest {
 
     @Test
     public void unJugadorPuedeVerSuPropioRol() {
-        List<Rol> roles = new Mazo().validar(List.of( new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano()));
+        List<Rol> roles = new Mazo().generarPara(new ArrayList<>(List.of( new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano())));
         List<Jugador> jugadores = new Repartidor().repartir(nombres(5), roles);
 
         Jugador jugador = jugadores.get(0);
@@ -35,7 +35,7 @@ public class VisibilidadDeRolesTest {
 
     @Test
     public void unJugadorNoMafiosoNoPuedeVerElRolDeLosDemasDuranteLaPartida() {
-        List<Rol> roles = new Mazo().validar(List.of( new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano()));
+        List<Rol> roles = new Mazo().generarPara(new ArrayList<>(List.of( new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano())));
         List<Jugador> jugadores = new Repartidor().repartir(nombres(5), roles);
         Jugador noMafioso = new Jugador("no mafioso", new Ciudadano());
 

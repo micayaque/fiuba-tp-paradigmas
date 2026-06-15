@@ -1,24 +1,46 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
+import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CiudadanoTest {
+
     @Test
-    public void elCiudadanoSumaCorrectamenteEnElContadorDeRoles() {
+    public void unCiudadanoVistoPorLaMafiaNoSeAgregaALaListaDeComplices() {
+        Rol rolCiudadano = new Ciudadano();
+        Jugador duenio = new Jugador("ciudadano", rolCiudadano);
+        List<Jugador> complices = new ArrayList<>();
+
+        rolCiudadano.vistoPorMafia(duenio, complices);
+
+        assertTrue(complices.isEmpty(), "Un ciudadano no debe agregarse a la votación de la mafia");
+    }
+
+    @Test
+    public void unCiudadanoSePostulaComoCandidatoParaSerAsesinado() {
+        Rol rolCiudadano = new Ciudadano();
+        Jugador duenio = new Jugador("ciudadano", rolCiudadano);
+
+        List<Jugador> opciones = new ArrayList<>();
+        rolCiudadano.validarBandoYPostularseComoCandidatoParaMafia(duenio, opciones);
+
+        assertTrue(opciones.contains(duenio), "El ciudadano debe ser una opción válida para asesinar");
+        assertEquals(1, opciones.size());
+    }
+
+    @Test
+    public void unCiudadanoSeCuentaComoCiudadanoEnElContador() {
+        Rol rolCiudadano = new Ciudadano();
+
         ContadorDeRoles contador = new ContadorDeRoles();
-        Ciudadano ciudadano = new Ciudadano();
+        rolCiudadano.contarseEn(contador);
 
-        ciudadano.contarseEn(contador);
-        ciudadano.contarseEn(contador);
-        ciudadano.contarseEn(contador);
-
-        int cantidadDetectivesEsperadosEnElContador = 0;
-        int cantidadMafiososEsperadosEnElContador = 0;
-        int cantidadCiudadanosEsperadosEnElContador = 3;
-
-        assertEquals(cantidadDetectivesEsperadosEnElContador, contador.cantidadDeDetectives());
-        assertEquals(cantidadMafiososEsperadosEnElContador, contador.cantidadDeMafiosos());
-        assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadDeCiudadanos());
+        assertEquals(0, contador.cantidadDeMafiosos());
+        assertEquals(1, contador.cantidadDeCiudadanos());
     }
 }
