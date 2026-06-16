@@ -1,8 +1,9 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
-import edu.fiuba.paradigmas.modelo.excepciones.PadrinoImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.excepciones.MedicoImpostorExcepcion;
+import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 
 import java.util.List;
 
@@ -28,11 +29,11 @@ public abstract class Rol {
         this.bando.postularseComoCandidatoParaMafia(jugador, opciones);
     }
 
-    public void desempatarVotacionMafia(Jugador victima) {
-        throw new PadrinoImpostorExcepcion("Un jugador que no es Padrino intentó desempatar la votación.");
+    public void protegerComoMedico(Jugador protegido) {
+        throw new MedicoImpostorExcepcion("Un rol que no es médico intentó proteger a un jugador.");
     }
 
-    public void protegerComoMedico(Jugador protegido) {
-        // un rol que no es Médico no protege a nadie
+    public void votarComoMafiosoA(Jugador victima, Urna urna) {
+        throw new MedicoImpostorExcepcion("Un rol que no es mafioso intentó votar a un jugador.");
     }
 }

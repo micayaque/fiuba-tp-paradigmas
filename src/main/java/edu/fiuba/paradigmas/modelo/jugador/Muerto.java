@@ -1,7 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Muerto extends Estado {
     }
 
     @Override
-    public void recibirVotoMafioso(Jugador jugador, Urna urna) {
+    public void recibirVotoMafioso(Jugador victima, Voto voto, Urna urnaDeMafia) {
         throw new JugadorMuertoExcepcion("La mafia intentó votar a un jugador que ya está muerto.");
     }
 
@@ -28,18 +29,13 @@ public class Muerto extends Estado {
     }
 
     @Override
-    public void intentarVotarComoMafiosoA(Jugador jugador, Urna urna) {
+    public void intentarVotarComoMafiosoA(Jugador votante, Jugador victimaElegida, Urna urnaDeMafia) {
         throw new JugadorMuertoExcepcion("Un jugador muerto intentó votar a otro jugador.");
     }
 
     @Override
     public void vistoPorMafia(Jugador jugador, List<Jugador> complices) {
         // Null Object o excepción
-    }
-
-    @Override
-    public void desempatarVotacionMafia(Jugador jugador, Jugador victima) {
-        throw new JugadorMuertoExcepcion("Un jugador muerto intentó votar a otro jugador.");
     }
 
     @Override

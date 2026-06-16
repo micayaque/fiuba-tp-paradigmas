@@ -1,12 +1,26 @@
 package edu.fiuba.paradigmas.modelo.fase;
 
+import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fase.accionMafia.NocheSinVictima;
+import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class VotoTest {
+
+    private Jugador victima;
+
+    @BeforeEach
+    public void setUp() {
+        victima = mock(Jugador.class);
+    }
 
     @Test
     public void unVotoRecienCreadoRecuerdaAlVotadoYTieneCantidadUno() {
@@ -61,5 +75,39 @@ public class VotoTest {
 
         assertTrue(votoAcumulado.empataCon(new Voto(victima1, 2)), "Debe conservar la cantidad original si los jugadores no coinciden");
         assertEquals(victima1, votoAcumulado.votado(), "El jugador original debe mantenerse intacto");
+    }
+
+    @Test
+    public void unVotoComunSeAcumulaConOtroVotoComunYSeComportaComoUnVotoDoble() {
+        Voto voto1 = new Voto(victima);
+        Voto voto2 = new Voto(victima);
+
+        Voto acumulado = voto1.acumular(voto2);
+
+        Voto votoDobleDeReferencia = new Voto(victima, 2);
+        Voto votoSimpleDeReferencia = new Voto(victima, 1);
+
+        assertTrue(acumulado.empataCon(votoDobleDeReferencia));
+        assertTrue(acumulado.mayorEstricto(votoSimpleDeReferencia));
+        AccionMafia accion = new NocheSinVictima();
+        assertEquals(accion, acumulado.resolverDesempate(accion));
+    }
+
+    @Test
+    public void unVotoComunEmpataConOtroVotoComunDeIgualCantidad() {
+        Voto voto1 = new Voto(victima, 2);
+        Voto votoOtro = new Voto(mock(Jugador.class), 2);
+
+        assertTrue(voto1.empataCon(votoOtro));
+        assertFalse(voto1.mayorEstricto(votoOtro));
+    }
+
+    @Test
+    public void unVotoComunNoAlteraLaAccionNocturnaAlIntentarDesempatar() {
+        Voto voto = new Voto(victima);
+        AccionMafia sentenciaPrevia = new NocheSinVictima();
+        AccionMafia resultado = voto.resolverDesempate(sentenciaPrevia);
+
+        assertEquals(sentenciaPrevia, resultado);
     }
 }

@@ -1,11 +1,10 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
-import edu.fiuba.paradigmas.modelo.rol.Rol;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -74,7 +73,7 @@ public class JugadorTest {
         Jugador victima = new Jugador("victima", new Ciudadano());
         Urna urna = new Urna();
 
-        votante.votarComoVictimaA(victima, urna);
+        votante.votarComoMafiosoA(victima, urna);
 
         assertEquals(victima, urna.jugadorMasVotado(), "El voto del jugador vivo debió registrarse en la urna");
     }
@@ -89,7 +88,7 @@ public class JugadorTest {
 
         votanteMuerto.morir();
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> votanteMuerto.votarComoVictimaA(victimaDelMuerto, urna));
+        assertThrows(JugadorMuertoExcepcion.class, () -> votanteMuerto.votarComoMafiosoA(victimaDelMuerto, urna));
 
     }
 
@@ -101,7 +100,7 @@ public class JugadorTest {
 
         victimaMuerta.morir();
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> { votanteVivo.votarComoVictimaA(victimaMuerta, urna);},
+        assertThrows(JugadorMuertoExcepcion.class, () -> { votanteVivo.votarComoMafiosoA(victimaMuerta, urna);},
                 "No se debería poder ingresar un voto si la víctima ya está muerta");
     }
 

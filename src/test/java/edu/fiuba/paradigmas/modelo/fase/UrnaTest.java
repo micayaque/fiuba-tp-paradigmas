@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fase;
 
-import edu.fiuba.paradigmas.modelo.excepciones.EmpateMafiosoExcepcion;
+import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
@@ -21,19 +22,6 @@ public class UrnaTest {
         urna.agregarVoto(new Voto(ciudadano2));
 
         assertEquals(ciudadano1, urna.jugadorMasVotado(), "Juan debería ser el elegido por tener mayoría");
-    }
-
-    @Test
-    public void siHayEmpateDeVotosLanzaEmpateMafiosoExcepcion() {
-        Urna urna = new Urna();
-        Jugador ciudadano1 = new Jugador("ciudadano1", new Ciudadano());
-        Jugador ciudadano2 = new Jugador("ciudadano2", new Ciudadano());
-
-        urna.agregarVoto(new Voto(ciudadano1));
-        urna.agregarVoto(new Voto(ciudadano2));
-
-        assertThrows(EmpateMafiosoExcepcion.class, urna::jugadorMasVotado,
-                "Debería lanzar excepción porque hay un empate 1 a 1");
     }
 
     @Test

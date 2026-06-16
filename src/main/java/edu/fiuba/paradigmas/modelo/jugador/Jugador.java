@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
-import edu.fiuba.paradigmas.modelo.fase.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
@@ -50,12 +51,16 @@ public class Jugador {
         this.carta.validarBandoYPostularseComoCandidatoParaMafia(this, opciones);
     }
 
-    public void votarComoVictimaA(Jugador victimaElegida, Urna urnaDeMafia) {
-        this.estado.intentarVotarComoMafiosoA(victimaElegida, urnaDeMafia);
+    public void votarComoMafiosoA(Jugador victimaElegida, Urna urnaDeMafia) {
+        this.estado.intentarVotarComoMafiosoA(this, victimaElegida, urnaDeMafia);
     }
 
-    public void recibirVotoMafioso(Urna urnaDeMafia) {
-        this.estado.recibirVotoMafioso(this, urnaDeMafia);
+    public void continuarVotacionMafiosaConCarta(Jugador victimaElegida, Urna urnaDeMafia) {
+        this.carta.votarComoMafiosoA(victimaElegida, urnaDeMafia);
+    }
+
+    public void recibirVotoMafioso(Voto voto, Urna urnaDeMafia) {
+        this.estado.recibirVotoMafioso(this, voto, urnaDeMafia);    
     }
 
     public void protegerA(Jugador protegido) {
@@ -76,13 +81,5 @@ public class Jugador {
 
     public void continuarVistoPorMafiaConCarta(List<Jugador> complices) {
         this.carta.vistoPorMafia(this, complices);
-    }
-
-    public void desempatarVotacionMafia(Jugador victimaElegida) {
-        this.estado.desempatarVotacionMafia(this, victimaElegida);
-    }
-
-    void continuarDesempateConCarta(Jugador victima) {
-        this.carta.desempatarVotacionMafia(victima);
     }
 }

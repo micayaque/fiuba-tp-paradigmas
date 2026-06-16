@@ -1,7 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +41,7 @@ public class MuertoTest {
         Jugador jugador = new Jugador("ciudadano", new Ciudadano());
         Urna urna = new Urna();
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.intentarVotarComoMafiosoA(jugador, urna)
+        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.intentarVotarComoMafiosoA(jugador, jugador, urna)
         , "Un estado Muerto debe lanzar excepción si se le pide que emita un voto");
     }
 
@@ -50,7 +51,7 @@ public class MuertoTest {
         Jugador victima = new Jugador("ciudadano", new Ciudadano());
         Urna urna = new Urna();
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.recibirVotoMafioso(victima, urna)
+        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.recibirVotoMafioso(victima, new Voto(victima), urna)
         , "Un estado Muerto debe lanzar excepción si intentan meter un voto en su contra en la urna");
     }
 }
