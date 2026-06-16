@@ -1,6 +1,6 @@
-module edu.fiuba.algo3 {
+module edu.fiuba.paradigmas {
     requires javafx.controls;
     requires json.simple;
-    exports edu.fiuba.algo3;
-    exports edu.fiuba.algo3.vistas;
+    exports edu.fiuba.paradigmas;
+    exports edu.fiuba.paradigmas.vistas;
 }

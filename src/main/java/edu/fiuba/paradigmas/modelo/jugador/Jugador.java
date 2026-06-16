@@ -1,0 +1,85 @@
+package edu.fiuba.paradigmas.modelo.jugador;
+
+import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
+import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.rol.Rol;
+
+import java.util.List;
+
+public class Jugador {
+
+    private final String nombre;
+    private final Rol carta;
+    private Estado estado;
+
+    public Jugador(String nombre, Rol carta) {
+        this.nombre = nombre;
+        this.carta = carta;
+        this.estado = new Vivo();
+    }
+
+    public String nombre() {
+        return nombre;
+    }
+
+    public void contarseEn(ContadorDeRoles contador) {
+        carta.contarseEn(contador);
+    }
+
+    public void puedeConocerElRolDe(Jugador otroJugador, List<Jugador> conocidos) {
+        if(this == otroJugador) conocidos.add(this);
+        else this.carta.puedeConocerElRolDe(otroJugador, conocidos);
+    }
+
+    public void vistoPorMafia(List<Jugador> complices) {
+        this.estado.vistoPorMafia(this, complices);
+    }
+
+    public void morir() {
+        this.estado.morir(this);
+    }
+
+    public void cambiarEstado(Estado nuevoEstado) {
+        this.estado = nuevoEstado;
+    }
+
+    public void postularseComoCandidatoParaMafia(List<Jugador> candidatosValidos) {
+        this.estado.postularseComoCandidatoParaMafia(this, candidatosValidos);    }
+
+    protected void validarBandoYPostularseComoCandidatoParaMafia(List<Jugador> opciones) {
+        this.carta.validarBandoYPostularseComoCandidatoParaMafia(this, opciones);
+    }
+
+    public void votarComoMafiosoA(Jugador victimaElegida, Urna urnaDeMafia) {
+        this.estado.intentarVotarComoMafiosoA(this, victimaElegida, urnaDeMafia);
+    }
+
+    public void continuarVotacionMafiosaConCarta(Jugador victimaElegida, Urna urnaDeMafia) {
+        this.carta.votarComoMafiosoA(victimaElegida, urnaDeMafia);
+    }
+
+    public void recibirVotoMafioso(Voto voto, Urna urnaDeMafia) {
+        this.estado.recibirVotoMafioso(this, voto, urnaDeMafia);    
+    }
+
+    public void protegerA(Jugador protegido) {
+        this.carta.protegerComoMedico(protegido);
+    }
+
+    public void serProtegido() {
+        this.estado.serProtegido(this);
+    }
+
+    public void estaVivo(List<Jugador> vivos) {
+        this.estado.estaVivo(this, vivos);
+    }
+
+    protected void continuarPostulacionConCarta(List<Jugador> opciones) {
+        this.carta.validarBandoYPostularseComoCandidatoParaMafia(this, opciones);
+    }
+
+    public void continuarVistoPorMafiaConCarta(List<Jugador> complices) {
+        this.carta.vistoPorMafia(this, complices);
+    }
+}
