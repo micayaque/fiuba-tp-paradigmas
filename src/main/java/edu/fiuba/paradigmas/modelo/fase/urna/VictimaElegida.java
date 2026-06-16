@@ -6,14 +6,14 @@ import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class VictimaElegida implements ResultadoVotacion {
 
-    private final Jugador ganador;
+    private final Jugador victima;
 
     public VictimaElegida(Jugador ganador) {
-        this.ganador = ganador;
+        this.victima = ganador;
     }
 
     @Override
     public AccionMafia resolver() {
-        return new VictimaEliminada(this.ganador);
+        return new VictimaEliminada(this.victima);
     }
 }

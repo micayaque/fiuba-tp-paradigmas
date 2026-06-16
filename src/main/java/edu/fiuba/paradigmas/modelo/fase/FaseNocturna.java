@@ -2,13 +2,13 @@ package edu.fiuba.paradigmas.modelo.fase;
 
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-
-import java.util.List;
+import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fase.urna.ResultadoVotacion;
 
 public class FaseNocturna {
     private final Urna urnaDeMafia;
 
-    public FaseNocturna(List<Jugador>  jugadores) {
+    public FaseNocturna() {
         this.urnaDeMafia =  new Urna();
     }
 
@@ -20,9 +20,9 @@ public class FaseNocturna {
         medico.protegerA(protegido);
     }
 
-    public ResultadoFase ejecutarResultadoVotacion() {
-        Jugador elegidoPorMafia = this.urnaDeMafia.jugadorMasVotado();
-        elegidoPorMafia.morir();
-        return new ResultadoFase(elegidoPorMafia);
+    public AccionMafia ejecutarResultadoVotacion() {
+        ResultadoVotacion resultado = this.urnaDeMafia.contarVotos();
+        AccionMafia accion = resultado.resolver();
+        return accion;
     }
 }

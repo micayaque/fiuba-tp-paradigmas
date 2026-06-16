@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.entrega_1;
 
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
@@ -21,11 +22,12 @@ public class EliminacionDeVictimaNoProtegidaTest {
         Jugador victima = new Jugador("victima", new Ciudadano());
         Jugador otro = new Jugador("otro", new Ciudadano());
 
-        FaseNocturna fase = new FaseNocturna(List.of(mafioso, medico, victima, otro));
+        FaseNocturna fase = new FaseNocturna();
         fase.recibirVoto(mafioso, victima);
         fase.recibirProteccion(medico, otro);
 
-        fase.ejecutarResultadoVotacion();
+        AccionMafia accion = fase.ejecutarResultadoVotacion();
+        accion.ejecutar();
 
         List<Jugador> vivos = new ArrayList<>();
         victima.estaVivo(vivos);

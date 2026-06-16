@@ -20,7 +20,7 @@ public class RechazoDeVictimaInvalidaTest {
         Jugador muerto = new Jugador("muerto", new Ciudadano());
         muerto.morir();
 
-        FaseNocturna fase = new FaseNocturna(List.of(mafioso, muerto));
+        FaseNocturna fase = new FaseNocturna();
 
         assertThrows(JugadorMuertoExcepcion.class, () -> fase.recibirVoto(mafioso, muerto));
     }
@@ -30,7 +30,7 @@ public class RechazoDeVictimaInvalidaTest {
         Jugador mafioso1 = new Jugador("mafioso1", new Mafioso());
         Jugador mafioso2 = new Jugador("mafioso2", new Mafioso());
 
-        FaseNocturna fase = new FaseNocturna(List.of(mafioso1, mafioso2));
+        FaseNocturna fase = new FaseNocturna();
 
         assertThrows(VictimaInvalidaExcepcion.class, () -> fase.recibirVoto(mafioso1, mafioso2));
     }

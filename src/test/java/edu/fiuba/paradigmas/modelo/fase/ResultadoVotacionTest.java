@@ -34,7 +34,7 @@ public class ResultadoVotacionTest {
         Voto votoJugador1 = new Voto(jugador1, 2);
         Voto votoJugador2 = new Voto(jugador2, 2);
 
-        Empate empate = new Empate(List.of(jugador1, jugador2), List.of(votoJugador1, votoJugador2));
+        Empate empate = new Empate(List.of(votoJugador1, votoJugador2));
         AccionMafia accion = empate.resolver();
         accion.ejecutar();
 
@@ -49,7 +49,7 @@ public class ResultadoVotacionTest {
 
         Voto votoJugador1 = new Voto(jugador1, 2);
         Voto votoJugador2 = new VotoDelPadrino(jugador2);
-        Empate empate = new Empate(List.of(jugador1, jugador2), List.of(votoJugador1, votoJugador2));
+        Empate empate = new Empate(List.of(votoJugador1, votoJugador2));
 
         AccionMafia accion = empate.resolver();
         accion.ejecutar();

@@ -2,14 +2,13 @@ package edu.fiuba.paradigmas.modelo.fase.urna;
 
 import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
 import edu.fiuba.paradigmas.modelo.fase.accionMafia.NocheSinVictima;
-import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 import java.util.List;
 
 public class Empate implements ResultadoVotacion {
     private final List<Voto> todosLosVotosEmitidos;
 
-    public Empate(List<Jugador> empatados, List<Voto> todosLosVotos) {
+    public Empate(List<Voto> todosLosVotos) {
         this.todosLosVotosEmitidos = todosLosVotos;
     }
 

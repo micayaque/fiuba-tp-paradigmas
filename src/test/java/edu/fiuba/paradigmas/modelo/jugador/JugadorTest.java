@@ -1,7 +1,9 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
+import edu.fiuba.paradigmas.modelo.fase.urna.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.VictimaElegida;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
@@ -71,11 +73,17 @@ public class JugadorTest {
     public void unJugadorVivoPuedeEmitirUnVotoEnLaUrna() {
         Jugador votante = new Jugador("votante", new Mafioso());
         Jugador victima = new Jugador("victima", new Ciudadano());
-        Urna urna = new Urna();
 
+        Urna urna = new Urna();
         votante.votarComoMafiosoA(victima, urna);
 
-        assertEquals(victima, urna.jugadorMasVotado(), "El voto del jugador vivo debió registrarse en la urna");
+        ResultadoVotacion resultadoVotacion = urna.contarVotos();
+        resultadoVotacion.resolver().ejecutar();
+
+        List<Jugador> vivos = new ArrayList<>();
+        victima.estaVivo(vivos);
+
+        assertFalse(vivos.contains(victima), "El voto del jugador vivo debió registrarse, resolverse y matar a la víctima");
     }
 
     @Test

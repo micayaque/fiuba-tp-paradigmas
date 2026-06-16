@@ -1,6 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
+import edu.fiuba.paradigmas.modelo.fase.urna.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fase.urna.VictimaElegida;
 import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,13 @@ public class VivoTest {
         Urna urna = new Urna();
         vivo.recibirVotoMafioso(victima, new Voto(victima), urna);
 
-        assertEquals(victima, urna.jugadorMasVotado(), "El estado Vivo debe haber creado el voto y registrado en la urna");
+        ResultadoVotacion resultadoVotacion = urna.contarVotos();
+        resultadoVotacion.resolver().ejecutar();
+
+        List<Jugador> vivos = new ArrayList<>();
+        victima.estaVivo(vivos);
+
+        assertTrue(vivos.isEmpty(), "El estado Vivo debe haber metido el voto en la urna, resultando en la muerte de la víctima");
     }
 
     @Test
