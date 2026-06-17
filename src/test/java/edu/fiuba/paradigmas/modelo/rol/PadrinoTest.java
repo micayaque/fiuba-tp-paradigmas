@@ -4,6 +4,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PadrinoTest {
+
+    @Test
+    public void elPadrinoInvestigadoApareceComoCiudadanoAunqueSeaDeLaMafia() {
+        Padrino padrino = new Padrino();
+
+        assertEquals("Ciudadano", padrino.serInvestigado().informe(),
+                "El Padrino miente ante la investigación: debe aparecer como 'Ciudadano'");
+    }
+
     @Test
     public void elPadrinoSumaCorrectamenteEnElContadorDeRoles() {
         ContadorDeRoles contador = new ContadorDeRoles();

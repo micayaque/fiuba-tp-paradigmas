@@ -1,9 +1,12 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
+import edu.fiuba.paradigmas.modelo.excepciones.ProteccionRepetidaExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Medico extends Rol {
+
+    private Jugador ultimoProtegido;
 
     public Medico(){
         super(new Ciudadanos());
@@ -16,6 +19,10 @@ public class Medico extends Rol {
 
     @Override
     public void protegerComoMedico(Jugador protegido) {
+        if (protegido == this.ultimoProtegido) {
+            throw new ProteccionRepetidaExcepcion("El Médico no puede proteger al mismo jugador dos noches consecutivas.");
+        }
+        this.ultimoProtegido = protegido;
         protegido.serProtegido();
     }
 

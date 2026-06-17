@@ -2,6 +2,7 @@ package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
+import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
@@ -65,6 +66,14 @@ public class Jugador {
 
     public void protegerA(Jugador protegido) {
         this.carta.protegerComoMedico(protegido);
+    }
+
+    public ResultadoInvestigacion investigarA(Jugador investigado) {
+        return this.carta.investigarComoDetectiveA(investigado);
+    }
+
+    public ResultadoInvestigacion serInvestigado() {
+        return this.carta.serInvestigado();
     }
 
     public void serProtegido() {

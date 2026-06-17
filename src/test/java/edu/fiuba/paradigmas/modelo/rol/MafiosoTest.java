@@ -42,4 +42,12 @@ public class MafiosoTest {
         assertEquals(1, contador.cantidadDeMafiosos());
         assertEquals(0, contador.cantidadDeCiudadanos());
     }
+
+    @Test
+    public void unMafiosoInvestigadoApareceComoMafia() {
+        Rol rolMafioso = new Mafioso();
+
+        assertEquals("Mafia", rolMafioso.serInvestigado().informe(),
+                "Un Mafioso debe delegar en su bando y aparecer como 'Mafia'");
+    }
 }

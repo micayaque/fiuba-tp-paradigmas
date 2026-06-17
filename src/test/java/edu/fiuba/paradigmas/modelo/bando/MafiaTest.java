@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.bando;
 
+import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import org.junit.jupiter.api.Test;
@@ -39,5 +40,12 @@ public class MafiaTest {
         new Mafia().postularseComoCandidatoParaMafia(jugador, opcionesParaMatar);
 
         assertTrue(opcionesParaMatar.isEmpty(), "La mafia no debe ser candidata a morir");
+    }
+
+    @Test
+    public void laMafiaInformaAlDetectiveQuePerteneceALaMafia() {
+        ResultadoInvestigacion resultado = new Mafia().informarAlDetective();
+
+        assertEquals("Mafia", resultado.informe(), "El bando Mafia debe informar 'Mafia' al Detective");
     }
 }

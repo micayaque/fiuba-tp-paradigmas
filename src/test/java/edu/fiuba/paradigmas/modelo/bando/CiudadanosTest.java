@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.bando;
 
+import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
@@ -42,5 +43,12 @@ public class CiudadanosTest {
 
         assertTrue(opcionesParaMatar.contains(jugador), "El ciudadano debe agregarse a la lista de candidatos");
         assertEquals(1, opcionesParaMatar.size());
+    }
+
+    @Test
+    public void losCiudadanosInformanAlDetectiveQuePertenecenALosCiudadanos() {
+        ResultadoInvestigacion resultado = new Ciudadanos().informarAlDetective();
+
+        assertEquals("Ciudadano", resultado.informe(), "El bando Ciudadanos debe informar 'Ciudadano' al Detective");
     }
 }
