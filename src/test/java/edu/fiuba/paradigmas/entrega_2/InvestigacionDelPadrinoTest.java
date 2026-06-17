@@ -1,23 +1,29 @@
-package edu.fiuba.paradigmas.entrega_2;
+ package edu.fiuba.paradigmas.entrega_2;
 
-import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
-import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.rol.Detective;
-import edu.fiuba.paradigmas.modelo.rol.Padrino;
-import org.junit.jupiter.api.Test;
+ import edu.fiuba.paradigmas.modelo.bando.Bando;
+ import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+ import edu.fiuba.paradigmas.modelo.rol.Detective;
+ import edu.fiuba.paradigmas.modelo.rol.Padrino;
+ import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+ import java.util.ArrayList;
+ import java.util.List;
 
-public class InvestigacionDelPadrinoTest {
+ import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    @Test
-    public void elDetectiveInvestigaAlPadrinoYRecibeCiudadanoAunqueSeaDeLaMafia() {
-        Jugador detective = new Jugador("detective", new Detective());
-        Jugador padrino = new Jugador("padrino", new Padrino());
+ public class InvestigacionDelPadrinoTest {
 
-        ResultadoInvestigacion resultado = detective.investigarA(padrino);
+     @Test
+     public void elDetectiveInvestigaAlPadrinoYRecibeCiudadanoAunqueSeaDeLaMafia() {
+         Jugador detective = new Jugador("detective", new Detective());
+         Jugador padrino = new Jugador("padrino", new Padrino());
 
-        assertEquals("Ciudadano", resultado.informe(),
-                "El Padrino debe aparecer como 'Ciudadano' ante la investigación del Detective");
-    }
-}
+         Bando resultado = detective.investigarA(padrino);
+
+         List<Jugador> mafiosos = new ArrayList<>();
+         resultado.vistoPorMafia(padrino, mafiosos);
+
+         assertTrue(mafiosos.isEmpty(),
+                 "El bando anotado debió comportarse como Ciudadano y no reaccionar al mensaje vistoPorMafia");
+     }
+ }

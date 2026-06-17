@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
+import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 
@@ -19,4 +20,8 @@ public abstract class Estado {
     public abstract void vistoPorMafia(Jugador jugador, List<Jugador> complices);
 
     public abstract void serProtegido(Jugador jugador);
+
+    public abstract Bando intentarInvestigarA(Jugador detective, Jugador sospechoso);
+
+    public abstract Bando recibirInvestigacion(Jugador sospechoso);
 }

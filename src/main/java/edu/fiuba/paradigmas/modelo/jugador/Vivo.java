@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
+import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.VictimaInvalidaExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
@@ -48,6 +49,16 @@ public class Vivo extends Estado {
     @Override
     public void serProtegido(Jugador jugador) {
         jugador.cambiarEstado(new Protegido());
+    }
+
+    @Override
+    public Bando intentarInvestigarA(Jugador detective, Jugador sospechoso) {
+        return detective.continuarInvestigacionA(sospechoso);
+    }
+
+    @Override
+    public Bando recibirInvestigacion(Jugador sospechoso) {
+        return sospechoso.continuarRevelandoIdentidad();
     }
 
 }

@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
+import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
-import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
@@ -68,14 +68,6 @@ public class Jugador {
         this.carta.protegerComoMedico(protegido);
     }
 
-    public ResultadoInvestigacion investigarA(Jugador investigado) {
-        return this.carta.investigarComoDetectiveA(investigado);
-    }
-
-    public ResultadoInvestigacion serInvestigado() {
-        return this.carta.serInvestigado();
-    }
-
     public void serProtegido() {
         this.estado.serProtegido(this);
     }
@@ -91,4 +83,21 @@ public class Jugador {
     public void continuarVistoPorMafiaConCarta(List<Jugador> complices) {
         this.carta.vistoPorMafia(this, complices);
     }
+
+    public Bando investigarA(Jugador sospechoso) {
+        return this.estado.intentarInvestigarA(this, sospechoso);
+    }
+
+    public Bando continuarInvestigacionA(Jugador sospechoso) {
+        return this.carta.investigarComoDetectiveA(sospechoso);
+    }
+
+    public Bando serInvestigado() {
+        return this.estado.recibirInvestigacion(this);
+    }
+
+    public Bando continuarRevelandoIdentidad() {
+        return this.carta.revelarBando();
+    }
+
 }

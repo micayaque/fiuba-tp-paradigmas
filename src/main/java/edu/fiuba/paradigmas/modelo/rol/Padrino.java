@@ -1,10 +1,10 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
+import edu.fiuba.paradigmas.modelo.bando.Bando;
+import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 import edu.fiuba.paradigmas.modelo.fase.urna.VotoDelPadrino;
-import edu.fiuba.paradigmas.modelo.investigacion.ResultadoCiudadano;
-import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Padrino extends Mafioso {
@@ -14,8 +14,8 @@ public class Padrino extends Mafioso {
     }
 
     @Override
-    public ResultadoInvestigacion serInvestigado() {
-        return new ResultadoCiudadano();
+    public Bando revelarBando() {
+        return new Ciudadanos();
     }
 
     @Override

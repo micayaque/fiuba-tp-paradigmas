@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
+import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
@@ -35,11 +36,20 @@ public class Muerto extends Estado {
 
     @Override
     public void vistoPorMafia(Jugador jugador, List<Jugador> complices) {
-        // Null Object o excepción
     }
 
     @Override
     public void serProtegido(Jugador jugador) {
-        // Null Object: no se puede proteger a un jugador muerto
+        throw new JugadorMuertoExcepcion("No se puede proteger a un jugador muerto.");
+    }
+
+    @Override
+    public Bando intentarInvestigarA(Jugador detective, Jugador sospechoso) {
+        throw new JugadorMuertoExcepcion("Un jugador muerto no puede inverstigar.");
+    }
+
+    @Override
+    public Bando recibirInvestigacion(Jugador sospechoso) {
+        throw new JugadorMuertoExcepcion("No se puede investigar a un jugador muerto.");
     }
 }

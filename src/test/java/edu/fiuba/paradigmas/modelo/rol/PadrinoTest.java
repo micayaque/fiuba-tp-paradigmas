@@ -1,16 +1,34 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
+import edu.fiuba.paradigmas.modelo.bando.Bando;
+import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 
 public class PadrinoTest {
 
     @Test
-    public void elPadrinoInvestigadoApareceComoCiudadanoAunqueSeaDeLaMafia() {
-        Padrino padrino = new Padrino();
+    public void alRevelarSuIdentidadElPadrinoMienteYSePresentaComoCiudadano() {
+        Padrino rolPadrino = new Padrino();
+        Jugador jugadorPadrino = new Jugador("Padrino", rolPadrino);
 
-        assertEquals("Ciudadano", padrino.serInvestigado().informe(),
-                "El Padrino miente ante la investigación: debe aparecer como 'Ciudadano'");
+        Bando bandoRevelado = rolPadrino.revelarBando();
+
+        List<Jugador> postulantes = new ArrayList<>();
+        List<Jugador> vistosPorMafia = new ArrayList<>();
+
+        bandoRevelado.postularseComoCandidatoParaMafia(jugadorPadrino, postulantes);
+        assertTrue(postulantes.contains(jugadorPadrino),
+                "El bando devuelto debió comportarse como Ciudadano al postularse");
+
+        bandoRevelado.vistoPorMafia(jugadorPadrino, vistosPorMafia);
+        assertFalse(vistosPorMafia.contains(jugadorPadrino),
+                "El bando devuelto no debió revelarse como Mafia");
     }
 
     @Test

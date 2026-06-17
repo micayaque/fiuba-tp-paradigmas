@@ -3,16 +3,17 @@ package edu.fiuba.paradigmas.modelo.jugador;
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.urna.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.VictimaElegida;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
+import edu.fiuba.paradigmas.modelo.rol.Rol;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class JugadorTest {
 
@@ -208,5 +209,42 @@ public class JugadorTest {
         ciudadanoMuerto.postularseComoCandidatoParaMafia(opciones);
 
         assertFalse(opciones.contains(ciudadanoMuerto), "El ciudadano muerto debió ser frenado por su estado (Null Object)");
+    }
+
+    @Test
+    public void investigarADelegaElIntentoEnElEstado() {
+        Rol rolDummy = mock(Rol.class);
+        Jugador detective = new Jugador("dummy", rolDummy);
+        Jugador sospechosoDummy = mock(Jugador.class);
+        Estado estadoMock = mock(Estado.class);
+        detective.cambiarEstado(estadoMock);
+
+        detective.investigarA(sospechosoDummy);
+
+        verify(estadoMock, times(1)).intentarInvestigarA(detective, sospechosoDummy);
+    }
+
+    @Test
+    public void serInvestigadoDelegaElReciboEnElEstado() {
+        Jugador sospechoso = new Jugador("Sospechoso", mock(Rol.class));
+        Jugador investigadorDummy = mock(Jugador.class);
+
+        Estado estadoMock = mock(Estado.class);
+        sospechoso.cambiarEstado(estadoMock);
+
+        sospechoso.serInvestigado();
+
+        verify(estadoMock, times(1)).recibirInvestigacion(sospechoso);
+    }
+
+    @Test
+    public void continuarRevelandoIdentidadDelegaEnLaCarta() {
+        Rol cartaMock = mock(Rol.class);
+        Jugador sospechoso = new Jugador("Sospechoso", cartaMock);
+        Jugador investigadorDummy = mock(Jugador.class);
+
+        sospechoso.continuarRevelandoIdentidad();
+
+        verify(cartaMock, times(1)).revelarBando();
     }
 }

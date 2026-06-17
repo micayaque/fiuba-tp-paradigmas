@@ -2,7 +2,6 @@ package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.fase.urna.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.VictimaElegida;
 import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class VivoTest {
 
@@ -53,5 +53,27 @@ public class VivoTest {
         jugador.estaVivo(vivos);
 
         assertTrue(vivos.isEmpty(), "El jugador debió cambiar su estado a Muerto");
+    }
+
+    @Test
+    public void estadoVivoPermiteIntentarInvestigarYDelegaEnElDetective() {
+        Estado vivo = new Vivo();
+        Jugador detectiveMock = mock(Jugador.class);
+        Jugador sospechosoMock = mock(Jugador.class);
+
+        vivo.intentarInvestigarA(detectiveMock, sospechosoMock);
+
+        verify(detectiveMock, times(1)).continuarInvestigacionA(sospechosoMock);
+    }
+
+    @Test
+    public void estadoVivoPermiteRecibirInvestigacionYDelegaEnElSospechoso() {
+        Estado vivo = new Vivo();
+        Jugador sospechosoMock = mock(Jugador.class);
+        Jugador investigadorMock = mock(Jugador.class);
+
+        vivo.recibirInvestigacion(sospechosoMock);
+
+        verify(sospechosoMock, times(1)).continuarRevelandoIdentidad();
     }
 }

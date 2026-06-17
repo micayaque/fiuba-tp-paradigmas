@@ -1,35 +1,45 @@
 package edu.fiuba.paradigmas.entrega_2;
 
-import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Detective;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
+import edu.fiuba.paradigmas.modelo.bando.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InvestigacionDelDetectiveTest {
 
-    @Test
-    public void elDetectiveInvestigaAUnMafiosoYRecibeMafia() {
-        Jugador detective = new Jugador("detective", new Detective());
-        Jugador mafioso = new Jugador("mafioso", new Mafioso());
+     @Test
+     public void elDetectiveInvestigaAUnMafiosoYRecibeMafia() {
+         Jugador detective = new Jugador("detective", new Detective());
+         Jugador mafioso = new Jugador("mafioso", new Mafioso());
 
-        ResultadoInvestigacion resultado = detective.investigarA(mafioso);
+         Bando resultado = detective.investigarA(mafioso);
 
-        assertEquals("Mafia", resultado.informe(),
-                "El Detective debe recibir 'Mafia' al investigar a un Mafioso");
-    }
+         List<Jugador> mafiosos = new ArrayList<>();
+         resultado.vistoPorMafia(mafioso, mafiosos);
 
-    @Test
-    public void elDetectiveInvestigaAUnCiudadanoYRecibeCiudadano() {
-        Jugador detective = new Jugador("detective", new Detective());
-        Jugador ciudadano = new Jugador("ciudadano", new Ciudadano());
+         assertFalse(mafiosos.isEmpty(),
+                 "El bando anotado debió comportarse como Mafia y reaccionar al mensaje vistoPorMafia");
+     }
 
-        ResultadoInvestigacion resultado = detective.investigarA(ciudadano);
+     @Test
+     public void elDetectiveInvestigaAUnCiudadanoYRecibeCiudadano() {
+         Jugador detective = new Jugador("detective", new Detective());
+         Jugador ciudadano = new Jugador("ciudadano", new Ciudadano());
 
-        assertEquals("Ciudadano", resultado.informe(),
-                "El Detective debe recibir 'Ciudadano' al investigar a un Ciudadano");
-    }
+         Bando resultado = detective.investigarA(ciudadano);
+
+         List<Jugador> mafiosos = new ArrayList<>();
+         resultado.vistoPorMafia(ciudadano, mafiosos);
+
+         assertTrue(mafiosos.isEmpty(),
+                 "El bando anotado debió comportarse como Ciudadano y no reaccionar al mensaje vistoPorMafia");
+     }
 }

@@ -1,11 +1,11 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
+import edu.fiuba.paradigmas.modelo.excepciones.RolImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.excepciones.DetectiveImpostorExcepcion;
-import edu.fiuba.paradigmas.modelo.excepciones.MedicoImpostorExcepcion;
+// import edu.fiuba.paradigmas.modelo.excepciones.DetectiveImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
+// import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 
 import java.util.List;
 
@@ -32,18 +32,18 @@ public abstract class Rol {
     }
 
     public void protegerComoMedico(Jugador protegido) {
-        throw new MedicoImpostorExcepcion("Un rol que no es médico intentó proteger a un jugador.");
+        throw new RolImpostorExcepcion("Un rol que no es médico intentó proteger a un jugador.");
     }
 
     public void votarComoMafiosoA(Jugador victima, Urna urna) {
-        throw new MedicoImpostorExcepcion("Un rol que no es mafioso intentó votar a un jugador.");
+        throw new RolImpostorExcepcion("Un rol que no es mafioso intentó votar a un jugador.");
     }
 
-    public ResultadoInvestigacion investigarComoDetectiveA(Jugador investigado) {
-        throw new DetectiveImpostorExcepcion("Un rol que no es detective intentó investigar a un jugador.");
+    public Bando investigarComoDetectiveA(Jugador sospechoso) {
+        throw new RolImpostorExcepcion("Un rol que no es detective intentó iniciar una investigación.");
     }
 
-    public ResultadoInvestigacion serInvestigado() {
-        return this.bando.informarAlDetective();
+    public Bando revelarBando() {
+        return this.bando;
     }
 }

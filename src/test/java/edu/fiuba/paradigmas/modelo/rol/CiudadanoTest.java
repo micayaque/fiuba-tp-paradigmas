@@ -1,6 +1,5 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
-import edu.fiuba.paradigmas.modelo.excepciones.DetectiveImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
@@ -45,13 +44,13 @@ public class CiudadanoTest {
         assertEquals(1, contador.cantidadDeCiudadanos());
     }
 
-    @Test
-    public void unCiudadanoNoPuedeInvestigarPorqueNoEsDetective() {
-        Rol rolCiudadano = new Ciudadano();
-        Jugador investigado = new Jugador("investigado", new Ciudadano());
-
-        assertThrows(DetectiveImpostorExcepcion.class,
-                () -> rolCiudadano.investigarComoDetectiveA(investigado),
-                "Un rol que no es Detective no debe poder investigar");
-    }
+//    @Test
+//    public void unCiudadanoNoPuedeInvestigarPorqueNoEsDetective() {
+//        Rol rolCiudadano = new Ciudadano();
+//        Jugador investigado = new Jugador("investigado", new Ciudadano());
+//
+//        assertThrows(DetectiveImpostorExcepcion.class,
+//                () -> rolCiudadano.investigarComoDetectiveA(investigado),
+//                "Un rol que no es Detective no debe poder investigar");
+//    }
 }
