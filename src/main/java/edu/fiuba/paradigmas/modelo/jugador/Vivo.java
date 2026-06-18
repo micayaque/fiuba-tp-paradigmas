@@ -1,9 +1,11 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
+import edu.fiuba.paradigmas.modelo.excepciones.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.VictimaInvalidaExcepcion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
+import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,4 +79,8 @@ public class Vivo extends Estado {
         medico.continuarProteccionA(protegido);
     }
 
+    @Override
+    public Rol revelarCarta(Jugador jugador) {
+        throw new JugadorVivoExcepcion("No se puede revelar la carta de un jugador vivo.");
+    }
 }

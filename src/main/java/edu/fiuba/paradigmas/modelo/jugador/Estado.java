@@ -3,6 +3,7 @@ package edu.fiuba.paradigmas.modelo.jugador;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
+import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.List;
 
@@ -30,4 +31,6 @@ public abstract class Estado {
     public abstract void intentarRecibirVotacionDe(Jugador candidato, Jugador votante, Urna votacion);
 
     public abstract void intentarProtegerA(Jugador medico, Jugador protegido);
+
+    public abstract Rol revelarCarta(Jugador jugador);
 }

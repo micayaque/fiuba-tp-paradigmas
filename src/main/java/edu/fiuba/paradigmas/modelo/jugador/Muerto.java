@@ -4,6 +4,7 @@ import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
+import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.List;
 
@@ -68,4 +69,8 @@ public class Muerto extends Estado {
         throw new JugadorMuertoExcepcion("Un médico muerto no puede proteger a nadie.");
     }
 
+    @Override
+    public Rol revelarCarta(Jugador jugador) {
+        return jugador.continuarRevelandoCarta();
+    }
 }

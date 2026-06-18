@@ -46,4 +46,8 @@ public abstract class Rol {
     public Bando revelarBando() {
         return this.bando;
     }
+
+    public Rol revelarCarta() {
+        return this;
+    }
 }

@@ -3,12 +3,10 @@ package edu.fiuba.paradigmas.entrega_2;
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
-import edu.fiuba.paradigmas.modelo.rol.Detective;
-import edu.fiuba.paradigmas.modelo.rol.Mafioso;
-import edu.fiuba.paradigmas.modelo.rol.Medico;
+import edu.fiuba.paradigmas.modelo.rol.*;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JugadorEliminadoTest {
@@ -23,6 +21,8 @@ public class JugadorEliminadoTest {
         detective.morir();
         Jugador medico = new Jugador("medico", new Medico());
         medico.morir();
+        Jugador padrino = new Jugador("padrino", new Padrino());
+        padrino.morir();
 
         Jugador victima = new Jugador("Víctima", new Ciudadano());
 
@@ -43,5 +43,35 @@ public class JugadorEliminadoTest {
         assertThrows(JugadorMuertoExcepcion.class,
                 () -> medico.protegerA(victima),
                 "Un médico eliminado no debería poder proteger a nadie");
+
+        assertThrows(JugadorMuertoExcepcion.class, () -> padrino.votarComoMafiosoA(victima, urnaDePrueba),
+                "Un padrino eliminado no debería poder seguir votando");
+
+    }
+
+    @Test
+    public void unJugadorEliminadoDebeMostrarSuCarta(){
+        Rol rolMafioso = new Mafioso();
+        Rol rolCiudadano = new Ciudadano();
+        Rol rolDetective = new Detective();
+        Rol rolMedico = new Medico();
+        Rol rolPadrino = new Padrino();
+
+        Jugador mafioso = new Jugador("mafioso", rolMafioso);
+        mafioso.morir();
+        Jugador ciudadano = new Jugador("ciudadano", rolCiudadano);
+        ciudadano.morir();
+        Jugador detective = new Jugador("detective", rolDetective);
+        detective.morir();
+        Jugador medico = new Jugador("medico", rolMedico);
+        medico.morir();
+        Jugador padrino = new Jugador("padrino", rolPadrino);
+        padrino.morir();
+
+        assertEquals( rolMafioso, mafioso.revelarCarta());
+        assertEquals( rolCiudadano, ciudadano.revelarCarta());
+        assertEquals( rolDetective, detective.revelarCarta());
+        assertEquals( rolMedico, medico.revelarCarta());
+        assertEquals( rolPadrino, padrino.revelarCarta());
     }
 }

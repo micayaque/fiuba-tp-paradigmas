@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
+import edu.fiuba.paradigmas.modelo.excepciones.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
@@ -49,5 +50,23 @@ public class PadrinoTest {
         assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadDeCiudadanos());
         assertEquals(cantidadMedicosEsperadosEnElContador, contador.cantidadDeMedicos());
         assertEquals(cantidadPadrinosEsperadosEnElContador, contador.cantidadDePadrinos());
+    }
+    @Test
+    public void unPadrinoEliminadoDebeMostrarSuCarta(){
+        Rol rolPadrino = new Padrino();
+        Jugador padrino = new Jugador("padrino", rolPadrino);
+
+        padrino.morir();
+
+        assertEquals( rolPadrino, padrino.revelarCarta());
+    }
+
+    @Test
+    public void unPadrinoVivoNoDebeMostrarSuCarta(){
+        Rol rolPadrino = new Padrino();
+        Jugador padrino = new Jugador("padrino", rolPadrino);
+
+        assertThrows(JugadorVivoExcepcion.class, padrino::revelarCarta,
+                "Un padrino no debería mostrar su carta si está vivo");
     }
 }

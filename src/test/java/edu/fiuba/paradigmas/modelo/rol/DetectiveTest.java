@@ -2,6 +2,7 @@ package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.excepciones.InvestigacionRepetidaExcepcion;
 //import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
+import edu.fiuba.paradigmas.modelo.excepciones.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +22,25 @@ public class DetectiveTest {
         assertEquals(cantidadDetectivesEsperadosEnElContador, contador.cantidadDeDetectives());
         assertEquals(cantidadMafiososEsperadosEnElContador, contador.cantidadDeMafiosos());
         assertEquals(cantidadCiudadanosEsperadosEnElContador, contador.cantidadDeCiudadanos());
+    }
+
+    @Test
+    public void unDetectiveEliminadoDebeMostrarSuCarta(){
+        Rol rolDetective = new Detective();
+        Jugador detective = new Jugador("detective", rolDetective);
+
+        detective.morir();
+
+        assertEquals( rolDetective, detective.revelarCarta());
+    }
+
+    @Test
+    public void unDetectiveVivoNoDebeMostrarSuCarta(){
+        Rol rolDetective = new Detective();
+        Jugador detective = new Jugador("detective", rolDetective);
+
+        assertThrows(JugadorVivoExcepcion.class, detective::revelarCarta,
+                "Un detective no debería mostrar su carta si está vivo");
     }
 
 //    @Test

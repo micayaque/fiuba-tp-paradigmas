@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
+import edu.fiuba.paradigmas.modelo.excepciones.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.ProteccionRepetidaExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
@@ -49,5 +50,24 @@ public class MedicoTest {
 
         assertDoesNotThrow(() -> medico.protegerComoMedico(unJugador),
                 "Tras proteger a otro, la consecutividad se rompe y puede repetir");
+    }
+
+    @Test
+    public void unMedicoEliminadoDebeMostrarSuCarta(){
+        Rol rolMedico = new Medico();
+        Jugador medico = new Jugador("medico", rolMedico);
+
+        medico.morir();
+
+        assertEquals( rolMedico, medico.revelarCarta());
+    }
+
+    @Test
+    public void unMedicoVivoNoDebeMostrarSuCarta(){
+        Rol rolMedico = new Medico();
+        Jugador medico = new Jugador("medico", rolMedico);
+
+        assertThrows(JugadorVivoExcepcion.class, medico::revelarCarta,
+                "Un medico no debería mostrar su carta si está vivo");
     }
 }

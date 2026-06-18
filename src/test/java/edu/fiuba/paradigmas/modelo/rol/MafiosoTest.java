@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
+import edu.fiuba.paradigmas.modelo.excepciones.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +42,25 @@ public class MafiosoTest {
 
         assertEquals(1, contador.cantidadDeMafiosos());
         assertEquals(0, contador.cantidadDeCiudadanos());
+    }
+
+    @Test
+    public void unMafiosoEliminadoDebeMostrarSuCarta(){
+        Rol rolMafioso = new Mafioso();
+        Jugador mafioso = new Jugador("mafioso", rolMafioso);
+
+        mafioso.morir();
+
+        assertEquals( rolMafioso, mafioso.revelarCarta());
+    }
+
+    @Test
+    public void unMafiosoVivoNoDebeMostrarSuCarta(){
+        Rol rolMafioso = new Mafioso();
+        Jugador mafioso = new Jugador("mafioso", rolMafioso);
+
+        assertThrows(JugadorVivoExcepcion.class, mafioso::revelarCarta,
+                "Un mafioso no debería mostrar su carta si está vivo");
     }
 
 //    @Test

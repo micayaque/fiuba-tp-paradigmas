@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
+import edu.fiuba.paradigmas.modelo.excepciones.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +45,26 @@ public class CiudadanoTest {
         assertEquals(1, contador.cantidadDeCiudadanos());
     }
 
+    @Test
+    public void unCiudadanoEliminadoDebeMostrarSuCarta(){
+        Rol rolCiudadano = new Ciudadano();
+        Jugador ciudadano = new Jugador("ciudadano", rolCiudadano);
+
+        ciudadano.morir();
+
+        assertEquals( rolCiudadano, ciudadano.revelarCarta());
+    }
+
+    @Test
+    public void unCiudadanoVivoNoDebeMostrarSuCarta(){
+        Rol rolCiudadano = new Ciudadano();
+        Jugador ciudadano = new Jugador("ciudadano", rolCiudadano);
+
+        assertThrows(JugadorVivoExcepcion.class, ciudadano::revelarCarta,
+                "Un ciudadano no debería mostrar su carta si está vivo");
+    }
+}
+
 //    @Test
 //    public void unCiudadanoNoPuedeInvestigarPorqueNoEsDetective() {
 //        Rol rolCiudadano = new Ciudadano();
@@ -53,4 +74,3 @@ public class CiudadanoTest {
 //                () -> rolCiudadano.investigarComoDetectiveA(investigado),
 //                "Un rol que no es Detective no debe poder investigar");
 //    }
-}

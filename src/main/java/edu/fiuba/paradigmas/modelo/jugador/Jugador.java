@@ -120,4 +120,11 @@ public class Jugador {
         votacion.agregarVoto(new Voto(this));
     }
 
+    public Rol revelarCarta() {
+        return this.estado.revelarCarta(this);
+    }
+
+    public Rol continuarRevelandoCarta() {
+        return this.carta.revelarCarta();
+    }
 }
