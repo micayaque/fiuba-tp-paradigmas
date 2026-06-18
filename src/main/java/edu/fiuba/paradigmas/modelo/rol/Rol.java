@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.RolImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 // import edu.fiuba.paradigmas.modelo.excepciones.DetectiveImpostorExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
 // import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 
 import java.util.List;

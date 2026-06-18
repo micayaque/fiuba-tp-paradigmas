@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.modelo.fase.urna;
+package edu.fiuba.paradigmas.modelo.fasenocturna.urna;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import java.util.ArrayList;
@@ -56,5 +56,9 @@ public class Urna {
             }
         }
         return candidatos;
+    }
+
+    public List<Jugador> nominados() {
+        return obtenerCandidatosVotados();
     }
 }

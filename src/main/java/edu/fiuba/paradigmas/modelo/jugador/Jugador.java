@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
@@ -98,6 +98,22 @@ public class Jugador {
 
     public Bando continuarRevelandoIdentidad() {
         return this.carta.revelarBando();
+    }
+
+    public void nominarA(Jugador nominado, Urna votacion) {
+        this.estado.intentarNominarA(this, nominado, votacion);
+    }
+
+    public void continuarNominacionA(Jugador candidato, Urna votacion) {
+        candidato.recibirNominacionDe(this, votacion);
+    }
+
+    public void recibirNominacionDe(Jugador votante, Urna votacion) {
+        this.estado.intentarRecibirNominacionDe(this, votante, votacion);
+    }
+
+    public void continuarRecibiendoNominacionDe(Jugador votante, Urna votacion) {
+        votacion.agregarVoto(new Voto(this));
     }
 
 }

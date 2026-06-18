@@ -2,8 +2,8 @@ package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 
 import java.util.List;
 
@@ -52,4 +52,16 @@ public class Muerto extends Estado {
     public Bando recibirInvestigacion(Jugador sospechoso) {
         throw new JugadorMuertoExcepcion("No se puede investigar a un jugador muerto.");
     }
+
+    @Override
+    public void intentarNominarA(Jugador votante, Jugador candidato, Urna votacion) {
+        throw new JugadorMuertoExcepcion("Un jugador muerto no puede nominar.");
+    }
+
+    @Override
+    public void intentarRecibirNominacionDe(Jugador candidato, Jugador votante, Urna votacion) {
+        throw new JugadorMuertoExcepcion("Un jugador muerto no puede recibir una nominación.");
+    }
+
+
 }

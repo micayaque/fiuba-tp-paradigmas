@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.urna.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;

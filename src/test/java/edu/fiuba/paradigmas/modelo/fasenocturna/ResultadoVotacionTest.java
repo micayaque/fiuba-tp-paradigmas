@@ -1,10 +1,10 @@
-package edu.fiuba.paradigmas.modelo.fase;
+package edu.fiuba.paradigmas.modelo.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
-import edu.fiuba.paradigmas.modelo.fase.urna.VictimaElegida;
-import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
-import edu.fiuba.paradigmas.modelo.fase.urna.VotoDelPadrino;
-import edu.fiuba.paradigmas.modelo.fase.urna.Empate;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VictimaElegida;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VotoDelPadrino;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Empate;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
-import edu.fiuba.paradigmas.modelo.fase.urna.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
 
@@ -75,5 +75,17 @@ public class VivoTest {
         vivo.recibirInvestigacion(sospechosoMock);
 
         verify(sospechosoMock, times(1)).continuarRevelandoIdentidad();
+    }
+
+    @Test
+    public void estadoVivoDelegaLaNominacion() {
+        Estado vivo = new Vivo();
+        Jugador nominante = mock(Jugador.class);
+        Jugador nominado = mock(Jugador.class);
+        Urna urna = mock(Urna.class);
+
+        vivo.intentarNominarA(nominante, nominado, urna);
+
+        verify(nominante).continuarNominacionA(nominado, urna);
     }
 }

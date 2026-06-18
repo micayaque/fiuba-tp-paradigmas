@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.entrega_1;
 
-import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;

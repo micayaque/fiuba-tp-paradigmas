@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.moderador;
 
-import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
 
 import java.util.List;
 

@@ -2,8 +2,8 @@ package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.VictimaInvalidaExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,4 +61,14 @@ public class Vivo extends Estado {
         return sospechoso.continuarRevelandoIdentidad();
     }
 
+
+    @Override
+    public void intentarNominarA(Jugador votante, Jugador candidato, Urna votacion) {
+        votante.continuarNominacionA(candidato, votacion);
+    }
+
+    @Override
+    public void intentarRecibirNominacionDe(Jugador candidato, Jugador votante, Urna votacion) {
+        candidato.continuarRecibiendoNominacionDe(votante, votacion);
+    }
 }

@@ -2,9 +2,9 @@ package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
-import edu.fiuba.paradigmas.modelo.fase.urna.VotoDelPadrino;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VotoDelPadrino;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Padrino extends Mafioso {

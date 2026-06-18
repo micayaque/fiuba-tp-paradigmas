@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 
 import java.util.List;
 
@@ -24,4 +24,9 @@ public abstract class Estado {
     public abstract Bando intentarInvestigarA(Jugador detective, Jugador sospechoso);
 
     public abstract Bando recibirInvestigacion(Jugador sospechoso);
+
+    public abstract void intentarNominarA(Jugador votante, Jugador candidato, Urna votacion);
+
+    public abstract void intentarRecibirNominacionDe(Jugador candidato, Jugador votante, Urna votacion);
+
 }

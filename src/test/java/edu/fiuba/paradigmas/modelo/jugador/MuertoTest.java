@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fase.urna.Voto;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
 
@@ -75,6 +75,15 @@ public class MuertoTest {
 
         assertThrows(JugadorMuertoExcepcion.class,
                 () -> muerto.recibirInvestigacion(sospechoso));
+    }
+
+    @Test
+    public void estadoMuertoLanzaExcepcionAlNominar() {
+        Estado muerto = new Muerto();
+
+        assertThrows(JugadorMuertoExcepcion.class, () ->
+                muerto.intentarNominarA(mock(Jugador.class), mock(Jugador.class), mock(Urna.class))
+        );
     }
 
 

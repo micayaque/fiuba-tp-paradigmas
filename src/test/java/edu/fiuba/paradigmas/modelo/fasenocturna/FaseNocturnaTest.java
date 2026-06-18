@@ -1,20 +1,16 @@
-package edu.fiuba.paradigmas.modelo.fase;
+package edu.fiuba.paradigmas.modelo.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
-import edu.fiuba.paradigmas.modelo.rol.Mafioso;
-import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class FaseNocturnaTest {
 
     @Test
     public void recibirVotoLePideAlMafiosoQueVoteEnLaUrna() {
-        FaseNocturna fase = new FaseNocturna();
+        edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna fase = new edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna();
         Jugador mafioso = mock(Jugador.class);
         Jugador victima = mock(Jugador.class);
 
@@ -25,7 +21,7 @@ public class FaseNocturnaTest {
 
     @Test
     public void recibirProteccionLePideAlMedicoQueProteja() {
-        FaseNocturna fase = new FaseNocturna();
+        edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna fase = new edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna();
         Jugador medico = mock(Jugador.class);
         Jugador protegido = mock(Jugador.class);
 

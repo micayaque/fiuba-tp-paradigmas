@@ -1,6 +1,6 @@
-package edu.fiuba.paradigmas.modelo.fase.urna;
+package edu.fiuba.paradigmas.modelo.fasenocturna.urna;
 
-import edu.fiuba.paradigmas.modelo.fase.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Voto {
