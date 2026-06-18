@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia;
+package edu.fiuba.paradigmas.modelo.accionVotacion;
 
 public class SinJugadorEliminado implements AccionVotacion {
 

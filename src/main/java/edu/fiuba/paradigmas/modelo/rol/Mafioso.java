@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Mafia;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.urna.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Mafioso extends Rol {

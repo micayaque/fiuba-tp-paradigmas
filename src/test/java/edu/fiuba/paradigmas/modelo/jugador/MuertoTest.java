@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
 

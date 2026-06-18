@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.SinJugadorEliminado;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionVotacion.SinJugadorEliminado;
+import edu.fiuba.paradigmas.modelo.urna.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.BeforeEach;

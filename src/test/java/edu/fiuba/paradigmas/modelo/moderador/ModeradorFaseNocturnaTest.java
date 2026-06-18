@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.moderador;
 
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

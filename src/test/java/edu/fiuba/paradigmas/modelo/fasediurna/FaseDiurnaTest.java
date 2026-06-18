@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasediurna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ public class FaseDiurnaTest {
     @Test
     public void faseDiurnaDelegaLaNominacionAlJugador() {
         FaseDiurna fase = new FaseDiurna();
+        fase.configurarEstrategiaEmpate(new EmpateDiurnoSinEliminacion());
 
         Jugador nominante = mock(Jugador.class);
         Jugador nominado = mock(Jugador.class);

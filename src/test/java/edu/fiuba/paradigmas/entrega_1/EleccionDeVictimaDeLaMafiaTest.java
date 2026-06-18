@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.entrega_1;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.*;
 

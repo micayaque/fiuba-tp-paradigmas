@@ -1,10 +1,12 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.JugadorElegido;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VotoDelPadrino;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Empate;
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.urna.JugadorElegido;
+import edu.fiuba.paradigmas.modelo.urna.Voto;
+import edu.fiuba.paradigmas.modelo.urna.VotoDelPadrino;
+import edu.fiuba.paradigmas.modelo.urna.Empate;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +36,7 @@ public class ResultadoVotacionTest {
         Voto votoJugador1 = new Voto(jugador1, 2);
         Voto votoJugador2 = new Voto(jugador2, 2);
 
-        Empate empate = new Empate(List.of(votoJugador1, votoJugador2));
+        Empate empate = new Empate(List.of(votoJugador1, votoJugador2), List.of(jugador1, jugador2), new EmpateDiurnoSinEliminacion());
         AccionVotacion accion = empate.resolver();
         accion.ejecutar();
 
@@ -49,7 +51,7 @@ public class ResultadoVotacionTest {
 
         Voto votoJugador1 = new Voto(jugador1, 2);
         Voto votoJugador2 = new VotoDelPadrino(jugador2);
-        Empate empate = new Empate(List.of(votoJugador1, votoJugador2));
+        Empate empate = new Empate(List.of(votoJugador1, votoJugador2), List.of(jugador1, jugador2), new EmpateNocturnoMafia());
 
         AccionVotacion accion = empate.resolver();
         accion.ejecutar();

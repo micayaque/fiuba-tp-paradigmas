@@ -62,12 +62,4 @@ public class MafiosoTest {
         assertThrows(JugadorVivoExcepcion.class, mafioso::revelarCarta,
                 "Un mafioso no debería mostrar su carta si está vivo");
     }
-
-//    @Test
-//    public void unMafiosoInvestigadoApareceComoMafia() {
-//        Rol rolMafioso = new Mafioso();
-//
-//        assertEquals("Mafia", rolMafioso.serInvestigado().informe(),
-//                "Un Mafioso debe delegar en su bando y aparecer como 'Mafia'");
-//    }
 }

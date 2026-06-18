@@ -1,14 +1,23 @@
-package edu.fiuba.paradigmas.modelo.fasenocturna.urna;
+package edu.fiuba.paradigmas.modelo.urna;
 
+import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
+import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Urna {
     private final ArrayList<Voto> votosEmitidos;
+    private final SistemaDeEmpate mecanismo;
 
     public Urna() {
         this.votosEmitidos = new ArrayList<>();
+        this.mecanismo = new EmpateNocturnoMafia();
+    }
+
+    public Urna(SistemaDeEmpate mecanismo) {
+        this.votosEmitidos = new ArrayList<>();
+        this.mecanismo = mecanismo;
     }
 
     public void agregarVoto(Voto voto) {
@@ -35,7 +44,11 @@ public class Urna {
             }
         }
 
-        if (empatados.size() > 1) return new Empate(this.votosEmitidos);
+        if (empatados.size() > 1) {
+            List<Jugador> jugadoresEmpatados = new ArrayList<>();
+            for (Voto v : empatados) jugadoresEmpatados.add(v.votado());
+            return new Empate(this.votosEmitidos, jugadoresEmpatados, this.mecanismo);
+        }
         
         return new JugadorElegido(masVotado.votado());
     }

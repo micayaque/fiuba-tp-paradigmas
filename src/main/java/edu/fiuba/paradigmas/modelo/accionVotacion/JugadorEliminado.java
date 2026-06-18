@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia;
+package edu.fiuba.paradigmas.modelo.accionVotacion;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 

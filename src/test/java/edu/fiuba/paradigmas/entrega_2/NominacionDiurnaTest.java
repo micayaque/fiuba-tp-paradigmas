@@ -3,8 +3,6 @@ package edu.fiuba.paradigmas.entrega_2;
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.jugador.Muerto;
-import edu.fiuba.paradigmas.modelo.jugador.Vivo;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 

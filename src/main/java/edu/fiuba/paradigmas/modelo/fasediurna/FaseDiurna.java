@@ -1,20 +1,28 @@
 package edu.fiuba.paradigmas.modelo.fasediurna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
+import edu.fiuba.paradigmas.modelo.excepciones.CandidatoInvalidoExcepcion;
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FaseDiurna {
+public class FaseDiurna implements GestorDeBallotage {
     private final Urna urnaDeNominacion;
-    private final Urna urnaDeVotacion;
+    private Urna urnaDeVotacion;
+    private EstadoVotacionDiurna estado;
 
     public FaseDiurna() {
-
         this.urnaDeNominacion = new Urna();
-        this.urnaDeVotacion = new Urna();
+        this.estado = new PrimeraVotacion();
+    }
+
+    public void configurarEstrategiaEmpate(SistemaDeEmpate estrategia) {
+        this.urnaDeVotacion = new Urna(estrategia);
     }
 
     public void recibirNominacion(Jugador nominante, Jugador nominado) {
@@ -26,12 +34,18 @@ public class FaseDiurna {
     }
 
     public void recibirVoto(Jugador votante, Jugador votado) {
-        votante.votarA(votado, this.urnaDeVotacion);
+        this.estado.recibirVoto(votante, votado, this.urnaDeVotacion);
     }
 
     public AccionVotacion ejecutarResultadoVotacion() {
         ResultadoVotacion resultado = this.urnaDeVotacion.contarVotos();
         AccionVotacion accion = resultado.resolver();
         return accion;
+    }
+
+    @Override
+    public void iniciarBallotage(List<Jugador> empatados) {
+        this.estado = new VotacionBallotage(empatados);
+        configurarEstrategiaEmpate(new EmpateDiurnoSinEliminacion());
     }
 }
