@@ -71,4 +71,10 @@ public class Vivo extends Estado {
     public void intentarRecibirVotacionDe(Jugador candidato, Jugador votante, Urna votacion) {
         candidato.continuarRecibiendoVotacionDe(votante, votacion);
     }
+
+    @Override
+    public void intentarProtegerA(Jugador medico, Jugador protegido) {
+        medico.continuarProteccionA(protegido);
+    }
+
 }

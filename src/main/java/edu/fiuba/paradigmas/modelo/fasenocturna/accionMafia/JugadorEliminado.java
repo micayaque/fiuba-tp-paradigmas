@@ -2,10 +2,10 @@ package edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
-public class VictimaEliminada implements AccionVotacion {
+public class JugadorEliminado implements AccionVotacion {
     private final Jugador victima;
 
-    public VictimaEliminada(Jugador victima) {
+    public JugadorEliminado(Jugador victima) {
         this.victima = victima;
     }
 

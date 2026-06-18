@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna;
 
 import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.SinVictimaEliminada;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.SinJugadorEliminado;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VotoDelPadrino;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -34,7 +34,7 @@ public class VotoDelPadrinoTest {
         Voto votoComunTriple = new Voto(jugador1, 3);
         assertTrue(votoComunTriple.mayorEstricto(acumulado));
 
-        AccionVotacion accionPacifica = new SinVictimaEliminada();
+        AccionVotacion accionPacifica = new SinJugadorEliminado();
         AccionVotacion resolucion = acumulado.resolverDesempate(accionPacifica);
         resolucion.ejecutar();
 
@@ -44,7 +44,7 @@ public class VotoDelPadrinoTest {
     @Test
     public void votoDelPadrinoResuelveEmpateEjecutandoLaMuerteDeSuCandidato() {
         Voto votoPadrino = new VotoDelPadrino(jugador1);
-        AccionVotacion accionPacifica = new SinVictimaEliminada();
+        AccionVotacion accionPacifica = new SinJugadorEliminado();
 
         AccionVotacion nuevaAccion = votoPadrino.resolverDesempate(accionPacifica);
 

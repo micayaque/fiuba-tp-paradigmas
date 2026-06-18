@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna;
 
 import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.SinVictimaEliminada;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.SinJugadorEliminado;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
@@ -87,7 +87,7 @@ public class VotoTest {
 
         assertTrue(acumulado.empataCon(votoDobleDeReferencia));
         assertTrue(acumulado.mayorEstricto(votoSimpleDeReferencia));
-        AccionVotacion accion = new SinVictimaEliminada();
+        AccionVotacion accion = new SinJugadorEliminado();
         assertEquals(accion, acumulado.resolverDesempate(accion));
     }
 
@@ -103,7 +103,7 @@ public class VotoTest {
     @Test
     public void unVotoComunNoAlteraLaAccionNocturnaAlIntentarDesempatar() {
         Voto voto = new Voto(victima);
-        AccionVotacion sentenciaPrevia = new SinVictimaEliminada();
+        AccionVotacion sentenciaPrevia = new SinJugadorEliminado();
         AccionVotacion resultado = voto.resolverDesempate(sentenciaPrevia);
 
         assertEquals(sentenciaPrevia, resultado);

@@ -37,7 +37,7 @@ public class Urna {
 
         if (empatados.size() > 1) return new Empate(this.votosEmitidos);
         
-        return new VictimaElegida(masVotado.votado());
+        return new JugadorElegido(masVotado.votado());
     }
 
     protected Voto totalVotosPara(Jugador victima) {

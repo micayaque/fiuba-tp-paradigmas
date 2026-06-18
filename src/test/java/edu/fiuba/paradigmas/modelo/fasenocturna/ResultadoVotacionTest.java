@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna;
 
 import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VictimaElegida;
+import edu.fiuba.paradigmas.modelo.fasenocturna.urna.JugadorElegido;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VotoDelPadrino;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Empate;
@@ -17,7 +17,7 @@ public class ResultadoVotacionTest {
     @Test
     public void victimaElegidaSiempreAplicaLaMuerteAlJugador() {
         Jugador jugador = mock(Jugador.class);
-        VictimaElegida victima = new VictimaElegida(jugador);
+        JugadorElegido victima = new JugadorElegido(jugador);
 
         AccionVotacion accion = victima.resolver();
 

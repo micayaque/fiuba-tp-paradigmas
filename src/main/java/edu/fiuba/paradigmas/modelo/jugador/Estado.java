@@ -29,4 +29,5 @@ public abstract class Estado {
 
     public abstract void intentarRecibirVotacionDe(Jugador candidato, Jugador votante, Urna votacion);
 
+    public abstract void intentarProtegerA(Jugador medico, Jugador protegido);
 }

@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna.urna;
 
 import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.VictimaEliminada;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.JugadorEliminado;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class VotoDelPadrino extends Voto {
@@ -35,6 +35,6 @@ public class VotoDelPadrino extends Voto {
 
     @Override
     public AccionVotacion resolverDesempate(AccionVotacion sentenciaActual) {
-        return new VictimaEliminada(this.votado());
+        return new JugadorEliminado(this.votado());
     }
 }

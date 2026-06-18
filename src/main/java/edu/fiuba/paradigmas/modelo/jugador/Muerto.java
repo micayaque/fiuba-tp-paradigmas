@@ -63,5 +63,9 @@ public class Muerto extends Estado {
         throw new JugadorMuertoExcepcion("Un jugador muerto no puede recibir una nominación.");
     }
 
+    @Override
+    public void intentarProtegerA(Jugador medico, Jugador protegido) {
+        throw new JugadorMuertoExcepcion("Un médico muerto no puede proteger a nadie.");
+    }
 
 }

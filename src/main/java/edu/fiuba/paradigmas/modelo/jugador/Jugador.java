@@ -65,6 +65,10 @@ public class Jugador {
     }
 
     public void protegerA(Jugador protegido) {
+        this.estado.intentarProtegerA(this, protegido);
+    }
+
+    public void continuarProteccionA(Jugador protegido) {
         this.carta.protegerComoMedico(protegido);
     }
 
