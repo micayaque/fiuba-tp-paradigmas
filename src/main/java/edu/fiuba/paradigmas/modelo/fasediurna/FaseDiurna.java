@@ -16,7 +16,7 @@ public class FaseDiurna implements GestorDeBallotage {
 
     public FaseDiurna() {
         this.urnaDeNominacion = new Urna();
-        this.estado = new PrimeraVotacion();
+        this.estado = new Nominacion();
     }
 
     public void configurarEstrategiaEmpate(SistemaDeEmpate estrategia) {
@@ -27,8 +27,10 @@ public class FaseDiurna implements GestorDeBallotage {
         nominante.votarA(nominado, this.urnaDeNominacion);
     }
 
-    public List<Jugador> nominados() {
-        return urnaDeNominacion.candidatosVotados();
+    public List<Jugador> iniciarVotacion() {
+        List<Jugador> nominados = this.urnaDeNominacion.candidatosVotados();
+        this.estado = new PrimeraVotacion(nominados);
+        return nominados;
     }
 
     public void recibirVoto(Jugador votante, Jugador votado) {

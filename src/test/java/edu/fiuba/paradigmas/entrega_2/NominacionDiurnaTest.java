@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.entrega_2;
 
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -45,10 +46,9 @@ public class NominacionDiurnaTest {
 
         fase.recibirNominacion(nominador, nominado);
 
-        List<Jugador> nominados = fase.nominados();
+        List<Jugador> nominados = fase.iniciarVotacion();
 
         assertTrue(nominados.contains(nominado), "El jugador nominado debería aparecer en la lista");
         assertEquals(1, nominados.size(), "Debería haber exactamente un nominado");
     }
-
 }

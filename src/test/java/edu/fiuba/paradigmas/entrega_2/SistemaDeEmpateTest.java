@@ -27,6 +27,11 @@ public class SistemaDeEmpateTest {
         Jugador v1 = new Jugador("V1", new Ciudadano());
         Jugador v2 = new Jugador("V2", new Ciudadano());
 
+        fase.recibirNominacion(v1, a);
+        fase.recibirNominacion(v2, b);
+
+        fase.iniciarVotacion();
+
         fase.recibirVoto(v1, a);
         fase.recibirVoto(v2, b);
 
@@ -51,6 +56,11 @@ public class SistemaDeEmpateTest {
 
         Jugador v1 = new Jugador("V1", new Ciudadano());
         Jugador v2 = new Jugador("V2", new Ciudadano());
+
+        fase.recibirNominacion(v1, a);
+        fase.recibirNominacion(v2, b);
+
+        fase.iniciarVotacion();
 
         fase.recibirVoto(v1, a);
         fase.recibirVoto(v2, b);

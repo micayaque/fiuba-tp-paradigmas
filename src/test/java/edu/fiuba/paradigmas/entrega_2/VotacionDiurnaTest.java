@@ -21,6 +21,11 @@ public class VotacionDiurnaTest {
         Jugador votante2 = new Jugador("votante 2", new Ciudadano());
         Jugador votado = new Jugador("votado", new Ciudadano());
 
+        fase.recibirNominacion(votante1, votado);
+        fase.recibirNominacion(votante2, votado);
+
+        fase.iniciarVotacion();
+
         fase.recibirVoto(votante1, votado);
         fase.recibirVoto(votante2, votado);
 
