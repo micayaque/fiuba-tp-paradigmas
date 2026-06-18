@@ -100,19 +100,19 @@ public class Jugador {
         return this.carta.revelarBando();
     }
 
-    public void nominarA(Jugador nominado, Urna votacion) {
-        this.estado.intentarNominarA(this, nominado, votacion);
+    public void votarA(Jugador nominado, Urna votacion) {
+        this.estado.intentarVotarA(this, nominado, votacion);
     }
 
-    public void continuarNominacionA(Jugador candidato, Urna votacion) {
-        candidato.recibirNominacionDe(this, votacion);
+    public void continuarVotacionA(Jugador candidato, Urna votacion) {
+        candidato.recibirVotacionDe(this, votacion);
     }
 
-    public void recibirNominacionDe(Jugador votante, Urna votacion) {
-        this.estado.intentarRecibirNominacionDe(this, votante, votacion);
+    public void recibirVotacionDe(Jugador votante, Urna votacion) {
+        this.estado.intentarRecibirVotacionDe(this, votante, votacion);
     }
 
-    public void continuarRecibiendoNominacionDe(Jugador votante, Urna votacion) {
+    public void continuarRecibiendoVotacionDe(Jugador votante, Urna votacion) {
         votacion.agregarVoto(new Voto(this));
     }
 

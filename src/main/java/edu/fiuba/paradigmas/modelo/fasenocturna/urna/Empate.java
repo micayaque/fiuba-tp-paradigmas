@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna.urna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.NocheSinVictima;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.SinVictimaEliminada;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ public class Empate implements ResultadoVotacion {
     }
 
     @Override
-    public AccionMafia resolver() {
-        AccionMafia resultadoNoche = new NocheSinVictima();
+    public AccionVotacion resolver() {
+        AccionVotacion resultadoNoche = new SinVictimaEliminada();
         for (Voto voto : this.todosLosVotosEmitidos) {
             resultadoNoche = voto.resolverDesempate(resultadoNoche);
         }

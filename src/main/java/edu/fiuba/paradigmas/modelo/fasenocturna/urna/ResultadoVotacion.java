@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna.urna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
 
 public interface ResultadoVotacion {
-    AccionMafia resolver();
+    AccionVotacion resolver();
 }

@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.entrega_1;
 
 import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.*;
 
@@ -23,7 +23,7 @@ public class EleccionDeVictimaDeLaMafiaTest {
         fase.recibirVoto(mafioso1, ciudadanoVotado);
         fase.recibirVoto(mafioso2, ciudadanoVotado);
 
-        AccionMafia resultado = fase.ejecutarResultadoVotacion();
+        AccionVotacion resultado = fase.ejecutarResultadoVotacion();
 
         resultado.ejecutar();
 

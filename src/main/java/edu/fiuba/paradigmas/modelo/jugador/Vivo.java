@@ -63,12 +63,12 @@ public class Vivo extends Estado {
 
 
     @Override
-    public void intentarNominarA(Jugador votante, Jugador candidato, Urna votacion) {
-        votante.continuarNominacionA(candidato, votacion);
+    public void intentarVotarA(Jugador votante, Jugador candidato, Urna votacion) {
+        votante.continuarVotacionA(candidato, votacion);
     }
 
     @Override
-    public void intentarRecibirNominacionDe(Jugador candidato, Jugador votante, Urna votacion) {
-        candidato.continuarRecibiendoNominacionDe(votante, votacion);
+    public void intentarRecibirVotacionDe(Jugador candidato, Jugador votante, Urna votacion) {
+        candidato.continuarRecibiendoVotacionDe(votante, votacion);
     }
 }

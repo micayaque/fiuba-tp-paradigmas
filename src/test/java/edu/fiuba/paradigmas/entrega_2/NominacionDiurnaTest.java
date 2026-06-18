@@ -52,4 +52,5 @@ public class NominacionDiurnaTest {
         assertTrue(nominados.contains(nominado), "El jugador nominado debería aparecer en la lista");
         assertEquals(1, nominados.size(), "Debería haber exactamente un nominado");
     }
+
 }

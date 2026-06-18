@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.moderador;
 
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ModeradorFaseNocturna {
 
     private void procesarVotosYEjecutar(List<AccionJugador> votos) {
         for (AccionJugador intencion : votos) faseNocturna.recibirVoto(intencion.votante(), intencion.votado());
-        AccionMafia accionMafia = faseNocturna.ejecutarResultadoVotacion();
+        AccionVotacion accionMafia = faseNocturna.ejecutarResultadoVotacion();
         accionMafia.ejecutar();
     }
 }

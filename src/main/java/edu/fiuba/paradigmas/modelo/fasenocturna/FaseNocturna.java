@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.modelo.fasenocturna;
 
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.ResultadoVotacion;
 
 public class FaseNocturna {
@@ -20,9 +20,9 @@ public class FaseNocturna {
         medico.protegerA(protegido);
     }
 
-    public AccionMafia ejecutarResultadoVotacion() {
+    public AccionVotacion ejecutarResultadoVotacion() {
         ResultadoVotacion resultado = this.urnaDeMafia.contarVotos();
-        AccionMafia accion = resultado.resolver();
+        AccionVotacion accion = resultado.resolver();
         return accion;
     }
 }

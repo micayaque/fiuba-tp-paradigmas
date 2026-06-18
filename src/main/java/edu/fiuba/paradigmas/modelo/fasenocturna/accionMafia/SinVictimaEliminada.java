@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia;
 
-public class NocheSinVictima implements AccionMafia {
+public class SinVictimaEliminada implements AccionVotacion {
 
     @Override
     public void ejecutar() {

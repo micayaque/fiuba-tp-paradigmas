@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VictimaElegida;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VotoDelPadrino;
@@ -19,7 +19,7 @@ public class ResultadoVotacionTest {
         Jugador jugador = mock(Jugador.class);
         VictimaElegida victima = new VictimaElegida(jugador);
 
-        AccionMafia accion = victima.resolver();
+        AccionVotacion accion = victima.resolver();
 
         accion.ejecutar();
 
@@ -35,7 +35,7 @@ public class ResultadoVotacionTest {
         Voto votoJugador2 = new Voto(jugador2, 2);
 
         Empate empate = new Empate(List.of(votoJugador1, votoJugador2));
-        AccionMafia accion = empate.resolver();
+        AccionVotacion accion = empate.resolver();
         accion.ejecutar();
 
         verify(jugador1, never()).morir();
@@ -51,7 +51,7 @@ public class ResultadoVotacionTest {
         Voto votoJugador2 = new VotoDelPadrino(jugador2);
         Empate empate = new Empate(List.of(votoJugador1, votoJugador2));
 
-        AccionMafia accion = empate.resolver();
+        AccionVotacion accion = empate.resolver();
         accion.ejecutar();
 
         verify(jugador2, times(1)).morir();

@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna.urna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Voto {
@@ -42,7 +42,7 @@ public class Voto {
         return this.votado;
     }
 
-    public AccionMafia resolverDesempate(AccionMafia resultadoActual) {
+    public AccionVotacion resolverDesempate(AccionVotacion resultadoActual) {
         return resultadoActual;
     }
 }

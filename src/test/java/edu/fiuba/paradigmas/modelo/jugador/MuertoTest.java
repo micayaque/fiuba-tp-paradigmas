@@ -82,7 +82,7 @@ public class MuertoTest {
         Estado muerto = new Muerto();
 
         assertThrows(JugadorMuertoExcepcion.class, () ->
-                muerto.intentarNominarA(mock(Jugador.class), mock(Jugador.class), mock(Urna.class))
+                muerto.intentarVotarA(mock(Jugador.class), mock(Jugador.class), mock(Urna.class))
         );
     }
 

@@ -25,8 +25,8 @@ public abstract class Estado {
 
     public abstract Bando recibirInvestigacion(Jugador sospechoso);
 
-    public abstract void intentarNominarA(Jugador votante, Jugador candidato, Urna votacion);
+    public abstract void intentarVotarA(Jugador votante, Jugador candidato, Urna votacion);
 
-    public abstract void intentarRecibirNominacionDe(Jugador candidato, Jugador votante, Urna votacion);
+    public abstract void intentarRecibirVotacionDe(Jugador candidato, Jugador votante, Urna votacion);
 
 }

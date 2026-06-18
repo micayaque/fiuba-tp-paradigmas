@@ -20,6 +20,6 @@ public class FaseDiurnaTest {
 
         fase.recibirNominacion(nominante, nominado);
 
-        verify(nominante).nominarA(eq(nominado), any(Urna.class));
+        verify(nominante).votarA(eq(nominado), any(Urna.class));
     }
 }

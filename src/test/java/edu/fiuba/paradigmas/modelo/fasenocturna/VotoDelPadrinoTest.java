@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.NocheSinVictima;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.SinVictimaEliminada;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.Voto;
 import edu.fiuba.paradigmas.modelo.fasenocturna.urna.VotoDelPadrino;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -34,8 +34,8 @@ public class VotoDelPadrinoTest {
         Voto votoComunTriple = new Voto(jugador1, 3);
         assertTrue(votoComunTriple.mayorEstricto(acumulado));
 
-        AccionMafia accionPacifica = new NocheSinVictima();
-        AccionMafia resolucion = acumulado.resolverDesempate(accionPacifica);
+        AccionVotacion accionPacifica = new SinVictimaEliminada();
+        AccionVotacion resolucion = acumulado.resolverDesempate(accionPacifica);
         resolucion.ejecutar();
 
         verify(jugador1, times(1)).morir();
@@ -44,9 +44,9 @@ public class VotoDelPadrinoTest {
     @Test
     public void votoDelPadrinoResuelveEmpateEjecutandoLaMuerteDeSuCandidato() {
         Voto votoPadrino = new VotoDelPadrino(jugador1);
-        AccionMafia accionPacifica = new NocheSinVictima();
+        AccionVotacion accionPacifica = new SinVictimaEliminada();
 
-        AccionMafia nuevaAccion = votoPadrino.resolverDesempate(accionPacifica);
+        AccionVotacion nuevaAccion = votoPadrino.resolverDesempate(accionPacifica);
 
         nuevaAccion.ejecutar();
 

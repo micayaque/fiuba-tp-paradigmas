@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.moderador;
 
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionMafia;
+import edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,13 +14,13 @@ public class ModeradorFaseNocturnaTest {
 
     private FaseNocturna faseMock;
     private ModeradorFaseNocturna moderador;
-    private AccionMafia accionMock;
+    private AccionVotacion accionMock;
 
     @BeforeEach
     public void setUp() {
         faseMock = mock(FaseNocturna.class);
         moderador = new ModeradorFaseNocturna(faseMock);
-        accionMock = mock(AccionMafia.class);
+        accionMock = mock(AccionVotacion.class);
 
         when(faseMock.ejecutarResultadoVotacion()).thenReturn(accionMock);
     }

@@ -84,8 +84,8 @@ public class VivoTest {
         Jugador nominado = mock(Jugador.class);
         Urna urna = mock(Urna.class);
 
-        vivo.intentarNominarA(nominante, nominado, urna);
+        vivo.intentarVotarA(nominante, nominado, urna);
 
-        verify(nominante).continuarNominacionA(nominado, urna);
+        verify(nominante).continuarVotacionA(nominado, urna);
     }
 }

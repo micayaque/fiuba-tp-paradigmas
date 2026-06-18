@@ -1,5 +1,5 @@
 package edu.fiuba.paradigmas.modelo.fasenocturna.accionMafia;
 
-public interface AccionMafia {
+public interface AccionVotacion {
     void ejecutar();
 }

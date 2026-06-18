@@ -54,12 +54,12 @@ public class Muerto extends Estado {
     }
 
     @Override
-    public void intentarNominarA(Jugador votante, Jugador candidato, Urna votacion) {
+    public void intentarVotarA(Jugador votante, Jugador candidato, Urna votacion) {
         throw new JugadorMuertoExcepcion("Un jugador muerto no puede nominar.");
     }
 
     @Override
-    public void intentarRecibirNominacionDe(Jugador candidato, Jugador votante, Urna votacion) {
+    public void intentarRecibirVotacionDe(Jugador candidato, Jugador votante, Urna votacion) {
         throw new JugadorMuertoExcepcion("Un jugador muerto no puede recibir una nominación.");
     }
 
