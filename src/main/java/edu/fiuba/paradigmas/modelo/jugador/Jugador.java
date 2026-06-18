@@ -113,10 +113,10 @@ public class Jugador {
     }
 
     public void recibirVotacionDe(Jugador votante, Urna votacion) {
-        this.estado.intentarRecibirVotacionDe(this, votante, votacion);
+        this.estado.intentarRecibirVotacionDe(this, votacion);
     }
 
-    public void continuarRecibiendoVotacionDe(Jugador votante, Urna votacion) {
+    public void continuarRecibiendoVotacionDe(Urna votacion) {
         votacion.agregarVoto(new Voto(this));
     }
 

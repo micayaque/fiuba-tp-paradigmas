@@ -2,13 +2,11 @@ package edu.fiuba.paradigmas.modelo.fasediurna;
 
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
-import edu.fiuba.paradigmas.modelo.excepciones.CandidatoInvalidoExcepcion;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FaseDiurna implements GestorDeBallotage {
@@ -30,7 +28,7 @@ public class FaseDiurna implements GestorDeBallotage {
     }
 
     public List<Jugador> nominados() {
-        return urnaDeNominacion.nominados();
+        return urnaDeNominacion.candidatosVotados();
     }
 
     public void recibirVoto(Jugador votante, Jugador votado) {

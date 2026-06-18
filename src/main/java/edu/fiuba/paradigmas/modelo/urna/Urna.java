@@ -25,7 +25,7 @@ public class Urna {
     }
 
     public ResultadoVotacion contarVotos() {
-        ArrayList<Jugador> candidatosVotados = this.obtenerCandidatosVotados();
+        ArrayList<Jugador> candidatosVotados = this.candidatosVotados();
 
         List<Voto> totales = new ArrayList<>();
         for (Jugador c : candidatosVotados) totales.add(this.totalVotosPara(c));
@@ -61,7 +61,7 @@ public class Urna {
         return total;
     }
 
-    protected ArrayList<Jugador> obtenerCandidatosVotados() {
+    public ArrayList<Jugador> candidatosVotados() {
         ArrayList<Jugador> candidatos = new ArrayList<>();
         for (Voto v : this.votosEmitidos) {
             if (!candidatos.contains(v.votado())) {
@@ -69,9 +69,5 @@ public class Urna {
             }
         }
         return candidatos;
-    }
-
-    public List<Jugador> nominados() {
-        return obtenerCandidatosVotados();
     }
 }
