@@ -2,7 +2,6 @@ package edu.fiuba.paradigmas.modelo.mazo;
 
 import edu.fiuba.paradigmas.modelo.rol.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

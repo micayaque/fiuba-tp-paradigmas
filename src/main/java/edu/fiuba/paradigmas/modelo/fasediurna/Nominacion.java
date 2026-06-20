@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.fasediurna;
 
-import edu.fiuba.paradigmas.modelo.excepciones.VotacionNoIniciadaExcepcion;
+import edu.fiuba.paradigmas.modelo.excepciones.fase.VotacionNoIniciadaExcepcion;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 

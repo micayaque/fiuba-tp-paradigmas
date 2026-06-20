@@ -2,8 +2,9 @@ package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
-import edu.fiuba.paradigmas.modelo.excepciones.InvestigacionRepetidaExcepcion;
+import edu.fiuba.paradigmas.modelo.excepciones.rol.InvestigacionRepetidaExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
 
 public class Detective extends Rol {
 

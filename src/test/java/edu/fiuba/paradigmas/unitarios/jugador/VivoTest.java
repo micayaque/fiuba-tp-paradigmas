@@ -1,0 +1,99 @@
+package edu.fiuba.paradigmas.unitarios.jugador;
+
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
+import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.urna.Voto;
+import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
+import edu.fiuba.paradigmas.modelo.jugador.*;
+
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+
+public class VivoTest {
+
+    @Test
+    public void unEstadoVivoAgregaAlJugadorALaListaDeVivos() {
+        Estado vivo = new Vivo();
+        Jugador jugador = new Jugador("ciudadano", new Ciudadano());
+
+        List<Jugador> vivos = new ArrayList<>();
+        vivo.estaVivo(jugador, vivos);
+
+        assertTrue(vivos.contains(jugador), "El estado Vivo debe agregar al jugador a la lista");
+        assertEquals(1, vivos.size());
+    }
+
+    @Test
+    public void unEstadoVivoCreaUnVotoYLoMeteEnLaUrna() {
+        Estado vivo = new Vivo();
+        Jugador victima = new Jugador("ciudadano", new Ciudadano());
+
+        Urna urna = new Urna(new EmpateDiurnoSinEliminacion());
+        vivo.recibirVotoMafioso(victima, new Voto(victima), urna);
+
+        ResultadoVotacion resultadoVotacion = urna.contarVotos();
+        resultadoVotacion.resolver().ejecutar(new FaseNocturna());
+
+        List<Jugador> vivos = new ArrayList<>();
+        victima.estaVivo(vivos);
+
+        assertTrue(vivos.isEmpty(), "El estado Vivo debe haber metido el voto en la urna, resultando en la muerte de la víctima");
+    }
+
+    @Test
+    public void unEstadoVivoPasaAlEstadoMuertoAlRecibirMorir() {
+        Estado vivo = new Vivo();
+        Jugador jugador = new Jugador("ciudadano", new Ciudadano());
+
+        List<Jugador> vivos = new ArrayList<>();
+        vivo.morir(jugador);
+        jugador.estaVivo(vivos);
+
+        assertTrue(vivos.isEmpty(), "El jugador debió cambiar su estado a Muerto");
+    }
+
+    @Test
+    public void estadoVivoPermiteIntentarInvestigarYDelegaEnElDetective() {
+        Estado vivo = new Vivo();
+        Jugador detectiveMock = mock(Jugador.class);
+        Jugador sospechosoMock = mock(Jugador.class);
+
+        vivo.intentarInvestigarA(detectiveMock, sospechosoMock);
+
+        verify(detectiveMock, times(1)).continuarInvestigacionA(sospechosoMock);
+    }
+
+    @Test
+    public void estadoVivoPermiteRecibirInvestigacionYDelegaEnElSospechoso() {
+        Estado vivo = new Vivo();
+        Jugador sospechosoMock = mock(Jugador.class);
+        Jugador investigadorMock = mock(Jugador.class);
+
+        vivo.recibirInvestigacion(sospechosoMock);
+
+        verify(sospechosoMock, times(1)).continuarRevelandoIdentidad();
+    }
+
+    @Test
+    public void estadoVivoDelegaLaNominacion() {
+        Estado vivo = new Vivo();
+        Jugador nominante = mock(Jugador.class);
+        Jugador nominado = mock(Jugador.class);
+        Urna urna = mock(Urna.class);
+
+        vivo.intentarVotarA(nominante, nominado, urna);
+
+        verify(nominante).continuarVotacionA(nominado, urna);
+    }
+}

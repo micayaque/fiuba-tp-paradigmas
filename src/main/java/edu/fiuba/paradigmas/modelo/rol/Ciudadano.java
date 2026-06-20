@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
+import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
 
 public class Ciudadano extends Rol {
 

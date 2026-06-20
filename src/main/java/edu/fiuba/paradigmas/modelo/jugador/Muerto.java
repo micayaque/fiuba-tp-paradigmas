@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
-import edu.fiuba.paradigmas.modelo.excepciones.JugadorMuertoExcepcion;
+import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
@@ -9,11 +9,6 @@ import edu.fiuba.paradigmas.modelo.rol.Rol;
 import java.util.List;
 
 public class Muerto extends Estado {
-
-    @Override
-    public void postularseComoCandidatoParaMafia(Jugador jugador, List<Jugador> opciones) {
-        // Null Object
-    }
 
     @Override
     public void morir(Jugador jugador) {

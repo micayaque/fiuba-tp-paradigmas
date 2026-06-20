@@ -1,8 +1,9 @@
 package edu.fiuba.paradigmas.modelo.bando;
 
-// import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
-// import edu.fiuba.paradigmas.modelo.investigacion.ResultadoMafia;
+import edu.fiuba.paradigmas.modelo.excepciones.fase.VotoInvalidoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.urna.Voto;
 
 import java.util.List;
 
@@ -19,13 +20,7 @@ public class Mafia extends Bando {
     }
 
     @Override
-    public void postularseComoCandidatoParaMafia(Jugador jugador, List<Jugador> opciones) {
-        // Null Object
+    public void recibirVotoMafioso(Voto voto, Urna urna) {
+        throw new VotoInvalidoExcepcion("Un mafioso no puede votar a otro mafioso");
     }
-
-    // @Override
-    // public ResultadoInvestigacion informarAlDetective() {
-    //     return new ResultadoMafia();
-    // }
-
 }

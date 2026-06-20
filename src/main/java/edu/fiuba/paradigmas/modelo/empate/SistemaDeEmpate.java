@@ -1,10 +1,8 @@
 package edu.fiuba.paradigmas.modelo.empate;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.urna.Voto;
-import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import java.util.List;
+import edu.fiuba.paradigmas.modelo.urna.Empate;
 
 public interface SistemaDeEmpate {
-    AccionVotacion resolverEmpate(List<Jugador> empatados, List<Voto> todosLosVotos);
+    AccionVotacion resolverEmpate(Empate empate);
 }

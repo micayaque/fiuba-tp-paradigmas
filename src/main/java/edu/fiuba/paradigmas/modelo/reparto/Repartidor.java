@@ -1,11 +1,10 @@
 package edu.fiuba.paradigmas.modelo.reparto;
 
-import edu.fiuba.paradigmas.modelo.excepciones.RepartoInvalidoExcepcion;
+import edu.fiuba.paradigmas.modelo.excepciones.mazo.RepartoInvalidoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Repartidor {

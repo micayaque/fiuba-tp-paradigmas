@@ -8,8 +8,6 @@ import edu.fiuba.paradigmas.modelo.rol.Rol;
 import java.util.List;
 
 public abstract class Estado {
-    public abstract void postularseComoCandidatoParaMafia(Jugador jugador, List<Jugador> opciones);
-
     public abstract void morir(Jugador jugador);
 
     public abstract void estaVivo(Jugador jugador, List<Jugador> vivos);

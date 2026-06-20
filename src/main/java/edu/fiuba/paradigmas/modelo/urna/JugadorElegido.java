@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.urna;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.accionVotacion.JugadorEliminado;
+import edu.fiuba.paradigmas.modelo.accionVotacion.EliminarJugador;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class JugadorElegido implements ResultadoVotacion {
@@ -14,6 +14,6 @@ public class JugadorElegido implements ResultadoVotacion {
 
     @Override
     public AccionVotacion resolver() {
-        return new JugadorEliminado(this.elegido);
+        return new EliminarJugador(this.elegido);
     }
 }

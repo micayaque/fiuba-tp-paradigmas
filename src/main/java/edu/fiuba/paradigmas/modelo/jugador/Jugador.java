@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.modelo.jugador;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.urna.Voto;
-import edu.fiuba.paradigmas.modelo.rol.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.List;
@@ -45,13 +45,6 @@ public class Jugador {
         this.estado = nuevoEstado;
     }
 
-    public void postularseComoCandidatoParaMafia(List<Jugador> candidatosValidos) {
-        this.estado.postularseComoCandidatoParaMafia(this, candidatosValidos);    }
-
-    protected void validarBandoYPostularseComoCandidatoParaMafia(List<Jugador> opciones) {
-        this.carta.validarBandoYPostularseComoCandidatoParaMafia(this, opciones);
-    }
-
     public void votarComoMafiosoA(Jugador victimaElegida, Urna urnaDeMafia) {
         this.estado.intentarVotarComoMafiosoA(this, victimaElegida, urnaDeMafia);
     }
@@ -78,10 +71,6 @@ public class Jugador {
 
     public void estaVivo(List<Jugador> vivos) {
         this.estado.estaVivo(this, vivos);
-    }
-
-    protected void continuarPostulacionConCarta(List<Jugador> opciones) {
-        this.carta.validarBandoYPostularseComoCandidatoParaMafia(this, opciones);
     }
 
     public void continuarVistoPorMafiaConCarta(List<Jugador> complices) {
@@ -126,5 +115,9 @@ public class Jugador {
 
     public Rol continuarRevelandoCarta() {
         return this.carta.revelarCarta();
+    }
+
+    public void continuarRecibiendoVotoMafioso(Voto voto, Urna urna) {
+        this.carta.recibirVotoMafioso(voto, urna);
     }
 }

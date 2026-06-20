@@ -2,6 +2,7 @@ package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
+import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.urna.Voto;
 import edu.fiuba.paradigmas.modelo.urna.VotoDelPadrino;

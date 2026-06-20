@@ -17,8 +17,17 @@ public class Empate implements ResultadoVotacion {
         this.mecanismo = mecanismo;
     }
 
+    public List<Jugador> empatados() {
+        return this.jugadoresEmpatados;
+    }
+
+    public List<Voto> votos() {
+        return this.todosLosVotosEmitidos;
+    }
+
     @Override
     public AccionVotacion resolver() {
-        return this.mecanismo.resolverEmpate(this.jugadoresEmpatados, this.todosLosVotosEmitidos);
+        return this.mecanismo.resolverEmpate(this);
     }
+
 }

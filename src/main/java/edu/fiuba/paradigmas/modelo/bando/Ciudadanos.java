@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.bando;
 
-// import edu.fiuba.paradigmas.modelo.investigacion.ResultadoCiudadano;
-// import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.urna.Voto;
 
 import java.util.List;
 
@@ -19,13 +19,7 @@ public class Ciudadanos extends Bando {
     }
 
     @Override
-    public void postularseComoCandidatoParaMafia(Jugador jugador, List<Jugador> opciones) {
-        opciones.add(jugador);
+    public void recibirVotoMafioso(Voto voto, Urna urna) {
+        urna.agregarVoto(voto);
     }
-
-    // @Override
-    // public ResultadoInvestigacion informarAlDetective() {
-    //     return new ResultadoCiudadano();
-    // }
-
 }

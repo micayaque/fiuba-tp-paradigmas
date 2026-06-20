@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Mafia;
+import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.urna.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;

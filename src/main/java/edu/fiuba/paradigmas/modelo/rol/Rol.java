@@ -1,11 +1,11 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
-import edu.fiuba.paradigmas.modelo.excepciones.RolImpostorExcepcion;
+import edu.fiuba.paradigmas.modelo.excepciones.rol.RolImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-// import edu.fiuba.paradigmas.modelo.excepciones.DetectiveImpostorExcepcion;
+import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
-// import edu.fiuba.paradigmas.modelo.investigacion.ResultadoInvestigacion;
+import edu.fiuba.paradigmas.modelo.urna.Voto;
 
 import java.util.List;
 
@@ -27,16 +27,12 @@ public abstract class Rol {
         this.bando.vistoPorMafia(duenio, complices);
     }
 
-    public void validarBandoYPostularseComoCandidatoParaMafia(Jugador jugador, List<Jugador> opciones) {
-        this.bando.postularseComoCandidatoParaMafia(jugador, opciones);
-    }
-
     public void protegerComoMedico(Jugador protegido) {
         throw new RolImpostorExcepcion("Un rol que no es médico intentó proteger a un jugador.");
     }
 
     public void votarComoMafiosoA(Jugador victima, Urna urna) {
-        throw new RolImpostorExcepcion("Un rol que no es mafioso intentó votar a un jugador.");
+        throw new RolImpostorExcepcion("Un rol que no es mafioso intentó votar a un jugador durante la fase nocturna.");
     }
 
     public Bando investigarComoDetectiveA(Jugador sospechoso) {
@@ -49,5 +45,9 @@ public abstract class Rol {
 
     public Rol revelarCarta() {
         return this;
+    }
+
+    public void recibirVotoMafioso(Voto voto, Urna urna) {
+        this.bando.recibirVotoMafioso(voto, urna);
     }
 }
