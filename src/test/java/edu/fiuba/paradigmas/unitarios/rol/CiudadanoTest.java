@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.unitarios.rol;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.rol.RolImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class CiudadanoTest {
     public void unCiudadanoSeCuentaComoCiudadanoEnElContador() {
         Rol rolCiudadano = new Ciudadano();
 
-        ContadorDeRoles contador = new ContadorDeRoles();
+        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
         rolCiudadano.contarseEn(contador);
 
         assertEquals(0, contador.cantidadDeMafiosos());

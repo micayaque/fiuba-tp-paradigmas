@@ -1,9 +1,9 @@
-package edu.fiuba.paradigmas.modelo.mazo;
+package edu.fiuba.paradigmas.modelo.creadordejugadores;
 
 import edu.fiuba.paradigmas.modelo.excepciones.mazo.CantidadDeJugadoresInvalidaExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.mazo.ComposicionInvalidaExcepcion;
 
-public class ContadorDeRoles {
+public class ValidadorDeComposicionDelMazo {
 
     private static final int MINIMO = 5;
     private static final int MAXIMO = 12;

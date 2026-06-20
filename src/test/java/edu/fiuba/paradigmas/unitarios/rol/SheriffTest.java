@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.rol;
 
-import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Sheriff;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SheriffTest {
     @Test
     public void elSheriffSumaCorrectamenteEnElContadorDeRoles() {
-        ContadorDeRoles contador = new ContadorDeRoles();
+        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
         Sheriff sheriff = new Sheriff();
 
         sheriff.contarseEn(contador);

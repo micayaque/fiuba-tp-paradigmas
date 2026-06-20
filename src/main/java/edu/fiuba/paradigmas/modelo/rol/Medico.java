@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.modelo.rol;
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
  import edu.fiuba.paradigmas.modelo.excepciones.rol.ProteccionRepetidaExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 
 public class Medico extends Rol {
 
@@ -14,7 +14,7 @@ public class Medico extends Rol {
     }
 
     @Override
-    public void contarseEn(ContadorDeRoles contador) {
+    public void contarseEn(ValidadorDeComposicionDelMazo contador) {
         contador.sumarMedico();
     }
 

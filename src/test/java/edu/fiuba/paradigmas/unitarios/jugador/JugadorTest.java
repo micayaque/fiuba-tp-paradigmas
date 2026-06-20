@@ -7,7 +7,7 @@ import edu.fiuba.paradigmas.modelo.jugador.Estado;
 import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
-import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -32,7 +32,7 @@ public class JugadorTest {
     @Test
     public void elJugadorSeCuentaSegunSuCartaEnElContador() {
         Jugador jugador = new Jugador("Vito", new Mafioso());
-        ContadorDeRoles contador = new ContadorDeRoles();
+        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
 
         jugador.contarseEn(contador);
 

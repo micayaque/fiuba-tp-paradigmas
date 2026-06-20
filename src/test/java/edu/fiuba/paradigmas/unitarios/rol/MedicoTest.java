@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.unitarios.rol;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.rol.ProteccionRepetidaExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Medico;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MedicoTest {
     @Test
     public void elMedicoSumaCorrectamenteEnElContadorDeRoles() {
-        ContadorDeRoles contador = new ContadorDeRoles();
+        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
         Medico medico = new Medico();
 
         medico.contarseEn(contador);

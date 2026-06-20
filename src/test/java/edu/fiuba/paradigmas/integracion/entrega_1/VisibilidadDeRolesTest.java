@@ -1,8 +1,7 @@
 package edu.fiuba.paradigmas.integracion.entrega_1;
 
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.mazo.Mazo;
-import edu.fiuba.paradigmas.modelo.reparto.Repartidor;
 import edu.fiuba.paradigmas.modelo.rol.*;
 
 import org.junit.jupiter.api.Test;
@@ -14,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VisibilidadDeRolesTest {
 
-    private List<String> nombres(int cantidad) {
+    private List<String> nombres() {
         List<String> nombres = new ArrayList<>();
-        for (int i = 0; i < cantidad; i++) {
+        for (int i = 0; i < 5; i++) {
             nombres.add("Jugador " + i);
         }
         return nombres;
@@ -24,11 +23,12 @@ public class VisibilidadDeRolesTest {
 
     @Test
     public void unJugadorPuedeVerSuPropioRol() {
-        List<Rol> roles = new Mazo().generarPara(new ArrayList<>(List.of( new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano())));
-        List<Jugador> jugadores = new Repartidor().repartir(nombres(5), roles);
+        List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano());
+        List<Jugador> jugadores = new CreadorDeJugadores().crearPartida(nombres(), roles);
 
         Jugador jugador = jugadores.get(0);
         List<Jugador> conocidos = new ArrayList<>();
+
         jugador.puedeConocerElRolDe(jugador, conocidos);
 
         assertTrue(conocidos.contains(jugador));
@@ -37,13 +37,15 @@ public class VisibilidadDeRolesTest {
 
     @Test
     public void unJugadorNoMafiosoNoPuedeVerElRolDeLosDemasDuranteLaPartida() {
-        List<Rol> roles = new Mazo().generarPara(new ArrayList<>(List.of( new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano())));
-        List<Jugador> jugadores = new Repartidor().repartir(nombres(5), roles);
+        List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano());
+        List<Jugador> jugadores = new CreadorDeJugadores().crearPartida(nombres(), roles);
+
         Jugador noMafioso = new Jugador("no mafioso", new Ciudadano());
 
-        for(Jugador j :  jugadores){
+        for(Jugador j : jugadores){
             List<Jugador> conocidos = new ArrayList<>();
             noMafioso.puedeConocerElRolDe(j, conocidos);
+
             assertFalse(conocidos.contains(j));
             assertEquals(0, conocidos.size());
         }

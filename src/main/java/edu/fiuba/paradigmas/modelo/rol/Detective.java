@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
 import edu.fiuba.paradigmas.modelo.excepciones.rol.InvestigacionRepetidaExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 
 public class Detective extends Rol {
 
@@ -15,7 +15,7 @@ public class Detective extends Rol {
     }
 
     @Override
-    public void contarseEn(ContadorDeRoles contador) {
+    public void contarseEn(ValidadorDeComposicionDelMazo contador) {
         contador.sumarDetective();
     }
 

@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.modelo.rol;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.rol.RolImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.urna.Voto;
 
@@ -17,7 +17,7 @@ public abstract class Rol {
         this.bando = bando;
     }
 
-    public abstract void contarseEn(ContadorDeRoles contador);
+    public abstract void contarseEn(ValidadorDeComposicionDelMazo contador);
 
     public void puedeConocerElRolDe(Jugador otroJugador, List<Jugador> complices) {
         this.bando.intentarVerA(otroJugador, complices);

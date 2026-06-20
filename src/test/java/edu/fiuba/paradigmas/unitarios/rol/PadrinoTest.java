@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.unitarios.rol;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Padrino;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class PadrinoTest {
 
     @Test
     public void elPadrinoSumaCorrectamenteEnElContadorDeRoles() {
-        ContadorDeRoles contador = new ContadorDeRoles();
+        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
         Padrino padrino = new Padrino();
 
         padrino.contarseEn(contador);
