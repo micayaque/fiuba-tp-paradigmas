@@ -29,8 +29,11 @@ public class Jugador {
     }
 
     public void puedeConocerElRolDe(Jugador otroJugador, List<Jugador> conocidos) {
-        if(this == otroJugador) conocidos.add(this);
-        else this.carta.puedeConocerElRolDe(otroJugador, conocidos);
+        if(this == otroJugador) {
+            conocidos.add(this);
+        } else {
+            this.carta.puedeConocerElRolDe(otroJugador, conocidos);
+        }
     }
 
     public void vistoPorMafia(List<Jugador> complices) {

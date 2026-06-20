@@ -23,7 +23,9 @@ public class ModeradorFaseNocturna {
     }
 
     private void procesarVotosYEjecutar(List<AccionJugador> votos) {
-        for (AccionJugador intencion : votos) faseNocturna.recibirVoto(intencion.votante(), intencion.votado());
+        for (AccionJugador intencion : votos) {
+            faseNocturna.recibirVoto(intencion.votante(), intencion.votado());
+        }
         AccionVotacion accionMafia = faseNocturna.ejecutarResultadoVotacion();
         accionMafia.ejecutar(this.faseNocturna);
     }

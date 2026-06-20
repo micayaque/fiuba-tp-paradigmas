@@ -16,7 +16,9 @@ public class VotoDelPadrino extends Voto {
 
     @Override
     public Voto acumular(Voto otro) {
-        if (!this.votado().equals(otro.votado())) return this;
+        if (!this.votado().equals(otro.votado())) {
+            return this;
+        }
         return new VotoDelPadrino(this.votado(), super.cantidad() + otro.cantidad());
     }
 

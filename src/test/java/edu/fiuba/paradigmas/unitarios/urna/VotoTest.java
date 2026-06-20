@@ -62,20 +62,6 @@ public class VotoTest {
     }
 
     @Test
-    public void acumularVotosDeJugadoresDistintosIgnoraElSegundoVoto() {
-        Jugador victima1 = new Jugador("victima1", new Ciudadano());
-        Jugador victima2 = new Jugador("victima2", new Ciudadano());
-
-        Voto votoDeJuan = new Voto(victima1, 2);
-        Voto votoDePedro = new Voto(victima2, 3);
-
-        Voto votoAcumulado = votoDeJuan.acumular(votoDePedro);
-
-        assertTrue(votoAcumulado.empataCon(new Voto(victima1, 2)), "Debe conservar la cantidad original si los jugadores no coinciden");
-        assertEquals(victima1, votoAcumulado.votado(), "El jugador original debe mantenerse intacto");
-    }
-
-    @Test
     public void unVotoComunSeAcumulaConOtroVotoComunYSeComportaComoUnVotoDoble() {
         Voto voto1 = new Voto(victima);
         Voto voto2 = new Voto(victima);

@@ -8,7 +8,7 @@ import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.List;
 
-public class Muerto extends Estado {
+public class Muerto implements Estado {
 
     @Override
     public void morir(Jugador jugador) {

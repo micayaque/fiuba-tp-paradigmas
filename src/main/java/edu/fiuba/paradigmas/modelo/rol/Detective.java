@@ -8,7 +8,7 @@ import edu.fiuba.paradigmas.modelo.mazo.ContadorDeRoles;
 
 public class Detective extends Rol {
 
-    private Jugador ultimoInvestigado = new Jugador("para evitar null pointer exception", new Ciudadano());
+    private Jugador ultimoInvestigado;
 
     public Detective(){
         super(new Ciudadanos());

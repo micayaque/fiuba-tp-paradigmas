@@ -16,7 +16,9 @@ public class VisibilidadDeRolesTest {
 
     private List<String> nombres(int cantidad) {
         List<String> nombres = new ArrayList<>();
-        for (int i = 0; i < cantidad; i++) nombres.add("Jugador " + i);
+        for (int i = 0; i < cantidad; i++) {
+            nombres.add("Jugador " + i);
+        }
         return nombres;
     }
 

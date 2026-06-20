@@ -4,8 +4,8 @@ import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Voto {
-    private int cantidad;
-    private Jugador votado;
+    private final int cantidad;
+    private final Jugador votado;
 
     public Voto(Jugador victima) {
         this.votado = victima;
@@ -22,7 +22,6 @@ public class Voto {
     }
 
     public Voto acumular(Voto otro) {
-        if (!this.votado.equals(otro.votado())) return this;
         return otro.serAcumuladoPorUnVotoComun(this);
     }
 

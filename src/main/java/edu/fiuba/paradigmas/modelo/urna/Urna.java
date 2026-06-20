@@ -22,7 +22,9 @@ public class Urna {
         ArrayList<Jugador> candidatosVotados = this.candidatosVotados();
 
         List<Voto> totales = new ArrayList<>();
-        for (Jugador c : candidatosVotados) totales.add(this.totalVotosPara(c));
+        for (Jugador c : candidatosVotados) {
+            totales.add(this.totalVotosPara(c));
+        }
 
         Voto masVotado = totales.get(0);
         List<Voto> empatados = new ArrayList<>();
@@ -40,7 +42,9 @@ public class Urna {
 
         if (empatados.size() > 1) {
             List<Jugador> jugadoresEmpatados = new ArrayList<>();
-            for (Voto v : empatados) jugadoresEmpatados.add(v.votado());
+            for (Voto v : empatados) {
+                jugadoresEmpatados.add(v.votado());
+            }
             return new Empate(this.votosEmitidos, jugadoresEmpatados, this.mecanismoDeEmpate);
         }
         
@@ -50,7 +54,9 @@ public class Urna {
     private Voto totalVotosPara(Jugador victima) {
         Voto total = new Voto(victima, 0);
         for(Voto v : this.votosEmitidos) {
-            total = total.acumular(v);
+            if(v.votado().equals(victima)) {
+                total = total.acumular(v);
+            }
         }
         return total;
     }

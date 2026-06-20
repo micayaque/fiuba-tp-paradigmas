@@ -7,7 +7,7 @@ import edu.fiuba.paradigmas.modelo.urna.Voto;
 
 import java.util.List;
 
-public class Mafia extends Bando {
+public class Mafia implements Bando {
 
     @Override
     public void intentarVerA(Jugador otroJugador, List<Jugador> complices) {
