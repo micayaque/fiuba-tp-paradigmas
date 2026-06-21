@@ -7,8 +7,19 @@ import edu.fiuba.paradigmas.modelo.rol.Rol;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class CreadorDeJugadores {
+
+    private final Random generadorAleatorio;
+
+    public CreadorDeJugadores() {
+        this.generadorAleatorio = new Random();
+    }
+
+    public CreadorDeJugadores(Random generadorAleatorio) {
+        this.generadorAleatorio = generadorAleatorio;
+    }
 
     public List<Jugador> crearPartida(List<String> nombres, List<Rol> rolesAsignados) {
 
@@ -19,7 +30,7 @@ public class CreadorDeJugadores {
         this.validarComposicionDeRoles(rolesAsignados);
 
         List<Rol> rolesMezclados = new ArrayList<>(rolesAsignados);
-        Collections.shuffle(rolesMezclados);
+        Collections.shuffle(rolesMezclados, this.generadorAleatorio);
 
         return this.asignarRolesAJugadores(nombres, rolesMezclados);
     }
