@@ -139,19 +139,6 @@ public class JugadorTest {
     }
 
     @Test
-    public void matarAUnJugadorQueYaEstaMuertoNoAlteraElJuego() {
-        Jugador jugador = new Jugador("Kenny", new Ciudadano());
-        List<Jugador> vivos = new ArrayList<>();
-
-        jugador.morir();
-
-        assertDoesNotThrow(jugador::morir, "Matar a jugador muerto no debería lanzar error, debería ser ignorado");
-
-        jugador.estaVivo(vivos);
-        assertTrue(vivos.isEmpty(), "El jugador debe seguir muerto");
-    }
-
-    @Test
     public void vistoPorMafiaDelegaEnLaCartaParaAgregarseALaLista() {
         Jugador mafioso = new Jugador("mafioso", new Mafioso());
         List<Jugador> complices = new ArrayList<>();

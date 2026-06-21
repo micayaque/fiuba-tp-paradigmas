@@ -57,7 +57,8 @@ public class VivoTest {
         Jugador jugador = new Jugador("ciudadano", new Ciudadano());
 
         List<Jugador> vivos = new ArrayList<>();
-        vivo.morir(jugador);
+        AccionJugador comando = new RecibirEliminacion(jugador);
+        vivo.procesarAccion(comando);
         jugador.estaVivo(vivos);
 
         assertTrue(vivos.isEmpty(), "El jugador debió cambiar su estado a Muerto");

@@ -38,9 +38,7 @@ public class Jugador {
         }
     }
 
-    public void morir() {
-        this.estado.morir(this);
-    }
+
 
     public void cambiarEstado(Estado nuevoEstado) {
         this.estado = nuevoEstado;
@@ -84,15 +82,16 @@ public class Jugador {
         this.estado.procesarAccion(comando);
     }
 
+    public void morir() {
+        AccionJugador comando = new RecibirEliminacion(this);
+        this.estado.procesarAccion(comando);
+    }
+
 
 
     public void protegerA(Jugador protegido) {
         AccionJugador comando = new Proteger(this, protegido);
         this.estado.procesarAccion(comando);
-    }
-
-    public void serProtegido() {
-        this.estado.serProtegido(this);
     }
 
     public void continuarProteccionA(Jugador protegido) {
@@ -120,7 +119,9 @@ public class Jugador {
     }
 
     public Rol revelarCarta() {
-        return this.estado.revelarCarta(this);
+        RevelarCarta comando = new RevelarCarta(this);
+        this.estado.procesarAccion(comando);
+        return comando.obtenerResultado();
     }
 
     public Rol continuarRevelandoCarta() {
