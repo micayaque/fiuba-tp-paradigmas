@@ -39,7 +39,7 @@ public class MuertoTest {
         Urna urna = new Urna(new EmpateDiurnoSinEliminacion());
 
         AccionJugador comando = new VotarComoMafioso(jugador, jugador, urna);
-        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.intentarAccion(comando)
+        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.procesarAccion(comando)
         , "Un estado Muerto debe lanzar excepción si se le pide que emita un voto");
     }
 
@@ -51,7 +51,7 @@ public class MuertoTest {
 
         AccionJugador comando = new RecibirVotoNocturno(victima, new Voto(victima), urna);
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.recibirAccion(comando)
+        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.procesarAccion(comando)
         , "Un estado Muerto debe lanzar excepción si intentan meter un voto en su contra en la urna");
     }
 
@@ -64,7 +64,7 @@ public class MuertoTest {
         AccionJugador comando = new Investigar(detective, sospechoso);
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> muerto.intentarAccion(comando));
+                () -> muerto.procesarAccion(comando));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class MuertoTest {
         AccionJugador comando = new RecibirInvestigacion(sospechoso);
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> muerto.recibirAccion(comando));
+                () -> muerto.procesarAccion(comando));
     }
 
     @Test
@@ -86,9 +86,7 @@ public class MuertoTest {
         AccionJugador comando = new VotarComoCiudadano(mock(Jugador.class), mock(Jugador.class), mock(Urna.class));
 
         assertThrows(JugadorMuertoExcepcion.class, () ->
-                muerto.intentarAccion(comando)
+                muerto.procesarAccion(comando)
         );
     }
-
-
 }

@@ -30,12 +30,7 @@ public class Muerto implements Estado {
     }
 
     @Override
-    public void intentarAccion(AccionJugador comando) {
+    public void procesarAccion(AccionJugador comando) {
         comando.rechazar();
-    }
-
-    @Override
-    public void recibirAccion(AccionJugador comando) {
-        throw new JugadorMuertoExcepcion("No se puede interactuar con un jugador muerto.");
     }
 }

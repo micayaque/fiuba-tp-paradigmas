@@ -40,7 +40,7 @@ public class VivoTest {
 
         Urna urna = new Urna(new EmpateDiurnoSinEliminacion());
         AccionJugador comando = new VotarComoMafioso(votante, victima, urna);
-        vivo.recibirAccion(comando);
+        vivo.procesarAccion(comando);
 
         ResultadoVotacion resultadoVotacion = urna.contarVotos();
         resultadoVotacion.resolver().ejecutar(new FaseNocturna());
@@ -69,7 +69,7 @@ public class VivoTest {
         Jugador detectiveMock = mock(Jugador.class);
         Jugador sospechosoMock = mock(Jugador.class);
         AccionJugador comando = new Investigar(detectiveMock, sospechosoMock);
-        vivo.intentarAccion(comando);
+        vivo.procesarAccion(comando);
 
         verify(detectiveMock, times(1)).continuarInvestigacionA(sospechosoMock);
     }
@@ -80,7 +80,7 @@ public class VivoTest {
         Jugador sospechosoMock = mock(Jugador.class);
         Jugador investigadorMock = mock(Jugador.class);
         AccionJugador comando = new RecibirInvestigacion(sospechosoMock);
-        vivo.recibirAccion(comando);
+        vivo.procesarAccion(comando);
 
         verify(sospechosoMock, times(1)).continuarRevelandoIdentidad();
     }
@@ -94,7 +94,7 @@ public class VivoTest {
 
         AccionJugador comando = new VotarComoCiudadano(nominante, nominado, urna);
 
-        vivo.intentarAccion(comando);
+        vivo.procesarAccion(comando);
 
         verify(nominante).continuarVotacionA(nominado, urna);
     }

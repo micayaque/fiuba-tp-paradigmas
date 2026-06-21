@@ -15,12 +15,7 @@ public class Vivo implements Estado {
     }
 
     @Override
-    public void intentarAccion(AccionJugador comando) {
-        comando.ejecutar();
-    }
-
-    @Override
-    public void recibirAccion(AccionJugador comando) {
+    public void procesarAccion(AccionJugador comando) {
         comando.ejecutar();
     }
 

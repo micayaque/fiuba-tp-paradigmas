@@ -91,33 +91,33 @@ public class Jugador {
 
     public void protegerA(Jugador protegido) {
         AccionJugador comando = new Proteger(this, protegido);
-        this.estado.intentarAccion(comando);
+        this.estado.procesarAccion(comando);
     }
 
     public void votarComoCiudadano(Jugador votado, Urna votacion) {
         AccionJugador comando = new VotarComoCiudadano(this, votado, votacion);
-        this.estado.intentarAccion(comando);
+        this.estado.procesarAccion(comando);
     }
 
     public void votarComoMafiosoA(Jugador victimaElegida, Urna urnaDeMafia) {
         AccionJugador comando = new VotarComoMafioso(this, victimaElegida, urnaDeMafia);
-        this.estado.intentarAccion(comando);
+        this.estado.procesarAccion(comando);
     }
 
     public Bando investigarA(Jugador sospechoso) {
         Investigar comando = new Investigar(this, sospechoso);
-        this.estado.intentarAccion(comando);
+        this.estado.procesarAccion(comando);
         return comando.obtenerResultado();
     }
 
     public void recibirVotoMafioso(Voto voto, Urna urnaDeMafia) {
         AccionJugador comando = new RecibirVotoNocturno(this, voto, urnaDeMafia);
-        this.estado.recibirAccion(comando);
+        this.estado.procesarAccion(comando);
     }
 
     public void recibirVotacionDe(Jugador votante, Urna votacion) {
         AccionJugador comando = new RecibirVotoDiurno(this, votacion);
-        this.estado.recibirAccion(comando);
+        this.estado.procesarAccion(comando);
     }
 
     public void vistoPorMafia(List<Jugador> complices) {
@@ -126,7 +126,7 @@ public class Jugador {
 
     public Bando serInvestigado() {
         RecibirInvestigacion comando = new RecibirInvestigacion(this);
-        this.estado.recibirAccion(comando);
+        this.estado.procesarAccion(comando);
         return comando.obtenerResultado();
     }
 
