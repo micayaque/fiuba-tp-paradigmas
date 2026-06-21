@@ -1,13 +1,11 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
-import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
+import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
-import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
-import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
-import edu.fiuba.paradigmas.modelo.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.jugador.*;
 
@@ -38,9 +36,11 @@ public class VivoTest {
     public void unEstadoVivoCreaUnVotoYLoMeteEnLaUrna() {
         Estado vivo = new Vivo();
         Jugador victima = new Jugador("ciudadano", new Ciudadano());
+        Jugador votante = new Jugador("mafioso", new Mafioso());
 
         Urna urna = new Urna(new EmpateDiurnoSinEliminacion());
-        vivo.recibirVotoMafioso(victima, new Voto(victima), urna);
+        AccionJugador comando = new VotarComoMafioso(votante, victima, urna);
+        vivo.recibirAccion(comando);
 
         ResultadoVotacion resultadoVotacion = urna.contarVotos();
         resultadoVotacion.resolver().ejecutar(new FaseNocturna());
@@ -68,8 +68,8 @@ public class VivoTest {
         Estado vivo = new Vivo();
         Jugador detectiveMock = mock(Jugador.class);
         Jugador sospechosoMock = mock(Jugador.class);
-
-        vivo.intentarInvestigarA(detectiveMock, sospechosoMock);
+        AccionJugador comando = new Investigar(detectiveMock, sospechosoMock);
+        vivo.intentarAccion(comando);
 
         verify(detectiveMock, times(1)).continuarInvestigacionA(sospechosoMock);
     }
@@ -79,8 +79,8 @@ public class VivoTest {
         Estado vivo = new Vivo();
         Jugador sospechosoMock = mock(Jugador.class);
         Jugador investigadorMock = mock(Jugador.class);
-
-        vivo.recibirInvestigacion(sospechosoMock);
+        AccionJugador comando = new RecibirInvestigacion(sospechosoMock);
+        vivo.recibirAccion(comando);
 
         verify(sospechosoMock, times(1)).continuarRevelandoIdentidad();
     }
@@ -92,7 +92,9 @@ public class VivoTest {
         Jugador nominado = mock(Jugador.class);
         Urna urna = mock(Urna.class);
 
-        vivo.intentarVotarA(nominante, nominado, urna);
+        AccionJugador comando = new VotarComoCiudadano(nominante, nominado, urna);
+
+        vivo.intentarAccion(comando);
 
         verify(nominante).continuarVotacionA(nominado, urna);
     }

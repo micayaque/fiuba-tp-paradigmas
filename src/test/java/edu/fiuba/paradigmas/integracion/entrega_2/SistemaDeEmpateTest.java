@@ -34,9 +34,9 @@ public class SistemaDeEmpateTest {
         AccionVotacion accion = fase.ejecutarResultadoVotacion();
         accion.ejecutar(fase);
 
-        assertDoesNotThrow(() -> a.votarA(v1, new Urna(new EmpateDiurnoSinEliminacion())),
+        assertDoesNotThrow(() -> a.votarComoCiudadano(v1, new Urna(new EmpateDiurnoSinEliminacion())),
                 "El jugador A debería seguir vivo tras una ronda sin eliminación");
-        assertDoesNotThrow(() -> b.votarA(v2,  new Urna(new EmpateDiurnoSinEliminacion())),
+        assertDoesNotThrow(() -> b.votarComoCiudadano(v2,  new Urna(new EmpateDiurnoSinEliminacion())),
                 "El jugador B debería seguir vivo tras una ronda sin eliminación");
     }
 
@@ -73,10 +73,10 @@ public class SistemaDeEmpateTest {
         accionSegundaVuelta.ejecutar(fase);
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> a.votarA(b, new Urna(new EmpateDiurnoSinEliminacion())),
+                () -> a.votarComoCiudadano(b, new Urna(new EmpateDiurnoSinEliminacion())),
                 "El jugador A debió ser eliminado tras perder el ballotage");
 
-        assertDoesNotThrow(() -> b.votarA(c, new Urna(new EmpateDiurnoSinEliminacion())),
+        assertDoesNotThrow(() -> b.votarComoCiudadano(c, new Urna(new EmpateDiurnoSinEliminacion())),
                 "El jugador B debe seguir vivo tras salvarse en el ballotage");
     }
 }

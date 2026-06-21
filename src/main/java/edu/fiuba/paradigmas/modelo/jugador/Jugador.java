@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
+import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.urna.Voto;
@@ -36,10 +37,6 @@ public class Jugador {
         }
     }
 
-    public void vistoPorMafia(List<Jugador> complices) {
-        this.estado.vistoPorMafia(this, complices);
-    }
-
     public void morir() {
         this.estado.morir(this);
     }
@@ -48,20 +45,8 @@ public class Jugador {
         this.estado = nuevoEstado;
     }
 
-    public void votarComoMafiosoA(Jugador victimaElegida, Urna urnaDeMafia) {
-        this.estado.intentarVotarComoMafiosoA(this, victimaElegida, urnaDeMafia);
-    }
-
     public void continuarVotacionMafiosaConCarta(Jugador victimaElegida, Urna urnaDeMafia) {
         this.carta.votarComoMafiosoA(victimaElegida, urnaDeMafia);
-    }
-
-    public void recibirVotoMafioso(Voto voto, Urna urnaDeMafia) {
-        this.estado.recibirVotoMafioso(this, voto, urnaDeMafia);    
-    }
-
-    public void protegerA(Jugador protegido) {
-        this.estado.intentarProtegerA(this, protegido);
     }
 
     public void continuarProteccionA(Jugador protegido) {
@@ -76,36 +61,16 @@ public class Jugador {
         this.estado.estaVivo(this, vivos);
     }
 
-    public void continuarVistoPorMafiaConCarta(List<Jugador> complices) {
-        this.carta.vistoPorMafia(this, complices);
-    }
-
-    public Bando investigarA(Jugador sospechoso) {
-        return this.estado.intentarInvestigarA(this, sospechoso);
-    }
-
     public Bando continuarInvestigacionA(Jugador sospechoso) {
         return this.carta.investigarComoDetectiveA(sospechoso);
-    }
-
-    public Bando serInvestigado() {
-        return this.estado.recibirInvestigacion(this);
     }
 
     public Bando continuarRevelandoIdentidad() {
         return this.carta.revelarBando();
     }
 
-    public void votarA(Jugador nominado, Urna votacion) {
-        this.estado.intentarVotarA(this, nominado, votacion);
-    }
-
     public void continuarVotacionA(Jugador candidato, Urna votacion) {
         candidato.recibirVotacionDe(this, votacion);
-    }
-
-    public void recibirVotacionDe(Jugador votante, Urna votacion) {
-        this.estado.intentarRecibirVotacionDe(this, votacion);
     }
 
     public void continuarRecibiendoVotacionDe(Urna votacion) {
@@ -123,4 +88,46 @@ public class Jugador {
     public void continuarRecibiendoVotoMafioso(Voto voto, Urna urna) {
         this.carta.recibirVotoMafioso(voto, urna);
     }
+
+    public void protegerA(Jugador protegido) {
+        AccionJugador comando = new Proteger(this, protegido);
+        this.estado.intentarAccion(comando);
+    }
+
+    public void votarComoCiudadano(Jugador votado, Urna votacion) {
+        AccionJugador comando = new VotarComoCiudadano(this, votado, votacion);
+        this.estado.intentarAccion(comando);
+    }
+
+    public void votarComoMafiosoA(Jugador victimaElegida, Urna urnaDeMafia) {
+        AccionJugador comando = new VotarComoMafioso(this, victimaElegida, urnaDeMafia);
+        this.estado.intentarAccion(comando);
+    }
+
+    public Bando investigarA(Jugador sospechoso) {
+        Investigar comando = new Investigar(this, sospechoso);
+        this.estado.intentarAccion(comando);
+        return comando.obtenerResultado();
+    }
+
+    public void recibirVotoMafioso(Voto voto, Urna urnaDeMafia) {
+        AccionJugador comando = new RecibirVotoNocturno(this, voto, urnaDeMafia);
+        this.estado.recibirAccion(comando);
+    }
+
+    public void recibirVotacionDe(Jugador votante, Urna votacion) {
+        AccionJugador comando = new RecibirVotoDiurno(this, votacion);
+        this.estado.recibirAccion(comando);
+    }
+
+    public void vistoPorMafia(List<Jugador> complices) {
+        this.carta.vistoPorMafia(this, complices);
+    }
+
+    public Bando serInvestigado() {
+        RecibirInvestigacion comando = new RecibirInvestigacion(this);
+        this.estado.recibirAccion(comando);
+        return comando.obtenerResultado();
+    }
+
 }

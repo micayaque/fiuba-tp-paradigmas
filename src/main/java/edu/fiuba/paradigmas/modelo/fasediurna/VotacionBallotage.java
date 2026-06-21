@@ -17,6 +17,6 @@ public class VotacionBallotage implements EstadoVotacionDiurna {
         if (!this.candidatosValidos.contains(votado)) {
             throw new VotoInvalidoExcepcion("En el ballotage solo se puede votar a los empatados.");
         }
-        votante.votarA(votado, urna);
+        votante.votarComoCiudadano(votado, urna);
     }
 }

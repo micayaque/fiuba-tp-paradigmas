@@ -18,6 +18,6 @@ public class PrimeraVotacion implements EstadoVotacionDiurna {
         if (!this.nominados.contains(votado)) {
             throw new VotoInvalidoExcepcion("Solo se puede votar a jugadores nominados.");
         }
-        votante.votarA(votado, urna);
+        votante.votarComoCiudadano(votado, urna);
     }
 }

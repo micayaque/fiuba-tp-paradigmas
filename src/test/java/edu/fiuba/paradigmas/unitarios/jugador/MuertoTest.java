@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
+import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
@@ -21,17 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MuertoTest {
 
     @Test
-    public void unEstadoMuertoActuaComoNullObjectAlPostularse() {
-        Estado muerto = new Muerto();
-        Jugador jugador = new Jugador("ciudadano", new Ciudadano());
-
-        List<Jugador> opciones = new ArrayList<>();
-        muerto.vistoPorMafia(jugador, opciones);
-
-        assertTrue(opciones.isEmpty(), "El estado Muerto no debe agregar al jugador a las opciones");
-    }
-
-    @Test
     public void unEstadoMuertoActuaComoNullObjectAlAgregarseALosVivos() {
         Estado muerto = new Muerto();
         Jugador jugador = new Jugador("ciudadano", new Ciudadano());
@@ -48,7 +38,8 @@ public class MuertoTest {
         Jugador jugador = new Jugador("ciudadano", new Ciudadano());
         Urna urna = new Urna(new EmpateDiurnoSinEliminacion());
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.intentarVotarComoMafiosoA(jugador, jugador, urna)
+        AccionJugador comando = new VotarComoMafioso(jugador, jugador, urna);
+        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.intentarAccion(comando)
         , "Un estado Muerto debe lanzar excepción si se le pide que emita un voto");
     }
 
@@ -58,7 +49,9 @@ public class MuertoTest {
         Jugador victima = new Jugador("ciudadano", new Ciudadano());
         Urna urna = new Urna(new EmpateDiurnoBallotage());
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.recibirVotoMafioso(victima, new Voto(victima), urna)
+        AccionJugador comando = new RecibirVotoNocturno(victima, new Voto(victima), urna);
+
+        assertThrows(JugadorMuertoExcepcion.class, () -> muerto.recibirAccion(comando)
         , "Un estado Muerto debe lanzar excepción si intentan meter un voto en su contra en la urna");
     }
 
@@ -68,8 +61,10 @@ public class MuertoTest {
         Jugador detective = mock(Jugador.class);
         Jugador sospechoso = mock(Jugador.class);
 
+        AccionJugador comando = new Investigar(detective, sospechoso);
+
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> muerto.intentarInvestigarA(detective, sospechoso));
+                () -> muerto.intentarAccion(comando));
     }
 
     @Test
@@ -78,16 +73,20 @@ public class MuertoTest {
         Jugador sospechoso = mock(Jugador.class);
         Jugador investigador = mock(Jugador.class);
 
+        AccionJugador comando = new RecibirInvestigacion(sospechoso);
+
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> muerto.recibirInvestigacion(sospechoso));
+                () -> muerto.recibirAccion(comando));
     }
 
     @Test
     public void estadoMuertoLanzaExcepcionAlNominar() {
         Estado muerto = new Muerto();
 
+        AccionJugador comando = new VotarComoCiudadano(mock(Jugador.class), mock(Jugador.class), mock(Urna.class));
+
         assertThrows(JugadorMuertoExcepcion.class, () ->
-                muerto.intentarVotarA(mock(Jugador.class), mock(Jugador.class), mock(Urna.class))
+                muerto.intentarAccion(comando)
         );
     }
 

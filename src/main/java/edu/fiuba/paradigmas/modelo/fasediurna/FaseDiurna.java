@@ -22,7 +22,7 @@ public class FaseDiurna implements Fase {
     }
 
     public void recibirNominacion(Jugador nominante, Jugador nominado) {
-        nominante.votarA(nominado, this.urnaDeNominacion);
+        nominante.votarComoCiudadano(nominado, this.urnaDeNominacion);
     }
 
     public List<Jugador> iniciarVotacion() {

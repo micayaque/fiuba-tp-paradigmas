@@ -28,7 +28,7 @@ public class FaseDiurnaTest {
 
         fase.recibirNominacion(nominante, nominado);
 
-        verify(nominante).votarA(eq(nominado), any(Urna.class));
+        verify(nominante).votarComoCiudadano(eq(nominado), any(Urna.class));
     }
 
     @Test

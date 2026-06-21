@@ -31,6 +31,6 @@ public class VotacionDiurnaTest {
         AccionVotacion accion = fase.ejecutarResultadoVotacion();
         accion.ejecutar(fase);
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> votado.votarA(votante1, new Urna(new EmpateDiurnoSinEliminacion())));
+        assertThrows(JugadorMuertoExcepcion.class, () -> votado.votarComoCiudadano(votante1, new Urna(new EmpateDiurnoSinEliminacion())));
     }
 }

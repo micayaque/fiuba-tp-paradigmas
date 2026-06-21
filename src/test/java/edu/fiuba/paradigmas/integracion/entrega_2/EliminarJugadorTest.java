@@ -30,7 +30,7 @@ public class EliminarJugadorTest {
         Urna urnaDePrueba = new Urna(new EmpateDiurnoSinEliminacion());
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> ciudadano.votarA(victima, urnaDePrueba),
+                () -> ciudadano.votarComoCiudadano(victima, urnaDePrueba),
                 "Un jugador eliminado no debería poder nominar en la fase diurna");
 
         assertThrows(JugadorMuertoExcepcion.class,

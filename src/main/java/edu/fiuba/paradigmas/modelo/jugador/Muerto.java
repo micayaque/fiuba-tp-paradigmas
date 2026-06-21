@@ -1,9 +1,8 @@
 package edu.fiuba.paradigmas.modelo.jugador;
 
+import edu.fiuba.paradigmas.modelo.accionjugador.AccionJugador;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
-import edu.fiuba.paradigmas.modelo.urna.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.List;
@@ -16,22 +15,8 @@ public class Muerto implements Estado {
     }
 
     @Override
-    public void recibirVotoMafioso(Jugador victima, Voto voto, Urna urnaDeMafia) {
-        throw new JugadorMuertoExcepcion("La mafia intentó votar a un jugador que ya está muerto.");
-    }
-
-    @Override
     public void estaVivo(Jugador jugador, List<Jugador> vivos) {
         // Null Object
-    }
-
-    @Override
-    public void intentarVotarComoMafiosoA(Jugador votante, Jugador victimaElegida, Urna urnaDeMafia) {
-        throw new JugadorMuertoExcepcion("Un jugador muerto intentó votar a otro jugador.");
-    }
-
-    @Override
-    public void vistoPorMafia(Jugador jugador, List<Jugador> complices) {
     }
 
     @Override
@@ -40,32 +25,17 @@ public class Muerto implements Estado {
     }
 
     @Override
-    public Bando intentarInvestigarA(Jugador detective, Jugador sospechoso) {
-        throw new JugadorMuertoExcepcion("Un jugador muerto no puede inverstigar.");
-    }
-
-    @Override
-    public Bando recibirInvestigacion(Jugador sospechoso) {
-        throw new JugadorMuertoExcepcion("No se puede investigar a un jugador muerto.");
-    }
-
-    @Override
-    public void intentarVotarA(Jugador votante, Jugador candidato, Urna votacion) {
-        throw new JugadorMuertoExcepcion("Un jugador muerto no puede nominar.");
-    }
-
-    @Override
-    public void intentarRecibirVotacionDe(Jugador candidato, Urna votacion) {
-        throw new JugadorMuertoExcepcion("Un jugador muerto no puede recibir una votación.");
-    }
-
-    @Override
-    public void intentarProtegerA(Jugador medico, Jugador protegido) {
-        throw new JugadorMuertoExcepcion("Un médico muerto no puede proteger a nadie.");
-    }
-
-    @Override
     public Rol revelarCarta(Jugador jugador) {
         return jugador.continuarRevelandoCarta();
+    }
+
+    @Override
+    public void intentarAccion(AccionJugador comando) {
+        comando.rechazar();
+    }
+
+    @Override
+    public void recibirAccion(AccionJugador comando) {
+        throw new JugadorMuertoExcepcion("No se puede interactuar con un jugador muerto.");
     }
 }

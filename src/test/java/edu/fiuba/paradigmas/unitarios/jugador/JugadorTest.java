@@ -1,5 +1,7 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
+import edu.fiuba.paradigmas.modelo.accionjugador.AccionJugador;
+import edu.fiuba.paradigmas.modelo.accionjugador.RecibirInvestigacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
@@ -174,17 +176,6 @@ public class JugadorTest {
     }
 
     @Test
-    public void unMafiosoMuertoNoDeberiaAparecerEnLaListaDeComplices() {
-        Jugador mafiosoMuerto = new Jugador("mafioso muerto", new Mafioso());
-        List<Jugador> complices = new ArrayList<>();
-
-        mafiosoMuerto.morir();
-        mafiosoMuerto.vistoPorMafia(complices);
-
-        assertFalse(complices.contains(mafiosoMuerto), "Un mafioso muerto no debe agregarse a la lista de cómplices");
-    }
-
-    @Test
     public void unCiudadanoMuertoNoSePostulaComoCandidatoParaLaMafia() {
         Jugador ciudadanoMuerto = new Jugador("ciudadano muerto", new Ciudadano());
         List<Jugador> opciones = new ArrayList<>();
@@ -194,33 +185,7 @@ public class JugadorTest {
 
         assertFalse(opciones.contains(ciudadanoMuerto), "El ciudadano muerto debió ser frenado por su estado (Null Object)");
     }
-
-    @Test
-    public void investigarADelegaElIntentoEnElEstado() {
-        Rol rolDummy = mock(Rol.class);
-        Jugador detective = new Jugador("dummy", rolDummy);
-        Jugador sospechosoDummy = mock(Jugador.class);
-        Estado estadoMock = mock(Estado.class);
-        detective.cambiarEstado(estadoMock);
-
-        detective.investigarA(sospechosoDummy);
-
-        verify(estadoMock, times(1)).intentarInvestigarA(detective, sospechosoDummy);
-    }
-
-    @Test
-    public void serInvestigadoDelegaElReciboEnElEstado() {
-        Jugador sospechoso = new Jugador("Sospechoso", mock(Rol.class));
-        Jugador investigadorDummy = mock(Jugador.class);
-
-        Estado estadoMock = mock(Estado.class);
-        sospechoso.cambiarEstado(estadoMock);
-
-        sospechoso.serInvestigado();
-
-        verify(estadoMock, times(1)).recibirInvestigacion(sospechoso);
-    }
-
+    
     @Test
     public void continuarRevelandoIdentidadDelegaEnLaCarta() {
         Rol cartaMock = mock(Rol.class);
