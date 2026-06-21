@@ -1,13 +1,10 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
-import edu.fiuba.paradigmas.modelo.accionjugador.AccionJugador;
-import edu.fiuba.paradigmas.modelo.accionjugador.RecibirInvestigacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.jugador.Estado;
-import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
@@ -82,10 +79,10 @@ public class JugadorTest {
         Jugador votante = new Jugador("votante", new Mafioso());
         Jugador victima = new Jugador("victima", new Ciudadano());
 
-        Urna urna = new Urna(new EmpateNocturnoMafia());
-        votante.votarComoMafiosoA(victima, urna);
+        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateNocturnoMafia());
+        votante.votarComoMafiosoA(victima, urnaVotacion);
 
-        ResultadoVotacion resultadoVotacion = urna.contarVotos();
+        ResultadoVotacion resultadoVotacion = urnaVotacion.contarVotos();
         resultadoVotacion.resolver().ejecutar(new FaseNocturna());
 
         List<Jugador> vivos = new ArrayList<>();
@@ -100,11 +97,11 @@ public class JugadorTest {
 
         Jugador victimaDelMuerto = new Jugador("victima del muerto", new Ciudadano());
 
-        Urna urna = new Urna(new EmpateNocturnoMafia());
+        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateNocturnoMafia());
 
         votanteMuerto.morir();
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> votanteMuerto.votarComoMafiosoA(victimaDelMuerto, urna));
+        assertThrows(JugadorMuertoExcepcion.class, () -> votanteMuerto.votarComoMafiosoA(victimaDelMuerto, urnaVotacion));
 
     }
 
@@ -112,11 +109,11 @@ public class JugadorTest {
     public void unJugadorVivoIntentaVotarAUnJugadorMuertoLanzaExcepcion() {
         Jugador votanteVivo = new Jugador("votante vivo", new Mafioso());
         Jugador victimaMuerta = new Jugador("victima muerta", new Ciudadano());
-        Urna urna = new Urna(new EmpateNocturnoMafia());
+        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateNocturnoMafia());
 
         victimaMuerta.morir();
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> { votanteVivo.votarComoMafiosoA(victimaMuerta, urna);},
+        assertThrows(JugadorMuertoExcepcion.class, () -> { votanteVivo.votarComoMafiosoA(victimaMuerta, urnaVotacion);},
                 "No se debería poder ingresar un voto si la víctima ya está muerta");
     }
 

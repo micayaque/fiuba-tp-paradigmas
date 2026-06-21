@@ -4,10 +4,10 @@ import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
 import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.urna.Empate;
-import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
-import edu.fiuba.paradigmas.modelo.urna.Voto;
+import edu.fiuba.paradigmas.modelo.votacion.Empate;
+import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.Voto;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
@@ -17,15 +17,15 @@ public class EmpateDiurnoBallotageTest {
     @Test
     public void laEstrategiaDeBallotageDeberiaIniciarElProcesoCorrectamente() {
         FaseDiurna fase = mock(FaseDiurna.class);
-        Urna urna = new Urna(new EmpateDiurnoBallotage());
+        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoBallotage());
 
         Jugador jugador1 = mock(Jugador.class);
         Jugador jugador2 = mock(Jugador.class);
 
-        urna.agregarVoto(new Voto(jugador1));
-        urna.agregarVoto(new Voto(jugador2));
+        urnaVotacion.agregarVoto(new Voto(jugador1));
+        urnaVotacion.agregarVoto(new Voto(jugador2));
 
-        ResultadoVotacion resultado = urna.contarVotos();
+        ResultadoVotacion resultado = urnaVotacion.contarVotos();
 
         EmpateDiurnoBallotage estrategia = new EmpateDiurnoBallotage();
 

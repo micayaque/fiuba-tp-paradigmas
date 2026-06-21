@@ -2,46 +2,16 @@ package edu.fiuba.paradigmas.unitarios.fasediurna;
 
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.VotoInvalidoExcepcion;
-import edu.fiuba.paradigmas.modelo.excepciones.fase.VotacionNoIniciadaExcepcion;
 import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class FaseDiurnaTest {
-
-    @Test
-    public void faseDiurnaDelegaLaNominacionAlJugador() {
-        FaseDiurna fase = new FaseDiurna(new EmpateDiurnoSinEliminacion());
-
-        Jugador nominante = mock(Jugador.class);
-        Jugador nominado = mock(Jugador.class);
-
-        fase.recibirNominacion(nominante, nominado);
-
-        verify(nominante).votarComoCiudadano(eq(nominado), any(Urna.class));
-    }
-
-    @Test
-    public void lanzaExcepcionSiSeIntentaVotarAntesDeIniciarVotacion() {
-        FaseDiurna fase = new FaseDiurna(new EmpateDiurnoSinEliminacion());
-        Jugador votante = new Jugador("Votante", new Ciudadano());
-        Jugador votado = new Jugador("Votado", new Ciudadano());
-
-        assertThrows(VotacionNoIniciadaExcepcion.class,
-                () -> fase.recibirVoto(votante, votado),
-                "El sistema debe impedir votos antes de que se cierre la nominación"
-        );
-    }
 
     @Test
     public void recibeVotoEsExitosoSiElJugadorFuePreviamenteNominado() {

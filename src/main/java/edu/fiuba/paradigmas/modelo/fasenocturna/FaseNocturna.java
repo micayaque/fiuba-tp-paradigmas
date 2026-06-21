@@ -2,22 +2,22 @@ package edu.fiuba.paradigmas.modelo.fasenocturna;
 
 import edu.fiuba.paradigmas.modelo.Fase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
 
 import java.util.List;
 
 public class FaseNocturna implements Fase {
-    private final Urna urnaDeMafia;
+    private final UrnaDeVotacion urnaVotacionDeMafia;
 
     public FaseNocturna() {
-        this.urnaDeMafia =  new Urna(new EmpateNocturnoMafia());
+        this.urnaVotacionDeMafia =  new UrnaDeVotacion(new EmpateNocturnoMafia());
     }
 
     public void recibirVoto(Jugador mafioso, Jugador victimaElegida) {
-        mafioso.votarComoMafiosoA(victimaElegida, this.urnaDeMafia);
+        mafioso.votarComoMafiosoA(victimaElegida, this.urnaVotacionDeMafia);
     }
 
     public void recibirProteccion(Jugador medico, Jugador protegido) {
@@ -26,7 +26,7 @@ public class FaseNocturna implements Fase {
 
     @Override
     public AccionVotacion ejecutarResultadoVotacion() {
-        ResultadoVotacion resultado = this.urnaDeMafia.contarVotos();
+        ResultadoVotacion resultado = this.urnaVotacionDeMafia.contarVotos();
         return resultado.resolver();
     }
 

@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.unitarios.urna;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.accionVotacion.DeclararNocheSinJugadorEliminado;
-import edu.fiuba.paradigmas.modelo.urna.Voto;
+import edu.fiuba.paradigmas.modelo.votacion.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.BeforeEach;

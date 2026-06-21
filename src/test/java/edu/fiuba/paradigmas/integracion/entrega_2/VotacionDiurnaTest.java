@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
@@ -31,6 +31,6 @@ public class VotacionDiurnaTest {
         AccionVotacion accion = fase.ejecutarResultadoVotacion();
         accion.ejecutar(fase);
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> votado.votarComoCiudadano(votante1, new Urna(new EmpateDiurnoSinEliminacion())));
+        assertThrows(JugadorMuertoExcepcion.class, () -> votado.votarComoCiudadano(votante1, new UrnaDeVotacion(new EmpateDiurnoSinEliminacion())));
     }
 }

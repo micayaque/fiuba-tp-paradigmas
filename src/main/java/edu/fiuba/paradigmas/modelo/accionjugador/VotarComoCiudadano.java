@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.modelo.accionjugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.Urna;
 
 public class VotarComoCiudadano implements AccionJugador {
     private final Jugador votante;
@@ -17,7 +17,7 @@ public class VotarComoCiudadano implements AccionJugador {
 
     @Override
     public void ejecutar() {
-        this.votante.continuarVotacionA(this.candidato, this.votacion);
+        this.candidato.recibirVotacionDe(this.votante, this.votacion);
     }
 
     @Override

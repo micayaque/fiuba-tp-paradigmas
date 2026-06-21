@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.integracion.entrega_2;
 
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.*;
 import org.junit.jupiter.api.Test;
@@ -27,14 +27,14 @@ public class EliminarJugadorTest {
 
         Jugador victima = new Jugador("Víctima", new Ciudadano());
 
-        Urna urnaDePrueba = new Urna(new EmpateDiurnoSinEliminacion());
+        UrnaDeVotacion urnaVotacionDePrueba = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> ciudadano.votarComoCiudadano(victima, urnaDePrueba),
+                () -> ciudadano.votarComoCiudadano(victima, urnaVotacionDePrueba),
                 "Un jugador eliminado no debería poder nominar en la fase diurna");
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> mafioso.votarComoMafiosoA(victima, urnaDePrueba),
+                () -> mafioso.votarComoMafiosoA(victima, urnaVotacionDePrueba),
                 "Un mafioso eliminado no debería poder seguir votando");
 
         assertThrows(JugadorMuertoExcepcion.class,
@@ -45,7 +45,7 @@ public class EliminarJugadorTest {
                 () -> medico.protegerA(victima),
                 "Un médico eliminado no debería poder proteger a nadie");
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> padrino.votarComoMafiosoA(victima, urnaDePrueba),
+        assertThrows(JugadorMuertoExcepcion.class, () -> padrino.votarComoMafiosoA(victima, urnaVotacionDePrueba),
                 "Un padrino eliminado no debería poder seguir votando");
 
     }

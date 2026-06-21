@@ -1,12 +1,10 @@
 package edu.fiuba.paradigmas.unitarios.urna;
 
 import edu.fiuba.paradigmas.modelo.Fase;
-import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
-import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
-import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
-import edu.fiuba.paradigmas.modelo.urna.Voto;
+import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
@@ -18,21 +16,21 @@ import static org.mockito.Mockito.mock;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UrnaTest {
+public class UrnaDeVotacionTest {
 
     @Test
     public void devuelveAlJugadorConLaMayoriaDeVotos() {
         Fase fase = mock(Fase.class);
-        Urna urna = new Urna(new EmpateDiurnoSinEliminacion());
+        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
 
         Jugador ciudadano1 = new Jugador("ciudadano1", new Ciudadano());
         Jugador ciudadano2 = new Jugador("ciudadano2", new Ciudadano());
 
-        urna.agregarVoto(new Voto(ciudadano1));
-        urna.agregarVoto(new Voto(ciudadano1));
-        urna.agregarVoto(new Voto(ciudadano2));
+        urnaVotacion.agregarVoto(new Voto(ciudadano1));
+        urnaVotacion.agregarVoto(new Voto(ciudadano1));
+        urnaVotacion.agregarVoto(new Voto(ciudadano2));
 
-        ResultadoVotacion resultadoVotacion = urna.contarVotos();
+        ResultadoVotacion resultadoVotacion = urnaVotacion.contarVotos();
         resultadoVotacion.resolver().ejecutar(fase);
 
         List<Jugador> vivos = new ArrayList<>();
@@ -46,18 +44,18 @@ public class UrnaTest {
     @Test
     public void unNuevoCandidatoMayorLimpiaLosEmpatesPrevios() {
         Fase  fase = mock(Fase.class);
-        Urna urna = new Urna(new EmpateDiurnoSinEliminacion());
+        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
         Jugador empatado1 = new Jugador("A", new Ciudadano());
         Jugador empatado2 = new Jugador("B", new Ciudadano());
         Jugador ganador = new Jugador("C", new Ciudadano());
 
-        urna.agregarVoto(new Voto(empatado1));
-        urna.agregarVoto(new Voto(empatado2));
+        urnaVotacion.agregarVoto(new Voto(empatado1));
+        urnaVotacion.agregarVoto(new Voto(empatado2));
 
-        urna.agregarVoto(new Voto(ganador));
-        urna.agregarVoto(new Voto(ganador));
+        urnaVotacion.agregarVoto(new Voto(ganador));
+        urnaVotacion.agregarVoto(new Voto(ganador));
 
-        ResultadoVotacion resultadoVotacion = urna.contarVotos();
+        ResultadoVotacion resultadoVotacion = urnaVotacion.contarVotos();
         resultadoVotacion.resolver().ejecutar(fase);
 
         List<Jugador> vivos = new ArrayList<>();

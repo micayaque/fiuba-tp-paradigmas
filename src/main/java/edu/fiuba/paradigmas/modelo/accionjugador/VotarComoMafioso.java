@@ -2,22 +2,22 @@ package edu.fiuba.paradigmas.modelo.accionjugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 
 public class VotarComoMafioso implements AccionJugador {
     private final Jugador votante;
     private final Jugador victimaElegida;
-    private final Urna urnaDeMafia;
+    private final UrnaDeVotacion urnaVotacionDeMafia;
 
-    public VotarComoMafioso(Jugador votante, Jugador victimaElegida, Urna urnaDeMafia) {
+    public VotarComoMafioso(Jugador votante, Jugador victimaElegida, UrnaDeVotacion urnaVotacionDeMafia) {
         this.votante = votante;
         this.victimaElegida = victimaElegida;
-        this.urnaDeMafia = urnaDeMafia;
+        this.urnaVotacionDeMafia = urnaVotacionDeMafia;
     }
 
     @Override
     public void ejecutar() {
-        this.votante.continuarVotacionMafiosaConCarta(this.victimaElegida, this.urnaDeMafia);
+        this.votante.continuarVotacionMafiosaConCarta(this.victimaElegida, this.urnaVotacionDeMafia);
     }
 
     @Override

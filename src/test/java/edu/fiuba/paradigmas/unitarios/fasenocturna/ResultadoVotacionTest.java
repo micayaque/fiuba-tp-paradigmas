@@ -4,10 +4,10 @@ import edu.fiuba.paradigmas.modelo.Fase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.urna.JugadorElegido;
-import edu.fiuba.paradigmas.modelo.urna.Voto;
-import edu.fiuba.paradigmas.modelo.urna.VotoDelPadrino;
-import edu.fiuba.paradigmas.modelo.urna.Empate;
+import edu.fiuba.paradigmas.modelo.votacion.JugadorElegido;
+import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.votacion.VotoDelPadrino;
+import edu.fiuba.paradigmas.modelo.votacion.Empate;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 

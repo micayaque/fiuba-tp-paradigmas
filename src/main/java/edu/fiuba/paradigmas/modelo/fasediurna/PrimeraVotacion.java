@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fasediurna;
 
 import edu.fiuba.paradigmas.modelo.excepciones.fase.VotoInvalidoExcepcion;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 import java.util.List;
@@ -14,10 +14,10 @@ public class PrimeraVotacion implements EstadoVotacionDiurna {
     }
 
     @Override
-    public void recibirVoto(Jugador votante, Jugador votado, Urna urna) {
+    public void recibirVoto(Jugador votante, Jugador votado, Urna urnaVotacion) {
         if (!this.nominados.contains(votado)) {
             throw new VotoInvalidoExcepcion("Solo se puede votar a jugadores nominados.");
         }
-        votante.votarComoCiudadano(votado, urna);
+        votante.votarComoCiudadano(votado, urnaVotacion);
     }
 }

@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.modelo.urna;
+package edu.fiuba.paradigmas.modelo.votacion;
 
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;

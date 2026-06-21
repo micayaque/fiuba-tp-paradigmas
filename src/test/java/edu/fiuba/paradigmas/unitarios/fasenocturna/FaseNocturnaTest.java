@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ public class FaseNocturnaTest {
 
         fase.recibirVoto(mafioso, victima);
 
-        verify(mafioso, times(1)).votarComoMafiosoA(eq(victima), any(Urna.class));
+        verify(mafioso, times(1)).votarComoMafiosoA(eq(victima), any(UrnaDeVotacion.class));
     }
 
     @Test

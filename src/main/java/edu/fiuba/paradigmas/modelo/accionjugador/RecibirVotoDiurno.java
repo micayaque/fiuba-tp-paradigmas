@@ -2,7 +2,8 @@ package edu.fiuba.paradigmas.modelo.accionjugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.Voto;
 
 public class RecibirVotoDiurno implements AccionJugador {
     private final Jugador candidato;
@@ -14,9 +15,7 @@ public class RecibirVotoDiurno implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
-        this.candidato.continuarRecibiendoVotacionDe(this.votacion);
-    }
+    public void ejecutar() { this.votacion.agregarVoto(new Voto(this.candidato)); }
 
     @Override
     public void rechazar() {

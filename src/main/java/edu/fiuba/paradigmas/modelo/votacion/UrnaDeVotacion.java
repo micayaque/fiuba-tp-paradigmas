@@ -1,25 +1,20 @@
-package edu.fiuba.paradigmas.modelo.urna;
+package edu.fiuba.paradigmas.modelo.votacion;
 
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Urna {
-    private final ArrayList<Voto> votosEmitidos;
+public class UrnaDeVotacion extends Urna {
     private final SistemaDeEmpate mecanismoDeEmpate;
 
-    public Urna(SistemaDeEmpate mecanismoDeEmpate) {
-        this.votosEmitidos = new ArrayList<>();
+    public UrnaDeVotacion(SistemaDeEmpate mecanismoDeEmpate) {
+        super();
         this.mecanismoDeEmpate = mecanismoDeEmpate;
     }
 
-    public void agregarVoto(Voto voto) {
-        this.votosEmitidos.add(voto);
-    }
-
     public ResultadoVotacion contarVotos() {
-        ArrayList<Jugador> candidatosVotados = this.candidatosVotados();
+        List<Jugador> candidatosVotados = this.jugadoresVotados();
 
         List<Voto> totales = new ArrayList<>();
         for (Jugador c : candidatosVotados) {
@@ -59,15 +54,5 @@ public class Urna {
             }
         }
         return total;
-    }
-
-    public ArrayList<Jugador> candidatosVotados() {
-        ArrayList<Jugador> candidatos = new ArrayList<>();
-        for (Voto v : this.votosEmitidos) {
-            if (!candidatos.contains(v.votado())) {
-                candidatos.add(v.votado());
-            }
-        }
-        return candidatos;
     }
 }

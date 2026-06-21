@@ -4,8 +4,8 @@ import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
-import edu.fiuba.paradigmas.modelo.urna.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.jugador.*;
 
@@ -38,11 +38,11 @@ public class VivoTest {
         Jugador victima = new Jugador("ciudadano", new Ciudadano());
         Jugador votante = new Jugador("mafioso", new Mafioso());
 
-        Urna urna = new Urna(new EmpateDiurnoSinEliminacion());
-        AccionJugador comando = new VotarComoMafioso(votante, victima, urna);
+        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
+        AccionJugador comando = new VotarComoMafioso(votante, victima, urnaVotacion);
         vivo.procesarAccion(comando);
 
-        ResultadoVotacion resultadoVotacion = urna.contarVotos();
+        ResultadoVotacion resultadoVotacion = urnaVotacion.contarVotos();
         resultadoVotacion.resolver().ejecutar(new FaseNocturna());
 
         List<Jugador> vivos = new ArrayList<>();
@@ -83,19 +83,5 @@ public class VivoTest {
         vivo.procesarAccion(comando);
 
         verify(sospechosoMock, times(1)).continuarRevelandoIdentidad();
-    }
-
-    @Test
-    public void estadoVivoDelegaLaNominacion() {
-        Estado vivo = new Vivo();
-        Jugador nominante = mock(Jugador.class);
-        Jugador nominado = mock(Jugador.class);
-        Urna urna = mock(Urna.class);
-
-        AccionJugador comando = new VotarComoCiudadano(nominante, nominado, urna);
-
-        vivo.procesarAccion(comando);
-
-        verify(nominante).continuarVotacionA(nominado, urna);
     }
 }
