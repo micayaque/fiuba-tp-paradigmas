@@ -1,0 +1,28 @@
+package edu.fiuba.paradigmas.modelo.accionjugador;
+
+import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
+import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.Voto;
+
+public class RecibirVotoNocturno implements AccionJugador {
+    private final Jugador victima;
+    private final Voto voto;
+    private final UrnaDeVotacion urnaVotacionDeMafia;
+
+    public RecibirVotoNocturno(Jugador victima, Voto voto, UrnaDeVotacion urnaVotacionDeMafia) {
+        this.victima = victima;
+        this.voto = voto;
+        this.urnaVotacionDeMafia = urnaVotacionDeMafia;
+    }
+
+    @Override
+    public void ejecutar() {
+        this.victima.continuarRecibiendoVotoMafioso(this.voto, this.urnaVotacionDeMafia);
+    }
+
+    @Override
+    public void rechazar() {
+        throw new JugadorMuertoExcepcion("La mafia intentó votar a un jugador que ya está muerto.");
+    }
+}

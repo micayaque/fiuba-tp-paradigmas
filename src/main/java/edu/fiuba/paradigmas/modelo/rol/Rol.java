@@ -1,9 +1,11 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Bando;
+import edu.fiuba.paradigmas.modelo.excepciones.rol.RolImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.excepciones.MedicoImpostorExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.urna.Urna;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.Voto;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public abstract class Rol {
         this.bando = bando;
     }
 
-    public abstract void contarseEn(ContadorDeRoles contador);
+    public abstract void contarseEn(ValidadorDeComposicionDelMazo contador);
 
     public void puedeConocerElRolDe(Jugador otroJugador, List<Jugador> complices) {
         this.bando.intentarVerA(otroJugador, complices);
@@ -25,15 +27,23 @@ public abstract class Rol {
         this.bando.vistoPorMafia(duenio, complices);
     }
 
-    public void validarBandoYPostularseComoCandidatoParaMafia(Jugador jugador, List<Jugador> opciones) {
-        this.bando.postularseComoCandidatoParaMafia(jugador, opciones);
-    }
-
     public void protegerComoMedico(Jugador protegido) {
-        throw new MedicoImpostorExcepcion("Un rol que no es médico intentó proteger a un jugador.");
+        throw new RolImpostorExcepcion("Un rol que no es médico intentó proteger a un jugador.");
     }
 
-    public void votarComoMafiosoA(Jugador victima, Urna urna) {
-        throw new MedicoImpostorExcepcion("Un rol que no es mafioso intentó votar a un jugador.");
+    public void votarComoMafiosoA(Jugador victima, UrnaDeVotacion urnaVotacion) {
+        throw new RolImpostorExcepcion("Un rol que no es mafioso intentó votar a un jugador durante la fase nocturna.");
+    }
+
+    public Bando investigarComoDetectiveA(Jugador sospechoso) {
+        throw new RolImpostorExcepcion("Un rol que no es detective intentó iniciar una investigación.");
+    }
+
+    public Bando revelarBando() {
+        return this.bando;
+    }
+
+    public void recibirVotoMafioso(Voto voto, UrnaDeVotacion urnaVotacion) {
+        this.bando.recibirVotoMafioso(voto, urnaVotacion);
     }
 }

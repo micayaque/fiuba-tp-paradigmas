@@ -1,14 +1,16 @@
 package edu.fiuba.paradigmas.modelo.bando;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.votacion.Voto;
 
 import java.util.List;
 
-public abstract class Bando {
+public interface Bando {
 
-    public abstract void intentarVerA(Jugador otroJugador, List<Jugador> complices);
+    void intentarVerA(Jugador otroJugador, List<Jugador> complices);
 
-    public abstract void vistoPorMafia(Jugador jugador, List<Jugador> complices);
+    void vistoPorMafia(Jugador jugador, List<Jugador> complices);
 
-    public abstract void postularseComoCandidatoParaMafia(Jugador jugador, List<Jugador> opciones);
+    void recibirVotoMafioso(Voto voto, UrnaDeVotacion urnaVotacion);
 }
