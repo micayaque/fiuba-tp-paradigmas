@@ -1,11 +1,11 @@
 package edu.fiuba.paradigmas.modelo.fasediurna;
 
-import edu.fiuba.paradigmas.modelo.votacion.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
-public class Nominacion implements EstadoVotacionDiurna {
+public class Nominacion extends EstadoVotacionDiurna {
+
     @Override
-    public void recibirVoto(Jugador votante, Jugador votado, Urna urnaVotacion) {
-        votante.votarComoCiudadano(votado, urnaVotacion);
+    protected void validarCandidato(Jugador votado) {
+        // En la nominación cualquier jugador vivo es candidato: no impone restricción.
     }
 }

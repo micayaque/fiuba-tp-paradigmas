@@ -17,12 +17,12 @@ public class RecibirVotoNocturno implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         this.victima.continuarRecibiendoVotoMafioso(this.voto, this.urnaVotacionDeMafia);
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("La mafia intentó votar a un jugador que ya está muerto.");
     }
 }

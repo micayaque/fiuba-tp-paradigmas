@@ -24,8 +24,7 @@ public class UrnaDeVotacion extends Urna {
         Voto masVotado = totales.get(0);
         List<Voto> empatados = new ArrayList<>();
         empatados.add(masVotado);
-        for (int i = 1; i < totales.size(); i++) {
-            Voto actual = totales.get(i);
+        for (Voto actual : totales.subList(1, totales.size())) {
             if (actual.mayorEstricto(masVotado)) {
                 masVotado = actual;
                 empatados.clear();

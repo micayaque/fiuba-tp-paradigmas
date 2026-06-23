@@ -13,12 +13,12 @@ public class RevelarCarta implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         throw new JugadorVivoExcepcion("Un jugador vivo no debería revelar su carta de rol.");
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         this.rolDescubierto = this.revelado.continuarRevelandoCarta();
     }
 

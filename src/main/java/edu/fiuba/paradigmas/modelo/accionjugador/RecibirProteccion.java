@@ -12,12 +12,12 @@ public class RecibirProteccion implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         this.protegido.cambiarEstado(new Protegido());
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("No se puede proteger a un jugador eliminado");
     }
 }

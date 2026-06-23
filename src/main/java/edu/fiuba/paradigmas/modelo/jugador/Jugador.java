@@ -6,6 +6,7 @@ import edu.fiuba.paradigmas.modelo.votacion.Urna;
 import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.votacion.Voto;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
+import edu.fiuba.paradigmas.modelo.partida.RecuentoDeBandos;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.List;
@@ -46,6 +47,14 @@ public class Jugador {
 
     public void estaVivo(List<Jugador> vivos) {
         this.estado.estaVivo(this, vivos);
+    }
+
+    public void contarBandoEn(RecuentoDeBandos recuento) {
+        this.carta.contarBandoEn(recuento);
+    }
+
+    public void finalizarNoche() {
+        this.estado.procesarAccion(new FinalizarNoche(this));
     }
 
     public void vistoPorMafia(List<Jugador> complices) {
@@ -96,6 +105,10 @@ public class Jugador {
 
     public void continuarProteccionA(Jugador protegido) {
         this.carta.protegerComoMedico(protegido);
+    }
+
+    public void recibirProteccion() {
+        this.estado.procesarAccion(new RecibirProteccion(this));
     }
 
     public Bando investigarA(Jugador sospechoso) {

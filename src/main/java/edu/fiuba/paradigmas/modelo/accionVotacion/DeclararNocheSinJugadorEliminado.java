@@ -6,6 +6,5 @@ public class DeclararNocheSinJugadorEliminado implements AccionVotacion {
 
     @Override
     public void ejecutar(Fase fase) {
-        // Null Object
     }
 }

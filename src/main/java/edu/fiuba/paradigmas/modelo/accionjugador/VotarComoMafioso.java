@@ -16,12 +16,12 @@ public class VotarComoMafioso implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         this.votante.continuarVotacionMafiosaConCarta(this.victimaElegida, this.urnaVotacionDeMafia);
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("Un jugador muerto intentó votar a otro jugador.");
     }
 }

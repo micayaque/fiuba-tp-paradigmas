@@ -13,12 +13,12 @@ public class Proteger implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         medico.continuarProteccionA(protegido);
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("Un médico muerto no puede proteger a nadie.");
     }
 }

@@ -9,4 +9,6 @@ public interface Fase {
     AccionVotacion ejecutarResultadoVotacion();
 
     void iniciarBallotage(List<Jugador> empatados);
+
+    void cerrar(List<Jugador> jugadores);
 }

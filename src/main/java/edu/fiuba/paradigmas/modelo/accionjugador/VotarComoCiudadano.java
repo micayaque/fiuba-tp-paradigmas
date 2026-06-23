@@ -16,12 +16,12 @@ public class VotarComoCiudadano implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         this.candidato.recibirVotacionDe(this.votante, this.votacion);
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("Un jugador muerto no puede votar.");
     }
 }

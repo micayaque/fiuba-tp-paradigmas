@@ -13,6 +13,6 @@ public class Vivo implements Estado {
 
     @Override
     public void procesarAccion(AccionJugador comando) {
-        comando.ejecutar();
+        comando.enVivo();
     }
 }

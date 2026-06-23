@@ -13,12 +13,12 @@ public class RecibirInvestigacion implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         this.bandoRevelado = this.sospechoso.continuarRevelandoIdentidad();
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("No se puede investigar a un jugador muerto.");
     }
 

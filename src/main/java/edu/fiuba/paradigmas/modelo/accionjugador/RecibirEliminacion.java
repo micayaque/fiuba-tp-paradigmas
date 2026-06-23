@@ -12,12 +12,17 @@ public class RecibirEliminacion implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         this.eliminado.cambiarEstado(new Muerto());
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("Un jugador ya eliminado no puede ser eliminado nuevamente");
+    }
+
+    @Override
+    public void enProtegido() {
+        // El Médico le anula el ataque: el protegido absorbe la eliminación y no muere.
     }
 }

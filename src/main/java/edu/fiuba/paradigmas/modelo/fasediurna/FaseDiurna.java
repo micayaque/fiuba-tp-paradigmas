@@ -47,4 +47,8 @@ public class FaseDiurna implements Fase {
         this.estado = new VotacionBallotage(empatados);
         this.urnaVotacionDeVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
     }
+
+    @Override
+    public void cerrar(List<Jugador> jugadores) {
+    }
 }

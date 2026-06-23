@@ -8,11 +8,10 @@ public class Muerto implements Estado {
 
     @Override
     public void estaVivo(Jugador jugador, List<Jugador> vivos) {
-        // Null Object
     }
 
     @Override
     public void procesarAccion(AccionJugador comando) {
-        comando.rechazar();
+        comando.enMuerto();
     }
 }

@@ -15,10 +15,12 @@ public class RecibirVotoDiurno implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() { this.votacion.agregarVoto(new Voto(this.candidato)); }
+    public void enVivo() {
+        this.votacion.agregarVoto(new Voto(this.candidato));
+    }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("Un jugador muerto no puede recibir una votación.");
     }
 }

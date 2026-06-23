@@ -32,6 +32,12 @@ public class FaseNocturna implements Fase {
 
     @Override
     public void iniciarBallotage(List<Jugador> empatados) {
-        // Null object
+    }
+
+    @Override
+    public void cerrar(List<Jugador> jugadores) {
+        for (Jugador jugador : jugadores) {
+            jugador.finalizarNoche();
+        }
     }
 }
