@@ -27,6 +27,10 @@ public class Jugador {
         return nombre;
     }
 
+    public Rol carta() {
+        return this.carta;
+    }
+
     public void contarseEn(ValidadorDeComposicionDelMazo contador) {
         carta.contarseEn(contador);
     }
@@ -51,6 +55,11 @@ public class Jugador {
 
     public void contarBandoEn(RecuentoDeBandos recuento) {
         this.carta.contarBandoEn(recuento);
+    }
+
+    public void revelarseComoSheriff() {
+        AccionJugador comando = new RevelarseComoSheriff(this);
+        this.estado.procesarAccion(comando);
     }
 
     public void finalizarNoche() {
@@ -139,6 +148,10 @@ public class Jugador {
 
     public Rol continuarRevelandoCarta() {
         return this.carta;
+    }
+
+    public void agregarComoObjetivoPrioritario(List<Jugador> objetivos) {
+        this.carta.agregarComoObjetivoPrioritario(this, objetivos);
     }
 
 }

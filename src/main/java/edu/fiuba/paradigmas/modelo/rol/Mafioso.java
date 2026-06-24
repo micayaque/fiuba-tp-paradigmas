@@ -18,6 +18,11 @@ public class Mafioso extends Rol {
     }
 
     @Override
+    public String nombre() {
+        return "Mafioso";
+    }
+
+    @Override
     public void votarComoMafiosoA(Jugador victima, UrnaDeVotacion urnaVotacion) {
         Voto miVoto = new Voto(victima);
         victima.recibirVotoMafioso(miVoto, urnaVotacion);

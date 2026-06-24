@@ -19,6 +19,11 @@ public class Medico extends Rol {
     }
 
     @Override
+    public String nombre() {
+        return "Médico";
+    }
+
+    @Override
     public void protegerComoMedico(Jugador protegido) {
          if (protegido == this.ultimoProtegido) {
              throw new ProteccionRepetidaExcepcion("El Médico no puede proteger al mismo jugador dos noches consecutivas.");

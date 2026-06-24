@@ -20,6 +20,8 @@ public abstract class Rol {
 
     public abstract void contarseEn(ValidadorDeComposicionDelMazo contador);
 
+    public abstract String nombre();
+
     public void puedeConocerElRolDe(Jugador otroJugador, List<Jugador> complices) {
         this.bando.intentarVerA(otroJugador, complices);
     }
@@ -38,6 +40,13 @@ public abstract class Rol {
 
     public Bando investigarComoDetectiveA(Jugador sospechoso) {
         throw new RolImpostorExcepcion("Un rol que no es detective intentó iniciar una investigación.");
+    }
+
+    public void revelarComoSheriff() {
+        throw new RolImpostorExcepcion("Un rol que no es sheriff intentó revelarse como Sheriff.");
+    }
+
+    public void agregarComoObjetivoPrioritario(Jugador jugador, List<Jugador> objetivos) {
     }
 
     public Bando revelarBando() {

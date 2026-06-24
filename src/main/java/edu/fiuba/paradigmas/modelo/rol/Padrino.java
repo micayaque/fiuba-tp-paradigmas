@@ -15,6 +15,11 @@ public class Padrino extends Mafioso {
     }
 
     @Override
+    public String nombre() {
+        return "Padrino";
+    }
+
+    @Override
     public Bando revelarBando() {
         return new Ciudadanos();
     }

@@ -1,13 +1,15 @@
 package edu.fiuba.paradigmas.modelo.fasediurna;
 
 import edu.fiuba.paradigmas.modelo.Fase;
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.excepciones.fase.FaseIncorrectaExcepcion;
+import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.votacion.UrnaDeNominacion;
 import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
-import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 import java.util.List;
 
@@ -22,18 +24,26 @@ public class FaseDiurna implements Fase {
         this.urnaDeNominacion = new UrnaDeNominacion();
     }
 
+    @Override
     public void recibirNominacion(Jugador nominante, Jugador nominado) {
         this.estado.recibirVoto(nominante, nominado, this.urnaDeNominacion);
     }
 
+    @Override
     public List<Jugador> iniciarVotacion() {
         List<Jugador> nominados = this.urnaDeNominacion.nominados();
         this.estado = new PrimeraVotacion(nominados);
         return nominados;
     }
 
+    @Override
     public void recibirVoto(Jugador votante, Jugador votado) {
         this.estado.recibirVoto(votante, votado, this.urnaVotacionDeVotacion);
+    }
+
+    @Override
+    public void recibirProteccion(Jugador medico, Jugador protegido) {
+        throw new FaseIncorrectaExcepcion("No se puede proteger durante la Fase Diurna.");
     }
 
     @Override
@@ -50,5 +60,15 @@ public class FaseDiurna implements Fase {
 
     @Override
     public void cerrar(List<Jugador> jugadores) {
+    }
+
+    @Override
+    public String descripcion() {
+        return "Fase Diurna";
+    }
+
+    @Override
+    public void avanzar(Moderador moderador) {
+        moderador.comenzarFaseNocturna();
     }
 }

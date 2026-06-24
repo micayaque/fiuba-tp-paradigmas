@@ -20,6 +20,11 @@ public class Detective extends Rol {
     }
 
     @Override
+    public String nombre() {
+        return "Detective";
+    }
+
+    @Override
     public Bando investigarComoDetectiveA(Jugador sospechoso) {
         if (sospechoso == this.ultimoInvestigado) {
             throw new InvestigacionRepetidaExcepcion("El Detective no puede investigar al mismo jugador dos noches consecutivas.");

@@ -14,4 +14,9 @@ public class Ciudadano extends Rol {
         contador.sumarCiudadano();
     }
 
+    @Override
+    public String nombre() {
+        return "Ciudadano";
+    }
+
 }

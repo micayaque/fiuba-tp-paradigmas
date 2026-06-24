@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.integracion.entrega_3;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.partida.Partida;
+import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import edu.fiuba.paradigmas.modelo.rol.Medico;
@@ -23,12 +23,10 @@ public class ProteccionExpiraAlCerrarLaNocheTest {
         Jugador victima = new Jugador("victima", new Ciudadano());
         List<Jugador> jugadores = List.of(mafioso, medico, victima);
 
-        FaseNocturna noche = new FaseNocturna();
-        noche.recibirVoto(mafioso, victima);
-        noche.recibirProteccion(medico, victima);
-
-        Partida partida = new Partida(jugadores, noche);
-        partida.resolverFase();
+        Moderador moderador = new Moderador(jugadores, new EmpateDiurnoSinEliminacion());
+        moderador.registrarVoto(mafioso, victima);
+        moderador.registrarProteccion(medico, victima);
+        moderador.resolverFase();
 
         List<Jugador> vivosTrasLaNoche = new ArrayList<>();
         victima.estaVivo(vivosTrasLaNoche);
