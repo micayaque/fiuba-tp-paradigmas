@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.jugador.Muerto;
 
-public class RecibirEliminacion implements AccionJugador {
+public class RecibirEliminacion extends AccionJugador {
     Jugador eliminado;
 
     public RecibirEliminacion(Jugador eliminado) {
