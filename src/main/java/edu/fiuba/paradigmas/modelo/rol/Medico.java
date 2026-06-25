@@ -18,10 +18,6 @@ public class Medico extends Rol {
         contador.sumarMedico();
     }
 
-    @Override
-    public String nombre() {
-        return "Médico";
-    }
 
     @Override
     public void protegerComoMedico(Jugador protegido) {
@@ -31,4 +27,9 @@ public class Medico extends Rol {
          protegido.recibirProteccion();
          this.ultimoProtegido = protegido;
     }
+
+        @Override
+        public void identificarseEn(IdentificadorRol identificador) {
+            identificador.esMedico();
+        }
 }

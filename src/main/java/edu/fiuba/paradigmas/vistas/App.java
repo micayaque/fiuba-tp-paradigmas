@@ -13,7 +13,6 @@ import java.util.List;
 public class App extends Application {
     private Stage escenarioPrincipal;
 
-
     @Override
     public void start(Stage escenarioPrincipal) {
         this.escenarioPrincipal = escenarioPrincipal;
@@ -39,6 +38,7 @@ public class App extends Application {
 
     public void irARepartoDeRoles(List<Jugador> jugadoresCreados){
         RepartoVista vista = new RepartoVista();
+        
         new RepartoController(vista, this, jugadoresCreados);
 
         Scene escena = new Scene(vista, 400, 500);
@@ -47,7 +47,9 @@ public class App extends Application {
 
     public void irAEstadoDePartida(List<Jugador> jugadoresCreados) {
         EstadoPartidaVista vista = new EstadoPartidaVista();
-        new EstadoPartidaController(vista, this, jugadoresCreados);
+        
+        
+        new EstadoPartidaController(vista, jugadoresCreados);
 
         Scene escena = new Scene(vista, 400, 300);
         this.escenarioPrincipal.setScene(escena);

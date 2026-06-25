@@ -19,10 +19,6 @@ public class Detective extends Rol {
         contador.sumarDetective();
     }
 
-    @Override
-    public String nombre() {
-        return "Detective";
-    }
 
     @Override
     public Bando investigarComoDetectiveA(Jugador sospechoso) {
@@ -32,5 +28,10 @@ public class Detective extends Rol {
         Bando bandoDescubierto = sospechoso.serInvestigado();
         this.ultimoInvestigado = sospechoso;
         return bandoDescubierto;
+    }
+
+    @Override
+    public void identificarseEn(IdentificadorRol identificador) {
+        identificador.esDetective();
     }
 }

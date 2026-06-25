@@ -23,11 +23,6 @@ public class Sheriff extends Rol{
     }
 
     @Override
-    public String nombre() {
-        return "Sheriff";
-    }
-
-    @Override
     public void revelarComoSheriff() {
         this.estadoRevelacion.revelar(this);
     }
@@ -39,5 +34,10 @@ public class Sheriff extends Rol{
     @Override
     public void agregarComoObjetivoPrioritario(Jugador jugador, List<Jugador> objetivos) {
         this.estadoRevelacion.esObjetivoPrioritario(jugador, objetivos);
+    }
+
+    @Override
+    public void identificarseEn(IdentificadorRol identificador) {
+        identificador.esSheriff();
     }
 }

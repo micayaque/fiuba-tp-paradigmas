@@ -20,11 +20,11 @@ public abstract class Rol {
 
     public abstract void contarseEn(ValidadorDeComposicionDelMazo contador);
 
-    public abstract String nombre();
-
     public void puedeConocerElRolDe(Jugador otroJugador, List<Jugador> complices) {
         this.bando.intentarVerA(otroJugador, complices);
     }
+
+    public abstract void identificarseEn(IdentificadorRol identificador);
 
     public void vistoPorMafia(Jugador duenio, List<Jugador> complices) {
         this.bando.vistoPorMafia(duenio, complices);

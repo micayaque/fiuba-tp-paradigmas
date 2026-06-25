@@ -15,8 +15,8 @@ public class Padrino extends Mafioso {
     }
 
     @Override
-    public String nombre() {
-        return "Padrino";
+    public void identificarseEn(IdentificadorRol identificador) {
+        identificador.esPadrino();
     }
 
     @Override

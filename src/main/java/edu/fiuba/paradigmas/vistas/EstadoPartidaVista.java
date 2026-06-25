@@ -1,8 +1,5 @@
 package edu.fiuba.paradigmas.vistas;
 
-import edu.fiuba.paradigmas.modelo.Fase;
-import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -26,18 +23,10 @@ public class EstadoPartidaVista extends VBox {
         this.getChildren().addAll(this.titulo, this.ronda, this.fase);
     }
 
-    public void mostrarEstado(int numeroDeRonda, Fase faseActual) {
+    
+    public void mostrarEstado(int numeroDeRonda, String descripcionFase) {
         this.ronda.setText("Ronda actual: " + numeroDeRonda);
-        this.fase.setText("Fase activa: " + this.descripcionDeFase(faseActual));
+        this.fase.setText("Fase activa: " + descripcionFase);
     }
-
-    private String descripcionDeFase(Fase faseActual) {
-        if (faseActual instanceof FaseDiurna) {
-            return "Fase Diurna";
-        }
-        if (faseActual instanceof FaseNocturna) {
-            return "Fase Nocturna";
-        }
-        return faseActual.getClass().getSimpleName();
-    }
+    
 }

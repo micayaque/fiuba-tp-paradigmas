@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
-import edu.fiuba.paradigmas.modelo.Fase;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;

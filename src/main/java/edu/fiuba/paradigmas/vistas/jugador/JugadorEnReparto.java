@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.vistas.jugador;
 
+import edu.fiuba.paradigmas.controlador.TraductorVisualRol;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
@@ -30,6 +31,9 @@ public class JugadorEnReparto {
         if (!this.cartaVisible) {
             return "";
         }
-        return this.carta.nombre();
+        
+        TraductorVisualRol traductor = new TraductorVisualRol();
+        
+        return traductor.traducir(this.carta);
     }
 }

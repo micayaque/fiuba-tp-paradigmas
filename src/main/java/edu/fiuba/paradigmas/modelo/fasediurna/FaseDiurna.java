@@ -1,10 +1,11 @@
 package edu.fiuba.paradigmas.modelo.fasediurna;
 
-import edu.fiuba.paradigmas.modelo.Fase;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.FaseIncorrectaExcepcion;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
+import edu.fiuba.paradigmas.modelo.fase.ReconocedorFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
@@ -27,6 +28,11 @@ public class FaseDiurna implements Fase {
     @Override
     public void recibirNominacion(Jugador nominante, Jugador nominado) {
         this.estado.recibirVoto(nominante, nominado, this.urnaDeNominacion);
+    }
+
+    @Override
+    public void reconocerseEn(ReconocedorFase reconocedor) {
+        reconocedor.esDiurna();
     }
 
     @Override

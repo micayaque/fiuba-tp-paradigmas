@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.accionVotacion;
 
-import edu.fiuba.paradigmas.modelo.Fase;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class EliminarJugador implements AccionVotacion {

@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.modelo;
+package edu.fiuba.paradigmas.modelo.fase;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -20,6 +20,8 @@ public interface Fase {
     void recibirProteccion(Jugador medico, Jugador protegido);
 
     void recibirNominacion(Jugador nominante, Jugador nominado);
+    
+    void reconocerseEn(ReconocedorFase reconocedor);
 
     List<Jugador> iniciarVotacion();
 }

@@ -15,8 +15,8 @@ public class Ciudadano extends Rol {
     }
 
     @Override
-    public String nombre() {
-        return "Ciudadano";
+    public void identificarseEn(IdentificadorRol identificador) {
+        identificador.esCiudadano();
     }
 
 }
