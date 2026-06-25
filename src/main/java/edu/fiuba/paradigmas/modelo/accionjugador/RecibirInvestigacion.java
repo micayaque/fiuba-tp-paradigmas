@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
-public class RecibirInvestigacion implements AccionJugador {
+public class RecibirInvestigacion extends AccionJugador {
     private final Jugador sospechoso;
     private Bando bandoRevelado;
 
