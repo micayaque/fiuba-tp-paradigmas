@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.vistas;
 
-import edu.fiuba.paradigmas.vistas.modelo.JugadorEnReparto;
+import edu.fiuba.paradigmas.vistas.jugador.JugadorEnReparto;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;

@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.vistas.modelo;
+package edu.fiuba.paradigmas.vistas.jugador;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Rol;

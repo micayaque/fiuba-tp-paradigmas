@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.controlador;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.vistas.App;
 import edu.fiuba.paradigmas.vistas.RepartoVista;
-import edu.fiuba.paradigmas.vistas.modelo.JugadorEnReparto;
+import edu.fiuba.paradigmas.vistas.jugador.JugadorEnReparto;
 
 import java.util.List;
 
