@@ -27,7 +27,7 @@ public class ConfiguracionController {
     public void iniciar(){
         List<String> nombres = vista.obtenerNombres();
 
-        List<Rol> roles = generarMazoPorDefecto(nombres.size());
+        List<Rol> roles = generarMazoConfigurado(nombres.size());
 
         try {
             List<Jugador> jugadoresCreados = modelo.crearPartida(nombres, roles);
@@ -37,29 +37,23 @@ public class ConfiguracionController {
         }
     }
 
-    private List<Rol> generarMazoPorDefecto(int cantidadJugadores){
+    private List<Rol> generarMazoConfigurado(int cantidadJugadores){
         List<Rol> mazo = new ArrayList<>();
 
-        if (cantidadJugadores < 5 ||  cantidadJugadores > 12){
+        for (int i = 0; i < vista.cantidadDeMafiosos(); i++) {
+            mazo.add(new Mafioso());
         }
 
-        else if (cantidadJugadores <= 6){
-            mazo.add(new Mafioso());
-            mazo.add(new Detective());
-        }
-        else if (cantidadJugadores <= 9){
-            mazo.add(new Mafioso());
-            mazo.add(new Mafioso());
-            mazo.add(new Detective());
-            mazo.add(new Medico());
-        }
-        else {
-            mazo.add(new Mafioso());
-            mazo.add(new Mafioso());
-            mazo.add(new Mafioso());
-            mazo.add(new Detective());
-            mazo.add(new Medico());
+        if (vista.usaPadrino()) {
             mazo.add(new Padrino());
+        }
+        if (vista.usaDetective()) {
+            mazo.add(new Detective());
+        }
+        if (vista.usaMedico()) {
+            mazo.add(new Medico());
+        }
+        if (vista.usaSheriff()) {
             mazo.add(new Sheriff());
         }
 

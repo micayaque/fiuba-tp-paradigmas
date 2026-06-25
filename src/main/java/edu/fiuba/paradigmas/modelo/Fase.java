@@ -13,8 +13,6 @@ public interface Fase {
 
     void cerrar(List<Jugador> jugadores);
 
-    String descripcion();
-
     void avanzar(Moderador moderador);
 
     void recibirVoto(Jugador votante, Jugador votado);

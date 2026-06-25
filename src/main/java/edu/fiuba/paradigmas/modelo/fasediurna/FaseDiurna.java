@@ -63,11 +63,6 @@ public class FaseDiurna implements Fase {
     }
 
     @Override
-    public String descripcion() {
-        return "Fase Diurna";
-    }
-
-    @Override
     public void avanzar(Moderador moderador) {
         moderador.comenzarFaseNocturna();
     }

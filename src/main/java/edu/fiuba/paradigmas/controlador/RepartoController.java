@@ -35,6 +35,8 @@ public class RepartoController {
             mostrandoRol = false;
             if (indiceActual < jugadores.size()) {
                 mostrarTurnoActual();
+            } else {
+                this.app.irAEstadoDePartida(this.jugadores);
             }
         }
     }

@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.vistas;
 
 import edu.fiuba.paradigmas.controlador.ConfiguracionController;
+import edu.fiuba.paradigmas.controlador.EstadoPartidaController;
 import edu.fiuba.paradigmas.controlador.RepartoController;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import javafx.application.Application;
@@ -41,6 +42,14 @@ public class App extends Application {
         new RepartoController(vista, this, jugadoresCreados);
 
         Scene escena = new Scene(vista, 400, 500);
+        this.escenarioPrincipal.setScene(escena);
+    }
+
+    public void irAEstadoDePartida(List<Jugador> jugadoresCreados) {
+        EstadoPartidaVista vista = new EstadoPartidaVista();
+        new EstadoPartidaController(vista, this, jugadoresCreados);
+
+        Scene escena = new Scene(vista, 400, 300);
         this.escenarioPrincipal.setScene(escena);
     }
 }
