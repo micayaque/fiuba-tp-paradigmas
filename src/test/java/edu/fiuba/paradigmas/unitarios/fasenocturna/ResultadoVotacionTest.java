@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.fasenocturna;
 
-import edu.fiuba.paradigmas.modelo.Fase;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;

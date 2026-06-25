@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.urna;
 
-import edu.fiuba.paradigmas.modelo.Fase;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.accionVotacion.DeclararNocheSinJugadorEliminado;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
