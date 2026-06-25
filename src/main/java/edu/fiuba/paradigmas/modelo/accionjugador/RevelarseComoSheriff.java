@@ -12,7 +12,7 @@ public class RevelarseComoSheriff implements AccionJugador {
 
     @Override
     public void enVivo() {
-        this.sheriff.revelarseComoSheriff();
+        this.sheriff.continuarRevelandoseComoSheriff();
     }
 
     @Override

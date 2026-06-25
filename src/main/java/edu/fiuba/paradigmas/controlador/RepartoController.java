@@ -3,7 +3,6 @@ package edu.fiuba.paradigmas.controlador;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.vistas.App;
 import edu.fiuba.paradigmas.vistas.RepartoVista;
-import edu.fiuba.paradigmas.vistas.jugador.JugadorEnReparto;
 
 import java.util.List;
 
@@ -11,6 +10,7 @@ public class RepartoController {
     private final RepartoVista vista;
     private final App app;
     private final List<Jugador> jugadores;
+    private final TraductorVisualRol traductorRol = new TraductorVisualRol();
 
     private int indiceActual = 0;
     private boolean mostrandoRol = false;
@@ -28,7 +28,7 @@ public class RepartoController {
     private void avanzar() {
         if (!mostrandoRol) {
             Jugador jugadorActual = jugadores.get(indiceActual);
-            vista.mostrarRol(JugadorEnReparto.visible(jugadorActual));
+            vista.mostrarRol(jugadorActual.nombre(), traductorRol.traducirRolDe(jugadorActual));
             mostrandoRol = true;
         } else {
             indiceActual++;
@@ -43,6 +43,6 @@ public class RepartoController {
 
     private void mostrarTurnoActual() {
         Jugador jugadorActual = jugadores.get(indiceActual);
-        vista.mostrarPantallaOculta(JugadorEnReparto.oculta(jugadorActual));
+        vista.mostrarPantallaOculta(jugadorActual.nombre());
     }
 }

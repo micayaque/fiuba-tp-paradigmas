@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.controlador;
 
-import edu.fiuba.paradigmas.modelo.rol.Rol;
+import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
 
 public class TraductorVisualRol implements IdentificadorRol {
@@ -13,11 +13,8 @@ public class TraductorVisualRol implements IdentificadorRol {
     @Override public void esPadrino()   { this.textoResultado = "El Padrino"; }
     @Override public void esSheriff()   { this.textoResultado = "Sheriff"; }
 
-    public String traducir(Rol rol) {
-        if (rol == null) return "Sin Rol";
-        
-        rol.identificarseEn(this); 
-        
+    public String traducirRolDe(Jugador jugador) {
+        jugador.identificarRolEn(this);
         return this.textoResultado;
     }
 }

@@ -7,6 +7,7 @@ import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.votacion.Voto;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.partida.RecuentoDeBandos;
+import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.List;
@@ -27,12 +28,12 @@ public class Jugador {
         return nombre;
     }
 
-    public Rol carta() {
-        return this.carta;
-    }
-
     public void contarseEn(ValidadorDeComposicionDelMazo contador) {
         carta.contarseEn(contador);
+    }
+
+    public void identificarRolEn(IdentificadorRol identificador) {
+        this.carta.identificarseEn(identificador);
     }
 
     public void puedeConocerElRolDe(Jugador otroJugador, List<Jugador> conocidos) {
@@ -60,6 +61,10 @@ public class Jugador {
     public void revelarseComoSheriff() {
         AccionJugador comando = new RevelarseComoSheriff(this);
         this.estado.procesarAccion(comando);
+    }
+
+    public void continuarRevelandoseComoSheriff() {
+        this.carta.revelarComoSheriff();
     }
 
     public void finalizarNoche() {
