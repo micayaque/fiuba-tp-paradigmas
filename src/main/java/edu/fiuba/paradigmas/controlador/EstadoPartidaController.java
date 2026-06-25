@@ -19,7 +19,7 @@ public class EstadoPartidaController {
         
         TraductorVisualFase traductorFase = new TraductorVisualFase();
         
-        String textoFase = traductorFase.traducir(this.moderador.faseActual());
+        String textoFase = traductorFase.traducirDesde(this.moderador);
 
         this.vista.mostrarEstado(ronda, textoFase);
     }

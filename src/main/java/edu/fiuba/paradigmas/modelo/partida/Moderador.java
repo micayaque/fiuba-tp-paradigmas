@@ -3,6 +3,7 @@ package edu.fiuba.paradigmas.modelo.partida;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
+import edu.fiuba.paradigmas.modelo.fase.ReconocedorFase;
 import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -81,7 +82,7 @@ public class Moderador {
         return this.numeroDeRonda;
     }
 
-    public Fase faseActual() {
-        return this.faseActual;
+    public void reconocerFaseEn(ReconocedorFase reconocedor) {
+        this.faseActual.reconocerseEn(reconocedor);
     }
 }

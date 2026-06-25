@@ -34,7 +34,7 @@ public class AlternanciaDeFasesTest {
 
     private String faseDe(Moderador moderador) {
         FaseReconocida reconocida = new FaseReconocida();
-        moderador.faseActual().reconocerseEn(reconocida);
+        moderador.reconocerFaseEn(reconocida);
         return reconocida.resultado();
     }
 
