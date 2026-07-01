@@ -1,5 +1,7 @@
 package edu.fiuba.paradigmas.vistas;
 
+import edu.fiuba.paradigmas.controlador.AccionIniciarJuego;
+import edu.fiuba.paradigmas.vistas.componentes.BotonPersonalizado;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -17,7 +19,7 @@ public class ConfiguracionVista extends VBox
     private final CheckBox sheriff;
     private final Label resumenConfiguracion;
     private final Button agregar;
-    private final Button iniciar;
+    private final BotonPersonalizado iniciar;
 
 
     public ConfiguracionVista(){
@@ -33,7 +35,7 @@ public class ConfiguracionVista extends VBox
         this.padrino = new CheckBox("Padrino");
         this.sheriff = new CheckBox("Sheriff");
         this.resumenConfiguracion = new Label("Elegí jugadores para habilitar la configuración.");
-        this.iniciar = new Button("Iniciar partida");
+        this.iniciar = new BotonPersonalizado("Iniciar partida");
 
 
         agregar.setOnAction(e -> {
@@ -85,24 +87,17 @@ public class ConfiguracionVista extends VBox
         return this.spinnerMafiosos.getValue();
     }
 
-    public boolean usaDetective() {
-        return this.detective.isSelected();
-    }
+    public void alPresionarIniciar(AccionIniciarJuego accion){
+        iniciar.setOnAction(e -> {
+            List<String> nombres = obtenerNombres();
+            int cantMafiosos = cantidadDeMafiosos();
+            boolean usaPadrino = padrino.isSelected();
+            boolean usaDetective = detective.isSelected();
+            boolean usaMedico = medico.isSelected();
+            boolean usaSheriff = sheriff.isSelected();
 
-    public boolean usaMedico() {
-        return this.medico.isSelected();
-    }
-
-    public boolean usaPadrino() {
-        return this.padrino.isSelected();
-    }
-
-    public boolean usaSheriff() {
-        return this.sheriff.isSelected();
-    }
-
-    public void alPresionarIniciar(Runnable accion){
-        iniciar.setOnAction(e -> accion.run());
+            accion.iniciar(nombres, cantMafiosos, usaPadrino, usaDetective, usaMedico, usaSheriff);
+        });
     }
 
     private void actualizarConfiguracionDisponible() {

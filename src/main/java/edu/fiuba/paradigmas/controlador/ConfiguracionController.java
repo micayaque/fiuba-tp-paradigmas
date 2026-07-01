@@ -12,7 +12,7 @@ import edu.fiuba.paradigmas.vistas.ConfiguracionVista;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfiguracionController {
+public class ConfiguracionController implements AccionIniciarJuego {
     private final ConfiguracionVista vista;
     private final App app;
     private final CreadorDeJugadores modelo = new CreadorDeJugadores();
@@ -21,13 +21,11 @@ public class ConfiguracionController {
         this.vista = vista;
         this.app = app;
 
-        this.vista.alPresionarIniciar(this::iniciar);
+        this.vista.alPresionarIniciar(this);
     }
 
-    public void iniciar(){
-        List<String> nombres = vista.obtenerNombres();
-
-        List<Rol> roles = generarMazoConfigurado(nombres.size());
+    public void iniciar(List<String> nombres, int cantidadMafiosos, boolean usaPadrino, boolean usaDetective, boolean usaMedico, boolean usaSheriff){
+        List<Rol> roles = generarMazoConfigurado(nombres.size(), cantidadMafiosos, usaPadrino, usaDetective, usaMedico, usaSheriff);
 
         try {
             List<Jugador> jugadoresCreados = modelo.crearPartida(nombres, roles);
@@ -37,23 +35,23 @@ public class ConfiguracionController {
         }
     }
 
-    private List<Rol> generarMazoConfigurado(int cantidadJugadores){
+    private List<Rol> generarMazoConfigurado(int cantidadJugadores, int cantidadMafiosos, boolean usaPadrino, boolean usaDetective, boolean usaMedico, boolean usaSheriff){
         List<Rol> mazo = new ArrayList<>();
 
-        for (int i = 0; i < vista.cantidadDeMafiosos(); i++) {
+        for (int i = 0; i < cantidadMafiosos; i++) {
             mazo.add(new Mafioso());
         }
 
-        if (vista.usaPadrino()) {
+        if (usaPadrino) {
             mazo.add(new Padrino());
         }
-        if (vista.usaDetective()) {
+        if (usaDetective) {
             mazo.add(new Detective());
         }
-        if (vista.usaMedico()) {
+        if (usaMedico) {
             mazo.add(new Medico());
         }
-        if (vista.usaSheriff()) {
+        if (usaSheriff) {
             mazo.add(new Sheriff());
         }
 
