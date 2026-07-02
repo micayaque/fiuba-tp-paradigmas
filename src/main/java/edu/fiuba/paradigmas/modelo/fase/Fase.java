@@ -20,8 +20,6 @@ public interface Fase {
     void recibirProteccion(Jugador medico, Jugador protegido);
 
     void recibirNominacion(Jugador nominante, Jugador nominado);
-    
-    void reconocerseEn(ReconocedorFase reconocedor);
 
     List<Jugador> iniciarVotacion();
 }

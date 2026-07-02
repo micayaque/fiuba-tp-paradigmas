@@ -1,7 +1,9 @@
 package edu.fiuba.paradigmas.integracion.entrega_3;
 
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
-import edu.fiuba.paradigmas.modelo.fase.ReconocedorFase;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
+import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
@@ -14,28 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AlternanciaDeFasesTest {
 
-    private static class FaseReconocida implements ReconocedorFase {
-        private String fase = "";
-
-        @Override
-        public void esNocturna() {
-            this.fase = "Nocturna";
-        }
-
-        @Override
-        public void esDiurna() {
-            this.fase = "Diurna";
-        }
-
-        public String resultado() {
-            return this.fase;
-        }
-    }
-
     private String faseDe(Moderador moderador) {
-        FaseReconocida reconocida = new FaseReconocida();
-        moderador.reconocerFaseEn(reconocida);
-        return reconocida.resultado();
+        Fase faseActual = moderador.obtenerFaseActual();
+        if (faseActual instanceof FaseNocturna) {
+            return "Nocturna";
+        } else if (faseActual instanceof FaseDiurna) {
+            return "Diurna";
+        }
+        return "Desconocida";
     }
 
     @Test

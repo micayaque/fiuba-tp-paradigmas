@@ -1,5 +1,8 @@
 package edu.fiuba.paradigmas.controlador;
 
+import edu.fiuba.paradigmas.modelo.fase.Fase;
+import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
+import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
@@ -17,9 +20,14 @@ public class EstadoPartidaController {
 
         int ronda = this.moderador.numeroDeRonda();
         
-        TraductorVisualFase traductorFase = new TraductorVisualFase();
-        
-        String textoFase = traductorFase.traducirDesde(this.moderador);
+        Fase faseActual = this.moderador.obtenerFaseActual();
+
+        String textoFase = "";
+        if (faseActual instanceof FaseDiurna) {
+            textoFase = "Fase Diurna (Discusiones y Votación)";
+        } else if (faseActual instanceof FaseNocturna) {
+            textoFase = "Fase Nocturna (La Mafia Ataca...)";
+        }
 
         this.vista.mostrarEstado(ronda, textoFase);
     }

@@ -4,7 +4,6 @@ import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.FaseIncorrectaExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
-import edu.fiuba.paradigmas.modelo.fase.ReconocedorFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
@@ -22,11 +21,6 @@ public class FaseNocturna implements Fase {
     @Override
     public void recibirVoto(Jugador mafioso, Jugador victimaElegida) {
         mafioso.votarComoMafiosoA(victimaElegida, this.urnaVotacionDeMafia);
-    }
-
-    @Override
-    public void reconocerseEn(ReconocedorFase reconocedor) {
-        reconocedor.esNocturna();
     }
 
     @Override
