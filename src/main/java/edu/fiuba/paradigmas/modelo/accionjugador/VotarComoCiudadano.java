@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 
-public class VotarComoCiudadano extends AccionJugador {
+public class VotarComoCiudadano implements AccionJugador {
     private final Jugador votante;
     private final Jugador candidato;
     private final Urna votacion;

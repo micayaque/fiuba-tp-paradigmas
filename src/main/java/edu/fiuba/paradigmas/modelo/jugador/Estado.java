@@ -8,4 +8,6 @@ public interface Estado {
     void estaVivo(Jugador jugador, List<Jugador> vivos);
 
     void procesarAccion(AccionJugador accion);
+
+    void eliminarProteccion(Jugador jugador);
 }

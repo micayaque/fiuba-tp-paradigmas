@@ -14,4 +14,8 @@ public class Muerto implements Estado {
     public void procesarAccion(AccionJugador comando) {
         comando.enMuerto();
     }
+
+    @Override
+    public void eliminarProteccion(Jugador jugador) {
+    }
 }

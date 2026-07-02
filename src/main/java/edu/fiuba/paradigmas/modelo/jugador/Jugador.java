@@ -67,8 +67,8 @@ public class Jugador {
         this.carta.revelarComoSheriff();
     }
 
-    public void finalizarNoche() {
-        this.estado.procesarAccion(new FinalizarNoche(this));
+    public void eliminarProteccion() {
+        this.estado.eliminarProteccion(this);
     }
 
     public void vistoPorMafia(List<Jugador> complices) {

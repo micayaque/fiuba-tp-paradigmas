@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
-public class RevelarCarta extends AccionJugador {
+public class RevelarCarta implements AccionJugador {
     Jugador revelado;
     Rol rolDescubierto;
 

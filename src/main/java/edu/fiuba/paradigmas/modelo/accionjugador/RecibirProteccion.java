@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.jugador.Protegido;
 
-public class RecibirProteccion extends AccionJugador {
+public class RecibirProteccion implements AccionJugador {
     Jugador protegido;
 
     public RecibirProteccion(Jugador protegido) {

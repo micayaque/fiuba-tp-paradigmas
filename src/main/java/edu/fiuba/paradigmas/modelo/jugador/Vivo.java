@@ -15,4 +15,8 @@ public class Vivo implements Estado {
     public void procesarAccion(AccionJugador comando) {
         comando.enVivo();
     }
+
+    @Override
+    public void eliminarProteccion(Jugador jugador) {
+    }
 }

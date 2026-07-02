@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.modelo.accionjugador;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
-public class RevelarseComoSheriff extends AccionJugador {
+public class RevelarseComoSheriff implements AccionJugador {
     private final Jugador sheriff;
 
     public RevelarseComoSheriff(Jugador sheriff) {

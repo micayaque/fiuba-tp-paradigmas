@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.jugador.Muerto;
 
-public class RecibirEliminacion extends AccionJugador {
+public class RecibirEliminacion implements AccionJugador {
     Jugador eliminado;
 
     public RecibirEliminacion(Jugador eliminado) {
@@ -19,10 +19,5 @@ public class RecibirEliminacion extends AccionJugador {
     @Override
     public void enMuerto() {
         throw new JugadorMuertoExcepcion("Un jugador ya eliminado no puede ser eliminado nuevamente");
-    }
-
-    @Override
-    public void enProtegido() {
-        // El Médico le anula el ataque: el protegido absorbe la eliminación y no muere.
     }
 }
