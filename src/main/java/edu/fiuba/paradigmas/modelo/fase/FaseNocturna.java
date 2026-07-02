@@ -1,13 +1,12 @@
-package edu.fiuba.paradigmas.modelo.fasenocturna;
+package edu.fiuba.paradigmas.modelo.fase;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.FaseIncorrectaExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
-import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.resultadoVotacion.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 
 import java.util.List;
 

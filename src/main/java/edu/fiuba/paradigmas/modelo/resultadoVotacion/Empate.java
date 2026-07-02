@@ -1,8 +1,9 @@
-package edu.fiuba.paradigmas.modelo.votacion;
+package edu.fiuba.paradigmas.modelo.resultadoVotacion;
 
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 
 import java.util.List;
 

@@ -3,8 +3,8 @@ package edu.fiuba.paradigmas.modelo.bando;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.VotoInvalidoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.RecuentoDeBandos;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 
 import java.util.List;
 

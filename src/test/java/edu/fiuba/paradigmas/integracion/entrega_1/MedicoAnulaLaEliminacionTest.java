@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.integracion.entrega_1;
 
-import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;

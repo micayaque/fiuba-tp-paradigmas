@@ -2,12 +2,12 @@ package edu.fiuba.paradigmas.unitarios.empate;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
-import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
+import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.votacion.Empate;
-import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.resultadoVotacion.Empate;
+import edu.fiuba.paradigmas.modelo.resultadoVotacion.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;

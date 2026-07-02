@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.modelo.votacion;
+package edu.fiuba.paradigmas.modelo.resultadoVotacion;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.accionVotacion.EliminarJugador;

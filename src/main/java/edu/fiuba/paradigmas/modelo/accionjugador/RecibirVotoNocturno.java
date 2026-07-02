@@ -2,8 +2,8 @@ package edu.fiuba.paradigmas.modelo.accionjugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 
 public class RecibirVotoNocturno extends AccionJugador {
     private final Jugador victima;

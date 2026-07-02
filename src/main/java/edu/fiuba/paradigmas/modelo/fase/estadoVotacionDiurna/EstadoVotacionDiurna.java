@@ -1,6 +1,6 @@
-package edu.fiuba.paradigmas.modelo.fasediurna;
+package edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna;
 
-import edu.fiuba.paradigmas.modelo.votacion.Urna;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public abstract class EstadoVotacionDiurna {

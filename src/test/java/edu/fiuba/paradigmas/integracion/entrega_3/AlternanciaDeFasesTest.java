@@ -2,8 +2,8 @@ package edu.fiuba.paradigmas.integracion.entrega_3;
 
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
-import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
-import edu.fiuba.paradigmas.modelo.fasenocturna.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
+import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;

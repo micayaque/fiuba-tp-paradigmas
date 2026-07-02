@@ -1,15 +1,18 @@
-package edu.fiuba.paradigmas.modelo.fasediurna;
+package edu.fiuba.paradigmas.modelo.fase;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.FaseIncorrectaExcepcion;
-import edu.fiuba.paradigmas.modelo.fase.Fase;
+import edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna.EstadoVotacionDiurna;
+import edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna.Nominacion;
+import edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna.PrimeraVotacion;
+import edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna.VotacionBallotage;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
-import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeNominacion;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.resultadoVotacion.ResultadoVotacion;
+import edu.fiuba.paradigmas.modelo.urna.UrnaDeNominacion;
+import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 
 import java.util.List;
 

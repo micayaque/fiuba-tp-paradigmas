@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.modelo.accionjugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 
 public class VotarComoMafioso extends AccionJugador {
     private final Jugador votante;

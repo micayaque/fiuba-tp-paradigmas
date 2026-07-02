@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.modelo.empate;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.accionVotacion.IniciarBallotage;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.votacion.Empate;
+import edu.fiuba.paradigmas.modelo.resultadoVotacion.Empate;
 
 import java.util.List;
 

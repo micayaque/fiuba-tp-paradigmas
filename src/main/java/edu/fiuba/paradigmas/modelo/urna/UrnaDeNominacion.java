@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.modelo.votacion;
+package edu.fiuba.paradigmas.modelo.urna;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 

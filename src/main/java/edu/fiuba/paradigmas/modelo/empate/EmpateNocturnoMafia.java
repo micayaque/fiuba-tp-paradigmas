@@ -2,8 +2,8 @@ package edu.fiuba.paradigmas.modelo.empate;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.accionVotacion.DeclararNocheSinJugadorEliminado;
-import edu.fiuba.paradigmas.modelo.votacion.Empate;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.resultadoVotacion.Empate;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package edu.fiuba.paradigmas.unitarios.fasediurna;
 
 import edu.fiuba.paradigmas.modelo.excepciones.fase.VotoInvalidoExcepcion;
-import edu.fiuba.paradigmas.modelo.fasediurna.VotacionBallotage;
+import edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna.VotacionBallotage;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
