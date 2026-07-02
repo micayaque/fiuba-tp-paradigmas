@@ -26,7 +26,7 @@ public class RepartoDeCartasTest {
                 new Mafioso(), new Mafioso(), new Detective(), new Medico(),
                 new Ciudadano(), new Ciudadano(), new Ciudadano());
 
-        List<Jugador> jugadores = new CreadorDeJugadores().crearPartida(nombres(), roles);
+        List<Jugador> jugadores = new CreadorDeJugadores(new Random()).crearPartida(nombres(), roles);
 
         assertEquals(7, jugadores.size());
 

@@ -11,11 +11,12 @@ import edu.fiuba.paradigmas.vistas.ConfiguracionVista;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ConfiguracionController implements AccionIniciarJuego {
     private final ConfiguracionVista vista;
     private final App app;
-    private final CreadorDeJugadores modelo = new CreadorDeJugadores();
+    private final CreadorDeJugadores modelo = new CreadorDeJugadores(new Random());
 
     public ConfiguracionController(ConfiguracionVista vista, App app){
         this.vista = vista;

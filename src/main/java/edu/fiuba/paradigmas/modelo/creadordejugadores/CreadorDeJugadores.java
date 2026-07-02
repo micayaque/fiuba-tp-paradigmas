@@ -13,10 +13,6 @@ public class CreadorDeJugadores {
 
     private final Random generadorAleatorio;
 
-    public CreadorDeJugadores() {
-        this.generadorAleatorio = new Random();
-    }
-
     public CreadorDeJugadores(Random generadorAleatorio) {
         this.generadorAleatorio = generadorAleatorio;
     }

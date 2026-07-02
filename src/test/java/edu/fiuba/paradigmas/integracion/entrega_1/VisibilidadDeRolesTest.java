@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,7 @@ public class VisibilidadDeRolesTest {
     @Test
     public void unJugadorPuedeVerSuPropioRol() {
         List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano());
-        List<Jugador> jugadores = new CreadorDeJugadores().crearPartida(nombres(), roles);
+        List<Jugador> jugadores = new CreadorDeJugadores(new Random()).crearPartida(nombres(), roles);
 
         Jugador jugador = jugadores.get(0);
         List<Jugador> conocidos = new ArrayList<>();
@@ -38,7 +39,7 @@ public class VisibilidadDeRolesTest {
     @Test
     public void unJugadorNoMafiosoNoPuedeVerElRolDeLosDemasDuranteLaPartida() {
         List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano());
-        List<Jugador> jugadores = new CreadorDeJugadores().crearPartida(nombres(), roles);
+        List<Jugador> jugadores = new CreadorDeJugadores(new Random()).crearPartida(nombres(), roles);
 
         Jugador noMafioso = new Jugador("no mafioso", new Ciudadano());
 
