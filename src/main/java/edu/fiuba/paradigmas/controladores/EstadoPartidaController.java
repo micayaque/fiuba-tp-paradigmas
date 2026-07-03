@@ -1,22 +1,23 @@
-package edu.fiuba.paradigmas.controlador;
+package edu.fiuba.paradigmas.controladores;
 
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
+import edu.fiuba.paradigmas.modelo.partida.ObservadorResultadoPartida;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.vistas.EstadoPartidaVista;
 
 import java.util.List;
 
-public class EstadoPartidaController {
+public class EstadoPartidaController implements ObservadorResultadoPartida {
     private final EstadoPartidaVista vista;
     private final Moderador moderador;
 
     public EstadoPartidaController(EstadoPartidaVista vista, List<Jugador> jugadores) {
         this.vista = vista;
-        this.moderador = new Moderador(jugadores, new EmpateDiurnoSinEliminacion());
+        this.moderador = new Moderador(jugadores, new EmpateDiurnoSinEliminacion(), this);
 
         int ronda = this.moderador.numeroDeRonda();
         
@@ -30,5 +31,15 @@ public class EstadoPartidaController {
         }
 
         this.vista.mostrarEstado(ronda, textoFase);
+    }
+
+    @Override
+    public void anunciarVictoriaMafia() {
+        this.vista.mostrarGanador("Mafia");
+    }
+
+    @Override
+    public void anunciarVictoriaCiudadanos() {
+        this.vista.mostrarGanador("Ciudadanos");
     }
 }

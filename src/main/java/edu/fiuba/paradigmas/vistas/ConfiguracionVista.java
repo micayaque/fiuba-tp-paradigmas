@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.vistas;
 
-import edu.fiuba.paradigmas.controlador.AccionIniciarJuego;
+import edu.fiuba.paradigmas.controladores.AccionIniciarJuego;
 import edu.fiuba.paradigmas.vistas.componentes.BotonPersonalizado;
 import edu.fiuba.paradigmas.vistas.componentes.FormularioConfiguracion;
 import javafx.scene.control.*;
@@ -8,8 +8,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public class ConfiguracionVista extends VBox
-{
+public class ConfiguracionVista extends VBox {
     private final FormularioConfiguracion formularioConfiguracion;
     private final BotonPersonalizado iniciar;
 

@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.controlador;
+package edu.fiuba.paradigmas.controladores;
 
 import java.util.List;
 

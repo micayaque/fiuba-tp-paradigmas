@@ -6,5 +6,6 @@ public class VictoriaMafia implements ResultadoPartida {
 
     @Override
     public void ejecutar(Fase fase, Moderador moderador) {
+        moderador.anunciarVictoriaMafia();
     }
 }

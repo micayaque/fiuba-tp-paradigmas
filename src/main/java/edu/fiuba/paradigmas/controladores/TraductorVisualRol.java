@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.controlador;
+package edu.fiuba.paradigmas.controladores;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;

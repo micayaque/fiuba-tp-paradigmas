@@ -1,4 +1,4 @@
-package edu.fiuba.paradigmas.controlador;
+package edu.fiuba.paradigmas.controladores;
 
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.excepciones.mazo.CantidadDeJugadoresInvalidaExcepcion;

@@ -6,6 +6,7 @@ import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
+import edu.fiuba.paradigmas.modelo.partida.ObservadorResultadoPartida;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class AlternanciaDeFasesTest {
 
@@ -35,7 +37,8 @@ public class AlternanciaDeFasesTest {
         Jugador ciudadano4 = new Jugador("ciudadano4", new Ciudadano());
         List<Jugador> jugadores = List.of(mafioso, ciudadano1, ciudadano2, ciudadano3, ciudadano4);
 
-        Moderador moderador = new Moderador(jugadores, new EmpateDiurnoSinEliminacion());
+        ObservadorResultadoPartida observador = mock(ObservadorResultadoPartida.class);
+        Moderador moderador = new Moderador(jugadores, new EmpateDiurnoSinEliminacion(), observador);
 
         assertEquals(1, moderador.numeroDeRonda());
         assertEquals("Nocturna", faseDe(moderador));

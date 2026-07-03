@@ -8,6 +8,7 @@ public class EstadoPartidaVista extends VBox {
     private final Label titulo;
     private final Label ronda;
     private final Label fase;
+    private final Label resultado;
 
     public EstadoPartidaVista() {
         this.titulo = new Label("Estado actual de la partida");
@@ -19,14 +20,22 @@ public class EstadoPartidaVista extends VBox {
         this.fase = new Label();
         this.fase.setFont(new Font(18));
 
+        this.resultado = new Label();
+        this.resultado.setFont(new Font(18));
+
         this.setStyle("-fx-padding: 20; -fx-spacing: 12; -fx-background-color: #f5f5f5;");
-        this.getChildren().addAll(this.titulo, this.ronda, this.fase);
+        this.getChildren().addAll(this.titulo, this.ronda, this.fase, this.resultado);
     }
 
     
     public void mostrarEstado(int numeroDeRonda, String descripcionFase) {
         this.ronda.setText("Ronda actual: " + numeroDeRonda);
         this.fase.setText("Fase activa: " + descripcionFase);
+        this.resultado.setText("");
+    }
+
+    public void mostrarGanador(String bando) {
+        this.resultado.setText("Ganó " + bando);
     }
     
 }

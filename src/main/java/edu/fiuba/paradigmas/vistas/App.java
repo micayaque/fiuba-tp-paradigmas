@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.vistas;
 
-import edu.fiuba.paradigmas.controlador.ConfiguracionController;
-import edu.fiuba.paradigmas.controlador.EstadoPartidaController;
-import edu.fiuba.paradigmas.controlador.RepartoController;
+import edu.fiuba.paradigmas.controladores.ConfiguracionController;
+import edu.fiuba.paradigmas.controladores.EstadoPartidaController;
+import edu.fiuba.paradigmas.controladores.RepartoController;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import javafx.application.Application;
 import javafx.scene.Scene;

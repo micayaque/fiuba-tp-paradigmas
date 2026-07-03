@@ -12,14 +12,24 @@ import java.util.List;
 public class Moderador {
     private final List<Jugador> jugadores;
     private final SistemaDeEmpate sistemaDeEmpateDiurno;
+    private final ObservadorResultadoPartida observadorResultado;
     private Fase faseActual;
     private int numeroDeRonda;
 
-    public Moderador(List<Jugador> jugadores, SistemaDeEmpate sistemaDeEmpateDiurno) {
+    public Moderador(List<Jugador> jugadores, SistemaDeEmpate sistemaDeEmpateDiurno, ObservadorResultadoPartida observador) {
         this.jugadores = jugadores;
         this.sistemaDeEmpateDiurno = sistemaDeEmpateDiurno;
+        this.observadorResultado = observador;
         this.faseActual = new FaseNocturna();
         this.numeroDeRonda = 1;
+    }
+
+    public void anunciarVictoriaMafia() {
+        this.observadorResultado.anunciarVictoriaMafia();
+    }
+
+    public void anunciarVictoriaCiudadanos() {
+        this.observadorResultado.anunciarVictoriaCiudadanos();
     }
 
     public void registrarVoto(Jugador votante, Jugador votado) {
