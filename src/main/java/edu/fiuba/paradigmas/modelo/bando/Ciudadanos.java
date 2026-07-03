@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.bando;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.partida.RecuentoDeBandos;
+import edu.fiuba.paradigmas.modelo.partida.VerificacionVictoria;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
 
@@ -23,7 +23,7 @@ public class Ciudadanos implements Bando {
     }
 
     @Override
-    public void contarseEn(RecuentoDeBandos recuento) {
+    public void contarseEn(VerificacionVictoria recuento) {
         recuento.sumarCiudadano();
     }
 }

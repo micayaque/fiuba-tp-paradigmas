@@ -11,8 +11,6 @@ public interface Fase {
 
     void iniciarBallotage(List<Jugador> empatados);
 
-    void cerrar(List<Jugador> jugadores);
-
     void avanzar(Moderador moderador);
 
     void recibirVoto(Jugador votante, Jugador votado);

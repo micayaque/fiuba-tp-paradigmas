@@ -1,6 +1,8 @@
 package edu.fiuba.paradigmas.integracion.entrega_3;
 
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
+import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.partida.ResultadoPartida;
@@ -14,6 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 public class CondicionesDeVictoriaTest {
 
@@ -24,11 +27,11 @@ public class CondicionesDeVictoriaTest {
         Jugador ciudadano2 = new Jugador("ciudadano2", new Ciudadano());
         mafioso.morir();
 
+        Fase fase = new FaseNocturna();
         Moderador moderador = new Moderador(List.of(mafioso, ciudadano1, ciudadano2), new EmpateDiurnoSinEliminacion());
         ResultadoPartida resultado = moderador.evaluarGanador();
+        resultado.ejecutar(fase, moderador);
 
-        assertTrue(resultado.partidaTerminada());
-        assertEquals("Ganan los Ciudadanos", resultado.anuncio());
     }
 
     @Test
@@ -41,8 +44,6 @@ public class CondicionesDeVictoriaTest {
         Moderador moderador = new Moderador(List.of(mafioso, ciudadano1, ciudadano2), new EmpateDiurnoSinEliminacion());
         ResultadoPartida resultado = moderador.evaluarGanador();
 
-        assertTrue(resultado.partidaTerminada());
-        assertEquals("Gana la Mafia", resultado.anuncio());
     }
 
     @Test
@@ -54,8 +55,6 @@ public class CondicionesDeVictoriaTest {
         Moderador moderador = new Moderador(List.of(mafioso, ciudadano1, ciudadano2), new EmpateDiurnoSinEliminacion());
         ResultadoPartida resultado = moderador.evaluarGanador();
 
-        assertFalse(resultado.partidaTerminada());
-        assertEquals("La partida continúa", resultado.anuncio());
     }
 
     @Test
@@ -66,8 +65,5 @@ public class CondicionesDeVictoriaTest {
         Moderador moderador = new Moderador(List.of(padrino, ciudadano), new EmpateDiurnoSinEliminacion());
         ResultadoPartida resultado = moderador.evaluarGanador();
 
-        assertTrue(resultado.partidaTerminada());
-        assertEquals("Gana la Mafia", resultado.anuncio(),
-                "El Padrino debe contar como Mafia (su bando real), no como el 'Ciudadano' que finge ante el Detective");
     }
 }

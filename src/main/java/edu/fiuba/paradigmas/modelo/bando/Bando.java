@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.bando;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.partida.RecuentoDeBandos;
+import edu.fiuba.paradigmas.modelo.partida.VerificacionVictoria;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
 
@@ -15,5 +15,5 @@ public interface Bando {
 
     void recibirVotoMafioso(Voto voto, Urna urnaVotacion);
 
-    void contarseEn(RecuentoDeBandos recuento);
+    void contarseEn(VerificacionVictoria recuento);
 }

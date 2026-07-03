@@ -1,6 +1,5 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
@@ -39,21 +38,8 @@ public class Moderador {
         return this.faseActual.iniciarVotacion();
     }
 
-    public ResultadoPartida avanzarFase() {
-        ResultadoPartida resultado = this.resolverFase();
-        if (!resultado.partidaTerminada()) {
-            this.faseActual.avanzar(this);
-        }
-        return resultado;
-    }
-
-    public ResultadoPartida resolverFase() {
-        AccionVotacion resultado = this.faseActual.ejecutarResultadoVotacion();
-        this.faseActual.cerrar(this.jugadores);
-        return this.evaluarGanador();
-    }
-
     public void comenzarFaseDiurna() {
+        jugadores.forEach(Jugador::eliminarProteccion);
         this.faseActual = new FaseDiurna(this.sistemaDeEmpateDiurno);
     }
 
@@ -62,16 +48,19 @@ public class Moderador {
         this.numeroDeRonda++;
     }
 
+    public ResultadoPartida resolverFase() {
+        this.faseActual.ejecutarResultadoVotacion();
+        ResultadoPartida resultadoPartida = this.evaluarGanador();
+        resultadoPartida.ejecutar(this.faseActual, this);
+        return resultadoPartida;
+    }
+
     public ResultadoPartida evaluarGanador() {
         List<Jugador> vivos = new ArrayList<>();
-        for (Jugador jugador : this.jugadores) {
-            jugador.estaVivo(vivos);
-        }
+        this.jugadores.forEach(j -> j.estaVivo(vivos));
 
-        RecuentoDeBandos recuento = new RecuentoDeBandos();
-        for (Jugador jugador : vivos) {
-            jugador.contarBandoEn(recuento);
-        }
+        VerificacionVictoria recuento = new VerificacionVictoria();
+        vivos.forEach(j -> j.contarBandoEn(recuento));
 
         return recuento.determinarResultado();
     }
@@ -80,6 +69,7 @@ public class Moderador {
         return this.numeroDeRonda;
     }
 
+    // ¿por qué el controlador tiene que conocer a la fase?
     public Fase obtenerFaseActual(){
         return this.faseActual;
     }

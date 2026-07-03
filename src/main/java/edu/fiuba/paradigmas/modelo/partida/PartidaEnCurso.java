@@ -1,14 +1,11 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
+import edu.fiuba.paradigmas.modelo.fase.Fase;
+
 public class PartidaEnCurso implements ResultadoPartida {
 
     @Override
-    public boolean partidaTerminada() {
-        return false;
-    }
-
-    @Override
-    public String anuncio() {
-        return "La partida continúa";
+    public void ejecutar(Fase fase, Moderador moderador) {
+        fase.avanzar(moderador);
     }
 }

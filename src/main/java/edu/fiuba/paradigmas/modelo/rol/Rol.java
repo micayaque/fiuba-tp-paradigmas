@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.excepciones.rol.RolImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.partida.RecuentoDeBandos;
+import edu.fiuba.paradigmas.modelo.partida.VerificacionVictoria;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
 
@@ -57,7 +57,7 @@ public abstract class Rol {
         this.bando.recibirVotoMafioso(voto, urnaVotacion);
     }
 
-    public void contarBandoEn(RecuentoDeBandos recuento) {
+    public void contarBandoEn(VerificacionVictoria recuento) {
         this.bando.contarseEn(recuento);
     }
 }

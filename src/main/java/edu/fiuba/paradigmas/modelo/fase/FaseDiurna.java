@@ -62,10 +62,6 @@ public class FaseDiurna implements Fase {
     }
 
     @Override
-    public void cerrar(List<Jugador> jugadores) {
-    }
-
-    @Override
     public void avanzar(Moderador moderador) {
         moderador.comenzarFaseNocturna();
     }

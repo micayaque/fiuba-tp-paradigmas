@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
-public class RecuentoDeBandos {
+public class VerificacionVictoria {
     private int mafiosos;
     private int ciudadanos;
 

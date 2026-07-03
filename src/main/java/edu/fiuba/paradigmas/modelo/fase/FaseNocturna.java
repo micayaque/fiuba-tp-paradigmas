@@ -48,13 +48,6 @@ public class FaseNocturna implements Fase {
     }
 
     @Override
-    public void cerrar(List<Jugador> jugadores) {
-        for (Jugador jugador : jugadores) {
-            jugador.eliminarProteccion();
-        }
-    }
-
-    @Override
     public void avanzar(Moderador moderador) {
         moderador.comenzarFaseDiurna();
     }

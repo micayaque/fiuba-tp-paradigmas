@@ -41,7 +41,7 @@ public class AlternanciaDeFasesTest {
         assertEquals("Nocturna", faseDe(moderador));
 
         moderador.registrarVoto(mafioso, ciudadano1);
-        moderador.avanzarFase();
+        moderador.resolverFase();
 
         assertEquals("Diurna", faseDe(moderador), "Tras resolver la noche debe pasar al día, misma ronda");
         assertEquals(1, moderador.numeroDeRonda());
@@ -50,7 +50,7 @@ public class AlternanciaDeFasesTest {
         moderador.iniciarVotacion();
         moderador.registrarVoto(ciudadano3, ciudadano2);
         moderador.registrarVoto(ciudadano4, ciudadano2);
-        moderador.avanzarFase();
+        moderador.resolverFase();
 
         assertEquals("Nocturna", faseDe(moderador), "Tras resolver el día debe volver a la noche");
         assertEquals(2, moderador.numeroDeRonda(), "Al volver a la noche se inicia una nueva ronda");

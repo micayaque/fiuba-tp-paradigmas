@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
-public interface ResultadoPartida {
-    boolean partidaTerminada();
+import edu.fiuba.paradigmas.modelo.fase.Fase;
 
-    String anuncio();
+public interface ResultadoPartida {
+    void ejecutar(Fase fase, Moderador moderador);
 }

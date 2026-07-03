@@ -1,14 +1,10 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
+import edu.fiuba.paradigmas.modelo.fase.Fase;
+
 public class VictoriaMafia implements ResultadoPartida {
 
     @Override
-    public boolean partidaTerminada() {
-        return true;
-    }
-
-    @Override
-    public String anuncio() {
-        return "Gana la Mafia";
+    public void ejecutar(Fase fase, Moderador moderador) {
     }
 }
