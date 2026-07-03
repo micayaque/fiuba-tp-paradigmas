@@ -49,7 +49,6 @@ public class Moderador {
 
     public ResultadoPartida resolverFase() {
         AccionVotacion resultado = this.faseActual.ejecutarResultadoVotacion();
-        resultado.ejecutar(this.faseActual);
         this.faseActual.cerrar(this.jugadores);
         return this.evaluarGanador();
     }

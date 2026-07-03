@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.excepciones.fase.VotoInvalidoExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna.VotacionBallotage;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class VotacionBallotageTest {
         Jugador a = new Jugador("A", new Ciudadano());
         Jugador b = new Jugador("B", new Ciudadano());
         Jugador c = new Jugador("C", new Ciudadano());
-        UrnaDeVotacion urnaVotacion = mock(UrnaDeVotacion.class);
+        Urna urnaVotacion = mock(Urna.class);
 
         VotacionBallotage estado = new VotacionBallotage(List.of(a, b));
 

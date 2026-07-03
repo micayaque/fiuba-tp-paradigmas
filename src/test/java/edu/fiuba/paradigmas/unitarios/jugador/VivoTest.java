@@ -1,14 +1,14 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
-import edu.fiuba.paradigmas.modelo.resultadoVotacion.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.jugador.*;
 
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -38,12 +38,12 @@ public class VivoTest {
         Jugador victima = new Jugador("ciudadano", new Ciudadano());
         Jugador votante = new Jugador("mafioso", new Mafioso());
 
-        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
+        Urna urnaVotacion = new Urna(new EmpateDiurnoSinEliminacion());
         AccionJugador comando = new VotarComoMafioso(votante, victima, urnaVotacion);
         vivo.procesarAccion(comando);
 
-        ResultadoVotacion resultadoVotacion = urnaVotacion.contarVotos();
-        resultadoVotacion.resolver().ejecutar(new FaseNocturna());
+        AccionVotacion resultadoVotacion = urnaVotacion.contarVotos();
+        resultadoVotacion.ejecutar(new FaseNocturna());
 
         List<Jugador> vivos = new ArrayList<>();
         victima.estaVivo(vivos);

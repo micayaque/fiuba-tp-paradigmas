@@ -25,8 +25,6 @@ public class EleccionDeVictimaDeLaMafiaTest {
 
         AccionVotacion resultado = fase.ejecutarResultadoVotacion();
 
-        resultado.ejecutar(fase);
-
         assertThrows(JugadorMuertoExcepcion.class, () -> fase.recibirVoto(mafioso1, ciudadanoVotado));
     }
 

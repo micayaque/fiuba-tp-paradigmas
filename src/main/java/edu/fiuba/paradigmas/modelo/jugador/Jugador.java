@@ -4,7 +4,6 @@ import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
 import edu.fiuba.paradigmas.modelo.partida.RecuentoDeBandos;
 import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
@@ -77,21 +76,21 @@ public class Jugador {
 
 
 
-    public void votarComoMafiosoA(Jugador victimaElegida, UrnaDeVotacion urnaVotacionDeMafia) {
+    public void votarComoMafiosoA(Jugador victimaElegida, Urna urnaVotacionDeMafia) {
         AccionJugador comando = new VotarComoMafioso(this, victimaElegida, urnaVotacionDeMafia);
         this.estado.procesarAccion(comando);
     }
 
-    public void continuarVotacionMafiosaConCarta(Jugador victimaElegida, UrnaDeVotacion urnaVotacionDeMafia) {
+    public void continuarVotacionMafiosaConCarta(Jugador victimaElegida, Urna urnaVotacionDeMafia) {
         this.carta.votarComoMafiosoA(victimaElegida, urnaVotacionDeMafia);
     }
 
-    public void recibirVotoMafioso(Voto voto, UrnaDeVotacion urnaVotacionDeMafia) {
+    public void recibirVotoMafioso(Voto voto, Urna urnaVotacionDeMafia) {
         AccionJugador comando = new RecibirVotoNocturno(this, voto, urnaVotacionDeMafia);
         this.estado.procesarAccion(comando);
     }
 
-    public void continuarRecibiendoVotoMafioso(Voto voto, UrnaDeVotacion urnaVotacion) {
+    public void continuarRecibiendoVotoMafioso(Voto voto, Urna urnaVotacion) {
         this.carta.recibirVotoMafioso(voto, urnaVotacion);
     }
 

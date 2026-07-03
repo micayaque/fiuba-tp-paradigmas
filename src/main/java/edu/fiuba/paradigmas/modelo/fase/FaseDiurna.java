@@ -10,21 +10,19 @@ import edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna.PrimeraVotacion;
 import edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna.VotacionBallotage;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
-import edu.fiuba.paradigmas.modelo.resultadoVotacion.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeNominacion;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 
 import java.util.List;
 
 public class FaseDiurna implements Fase {
-    private final UrnaDeNominacion urnaDeNominacion;
-    private UrnaDeVotacion urnaVotacionDeVotacion;
+    private final Urna urnaDeNominacion;
+    private Urna urnaVotacionDeVotacion;
     private EstadoVotacionDiurna estado;
 
     public FaseDiurna(SistemaDeEmpate sistemaDeEmpate) {
         this.estado = new Nominacion();
-        this.urnaVotacionDeVotacion = new UrnaDeVotacion(sistemaDeEmpate);
-        this.urnaDeNominacion = new UrnaDeNominacion();
+        this.urnaVotacionDeVotacion = new Urna(sistemaDeEmpate);
+        this.urnaDeNominacion = new Urna();
     }
 
     @Override
@@ -35,7 +33,7 @@ public class FaseDiurna implements Fase {
 
     @Override
     public List<Jugador> iniciarVotacion() {
-        List<Jugador> nominados = this.urnaDeNominacion.nominados();
+        List<Jugador> nominados = this.urnaDeNominacion.jugadoresVotados();
         this.estado = new PrimeraVotacion(nominados);
         return nominados;
     }
@@ -52,14 +50,15 @@ public class FaseDiurna implements Fase {
 
     @Override
     public AccionVotacion ejecutarResultadoVotacion() {
-        ResultadoVotacion resultado = this.urnaVotacionDeVotacion.contarVotos();
-        return resultado.resolver();
+        AccionVotacion resultado = this.urnaVotacionDeVotacion.contarVotos();
+        resultado.ejecutar(this);
+        return resultado;
     }
 
     @Override
     public void iniciarBallotage(List<Jugador> empatados) {
         this.estado = new VotacionBallotage(empatados);
-        this.urnaVotacionDeVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
+        this.urnaVotacionDeVotacion = new Urna(new EmpateDiurnoSinEliminacion());
     }
 
     @Override

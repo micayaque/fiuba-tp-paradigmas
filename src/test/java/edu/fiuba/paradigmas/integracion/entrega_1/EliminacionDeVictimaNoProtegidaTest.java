@@ -26,8 +26,7 @@ public class EliminacionDeVictimaNoProtegidaTest {
         fase.recibirVoto(mafioso, victima);
         fase.recibirProteccion(medico, otro);
 
-        AccionVotacion accion = fase.ejecutarResultadoVotacion();
-        accion.ejecutar(fase);
+        fase.ejecutarResultadoVotacion();
 
         List<Jugador> vivos = new ArrayList<>();
         victima.estaVivo(vivos);

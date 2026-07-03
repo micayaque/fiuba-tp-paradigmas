@@ -1,16 +1,16 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.resultadoVotacion.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -81,11 +81,11 @@ public class JugadorTest {
         Jugador votante = new Jugador("votante", new Mafioso());
         Jugador victima = new Jugador("victima", new Ciudadano());
 
-        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateNocturnoMafia());
+        Urna urnaVotacion = new Urna(new EmpateNocturnoMafia());
         votante.votarComoMafiosoA(victima, urnaVotacion);
 
-        ResultadoVotacion resultadoVotacion = urnaVotacion.contarVotos();
-        resultadoVotacion.resolver().ejecutar(new FaseNocturna());
+        AccionVotacion resultadoVotacion = urnaVotacion.contarVotos();
+        resultadoVotacion.ejecutar(new FaseNocturna());
 
         List<Jugador> vivos = new ArrayList<>();
         victima.estaVivo(vivos);
@@ -99,7 +99,7 @@ public class JugadorTest {
 
         Jugador victimaDelMuerto = new Jugador("victima del muerto", new Ciudadano());
 
-        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateNocturnoMafia());
+        Urna urnaVotacion = new Urna(new EmpateNocturnoMafia());
 
         votanteMuerto.morir();
 
@@ -111,7 +111,7 @@ public class JugadorTest {
     public void unJugadorVivoIntentaVotarAUnJugadorMuertoLanzaExcepcion() {
         Jugador votanteVivo = new Jugador("votante vivo", new Mafioso());
         Jugador victimaMuerta = new Jugador("victima muerta", new Ciudadano());
-        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateNocturnoMafia());
+        Urna urnaVotacion = new Urna(new EmpateNocturnoMafia());
 
         victimaMuerta.morir();
 

@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Mafia;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
@@ -18,7 +18,7 @@ public class Mafioso extends Rol {
     }
 
     @Override
-    public void votarComoMafiosoA(Jugador victima, UrnaDeVotacion urnaVotacion) {
+    public void votarComoMafiosoA(Jugador victima, Urna urnaVotacion) {
         Voto miVoto = new Voto(victima);
         victima.recibirVotoMafioso(miVoto, urnaVotacion);
     }

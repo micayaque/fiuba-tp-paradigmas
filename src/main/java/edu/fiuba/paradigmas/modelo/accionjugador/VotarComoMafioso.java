@@ -2,14 +2,14 @@ package edu.fiuba.paradigmas.modelo.accionjugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 
 public class VotarComoMafioso implements AccionJugador {
     private final Jugador votante;
     private final Jugador victimaElegida;
-    private final UrnaDeVotacion urnaVotacionDeMafia;
+    private final Urna urnaVotacionDeMafia;
 
-    public VotarComoMafioso(Jugador votante, Jugador victimaElegida, UrnaDeVotacion urnaVotacionDeMafia) {
+    public VotarComoMafioso(Jugador votante, Jugador victimaElegida, Urna urnaVotacionDeMafia) {
         this.votante = votante;
         this.victimaElegida = victimaElegida;
         this.urnaVotacionDeMafia = urnaVotacionDeMafia;

@@ -4,9 +4,9 @@ import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,8 +29,7 @@ public class VotacionDiurnaTest {
         fase.recibirVoto(votante2, votado);
 
         AccionVotacion accion = fase.ejecutarResultadoVotacion();
-        accion.ejecutar(fase);
 
-        assertThrows(JugadorMuertoExcepcion.class, () -> votado.votarComoCiudadano(votante1, new UrnaDeVotacion(new EmpateDiurnoSinEliminacion())));
+        assertThrows(JugadorMuertoExcepcion.class, () -> votado.votarComoCiudadano(votante1, new Urna(new EmpateDiurnoSinEliminacion())));
     }
 }
