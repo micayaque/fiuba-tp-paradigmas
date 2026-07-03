@@ -1,12 +1,12 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.resultadoVotacion.ResultadoVotacion;
 import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,7 +32,8 @@ public class JugadorTest {
     @Test
     public void elJugadorSeCuentaSegunSuCartaEnElContador() {
         Jugador jugador = new Jugador("Vito", new Mafioso());
-        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
+        Random random = new Random();
+        CreadorDeJugadores contador = new CreadorDeJugadores(random);
 
         jugador.contarseEn(contador);
 

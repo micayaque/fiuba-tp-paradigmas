@@ -2,10 +2,10 @@ package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.urna.UrnaDeVotacion;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.partida.RecuentoDeBandos;
 import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
@@ -28,7 +28,7 @@ public class Jugador {
         return nombre;
     }
 
-    public void contarseEn(ValidadorDeComposicionDelMazo contador) {
+    public void contarseEn(CreadorDeJugadores contador) {
         carta.contarseEn(contador);
     }
 

@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.revelacion.EstadoRevelacion;
 import edu.fiuba.paradigmas.modelo.rol.revelacion.NoRevelado;
@@ -18,7 +18,7 @@ public class Sheriff extends Rol{
     }
 
     @Override
-    public void contarseEn(ValidadorDeComposicionDelMazo contador) {
+    public void contarseEn(CreadorDeJugadores contador) {
         contador.sumarSheriff();
     }
 

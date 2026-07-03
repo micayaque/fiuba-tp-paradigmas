@@ -2,7 +2,6 @@ package edu.fiuba.paradigmas.integracion.entrega_1;
 
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.*;
 
 import java.util.*;
@@ -30,7 +29,8 @@ public class RepartoDeCartasTest {
 
         assertEquals(7, jugadores.size());
 
-        ValidadorDeComposicionDelMazo repartida = new ValidadorDeComposicionDelMazo();
+        Random random = new Random();
+        CreadorDeJugadores repartida = new CreadorDeJugadores(random);
         jugadores.forEach(jugador -> jugador.contarseEn(repartida));
 
         assertEquals(2, repartida.cantidadDeMafiosos());
@@ -58,7 +58,8 @@ public class RepartoDeCartasTest {
             List<Jugador> jugadores = creador.crearPartida(nombres, roles);
             List<String> ordenDeEstaPartida = new ArrayList<>();
             for (Jugador j : jugadores) {
-                ValidadorDeComposicionDelMazo identificador = new ValidadorDeComposicionDelMazo();
+                Random random = new Random();
+                CreadorDeJugadores identificador = new CreadorDeJugadores(random);
                 j.contarseEn(identificador);
                 if (identificador.cantidadDeMafiosos() == 1) {
                     ordenDeEstaPartida.add("Mafioso");

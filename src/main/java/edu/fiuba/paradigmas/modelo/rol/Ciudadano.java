@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 
 public class Ciudadano extends Rol {
 
@@ -10,7 +10,7 @@ public class Ciudadano extends Rol {
     }
 
     @Override
-    public void contarseEn(ValidadorDeComposicionDelMazo contador) {
+    public void contarseEn(CreadorDeJugadores contador) {
         contador.sumarCiudadano();
     }
 
