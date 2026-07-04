@@ -7,7 +7,7 @@ public class BotonPersonalizado extends Button {
     public BotonPersonalizado(String texto) {
         super(texto);
 
-        this.setStyle("-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold;");
+        this.setStyle("-fx-background-color: linear-gradient(#2c3e50, #1f2d3a); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 18; -fx-background-radius: 8; -fx-cursor: hand;");
         this.setCursor(Cursor.HAND);
     }
 }

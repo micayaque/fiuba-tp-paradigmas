@@ -17,8 +17,10 @@ public class App extends Application {
     public void start(Stage escenarioPrincipal) {
         this.escenarioPrincipal = escenarioPrincipal;
         this.escenarioPrincipal.setTitle("Paradigmas Mafia");
+        this.escenarioPrincipal.setMinWidth(780);
+        this.escenarioPrincipal.setMinHeight(620);
 
-        this.irAConfiguracion();
+        this.irABienvenida();
 
         this.escenarioPrincipal.show();
     }
@@ -27,13 +29,19 @@ public class App extends Application {
         launch(args);
     }
 
+    public void irABienvenida() {
+        BienvenidaVista vista = new BienvenidaVista();
+        vista.alPresionarContinuar(this::irAConfiguracion);
+
+        this.setScene(vista, 780, 620);
+    }
+
     public void irAConfiguracion() {
         ConfiguracionVista vista = new ConfiguracionVista();
 
         new ConfiguracionController(vista, this);
 
-        Scene escena = new Scene(vista, 400, 500);
-        this.escenarioPrincipal.setScene(escena);
+        this.setScene(vista, 780, 620);
     }
 
     public void irARepartoDeRoles(List<Jugador> jugadoresCreados){
@@ -41,8 +49,7 @@ public class App extends Application {
         
         new RepartoController(vista, this, jugadoresCreados);
 
-        Scene escena = new Scene(vista, 400, 500);
-        this.escenarioPrincipal.setScene(escena);
+        this.setScene(vista, 780, 620);
     }
 
     public void irAEstadoDePartida(List<Jugador> jugadoresCreados) {
@@ -51,7 +58,11 @@ public class App extends Application {
         
         new EstadoPartidaController(vista, jugadoresCreados);
 
-        Scene escena = new Scene(vista, 400, 300);
+        this.setScene(vista, 780, 520);
+    }
+
+    private void setScene(javafx.scene.Parent raiz, int ancho, int alto) {
+        Scene escena = new Scene(raiz, ancho, alto);
         this.escenarioPrincipal.setScene(escena);
     }
 }

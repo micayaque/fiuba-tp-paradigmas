@@ -9,9 +9,9 @@ import edu.fiuba.paradigmas.modelo.rol.*;
 import edu.fiuba.paradigmas.vistas.App;
 import edu.fiuba.paradigmas.vistas.ConfiguracionVista;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class ConfiguracionController implements AccionIniciarJuego {
     private final ConfiguracionVista vista;
@@ -25,8 +25,10 @@ public class ConfiguracionController implements AccionIniciarJuego {
         this.vista.alPresionarIniciar(this);
     }
 
-    public void iniciar(List<String> nombres, int cantidadMafiosos, boolean usaPadrino, boolean usaDetective, boolean usaMedico, boolean usaSheriff){
-        List<Rol> roles = generarMazoConfigurado(nombres.size(), cantidadMafiosos, usaPadrino, usaDetective, usaMedico, usaSheriff);
+    public void iniciar(List<String> nombres, List<String> rolesString) {
+        List<Rol> roles = rolesString.stream()
+                .map(this::traducirStringARol)
+                .collect(Collectors.toList());
 
         try {
             List<Jugador> jugadoresCreados = modelo.crearPartida(nombres, roles);
@@ -36,30 +38,15 @@ public class ConfiguracionController implements AccionIniciarJuego {
         }
     }
 
-    private List<Rol> generarMazoConfigurado(int cantidadJugadores, int cantidadMafiosos, boolean usaPadrino, boolean usaDetective, boolean usaMedico, boolean usaSheriff){
-        List<Rol> mazo = new ArrayList<>();
-
-        for (int i = 0; i < cantidadMafiosos; i++) {
-            mazo.add(new Mafioso());
+    private Rol traducirStringARol(String nombreRol) {
+        switch (nombreRol) {
+            case "Ciudadano": return new Ciudadano();
+            case "Mafioso": return new Mafioso();
+            case "Medico": return new Medico();
+            case "Detective": return new Detective();
+            case "Sheriff": return new Sheriff();
+            case "Padrino": return new Padrino();
+            default: throw new IllegalArgumentException("Rol desconocido: " + nombreRol);
         }
-
-        if (usaPadrino) {
-            mazo.add(new Padrino());
-        }
-        if (usaDetective) {
-            mazo.add(new Detective());
-        }
-        if (usaMedico) {
-            mazo.add(new Medico());
-        }
-        if (usaSheriff) {
-            mazo.add(new Sheriff());
-        }
-
-        while (mazo.size() < cantidadJugadores) {
-            mazo.add(new Ciudadano());
-        }
-
-        return mazo;
     }
 }

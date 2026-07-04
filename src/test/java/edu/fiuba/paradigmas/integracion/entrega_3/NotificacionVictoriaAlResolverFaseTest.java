@@ -4,7 +4,6 @@ import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
-import edu.fiuba.paradigmas.modelo.partida.PartidaEnCurso;
 import edu.fiuba.paradigmas.modelo.partida.ObservadorResultadoPartida;
 import edu.fiuba.paradigmas.modelo.partida.ResultadoPartida;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
@@ -17,7 +16,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NotificacionVictoriaAlResolverFaseTest {
 
