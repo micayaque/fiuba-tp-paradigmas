@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.vistas;
 
 import edu.fiuba.paradigmas.controladores.AccionIniciarJuego;
-import edu.fiuba.paradigmas.vistas.componentes.BotonPersonalizado;
+import edu.fiuba.paradigmas.vistas.componentes.BotonConfigurarPartida;
 import edu.fiuba.paradigmas.vistas.componentes.FormularioConfiguracion;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ConfiguracionVista extends VBox {
     private final FormularioConfiguracion formularioConfiguracion;
-    private final BotonPersonalizado iniciar;
+    private final BotonConfigurarPartida iniciar;
     private final Label titulo;
 
     public ConfiguracionVista(){
@@ -27,7 +27,7 @@ public class ConfiguracionVista extends VBox {
         this.titulo.setStyle("-fx-text-fill: #f5f1e8; -fx-font-weight: bold;");
 
         this.formularioConfiguracion = new FormularioConfiguracion();
-        this.iniciar = new BotonPersonalizado("Iniciar partida");
+        this.iniciar = new BotonConfigurarPartida("Iniciar partida");
         this.iniciar.setMaxWidth(Double.MAX_VALUE);
 
 

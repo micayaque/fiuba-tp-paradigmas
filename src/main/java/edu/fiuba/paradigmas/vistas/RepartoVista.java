@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.vistas;
 
-import edu.fiuba.paradigmas.vistas.componentes.BotonPersonalizado;
+import edu.fiuba.paradigmas.vistas.componentes.BotonConfigurarPartida;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -32,7 +32,7 @@ public class RepartoVista extends VBox {
         this.labelRol.setFont(new Font(32));
         this.labelRol.setStyle("-fx-font-weight: bold;");
 
-        this.botonAccion = new BotonPersonalizado("");
+        this.botonAccion = new BotonConfigurarPartida("");
         this.botonAccion.setStyle("-fx-background-color: linear-gradient(#f59e0b, #d97706); -fx-text-fill: #111827; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 12 24; -fx-background-radius: 10;");
 
         this.getChildren().addAll(this.titulo, this.mensajePrincipal, this.labelRol, this.botonAccion);

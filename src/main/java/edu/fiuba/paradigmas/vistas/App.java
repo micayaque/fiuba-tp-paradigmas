@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.vistas;
 
+import edu.fiuba.paradigmas.controladores.BienvenidaController;
 import edu.fiuba.paradigmas.controladores.ConfiguracionController;
 import edu.fiuba.paradigmas.controladores.EstadoPartidaController;
 import edu.fiuba.paradigmas.controladores.RepartoController;
@@ -31,7 +32,8 @@ public class App extends Application {
 
     public void irABienvenida() {
         BienvenidaVista vista = new BienvenidaVista();
-        vista.alPresionarContinuar(this::irAConfiguracion);
+
+        new BienvenidaController(vista, this);
 
         this.setScene(vista, 780, 620);
     }
