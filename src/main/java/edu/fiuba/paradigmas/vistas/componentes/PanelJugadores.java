@@ -32,9 +32,8 @@ public class PanelJugadores extends VBox {
         this.agregar = new Button("Agregar jugador");
 
         this.listaNombres = new ListView<>();
-        this.listaNombres.setMinHeight(120);
-        this.listaNombres.setPrefHeight(150);
         this.listaNombres.setStyle("-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d4af37; -fx-background-color: #111111; -fx-control-inner-background: #111111; -fx-text-fill: #f5f1e8;");
+        VBox.setVgrow(this.listaNombres, Priority.ALWAYS);
 
         this.estadisticas = new Label("Jugadores: 0\nRoles elegidos: 0");
         this.estadisticas.setStyle("-fx-text-fill: #d4af37; -fx-font-weight: bold; -fx-font-size: 14px;");

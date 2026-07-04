@@ -21,8 +21,9 @@ public class BotonCartaRol extends ToggleButton {
         File archivoReal = new File(rutaRelativa);
 
         ImageView vistaImagen = new ImageView(new Image(archivoReal.toURI().toString()));
-        vistaImagen.setFitWidth(110);
         vistaImagen.setPreserveRatio(true);
+        vistaImagen.setFitWidth(0);
+        vistaImagen.fitWidthProperty().bind(this.prefWidthProperty().subtract(16));
 
         this.setGraphic(vistaImagen);
 

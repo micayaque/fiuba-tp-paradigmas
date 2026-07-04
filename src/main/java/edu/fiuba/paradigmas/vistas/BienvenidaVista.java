@@ -5,6 +5,8 @@ import edu.fiuba.paradigmas.vistas.componentes.PanelCartasDecorativas;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -18,7 +20,8 @@ public class BienvenidaVista extends VBox {
         this.setSpacing(22);
         this.setPadding(new Insets(26));
         this.setAlignment(Pos.CENTER);
-        this.setStyle("-fx-background-color: linear-gradient(to bottom right, #050505, #171717); -fx-min-width: 780px; -fx-min-height: 620px;");
+
+        this.setStyle("-fx-background-color: linear-gradient(to bottom right, #050505, #171717);");
 
         PanelCartasDecorativas escenario = new PanelCartasDecorativas();
 
@@ -38,10 +41,11 @@ public class BienvenidaVista extends VBox {
         this.continuar.setStyle("-fx-background-color: linear-gradient(#c21f1f, #8f1010); -fx-text-fill: #f5f1e8; -fx-font-weight: bold; -fx-padding: 12 22; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: rgba(245,241,232,0.25);");
 
         VBox contenido = new VBox(22, escenario, this.titulo, this.subtitulo, this.continuar);
-        contenido.setPadding(new Insets(26));
         contenido.setAlignment(Pos.CENTER);
+        contenido.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
         StackPane lienzo = new StackPane(contenido);
+        VBox.setVgrow(lienzo, Priority.ALWAYS); // Obliga al lienzo a estirarse verticalmente
         this.getChildren().add(lienzo);
     }
 

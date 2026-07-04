@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.vistas;
 
+import edu.fiuba.paradigmas.vistas.componentes.BotonRepartirCartas;
 import edu.fiuba.paradigmas.vistas.componentes.PanelJugadores;
 import edu.fiuba.paradigmas.vistas.componentes.PanelSeleccionRoles;
 import javafx.geometry.Insets;
@@ -24,6 +25,8 @@ public class ConfiguracionVista extends VBox {
         this.setPadding(new Insets(26));
         this.setStyle("-fx-background-color: #0a0a0a;");
 
+        this.setAlignment(Pos.CENTER);
+
         Label titulo = new Label("Configuración de partida");
         titulo.setFont(new Font("Georgia", 24));
         titulo.setStyle("-fx-text-fill: #f5f1e8; -fx-font-weight: bold;");
@@ -42,11 +45,12 @@ public class ConfiguracionVista extends VBox {
         panelRoles.setOnCambio(notificadorGlobal);
 
         HBox cuerpoCentral = new HBox(40, panelJugadores, panelRoles);
+        cuerpoCentral.setMaxWidth(1000);
+        VBox.setVgrow(cuerpoCentral, Priority.ALWAYS);
         HBox.setHgrow(panelRoles, Priority.ALWAYS);
 
-        this.btnIniciar = new Button("Iniciar partida");
+        this.btnIniciar = new BotonRepartirCartas();
         this.btnIniciar.setMaxWidth(Double.MAX_VALUE);
-        this.btnIniciar.setStyle("-fx-background-color: linear-gradient(#2a3b4c, #1a252f); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand;");
 
         this.getChildren().addAll(titulo, cuerpoCentral, btnIniciar);
     }
