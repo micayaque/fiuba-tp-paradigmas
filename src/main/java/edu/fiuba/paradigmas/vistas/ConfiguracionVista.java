@@ -17,7 +17,7 @@ import java.util.List;
 public class ConfiguracionVista extends VBox {
     private final PanelJugadores panelJugadores;
     private final PanelSeleccionRoles panelRoles;
-    private final Button btnIniciar;
+    private final Button btnRepartirCartas;
     private Runnable onCambioDeCualquierDato;
 
     public ConfiguracionVista() {
@@ -49,14 +49,14 @@ public class ConfiguracionVista extends VBox {
         VBox.setVgrow(cuerpoCentral, Priority.ALWAYS);
         HBox.setHgrow(panelRoles, Priority.ALWAYS);
 
-        this.btnIniciar = new BotonRepartirCartas();
-        this.btnIniciar.setMaxWidth(Double.MAX_VALUE);
+        this.btnRepartirCartas = new BotonRepartirCartas();
+        this.btnRepartirCartas.setMaxWidth(Double.MAX_VALUE);
 
-        this.getChildren().addAll(titulo, cuerpoCentral, btnIniciar);
+        this.getChildren().addAll(titulo, cuerpoCentral, btnRepartirCartas);
     }
 
-    public void alPresionarIniciar(Runnable accion) {
-        this.btnIniciar.setOnAction(e -> accion.run());
+    public void alPresionarRepartirCartas(Runnable accion) {
+        this.btnRepartirCartas.setOnAction(e -> accion.run());
     }
 
     public List<String> obtenerNombres() {

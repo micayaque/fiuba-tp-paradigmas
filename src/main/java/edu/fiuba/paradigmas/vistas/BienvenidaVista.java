@@ -49,7 +49,7 @@ public class BienvenidaVista extends VBox {
         this.getChildren().add(lienzo);
     }
 
-    public void alPresionarContinuar(Runnable accion) {
+    public void alPresionarConfigurarPartida(Runnable accion) {
         this.continuar.setOnAction(e -> accion.run());
     }
 }

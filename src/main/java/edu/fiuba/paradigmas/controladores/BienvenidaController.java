@@ -11,7 +11,7 @@ public class BienvenidaController {
         this.vista = vista;
         this.app = app;
 
-        this.vista.alPresionarContinuar(this::iniciarConfiguracion);
+        this.vista.alPresionarConfigurarPartida(this::iniciarConfiguracion);
     }
 
     private void iniciarConfiguracion() {

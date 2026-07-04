@@ -29,7 +29,7 @@ public class ConfiguracionController implements ObservadorMazo {
 
         this.inicializarCreadores();
 
-        this.vista.alPresionarIniciar(this::iniciarPartida);
+        this.vista.alPresionarRepartirCartas(this::iniciarRepartoCartas);
         this.vista.escucharCambiosEnTiempoReal(this::notificarClicAlModelo);
 
         this.notificarClicAlModelo();
@@ -38,12 +38,12 @@ public class ConfiguracionController implements ObservadorMazo {
     private void notificarClicAlModelo() {
         List<String> roles = vista.obtenerRoles();
         int cantJugadores = vista.obtenerNombres().size();
-
+        int padrinos = (int) roles.stream().filter(r -> r.equals("Padrino")).count();
         int ciudadanos = (int) roles.stream().filter(r -> r.equals("Ciudadano")).count();
-        int mafiosos   = (int) roles.stream().filter(r -> r.equals("Mafioso") || r.equals("Padrino")).count();
-        int especiales = (int) roles.stream().filter(r -> r.equals("Medico") || r.equals("Detective") || r.equals("Sheriff") || r.equals("Padrino")).count();
+        int mafiosos   = (int) roles.stream().filter(r -> r.equals("Mafioso")).count();
+        int especialesCiudadanos = (int) roles.stream().filter(r -> r.equals("Medico") || r.equals("Detective") || r.equals("Sheriff")).count();
 
-        validadorMazo.evaluar(cantJugadores, ciudadanos, mafiosos, especiales);
+        validadorMazo.evaluar(cantJugadores, ciudadanos, mafiosos, especialesCiudadanos, padrinos);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ConfiguracionController implements ObservadorMazo {
         vista.bloquearTipoCarta("Padrino", msjEspecial);
     }
 
-    private void iniciarPartida() {
+    private void iniciarRepartoCartas() {
         List<String> nombres = vista.obtenerNombres();
         List<String> rolesString = vista.obtenerRoles();
 

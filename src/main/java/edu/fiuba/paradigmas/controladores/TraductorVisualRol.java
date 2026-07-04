@@ -8,9 +8,9 @@ public class TraductorVisualRol implements IdentificadorRol {
 
     @Override public void esCiudadano() { this.textoResultado = "Ciudadano"; }
     @Override public void esDetective() { this.textoResultado = "Detective"; }
-    @Override public void esMafioso()   { this.textoResultado = "Miembro de la Mafia"; }
-    @Override public void esMedico()    { this.textoResultado = "Médico"; }
-    @Override public void esPadrino()   { this.textoResultado = "El Padrino"; }
+    @Override public void esMafioso()   { this.textoResultado = "Mafioso"; }
+    @Override public void esMedico()    { this.textoResultado = "Medico"; }
+    @Override public void esPadrino()   { this.textoResultado = "Padrino"; }
     @Override public void esSheriff()   { this.textoResultado = "Sheriff"; }
 
     public String traducirRolDe(Jugador jugador) {

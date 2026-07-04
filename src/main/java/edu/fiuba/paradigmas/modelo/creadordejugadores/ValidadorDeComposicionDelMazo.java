@@ -24,9 +24,11 @@ public class ValidadorDeComposicionDelMazo {
         observador.topeEspecialesAlcanzado();
     }
 
-    public void evaluar(int cantidadJugadores, int ciudadanos, int mafiosos, int especiales) {
-        int totalRoles = ciudadanos + mafiosos + especiales;
-        int totalBandoCiudadano = ciudadanos + especiales;
+    public void evaluar(int cantidadJugadores, int ciudadanos, int mafiosos, int especialesCiudadanos, int padrinos) {
+        int totalRoles = ciudadanos + mafiosos + especialesCiudadanos + padrinos;
+        int totalBandoCiudadano = ciudadanos + especialesCiudadanos;
+        int totalMafia = mafiosos + padrinos;
+        int totalEspeciales = especialesCiudadanos + padrinos;
 
         notificarMesaLiberada();
 
@@ -39,13 +41,13 @@ public class ValidadorDeComposicionDelMazo {
         int maxMafiaPorCiudadanos = Math.max(0, totalBandoCiudadano - 1);
         int limiteMafia = Math.min(maxMafiaPorMazo, maxMafiaPorCiudadanos);
 
-        if (mafiosos >= limiteMafia) {
+        if (totalMafia >= limiteMafia) {
             notificarTopeMafia();
         }
 
         int maxEspeciales = (totalRoles < 6) ? 1 : ((totalRoles < 9) ? 2 : 4);
 
-        if (especiales >= maxEspeciales) {
+        if (totalEspeciales >= maxEspeciales) {
             notificarTopeEspeciales();
         }
     }
