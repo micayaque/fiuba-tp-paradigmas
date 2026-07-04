@@ -1,52 +1,117 @@
 package edu.fiuba.paradigmas.controladores;
 
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
-import edu.fiuba.paradigmas.modelo.excepciones.mazo.CantidadDeJugadoresInvalidaExcepcion;
-import edu.fiuba.paradigmas.modelo.excepciones.mazo.ComposicionInvalidaExcepcion;
-import edu.fiuba.paradigmas.modelo.excepciones.mazo.RepartoInvalidoExcepcion;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ObservadorMazo;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
+import edu.fiuba.paradigmas.modelo.excepciones.mazo.*;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.*;
 import edu.fiuba.paradigmas.vistas.App;
 import edu.fiuba.paradigmas.vistas.ConfiguracionVista;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class ConfiguracionController implements AccionIniciarJuego {
+public class ConfiguracionController implements ObservadorMazo {
     private final ConfiguracionVista vista;
     private final App app;
-    private final CreadorDeJugadores modelo = new CreadorDeJugadores(new Random());
 
-    public ConfiguracionController(ConfiguracionVista vista, App app){
+    Map<String, Supplier<Rol>> creadoresDeRoles = new HashMap<>();
+
+    CreadorDeJugadores modelo = new CreadorDeJugadores(new Random());
+
+    private final ValidadorDeComposicionDelMazo validadorMazo = new ValidadorDeComposicionDelMazo(this);
+
+    public ConfiguracionController(ConfiguracionVista vista, App app) {
         this.vista = vista;
         this.app = app;
 
-        this.vista.alPresionarIniciar(this);
+        this.inicializarCreadores();
+
+        this.vista.alPresionarIniciar(this::iniciarPartida);
+        this.vista.escucharCambiosEnTiempoReal(this::notificarClicAlModelo);
+
+        this.notificarClicAlModelo();
     }
 
-    public void iniciar(List<String> nombres, List<String> rolesString) {
-        List<Rol> roles = rolesString.stream()
-                .map(this::traducirStringARol)
-                .collect(Collectors.toList());
+    private void notificarClicAlModelo() {
+        List<String> roles = vista.obtenerRoles();
+        int cantJugadores = vista.obtenerNombres().size();
+
+        int ciudadanos = (int) roles.stream().filter(r -> r.equals("Ciudadano")).count();
+        int mafiosos   = (int) roles.stream().filter(r -> r.equals("Mafioso") || r.equals("Padrino")).count();
+        int especiales = (int) roles.stream().filter(r -> r.equals("Medico") || r.equals("Detective") || r.equals("Sheriff") || r.equals("Padrino")).count();
+
+        validadorMazo.evaluar(cantJugadores, ciudadanos, mafiosos, especiales);
+    }
+
+    @Override
+    public void mesaLiberada() {
+        vista.limpiarBloqueosVisuales();
+    }
+
+    @Override
+    public void topeGlobalAlcanzado() {
+        int cantJugadores = vista.obtenerNombres().size();
+        String msjTope = (cantJugadores == 0)
+                ? "Agregá un jugador para habilitar el mazo."
+                : "Agregá más jugadores para elegir más cartas.";
+        vista.bloquearMazoSobrante(msjTope);
+    }
+
+    @Override
+    public void topeMafiaAlcanzado() {
+        String msjMafia = "Límite máximo de jugadores mafiosos alcanzado.";
+        vista.bloquearTipoCarta("Mafioso", msjMafia);
+        vista.bloquearTipoCarta("Padrino", msjMafia);
+    }
+
+    @Override
+    public void topeEspecialesAlcanzado() {
+        String msjEspecial = "Límite máximo de roles especiales para la partida alcanzado.";
+        vista.bloquearTipoCarta("Medico", msjEspecial);
+        vista.bloquearTipoCarta("Detective", msjEspecial);
+        vista.bloquearTipoCarta("Sheriff", msjEspecial);
+        vista.bloquearTipoCarta("Padrino", msjEspecial);
+    }
+
+    private void iniciarPartida() {
+        List<String> nombres = vista.obtenerNombres();
+        List<String> rolesString = vista.obtenerRoles();
 
         try {
+            List<Rol> roles = rolesString.stream()
+                    .map(this::fabricarRol)
+                    .collect(Collectors.toList());
             List<Jugador> jugadoresCreados = modelo.crearPartida(nombres, roles);
             this.app.irARepartoDeRoles(jugadoresCreados);
-        } catch (ComposicionInvalidaExcepcion | CantidadDeJugadoresInvalidaExcepcion | RepartoInvalidoExcepcion e) {
+        } catch (CantidadDeJugadoresInvalidaExcepcion e) {
+            this.vista.mostrarError("El juego acepta entre 5 y 12 jugadores.");
+        } catch (RepartoInvalidoExcepcion e) {
+            this.vista.mostrarError("La cantidad de jugadores no coincide con las cartas elegidas.");
+        } catch (DemasiadosMafiososExcepcion e) {
+            this.vista.mostrarError("Hay demasiados integrantes de la mafia para esta cantidad de jugadores.");
+        } catch (ExcesoDeRolesEspecialesExcepcion e) {
+            this.vista.mostrarError("Límite máximo de roles especiales para la partida superado.");
+        } catch (FaltaDeMafiaExcepcion e) {
+            this.vista.mostrarError("Debe haber al menos un integrante de la Mafia en la partida.");
+        } catch (ComposicionInvalidaExcepcion e) {
             this.vista.mostrarError(e.getMessage());
         }
     }
 
-    private Rol traducirStringARol(String nombreRol) {
-        switch (nombreRol) {
-            case "Ciudadano": return new Ciudadano();
-            case "Mafioso": return new Mafioso();
-            case "Medico": return new Medico();
-            case "Detective": return new Detective();
-            case "Sheriff": return new Sheriff();
-            case "Padrino": return new Padrino();
-            default: throw new IllegalArgumentException("Rol desconocido: " + nombreRol);
-        }
+    private Rol fabricarRol(String nombreRol) {
+        Supplier<Rol> fabrica = creadoresDeRoles.get(nombreRol);
+        return fabrica.get();
+    }
+
+    private void inicializarCreadores() {
+        creadoresDeRoles.put("Ciudadano", Ciudadano::new);
+        creadoresDeRoles.put("Mafioso", Mafioso::new);
+        creadoresDeRoles.put("Medico", Medico::new);
+        creadoresDeRoles.put("Detective", Detective::new);
+        creadoresDeRoles.put("Sheriff", Sheriff::new);
+        creadoresDeRoles.put("Padrino", Padrino::new);
     }
 }

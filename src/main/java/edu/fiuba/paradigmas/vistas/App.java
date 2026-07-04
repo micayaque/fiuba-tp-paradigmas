@@ -17,7 +17,7 @@ public class App extends Application {
     @Override
     public void start(Stage escenarioPrincipal) {
         this.escenarioPrincipal = escenarioPrincipal;
-        this.escenarioPrincipal.setTitle("Paradigmas Mafia");
+        this.escenarioPrincipal.setTitle("Mafia");
         this.escenarioPrincipal.setMinWidth(780);
         this.escenarioPrincipal.setMinHeight(620);
 

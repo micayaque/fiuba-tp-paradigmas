@@ -14,7 +14,8 @@ public class PanelJugadores extends VBox {
     private final TextField campoNombre;
     private final ListView<String> listaNombres;
     private final Button agregar;
-    private Runnable onCambioEnLista;
+    private final Label estadisticas;
+    private Runnable onCambio;
 
     public PanelJugadores() {
         this.setSpacing(10);
@@ -26,7 +27,6 @@ public class PanelJugadores extends VBox {
 
         this.campoNombre = new TextField();
         this.campoNombre.setPromptText("Ingrese el nombre del jugador");
-        this.campoNombre.setMaxWidth(Double.MAX_VALUE);
         this.campoNombre.setStyle("-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #d4af37; -fx-padding: 10; -fx-background-color: #111111; -fx-text-fill: #f5f1e8;");
 
         this.agregar = new Button("Agregar jugador");
@@ -34,28 +34,30 @@ public class PanelJugadores extends VBox {
         this.listaNombres = new ListView<>();
         this.listaNombres.setMinHeight(120);
         this.listaNombres.setPrefHeight(150);
-        this.listaNombres.setMaxHeight(160);
         this.listaNombres.setStyle("-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #d4af37; -fx-background-color: #111111; -fx-control-inner-background: #111111; -fx-text-fill: #f5f1e8;");
+
+        this.estadisticas = new Label("Jugadores: 0\nRoles elegidos: 0");
+        this.estadisticas.setStyle("-fx-text-fill: #d4af37; -fx-font-weight: bold; -fx-font-size: 14px;");
 
         configurarAcciones();
 
-        this.getChildren().addAll(lblJugadores, campoNombre, agregar, listaNombres);
+        this.getChildren().addAll(lblJugadores, campoNombre, agregar, listaNombres, estadisticas);
     }
 
-    public void setOnCambioEnLista(Runnable accion) {
-        this.onCambioEnLista = accion;
+    public void setOnCambio(Runnable accion) {
+        this.onCambio = accion;
     }
 
     public List<String> obtenerNombres() {
         return listaNombres.getItems();
     }
 
-    public int cantidadJugadores() {
-        return listaNombres.getItems().size();
+    public void actualizarEstadisticas(int cantidadRoles) {
+        this.estadisticas.setText("Jugadores: " + listaNombres.getItems().size() + "\nRoles elegidos: " + cantidadRoles);
     }
 
     private void notificarCambio() {
-        if (onCambioEnLista != null) onCambioEnLista.run();
+        if (onCambio != null) onCambio.run();
     }
 
     private void configurarAcciones() {
