@@ -63,7 +63,7 @@ public class FaseDiurnaVista extends StackPane {
         this.getChildren().addAll(this.panelAccion, this.panelDeTansicionDeTurno);
     }
 
-    public void iniciarTurnoOcultoDe(String nombreJugador) {
+    public void iniciarTurnoDe(String nombreJugador) {
         this.panelDeTansicionDeTurno.setNombreJugador(nombreJugador);
         this.panelDeTansicionDeTurno.setVisible(true);
         this.panelAccion.setVisible(false);
