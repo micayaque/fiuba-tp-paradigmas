@@ -1,12 +1,10 @@
 package edu.fiuba.paradigmas.controladores;
 
-import edu.fiuba.paradigmas.modelo.fase.Fase;
-import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
-import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.partida.ObservadorResultadoPartida;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.vistas.App;
 import edu.fiuba.paradigmas.vistas.EstadoPartidaVista;
 
 import java.util.List;
@@ -14,23 +12,30 @@ import java.util.List;
 public class EstadoPartidaController implements ObservadorResultadoPartida {
     private final EstadoPartidaVista vista;
     private final Moderador moderador;
+    private final TraductorVisualRol traductorRol;
 
-    public EstadoPartidaController(EstadoPartidaVista vista, List<Jugador> jugadores) {
+    public EstadoPartidaController(EstadoPartidaVista vista, App app, List<Jugador> jugadores) {
         this.vista = vista;
+        this.traductorRol = new TraductorVisualRol();
         this.moderador = new Moderador(jugadores, new EmpateDiurnoSinEliminacion(), this);
+        this.actualizarPantalla();
+    }
 
+    private void actualizarPantalla() {
         int ronda = this.moderador.numeroDeRonda();
-        
-        Fase faseActual = this.moderador.obtenerFaseActual();
+        this.vista.limpiarTablero(ronda);
+        List<Jugador> vivos = this.moderador.jugadoresVivos();
+        List<Jugador> eliminados = this.moderador.jugadoresEliminados();
 
-        String textoFase = "";
-        if (faseActual instanceof FaseDiurna) {
-            textoFase = "Fase Diurna (Discusiones y Votación)";
-        } else if (faseActual instanceof FaseNocturna) {
-            textoFase = "Fase Nocturna (La Mafia Ataca...)";
+        for (Jugador jugador : vivos) {
+            this.vista.agregarJugadorVivo(jugador.nombre());
         }
 
-        this.vista.mostrarEstado(ronda, textoFase);
+        for (Jugador jugador : eliminados) {
+            String nombreRol = this.traductorRol.traducirRolDe(jugador);
+            String archivoImagen = nombreRol.toLowerCase() + ".png";
+            this.vista.agregarJugadorEliminado(jugador.nombre(), nombreRol, archivoImagen);
+        }
     }
 
     @Override

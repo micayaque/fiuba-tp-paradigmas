@@ -52,7 +52,7 @@ public class App extends Application {
 
     public void irAEstadoDePartida(List<Jugador> jugadoresCreados) {
         EstadoPartidaVista vista = new EstadoPartidaVista();
-        new EstadoPartidaController(vista, jugadoresCreados);
+        new EstadoPartidaController(vista, this, jugadoresCreados);
         this.setScene(vista);
     }
 

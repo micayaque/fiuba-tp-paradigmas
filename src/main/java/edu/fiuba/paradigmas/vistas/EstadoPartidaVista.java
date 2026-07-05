@@ -1,51 +1,104 @@
 package edu.fiuba.paradigmas.vistas;
 
+import edu.fiuba.paradigmas.vistas.componentes.CartaEliminado;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
-public class EstadoPartidaVista extends VBox {
-    private final Label titulo;
-    private final Label ronda;
-    private final Label fase;
-    private final Label resultado;
+public class EstadoPartidaVista extends BorderPane {
+
+    private final Label lblRonda;
+    private final Label lblResultado;
+    private final VBox contenedorVivos;
+    private final FlowPane contenedorEliminados;
+    private final Button btnIniciarNoche;
 
     public EstadoPartidaVista() {
-        this.setSpacing(16);
-        this.setPadding(new Insets(24));
-        this.setAlignment(Pos.CENTER_LEFT);
-        this.setStyle("-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e2e8f0); -fx-min-width: 780px; -fx-min-height: 520px;");
+        this.setStyle("-fx-background-color: #0a0a0a;");
+        this.setPadding(new Insets(30));
 
-        this.titulo = new Label("Estado actual de la partida");
-        this.titulo.setFont(new Font(26));
-        this.titulo.setStyle("-fx-text-fill: #0f172a; -fx-font-weight: bold;");
+        this.lblRonda = new Label("Ronda actual: 1");
+        this.lblRonda.setFont(new Font("Georgia", 36));
+        this.lblRonda.setStyle("-fx-text-fill: #f5f1e8; -fx-font-weight: bold;");
 
-        this.ronda = new Label();
-        this.ronda.setFont(new Font(18));
-        this.ronda.setStyle("-fx-text-fill: #1f2937; -fx-background-color: white; -fx-padding: 12 16; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbd5e1;");
+        this.lblResultado = new Label("");
+        this.lblResultado.setFont(new Font("Georgia", 24));
 
-        this.fase = new Label();
-        this.fase.setFont(new Font(18));
-        this.fase.setStyle("-fx-text-fill: #1f2937; -fx-background-color: white; -fx-padding: 12 16; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbd5e1;");
+        VBox panelSuperior = new VBox(15, this.lblRonda, this.lblResultado);
+        panelSuperior.setAlignment(Pos.CENTER);
+        panelSuperior.setPadding(new Insets(0, 0, 30, 0));
+        this.setTop(panelSuperior);
 
-        this.resultado = new Label();
-        this.resultado.setFont(new Font(18));
-        this.resultado.setStyle("-fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-background-color: #dbeafe; -fx-padding: 12 16; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #93c5fd;");
+        Label lblTituloVivos = new Label("Jugadores vivos");
+        lblTituloVivos.setFont(new Font("Georgia", 22));
+        lblTituloVivos.setStyle("-fx-text-fill: #2ecc71; -fx-font-weight: bold;");
 
-        this.getChildren().addAll(this.titulo, this.ronda, this.fase, this.resultado);
+        this.contenedorVivos = new VBox(10);
+        this.contenedorVivos.setAlignment(Pos.TOP_CENTER);
+        VBox columnaVivos = new VBox(15, lblTituloVivos, this.contenedorVivos);
+        columnaVivos.setAlignment(Pos.TOP_CENTER);
+        columnaVivos.setPrefWidth(300);
+
+        Label lblTituloEliminados = new Label("Jugadores eliminados");
+        lblTituloEliminados.setFont(new Font("Georgia", 22));
+        lblTituloEliminados.setStyle("-fx-text-fill: #931621; -fx-font-weight: bold;");
+
+        this.contenedorEliminados = new FlowPane();
+        this.contenedorEliminados.setHgap(15);
+        this.contenedorEliminados.setVgap(15);
+        this.contenedorEliminados.setAlignment(Pos.TOP_CENTER);
+        VBox columnaEliminados = new VBox(15, lblTituloEliminados, this.contenedorEliminados);
+        columnaEliminados.setAlignment(Pos.TOP_CENTER);
+        columnaEliminados.setPrefWidth(600);
+
+        HBox panelCentral = new HBox(50, columnaVivos, columnaEliminados);
+        panelCentral.setAlignment(Pos.CENTER);
+        this.setCenter(panelCentral);
+
+        this.btnIniciarNoche = new Button("Iniciar Fase Nocturna");
+        this.btnIniciarNoche.setStyle("-fx-background-color: linear-gradient(#931621, #4a0808); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 14 35; -fx-background-radius: 8; -fx-font-size: 16px;");
+        this.btnIniciarNoche.setCursor(Cursor.HAND);
+
+        HBox panelInferior = new HBox(this.btnIniciarNoche);
+        panelInferior.setAlignment(Pos.CENTER);
+        panelInferior.setPadding(new Insets(30, 0, 0, 0));
+        this.setBottom(panelInferior);
     }
-    
-    public void mostrarEstado(int numeroDeRonda, String descripcionFase) {
-        this.ronda.setText("Ronda actual: " + numeroDeRonda);
-        this.fase.setText("Fase activa: " + descripcionFase);
-        this.resultado.setText("La partida continúa. Siguiente paso según la fase actual.");
+
+    public void limpiarTablero(int numeroRonda) {
+        this.lblRonda.setText("Ronda actual: " + numeroRonda);
+        this.contenedorVivos.getChildren().clear();
+        this.contenedorEliminados.getChildren().clear();
+    }
+
+    public void agregarJugadorVivo(String nombre) {
+        Label lblVivo = new Label("• " + nombre);
+        lblVivo.setFont(new Font("Georgia", 18));
+        lblVivo.setStyle("-fx-text-fill: #d6cfc2;");
+        this.contenedorVivos.getChildren().add(lblVivo);
+    }
+
+    public void agregarJugadorEliminado(String nombre, String nombreRol, String archivoImagen) {
+        CartaEliminado tarjeta = new CartaEliminado(nombre, nombreRol, archivoImagen);
+        this.contenedorEliminados.getChildren().add(tarjeta);
     }
 
     public void mostrarGanador(String bando) {
-        this.resultado.setText("Ganó " + bando);
-        this.resultado.setStyle("-fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-background-color: #bbf7d0; -fx-padding: 12 16; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #86efac;");
+        this.lblResultado.setText("¡Victoria de " + bando + "!");
+        if (bando.equalsIgnoreCase("Ciudadanos")) {
+            this.lblResultado.setStyle("-fx-text-fill: #2ecc71; -fx-font-weight: bold; -fx-background-color: #0d2b18; -fx-padding: 10 20; -fx-background-radius: 8;");
+        } else {
+            this.lblResultado.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold; -fx-background-color: #2b0d0d; -fx-padding: 10 20; -fx-background-radius: 8;");
+        }
+        this.btnIniciarNoche.setDisable(true);
+        this.btnIniciarNoche.setOpacity(0.5);
     }
-    
+
+    public void alPresionarIniciarRonda(Runnable accion) {
+        this.btnIniciarNoche.setOnAction(e -> accion.run());
+    }
 }

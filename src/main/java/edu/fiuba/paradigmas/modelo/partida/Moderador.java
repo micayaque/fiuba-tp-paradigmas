@@ -24,6 +24,21 @@ public class Moderador {
         this.numeroDeRonda = 1;
     }
 
+    public List<Jugador> jugadoresVivos() {
+        List<Jugador> jugadoresVivos = new ArrayList<>();
+        for(Jugador jugador : this.jugadores){
+            jugador.estaVivo(jugadoresVivos);
+        }
+        return jugadoresVivos;
+    }
+
+    public List<Jugador> jugadoresEliminados() {
+        List<Jugador> jugadoresVivos = this.jugadoresVivos();
+        List<Jugador> jugadoresEliminados = new ArrayList<>(this.jugadores);
+        jugadoresEliminados.removeAll(jugadoresVivos);
+        return jugadoresEliminados;
+    }
+
     public void anunciarVictoriaMafia() {
         this.observadorResultado.anunciarVictoriaMafia();
     }
