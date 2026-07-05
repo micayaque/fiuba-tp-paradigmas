@@ -1,10 +1,10 @@
 package edu.fiuba.paradigmas.vistas;
 
-import edu.fiuba.paradigmas.controladores.BienvenidaController;
-import edu.fiuba.paradigmas.controladores.ConfiguracionController;
-import edu.fiuba.paradigmas.controladores.EstadoPartidaController;
-import edu.fiuba.paradigmas.controladores.RepartoController;
+import edu.fiuba.paradigmas.controladores.*;
+import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
+import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -50,11 +50,39 @@ public class App extends Application {
         this.setScene(vista);
     }
 
-    public void irAEstadoDePartida(List<Jugador> jugadoresCreados) {
+    public void iniciarPartida(List<Jugador> jugadoresListos) {
+        Moderador moderadorInicial = new Moderador(jugadoresListos, new EmpateDiurnoSinEliminacion());
+        moderadorInicial.comenzarFaseNocturna();
+        this.irAFaseNocturna(moderadorInicial);
+    }
+
+    public void irAFaseNocturna(Moderador moderadorActual) {
+        FaseNocturnaVista vistaNocturna = new FaseNocturnaVista();
+        new FaseNocturnaController(vistaNocturna, this, moderadorActual);
+        this.setScene(vistaNocturna);
+    }
+
+    private void cargarPantallaDeEstado(Moderador moderador, ResultadoFase resultadoPrevio, Runnable accionBoton, String textoBoton) {
         EstadoPartidaVista vista = new EstadoPartidaVista();
-        new EstadoPartidaController(vista, this, jugadoresCreados);
+
+        new EstadoPartidaController(vista, moderador, resultadoPrevio, accionBoton, textoBoton);
+
         this.setScene(vista);
     }
+
+    public void irAEstadoPartidaPreDia(Moderador moderador, ResultadoFase resultadoPrevio) {
+        this.cargarPantallaDeEstado(
+                moderador,
+                resultadoPrevio,
+                () -> {
+                    moderador.comenzarFaseDiurna();
+                    this.irAFaseDiurna(moderador);
+                },
+                "Comenzar Debate (Día)"
+        );
+    }
+
+    public void irAFaseDiurna(Moderador moderador) {}
 
     private void setScene(javafx.scene.Parent raiz) {
         Scene escenaActual = this.escenarioPrincipal.getScene();

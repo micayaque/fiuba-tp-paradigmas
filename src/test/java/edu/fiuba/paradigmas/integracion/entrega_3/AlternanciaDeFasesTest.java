@@ -1,12 +1,10 @@
 package edu.fiuba.paradigmas.integracion.entrega_3;
 
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
-import edu.fiuba.paradigmas.modelo.fase.Fase;
-import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
-import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.fase.JugadorEliminado;
+import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
-import edu.fiuba.paradigmas.modelo.partida.ObservadorResultadoPartida;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import org.junit.jupiter.api.Test;
@@ -14,19 +12,9 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AlternanciaDeFasesTest {
-
-    private String faseDe(Moderador moderador) {
-        Fase faseActual = moderador.obtenerFaseActual();
-        if (faseActual instanceof FaseNocturna) {
-            return "Nocturna";
-        } else if (faseActual instanceof FaseDiurna) {
-            return "Diurna";
-        }
-        return "Desconocida";
-    }
 
     @Test
     public void laPartidaAlternaEntreNocheYDiaIncrementandoLaRondaAlVolverALaNoche() {
@@ -37,25 +25,29 @@ public class AlternanciaDeFasesTest {
         Jugador ciudadano4 = new Jugador("ciudadano4", new Ciudadano());
         List<Jugador> jugadores = List.of(mafioso, ciudadano1, ciudadano2, ciudadano3, ciudadano4);
 
-        ObservadorResultadoPartida observador = mock(ObservadorResultadoPartida.class);
-        Moderador moderador = new Moderador(jugadores, new EmpateDiurnoSinEliminacion(), observador);
-
+        Moderador moderador = new Moderador(jugadores, new EmpateDiurnoSinEliminacion());
+        assertEquals(0, moderador.numeroDeRonda());
+        moderador.comenzarFaseNocturna();
         assertEquals(1, moderador.numeroDeRonda());
-        assertEquals("Nocturna", faseDe(moderador));
 
         moderador.registrarVoto(mafioso, ciudadano1);
-        moderador.resolverFase();
+        ResultadoFase resultadoNoche = moderador.resolverVotacion();
 
-        assertEquals("Diurna", faseDe(moderador), "Tras resolver la noche debe pasar al día, misma ronda");
-        assertEquals(1, moderador.numeroDeRonda());
+        assertTrue(resultadoNoche instanceof JugadorEliminado, "El comportamiento nocturno debería ejecutarse con éxito");
+        moderador.comenzarFaseDiurna();
+
+        assertEquals(1, moderador.numeroDeRonda(), "La ronda debe mantenerse en 0 durante el día");
 
         moderador.registrarNominacion(ciudadano3, ciudadano2);
         moderador.iniciarVotacion();
         moderador.registrarVoto(ciudadano3, ciudadano2);
         moderador.registrarVoto(ciudadano4, ciudadano2);
-        moderador.resolverFase();
+        ResultadoFase resultadoDia = moderador.resolverVotacion();
 
-        assertEquals("Nocturna", faseDe(moderador), "Tras resolver el día debe volver a la noche");
-        assertEquals(2, moderador.numeroDeRonda(), "Al volver a la noche se inicia una nueva ronda");
+        assertTrue(resultadoDia instanceof JugadorEliminado, "La eliminación diurne debería ejecutarse con éxito");
+
+        moderador.comenzarFaseNocturna();
+
+        assertEquals(2, moderador.numeroDeRonda(), "Al volver a la noche se inicia la Ronda 1");
     }
 }

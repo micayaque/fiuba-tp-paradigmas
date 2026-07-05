@@ -15,7 +15,7 @@ public class EstadoPartidaVista extends BorderPane {
     private final Label lblResultado;
     private final VBox contenedorVivos;
     private final FlowPane contenedorEliminados;
-    private final Button btnIniciarNoche;
+    private final Button btnIniciarFase;
 
     public EstadoPartidaVista() {
         this.setStyle("-fx-background-color: #0a0a0a;");
@@ -59,11 +59,11 @@ public class EstadoPartidaVista extends BorderPane {
         panelCentral.setAlignment(Pos.CENTER);
         this.setCenter(panelCentral);
 
-        this.btnIniciarNoche = new Button("Iniciar Fase Nocturna");
-        this.btnIniciarNoche.setStyle("-fx-background-color: linear-gradient(#931621, #4a0808); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 14 35; -fx-background-radius: 8; -fx-font-size: 16px;");
-        this.btnIniciarNoche.setCursor(Cursor.HAND);
+        this.btnIniciarFase = new Button("Iniciar Ronda");
+        this.btnIniciarFase.setStyle("-fx-background-color: linear-gradient(#931621, #4a0808); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 14 35; -fx-background-radius: 8; -fx-font-size: 16px;");
+        this.btnIniciarFase.setCursor(Cursor.HAND);
 
-        HBox panelInferior = new HBox(this.btnIniciarNoche);
+        HBox panelInferior = new HBox(this.btnIniciarFase);
         panelInferior.setAlignment(Pos.CENTER);
         panelInferior.setPadding(new Insets(30, 0, 0, 0));
         this.setBottom(panelInferior);
@@ -87,18 +87,21 @@ public class EstadoPartidaVista extends BorderPane {
         this.contenedorEliminados.getChildren().add(tarjeta);
     }
 
-    public void mostrarGanador(String bando) {
-        this.lblResultado.setText("¡Victoria de " + bando + "!");
-        if (bando.equalsIgnoreCase("Ciudadanos")) {
-            this.lblResultado.setStyle("-fx-text-fill: #2ecc71; -fx-font-weight: bold; -fx-background-color: #0d2b18; -fx-padding: 10 20; -fx-background-radius: 8;");
-        } else {
-            this.lblResultado.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold; -fx-background-color: #2b0d0d; -fx-padding: 10 20; -fx-background-radius: 8;");
-        }
-        this.btnIniciarNoche.setDisable(true);
-        this.btnIniciarNoche.setOpacity(0.5);
+    public void alPresionarIniciarRonda(Runnable accion) {
+        this.btnIniciarFase.setOnAction(e -> accion.run());
     }
 
-    public void alPresionarIniciarRonda(Runnable accion) {
-        this.btnIniciarNoche.setOnAction(e -> accion.run());
+    public void configurarTextoBoton(String texto) {
+        this.btnIniciarFase.setText(texto);
+    }
+
+    public void mostrarResultadoFaseAnterior(String mensaje) {
+        if (mensaje != null && !mensaje.isEmpty()) {
+            this.lblResultado.setText(mensaje);
+            // Le damos un color anaranjado y cursiva para que parezca una notificación
+            this.lblResultado.setStyle("-fx-text-fill: #e67e22; -fx-font-style: italic;");
+        } else {
+            this.lblResultado.setText("");
+        }
     }
 }

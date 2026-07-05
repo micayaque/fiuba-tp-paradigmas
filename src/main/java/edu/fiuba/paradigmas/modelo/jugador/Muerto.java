@@ -10,6 +10,10 @@ public class Muerto implements Estado {
     public void estaVivo(Jugador jugador, List<Jugador> vivos) {
     }
 
+    public void estaEliminado(Jugador jugador, List<Jugador> eliminados) {
+        eliminados.add(jugador);
+    }
+
     @Override
     public void procesarAccion(AccionJugador comando) {
         comando.enMuerto();

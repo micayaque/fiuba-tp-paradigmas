@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.accionVotacion;
 
-import edu.fiuba.paradigmas.modelo.fase.Fase;
+import edu.fiuba.paradigmas.modelo.fase.*;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import java.util.List;
 
@@ -14,5 +14,10 @@ public class IniciarBallotage implements AccionVotacion {
     @Override
     public void ejecutar(Fase fase) {
         fase.iniciarBallotage(this.empatados);
+    }
+
+    @Override
+    public ResultadoFase generarResultado(List<Jugador> vivosDespues) {
+        return new BallotageIniciado(this.empatados);
     }
 }

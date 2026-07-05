@@ -53,6 +53,10 @@ public class Jugador {
         this.estado.estaVivo(this, vivos);
     }
 
+    public void estaEliminado(List<Jugador> eliminados) {
+        this.estado.estaEliminado(this, eliminados);
+    }
+
     public void contarBandoEn(VerificacionVictoria recuento) {
         this.carta.contarBandoEn(recuento);
     }

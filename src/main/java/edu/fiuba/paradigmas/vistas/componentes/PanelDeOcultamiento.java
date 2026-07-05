@@ -40,4 +40,8 @@ public class PanelDeOcultamiento extends VBox {
     public void alPresionarVerCarta(Runnable accion) {
         this.btnVerCarta.setOnAction(e -> accion.run());
     }
+
+    public void setTextoBoton(String texto) {
+        this.btnVerCarta.setText(texto);
+    }
 }

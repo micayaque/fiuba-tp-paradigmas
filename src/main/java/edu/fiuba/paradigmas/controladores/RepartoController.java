@@ -30,8 +30,8 @@ public class RepartoController {
         this.jugadores = jugadores;
         this.indiceActual = 0;
         this.traductorRol = new TraductorVisualRol();
-        this.vista.alPresionarVerCarta(() -> this.mostrarCartaActual());
-        this.vista.alPresionarOcultarCarta(() -> this.avanzarSiguienteJugador());
+        this.vista.alPresionarVerCarta(this::mostrarCartaActual);
+        this.vista.alPresionarOcultarCarta(this::avanzarSiguienteJugador);
         this.prepararTurno();
     }
 
@@ -56,7 +56,7 @@ public class RepartoController {
             this.prepararTurno();
             this.vista.ocultarCarta();
         } else {
-            this.app.irAEstadoDePartida(this.jugadores);
+            this.app.iniciarPartida(this.jugadores);
         }
     }
 }

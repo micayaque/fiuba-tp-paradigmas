@@ -1,9 +1,12 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
+import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 import java.util.ArrayList;
@@ -12,39 +15,34 @@ import java.util.List;
 public class Moderador {
     private final List<Jugador> jugadores;
     private final SistemaDeEmpate sistemaDeEmpateDiurno;
-    private final ObservadorResultadoPartida observadorResultado;
     private Fase faseActual;
     private int numeroDeRonda;
 
-    public Moderador(List<Jugador> jugadores, SistemaDeEmpate sistemaDeEmpateDiurno, ObservadorResultadoPartida observador) {
+    private final List<ResultadoFase> historialDePartida = new ArrayList<>();
+
+    public Moderador(List<Jugador> jugadores, SistemaDeEmpate sistemaDeEmpateDiurno) {
         this.jugadores = jugadores;
         this.sistemaDeEmpateDiurno = sistemaDeEmpateDiurno;
-        this.observadorResultado = observador;
         this.faseActual = new FaseNocturna();
-        this.numeroDeRonda = 1;
+        this.numeroDeRonda = 0;
     }
 
     public List<Jugador> jugadoresVivos() {
-        List<Jugador> jugadoresVivos = new ArrayList<>();
-        for(Jugador jugador : this.jugadores){
-            jugador.estaVivo(jugadoresVivos);
-        }
-        return jugadoresVivos;
+        List<Jugador> vivos = new ArrayList<>();
+        this.jugadores.forEach(j -> j.estaVivo(vivos));
+        return vivos;
     }
 
     public List<Jugador> jugadoresEliminados() {
-        List<Jugador> jugadoresVivos = this.jugadoresVivos();
-        List<Jugador> jugadoresEliminados = new ArrayList<>(this.jugadores);
-        jugadoresEliminados.removeAll(jugadoresVivos);
-        return jugadoresEliminados;
+        List<Jugador> eliminados = new ArrayList<>();
+        this.jugadores.forEach(j -> j.estaEliminado(eliminados));
+        return eliminados;
     }
 
     public void anunciarVictoriaMafia() {
-        this.observadorResultado.anunciarVictoriaMafia();
     }
 
     public void anunciarVictoriaCiudadanos() {
-        this.observadorResultado.anunciarVictoriaCiudadanos();
     }
 
     public void registrarVoto(Jugador votante, Jugador votado) {
@@ -74,10 +72,14 @@ public class Moderador {
     }
 
     public ResultadoPartida resolverFase() {
-        this.faseActual.ejecutarResultadoVotacion();
-        ResultadoPartida resultadoPartida = this.evaluarGanador();
-        resultadoPartida.ejecutar(this.faseActual, this);
-        return resultadoPartida;
+        return this.evaluarGanador();
+    }
+
+    public ResultadoFase resolverVotacion() {
+        AccionVotacion accion = this.faseActual.ejecutarResultadoVotacion();
+        ResultadoFase resultado = accion.generarResultado(this.jugadoresVivos());
+        this.historialDePartida.add(resultado);
+        return resultado;
     }
 
     public ResultadoPartida evaluarGanador() {
@@ -94,8 +96,7 @@ public class Moderador {
         return this.numeroDeRonda;
     }
 
-    // ¿por qué el controlador tiene que conocer a la fase?
-    public Fase obtenerFaseActual(){
-        return this.faseActual;
+    public Bando registrarInvestigacion(Jugador jugadorActivo, Jugador sospechoso) {
+        return jugadorActivo.investigarA(sospechoso);
     }
 }

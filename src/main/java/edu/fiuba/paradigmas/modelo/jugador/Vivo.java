@@ -12,6 +12,11 @@ public class Vivo implements Estado {
     }
 
     @Override
+    public void estaEliminado(Jugador jugador, List<Jugador> eliminados) {
+
+    }
+
+    @Override
     public void procesarAccion(AccionJugador comando) {
         comando.enVivo();
     }

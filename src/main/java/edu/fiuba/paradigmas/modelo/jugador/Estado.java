@@ -10,4 +10,6 @@ public interface Estado {
     void procesarAccion(AccionJugador accion);
 
     void eliminarProteccion(Jugador jugador);
+
+    void estaEliminado(Jugador jugador, List<Jugador> eliminados);
 }
