@@ -5,45 +5,41 @@ import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
 
 import java.util.*;
 
-public class OrganizadorDeTurnosNocturnos implements IdentificadorRol {
-
-    private final List<Jugador> mafiosos = new ArrayList<>();
-    private final List<Jugador> detectives = new ArrayList<>();
-    private final List<Jugador> medicos = new ArrayList<>();
-    private final List<Jugador> rolesDiurnos = new ArrayList<>();
-
-    private Jugador jugadorEvaluado;
+public class OrganizadorDeTurnosNocturnos {
 
     public Queue<Jugador> armarColaDeTurnos(List<Jugador> jugadoresVivos) {
+        List<Jugador> mafiosos = new ArrayList<>();
+        List<Jugador> detectives = new ArrayList<>();
+        List<Jugador> medicos = new ArrayList<>();
+        List<Jugador> rolesDiurnos = new ArrayList<>();
+
         for (Jugador vivo : jugadoresVivos) {
-            this.jugadorEvaluado = vivo;
-            vivo.identificarRolEn(this);
+            vivo.identificarRolEn(new IdentificadorRol() {
+                @Override public void esMafioso() { mafiosos.add(vivo); }
+                @Override public void esPadrino() { mafiosos.add(vivo); }
+                @Override public void esDetective() { detectives.add(vivo); }
+                @Override public void esMedico() { medicos.add(vivo); }
+                @Override public void esCiudadano() { rolesDiurnos.add(vivo); }
+                @Override public void esSheriff() { rolesDiurnos.add(vivo); }
+            });
         }
 
-        Collections.shuffle(this.mafiosos);
-        Collections.shuffle(this.medicos);
-        Collections.shuffle(this.detectives);
-        Collections.shuffle(this.rolesDiurnos);
+        Collections.shuffle(mafiosos);
+        Collections.shuffle(medicos);
+        Collections.shuffle(detectives);
+        Collections.shuffle(rolesDiurnos);
 
         List<Jugador> ordenFinal = new LinkedList<>();
-        ordenFinal.addAll(this.mafiosos);
-        ordenFinal.addAll(this.medicos);
-        ordenFinal.addAll(this.detectives);
+        ordenFinal.addAll(mafiosos);
+        ordenFinal.addAll(medicos);
+        ordenFinal.addAll(detectives);
 
         Random random = new Random();
-        for (Jugador pasivo : this.rolesDiurnos) {
+        for (Jugador pasivo : rolesDiurnos) {
             int indiceAleatorio = random.nextInt(ordenFinal.size() + 1);
             ordenFinal.add(indiceAleatorio, pasivo);
         }
 
         return new LinkedList<>(ordenFinal);
     }
-
-    @Override public void esMafioso() { this.mafiosos.add(this.jugadorEvaluado); }
-    @Override public void esPadrino() { this.mafiosos.add(this.jugadorEvaluado); }
-    @Override public void esDetective() { this.detectives.add(this.jugadorEvaluado); }
-    @Override public void esMedico() { this.medicos.add(this.jugadorEvaluado); }
-
-    @Override public void esCiudadano() { this.rolesDiurnos.add(this.jugadorEvaluado); }
-    @Override public void esSheriff() { this.rolesDiurnos.add(this.jugadorEvaluado); }
 }

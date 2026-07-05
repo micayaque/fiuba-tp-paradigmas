@@ -1,7 +1,6 @@
 package edu.fiuba.paradigmas.vistas;
 
 import edu.fiuba.paradigmas.controladores.*;
-import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
@@ -53,39 +52,16 @@ public class App extends Application {
     public void iniciarPartida(List<Jugador> jugadoresListos) {
         Moderador moderadorInicial = new Moderador(jugadoresListos, new EmpateDiurnoSinEliminacion());
         moderadorInicial.comenzarFaseNocturna();
-        this.irAFaseNocturna(moderadorInicial);
+        ControladorDeJuego orquestador = new ControladorDeJuego(this.escenarioPrincipal, moderadorInicial);
+        orquestador.iniciarJuego();
     }
-
-    public void irAFaseNocturna(Moderador moderadorActual) {
-        FaseNocturnaVista vistaNocturna = new FaseNocturnaVista();
-        new FaseNocturnaController(vistaNocturna, this, moderadorActual);
-        this.setScene(vistaNocturna);
-    }
-
-    private void cargarPantallaDeEstado(Moderador moderador, ResultadoFase resultadoPrevio, Runnable accionBoton, String textoBoton) {
-        EstadoPartidaVista vista = new EstadoPartidaVista();
-
-        new EstadoPartidaController(vista, moderador, resultadoPrevio, accionBoton, textoBoton);
-
-        this.setScene(vista);
-    }
-
-    public void irAEstadoPartidaPreDia(Moderador moderador, ResultadoFase resultadoPrevio) {
-        this.cargarPantallaDeEstado(
-                moderador,
-                resultadoPrevio,
-                () -> {
-                    moderador.comenzarFaseDiurna();
-                    this.irAFaseDiurna(moderador);
-                },
-                "Comenzar Debate (Día)"
-        );
-    }
-
-    public void irAFaseDiurna(Moderador moderador) {}
-
-    private void setScene(javafx.scene.Parent raiz) {
+    
+    public void setScene(javafx.scene.Parent raiz) {
         Scene escenaActual = this.escenarioPrincipal.getScene();
-        escenaActual.setRoot(raiz);
+        if (escenaActual != null) {
+            escenaActual.setRoot(raiz);
+        } else {
+            this.escenarioPrincipal.setScene(new Scene(raiz));
+        }
     }
 }

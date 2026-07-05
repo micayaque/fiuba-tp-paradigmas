@@ -99,4 +99,8 @@ public class Moderador {
     public Bando registrarInvestigacion(Jugador jugadorActivo, Jugador sospechoso) {
         return jugadorActivo.investigarA(sospechoso);
     }
+
+    public Fase obtenerFaseActual() {
+        return this.faseActual;
+    }
 }

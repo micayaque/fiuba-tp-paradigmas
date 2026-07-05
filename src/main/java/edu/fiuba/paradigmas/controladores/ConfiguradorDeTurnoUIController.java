@@ -32,14 +32,9 @@ public class ConfiguradorDeTurnoUIController implements IdentificadorRol {
 
         this.vista.configurarBotonConValidacionDeSeleccion("Asesinar", () -> {
             Jugador victima = this.vista.obtenerJugadorSeleccionado();
-            if (this.jugadorActivo == victima) {
-                this.vista.mostrarMensaje("No podés votarte a vos mismo.");
-                return;
-            }
             try {
                 this.moderador.registrarVoto(this.jugadorActivo, victima);
                 this.controlador.avanzarTurno();
-
             } catch (RuntimeException excepcion) {
                 this.vista.mostrarMensaje(excepcion.getMessage());
             }

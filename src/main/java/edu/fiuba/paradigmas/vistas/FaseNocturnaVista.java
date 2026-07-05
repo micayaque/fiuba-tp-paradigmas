@@ -1,13 +1,12 @@
 package edu.fiuba.paradigmas.vistas;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.vistas.componentes.PanelDeOcultamiento;
+import edu.fiuba.paradigmas.vistas.componentes.PanelDeTransicionDeTurno;
+import edu.fiuba.paradigmas.vistas.componentes.SelectorDeJugador;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -16,13 +15,14 @@ import java.util.List;
 
 public class FaseNocturnaVista extends StackPane {
 
+    private final SelectorDeJugador selectorJugadores = new SelectorDeJugador();
+
     private final VBox panelAccion;
-    private final PanelDeOcultamiento panelOcultamiento;
+    private final PanelDeTransicionDeTurno panelOcultamiento;
 
     private final Label lblTitulo;
     private final Label lblInstruccion;
     private final Label lblResultado;
-    private final ComboBox<Jugador> selectorJugadores;
     private final Button btnAccion;
 
     public FaseNocturnaVista() {
@@ -46,10 +46,6 @@ public class FaseNocturnaVista extends StackPane {
         this.lblResultado.setStyle("-fx-text-fill: #3498db; -fx-font-style: italic;");
         this.lblResultado.setVisible(false);
 
-        this.selectorJugadores = new ComboBox<>();
-        this.selectorJugadores.setStyle("-fx-font-size: 16px; -fx-pref-width: 250px;");
-        this.configurarVisualizacionDelJugador();
-
         this.btnAccion = new Button();
         this.btnAccion.setStyle("-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-cursor: hand;");
 
@@ -57,7 +53,7 @@ public class FaseNocturnaVista extends StackPane {
                 this.lblTitulo, this.lblInstruccion, this.selectorJugadores, this.btnAccion, this.lblResultado
         );
 
-        this.panelOcultamiento = new PanelDeOcultamiento();
+        this.panelOcultamiento = new PanelDeTransicionDeTurno();
         this.panelOcultamiento.setTextoBoton("Comenzar turno");
 
         this.panelOcultamiento.alPresionarVerCarta(() -> {
@@ -83,22 +79,6 @@ public class FaseNocturnaVista extends StackPane {
         this.selectorJugadores.setManaged(false);
     }
 
-    private void configurarVisualizacionDelJugador() {
-        this.selectorJugadores.setCellFactory(param -> new ListCell<Jugador>() {
-            @Override
-            protected void updateItem(Jugador item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item.nombre());
-                }
-            }
-        });
-
-        this.selectorJugadores.setButtonCell(this.selectorJugadores.getCellFactory().call(null));
-    }
-
     public void setTitulo(String texto) {
         this.lblTitulo.setText(texto);
         this.lblResultado.setVisible(false);
@@ -114,12 +94,11 @@ public class FaseNocturnaVista extends StackPane {
     }
 
     public void cargarOpciones(List<Jugador> opciones) {
-        this.selectorJugadores.getItems().clear();
-        this.selectorJugadores.getItems().addAll(opciones);
+        this.selectorJugadores.cargarOpciones(opciones);
     }
 
     public Jugador obtenerJugadorSeleccionado() {
-        return this.selectorJugadores.getValue();
+        return this.selectorJugadores.jugadorSeleccionado();
     }
 
     public void configurarBotonConValidacionDeSeleccion(String texto, Runnable accion) {

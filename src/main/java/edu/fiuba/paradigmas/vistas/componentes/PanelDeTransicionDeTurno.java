@@ -7,11 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class PanelDeOcultamiento extends VBox {
+public class PanelDeTransicionDeTurno extends VBox {
     private final Label lblNombreJugador;
     private final Button btnVerCarta;
 
-    public PanelDeOcultamiento() {
+    public PanelDeTransicionDeTurno() {
         this.setSpacing(30);
         this.setAlignment(Pos.CENTER);
 
