@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ConfiguracionVista extends VBox {
     private final PanelJugadores panelJugadores;
     private final PanelSeleccionRoles panelRoles;
+    private final ComboBox<String> selectorDesempate;
     private final Button btnRepartirCartas;
     private Runnable onCambioDeCualquierDato;
 
@@ -24,7 +26,6 @@ public class ConfiguracionVista extends VBox {
         this.setSpacing(24);
         this.setPadding(new Insets(26));
         this.setStyle("-fx-background-color: #0a0a0a;");
-
         this.setAlignment(Pos.CENTER);
 
         Label titulo = new Label("Configuración de partida");
@@ -32,6 +33,18 @@ public class ConfiguracionVista extends VBox {
         titulo.setStyle("-fx-text-fill: #f5f1e8; -fx-font-weight: bold;");
         titulo.setMaxWidth(Double.MAX_VALUE);
         titulo.setAlignment(Pos.CENTER);
+
+        Label lblDesempate = new Label("Sistema de desempate diurno:");
+        lblDesempate.setFont(new Font("Georgia", 16));
+        lblDesempate.setStyle("-fx-text-fill: #f5f1e8;");
+
+        this.selectorDesempate = new ComboBox<>();
+        this.selectorDesempate.getItems().addAll("Sin eliminación", "Ballotage");
+        this.selectorDesempate.setValue("Sin eliminación");
+        this.selectorDesempate.setStyle("-fx-font-size: 14px; -fx-cursor: hand;");
+
+        HBox panelDesempate = new HBox(15, lblDesempate, this.selectorDesempate);
+        panelDesempate.setAlignment(Pos.CENTER);
 
         this.panelJugadores = new PanelJugadores();
         this.panelRoles = new PanelSeleccionRoles();
@@ -52,25 +65,20 @@ public class ConfiguracionVista extends VBox {
         this.btnRepartirCartas = new BotonRepartirCartas();
         this.btnRepartirCartas.setMaxWidth(Double.MAX_VALUE);
 
-        this.getChildren().addAll(titulo, cuerpoCentral, btnRepartirCartas);
+        this.getChildren().addAll(titulo, panelDesempate, cuerpoCentral, btnRepartirCartas);
+    }
+
+    public String obtenerSistemaDesempate() {
+        return this.selectorDesempate.getValue();
     }
 
     public void alPresionarRepartirCartas(Runnable accion) {
         this.btnRepartirCartas.setOnAction(e -> accion.run());
     }
 
-    public List<String> obtenerNombres() {
-        return panelJugadores.obtenerNombres();
-    }
-
-    public List<String> obtenerRoles() {
-        return panelRoles.obtenerRolesSeleccionados();
-    }
-
-    public void escucharCambiosEnTiempoReal(Runnable accion) {
-        this.onCambioDeCualquierDato = accion;
-    }
-
+    public List<String> obtenerNombres() { return panelJugadores.obtenerNombres(); }
+    public List<String> obtenerRoles() { return panelRoles.obtenerRolesSeleccionados(); }
+    public void escucharCambiosEnTiempoReal(Runnable accion) { this.onCambioDeCualquierDato = accion; }
     public void limpiarBloqueosVisuales() { panelRoles.limpiarBloqueos(); }
     public void bloquearTipoCarta(String tipo, String motivo) { panelRoles.bloquearTipoCarta(tipo, motivo); }
     public void bloquearMazoSobrante(String motivo) { panelRoles.bloquearTodasLasSobrantes(motivo); }

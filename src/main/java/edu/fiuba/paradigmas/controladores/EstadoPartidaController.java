@@ -55,7 +55,7 @@ public class EstadoPartidaController {
                 this.vista.mostrarResultadoFaseAnterior(muerto.nombre() + " fue asesinado anoche.");
             } else if (resultadoPrevio instanceof JugadorProtegido) {
                 this.vista.mostrarResultadoFaseAnterior("La fase transcurrió en silencio. Nadie fue eliminado.");
-            } else if (resultadoPrevio instanceof FasePacifica) {
+            } else if (resultadoPrevio instanceof FaseSinJugadorEliminado) {
                 this.vista.mostrarResultadoFaseAnterior("La fase transcurrió en silencio. Nadie fue eliminado.");
             } else if (resultadoPrevio instanceof BallotageIniciado) {
                 BallotageIniciado empate = (BallotageIniciado) resultadoPrevio;

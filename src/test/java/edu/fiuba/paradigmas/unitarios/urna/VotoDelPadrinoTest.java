@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.unitarios.urna;
 
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.accionVotacion.DeclararNocheSinJugadorEliminado;
+import edu.fiuba.paradigmas.modelo.accionVotacion.DeclararFaseSinJugadorEliminado;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
@@ -38,7 +38,7 @@ public class VotoDelPadrinoTest {
         assertTrue(votoComunTriple.mayorEstricto(acumulado));
 
         Fase fase = new FaseDiurna(new EmpateDiurnoSinEliminacion());
-        AccionVotacion accionPacifica = new DeclararNocheSinJugadorEliminado();
+        AccionVotacion accionPacifica = new DeclararFaseSinJugadorEliminado();
         AccionVotacion resolucion = acumulado.resolverDesempate(accionPacifica);
         resolucion.ejecutar(fase);
 
@@ -49,7 +49,7 @@ public class VotoDelPadrinoTest {
     public void votoDelPadrinoResuelveEmpateEjecutandoLaMuerteDeSuCandidato() {
         Fase fase = mock(Fase.class);
         Voto votoPadrino = new VotoDelPadrino(jugador1);
-        AccionVotacion accionPacifica = new DeclararNocheSinJugadorEliminado();
+        AccionVotacion accionPacifica = new DeclararFaseSinJugadorEliminado();
 
         AccionVotacion nuevaAccion = votoPadrino.resolverDesempate(accionPacifica);
 

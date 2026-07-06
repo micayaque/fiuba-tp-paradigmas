@@ -23,7 +23,6 @@ public class Moderador {
     public Moderador(List<Jugador> jugadores, SistemaDeEmpate sistemaDeEmpateDiurno) {
         this.jugadores = jugadores;
         this.sistemaDeEmpateDiurno = sistemaDeEmpateDiurno;
-        this.faseActual = new FaseNocturna();
         this.numeroDeRonda = 0;
     }
 
@@ -51,14 +50,6 @@ public class Moderador {
 
     public void registrarProteccion(Jugador medico, Jugador protegido) {
         this.faseActual.recibirProteccion(medico, protegido);
-    }
-
-    public void registrarNominacion(Jugador nominante, Jugador nominado) {
-        this.faseActual.recibirNominacion(nominante, nominado);
-    }
-
-    public List<Jugador> iniciarVotacion() {
-        return this.faseActual.iniciarVotacion();
     }
 
     public void comenzarFaseDiurna() {
@@ -102,5 +93,9 @@ public class Moderador {
 
     public Fase obtenerFaseActual() {
         return this.faseActual;
+    }
+
+    public void avanzarFase() {
+        this.faseActual.avanzar(this);
     }
 }

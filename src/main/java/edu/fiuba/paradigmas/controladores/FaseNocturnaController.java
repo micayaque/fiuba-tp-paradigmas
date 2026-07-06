@@ -31,7 +31,7 @@ public class FaseNocturnaController extends ControladorDeFasePorTurnos {
     @Override
     protected void resolverFase() {
         ResultadoFase resultado = this.moderador.resolverVotacion();
-        this.moderador.comenzarFaseDiurna();
+        this.moderador.avanzarFase();
         this.orquestador.irAEstadoPartidaPreDia(resultado);
     }
 }

@@ -17,7 +17,4 @@ public interface Fase {
 
     void recibirProteccion(Jugador medico, Jugador protegido);
 
-    void recibirNominacion(Jugador nominante, Jugador nominado);
-
-    List<Jugador> iniciarVotacion();
 }

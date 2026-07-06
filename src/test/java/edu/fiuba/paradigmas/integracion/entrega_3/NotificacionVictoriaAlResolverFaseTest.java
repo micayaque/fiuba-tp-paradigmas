@@ -53,6 +53,7 @@ public class NotificacionVictoriaAlResolverFaseTest {
         Jugador ciudadano3 = new Jugador("ciudadano3", new Ciudadano());
 
         Moderador moderador = new Moderador(List.of(mafioso, ciudadano1, ciudadano2,  ciudadano3), new EmpateDiurnoSinEliminacion());
+        moderador.comenzarFaseNocturna();
 
         moderador.registrarVoto(mafioso, ciudadano1);
         moderador.resolverVotacion();

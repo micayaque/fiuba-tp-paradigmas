@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.vistas;
 
 import edu.fiuba.paradigmas.controladores.*;
-import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import javafx.application.Application;
@@ -43,14 +43,14 @@ public class App extends Application {
         this.setScene(vista);
     }
 
-    public void irARepartoDeRoles(List<Jugador> jugadoresCreados){
+    public void irARepartoDeRoles(List<Jugador> jugadoresCreados, SistemaDeEmpate estrategia){
         RepartoVista vista = new RepartoVista();
-        new RepartoController(vista, this, jugadoresCreados);
+        new RepartoController(vista, this, jugadoresCreados, estrategia);
         this.setScene(vista);
     }
 
-    public void iniciarPartida(List<Jugador> jugadoresListos) {
-        Moderador moderadorInicial = new Moderador(jugadoresListos, new EmpateDiurnoSinEliminacion());
+    public void iniciarPartida(List<Jugador> jugadoresListos, SistemaDeEmpate estrategia) {
+        Moderador moderadorInicial = new Moderador(jugadoresListos, estrategia);
         moderadorInicial.comenzarFaseNocturna();
         ControladorDeJuego orquestador = new ControladorDeJuego(this.escenarioPrincipal, moderadorInicial);
         orquestador.iniciarJuego();

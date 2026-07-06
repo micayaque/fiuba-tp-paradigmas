@@ -21,7 +21,7 @@ public class NominacionDiurnaTest {
         muerto.morir();
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> fase.recibirNominacion(muerto, vivo),
+                () -> fase.recibirVoto(muerto, vivo),
                 "Un muerto no debería poder nominar");
     }
 
@@ -34,7 +34,7 @@ public class NominacionDiurnaTest {
         nominador.morir();
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> fase.recibirNominacion(nominador, nominado),
+                () -> fase.recibirVoto(nominador, nominado),
                 "No se debería poder nominar a un jugador muerto");
     }
 
@@ -44,9 +44,9 @@ public class NominacionDiurnaTest {
         Jugador nominador = new Jugador("nominador", new Ciudadano());
         Jugador nominado = new Jugador("nominado", new Ciudadano());
 
-        fase.recibirNominacion(nominador, nominado);
+        fase.recibirVoto(nominador, nominado);
 
-        List<Jugador> nominados = fase.iniciarVotacion();
+        List<Jugador> nominados = fase.votados();
 
         assertTrue(nominados.contains(nominado), "El jugador nominado debería aparecer en la lista");
         assertEquals(1, nominados.size(), "Debería haber exactamente un nominado");

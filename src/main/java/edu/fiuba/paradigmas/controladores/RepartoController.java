@@ -1,5 +1,6 @@
 package edu.fiuba.paradigmas.controladores;
 
+import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.vistas.App;
 import edu.fiuba.paradigmas.vistas.RepartoVista;
@@ -23,13 +24,15 @@ public class RepartoController {
     );
 
     private int indiceActual;
+    private final SistemaDeEmpate estrategia;
 
-    public RepartoController(RepartoVista vista, App app, List<Jugador> jugadores) {
+    public RepartoController(RepartoVista vista, App app, List<Jugador> jugadores, SistemaDeEmpate estrategia) {
         this.vista = vista;
         this.app = app;
         this.jugadores = jugadores;
         this.indiceActual = 0;
         this.traductorRol = new TraductorVisualRol();
+        this.estrategia = estrategia;
         this.vista.alPresionarVerCarta(this::mostrarCartaActual);
         this.vista.alPresionarOcultarCarta(this::avanzarSiguienteJugador);
         this.prepararTurno();
@@ -56,7 +59,7 @@ public class RepartoController {
             this.prepararTurno();
             this.vista.ocultarCarta();
         } else {
-            this.app.iniciarPartida(this.jugadores);
+            this.app.iniciarPartida(this.jugadores, this.estrategia);
         }
     }
 }

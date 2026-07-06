@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.modelo.urna;
 
 import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionVotacion.DeclararFaseSinJugadorEliminado;
 import edu.fiuba.paradigmas.modelo.accionVotacion.EliminarJugador;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -36,6 +37,9 @@ public class Urna {
 
     public AccionVotacion contarVotos() {
         List<Jugador> candidatosVotados = this.jugadoresVotados();
+        if(candidatosVotados.isEmpty()){
+            return new DeclararFaseSinJugadorEliminado();
+        }
 
         List<Voto> totales = new ArrayList<>();
         for (Jugador c : candidatosVotados) {

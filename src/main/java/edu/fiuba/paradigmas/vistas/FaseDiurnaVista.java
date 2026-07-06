@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -22,6 +23,7 @@ public class FaseDiurnaVista extends StackPane {
     private final Label lblTitulo;
     private final Label lblInstruccion;
     private final Button btnAccion;
+    private final Button btnAbstenerse;
     private final Label lblMensaje;
 
     public FaseDiurnaVista() {
@@ -41,7 +43,13 @@ public class FaseDiurnaVista extends StackPane {
         this.lblInstruccion.setStyle("-fx-text-fill: #34495e;");
 
         this.btnAccion = new Button("Confirmar Voto");
-        this.btnAccion.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 18px; -fx-padding: 15 30; -fx-cursor: hand;");
+        this.btnAccion.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-cursor: hand;");
+
+        this.btnAbstenerse = new Button("Abstenerse");
+        this.btnAbstenerse.setStyle("-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-cursor: hand;");
+
+        HBox panelBotones = new HBox(20, this.btnAbstenerse, this.btnAccion);
+        panelBotones.setAlignment(Pos.CENTER);
 
         this.lblMensaje = new Label();
         this.lblMensaje.setFont(new Font("Georgia", 16));
@@ -49,7 +57,7 @@ public class FaseDiurnaVista extends StackPane {
         this.lblMensaje.setVisible(false);
 
         this.panelAccion.getChildren().addAll(
-                this.lblTitulo, this.lblInstruccion, this.selectorJugadores, this.btnAccion, this.lblMensaje
+                this.lblTitulo, this.lblInstruccion, this.selectorJugadores, panelBotones, this.lblMensaje
         );
 
         this.panelDeTansicionDeTurno = new PanelDeTransicionDeTurno();
@@ -95,5 +103,9 @@ public class FaseDiurnaVista extends StackPane {
                 this.mostrarMensaje("Por favor, elegí un jugador antes de votar.");
             }
         });
+    }
+
+    public void configurarBotonAbstenerse(Runnable accion) {
+        this.btnAbstenerse.setOnAction(evento -> accion.run());
     }
 }

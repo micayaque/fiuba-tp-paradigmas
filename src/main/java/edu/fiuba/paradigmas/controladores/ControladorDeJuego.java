@@ -85,4 +85,10 @@ public class ControladorDeJuego {
             this.stage.setScene(new Scene(nuevaVista));
         }
     }
+
+    public void irAEstadoPartidaPreBallotage(ResultadoFase resultadoBallotage) {
+        EstadoPartidaVista vista = new EstadoPartidaVista();
+        new EstadoPartidaController(vista, this.moderador, resultadoBallotage, this::irAFaseDiurna, "Comenzar Ballotage");
+        this.cambiarEscena(vista);
+    }
 }

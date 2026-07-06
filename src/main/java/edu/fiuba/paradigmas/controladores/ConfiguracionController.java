@@ -3,6 +3,9 @@ package edu.fiuba.paradigmas.controladores;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.ObservadorMazo;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
+import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.excepciones.mazo.*;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.*;
@@ -80,12 +83,18 @@ public class ConfiguracionController implements ObservadorMazo {
         List<String> nombres = vista.obtenerNombres();
         List<String> rolesString = vista.obtenerRoles();
 
+        String desempateElegido = vista.obtenerSistemaDesempate();
+        SistemaDeEmpate estrategiaDesempate = desempateElegido.equals("Ballotage")
+                ? new EmpateDiurnoBallotage()
+                : new EmpateDiurnoSinEliminacion();
+
         try {
             List<Rol> roles = rolesString.stream()
                     .map(this::fabricarRol)
                     .collect(Collectors.toList());
             List<Jugador> jugadoresCreados = modelo.crearPartida(nombres, roles);
-            this.app.irARepartoDeRoles(jugadoresCreados);
+            this.app.irARepartoDeRoles(jugadoresCreados, estrategiaDesempate);
+
         } catch (CantidadDeJugadoresInvalidaExcepcion e) {
             this.vista.mostrarError("El juego acepta entre 5 y 12 jugadores.");
         } catch (RepartoInvalidoExcepcion e) {
@@ -99,6 +108,7 @@ public class ConfiguracionController implements ObservadorMazo {
         } catch (ComposicionInvalidaExcepcion e) {
             this.vista.mostrarError(e.getMessage());
         }
+
     }
 
     private Rol fabricarRol(String nombreRol) {

@@ -38,8 +38,6 @@ public class AlternanciaDeFasesTest {
 
         assertEquals(1, moderador.numeroDeRonda(), "La ronda debe mantenerse en 0 durante el día");
 
-        moderador.registrarNominacion(ciudadano3, ciudadano2);
-        moderador.iniciarVotacion();
         moderador.registrarVoto(ciudadano3, ciudadano2);
         moderador.registrarVoto(ciudadano4, ciudadano2);
         ResultadoFase resultadoDia = moderador.resolverVotacion();
