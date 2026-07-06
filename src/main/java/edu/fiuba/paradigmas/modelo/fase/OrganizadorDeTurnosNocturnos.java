@@ -25,14 +25,12 @@ public class OrganizadorDeTurnosNocturnos {
         }
 
         Collections.shuffle(mafiosos);
-        Collections.shuffle(medicos);
-        Collections.shuffle(detectives);
         Collections.shuffle(rolesDiurnos);
 
         List<Jugador> ordenFinal = new LinkedList<>();
         ordenFinal.addAll(mafiosos);
-        ordenFinal.addAll(medicos);
         ordenFinal.addAll(detectives);
+        ordenFinal.addAll(medicos);
 
         Random random = new Random();
         for (Jugador pasivo : rolesDiurnos) {
