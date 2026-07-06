@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.fase;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.FaseIncorrectaExcepcion;
@@ -37,8 +37,8 @@ public class FaseDiurna implements Fase {
     }
 
     @Override
-    public AccionVotacion ejecutarResultadoVotacion() {
-        AccionVotacion resultado = this.urna.contarVotos();
+    public AccionFase ejecutarResultadoVotacion() {
+        AccionFase resultado = this.urna.contarVotos();
         resultado.ejecutar(this);
         return resultado;
     }

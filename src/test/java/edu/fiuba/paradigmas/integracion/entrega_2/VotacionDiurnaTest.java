@@ -3,7 +3,7 @@ package edu.fiuba.paradigmas.integracion.entrega_2;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
@@ -26,7 +26,7 @@ public class VotacionDiurnaTest {
         fase.recibirVoto(votante1, votado);
         fase.recibirVoto(votante2, votado);
 
-        AccionVotacion accion = fase.ejecutarResultadoVotacion();
+        AccionFase accion = fase.ejecutarResultadoVotacion();
 
         assertThrows(JugadorMuertoExcepcion.class, () -> votado.votarComoCiudadano(votante1, new Urna(new EmpateDiurnoSinEliminacion())));
     }

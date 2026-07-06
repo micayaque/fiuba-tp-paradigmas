@@ -1,9 +1,9 @@
 package edu.fiuba.paradigmas.controladores;
 
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.fase.OrganizadorDeTurnosNocturnos;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
-import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
 import edu.fiuba.paradigmas.vistas.FaseNocturnaVista;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class FaseNocturnaController extends ControladorDeFasePorTurnos {
     protected void configurarTurnoPara(Jugador jugadorActivo, List<Jugador> elegibles) {
         this.vista.cargarOpciones(elegibles);
         this.vista.iniciarTurnoOcultoDe(jugadorActivo.nombre());
-        ConfiguradorDeTurnoUIController config = new ConfiguradorDeTurnoUIController(
+        ControladorDeTurnoNocturno config = new ControladorDeTurnoNocturno(
                 jugadorActivo, this.vista, this.moderador, this
         );
         config.configurarPantalla();
@@ -30,7 +30,7 @@ public class FaseNocturnaController extends ControladorDeFasePorTurnos {
 
     @Override
     protected void resolverFase() {
-        ResultadoFase resultado = this.moderador.resolverVotacion();
+        AccionFase resultado = this.moderador.resolverVotacion();
         this.moderador.avanzarFase();
         this.orquestador.irAEstadoPartidaPreDia(resultado);
     }

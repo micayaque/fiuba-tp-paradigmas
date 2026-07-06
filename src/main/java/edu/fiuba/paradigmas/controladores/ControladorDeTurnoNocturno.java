@@ -7,14 +7,14 @@ import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
 import edu.fiuba.paradigmas.vistas.FaseNocturnaVista;
 
-public class ConfiguradorDeTurnoUIController implements IdentificadorRol {
+public class ControladorDeTurnoNocturno implements IdentificadorRol {
 
     private final Jugador jugadorActivo;
     private final FaseNocturnaVista vista;
     private final Moderador moderador;
     private final FaseNocturnaController controlador;
 
-    public ConfiguradorDeTurnoUIController(Jugador jugadorActivo, FaseNocturnaVista vista, Moderador moderador, FaseNocturnaController controlador) {
+    public ControladorDeTurnoNocturno(Jugador jugadorActivo, FaseNocturnaVista vista, Moderador moderador, FaseNocturnaController controlador) {
         this.jugadorActivo = jugadorActivo;
         this.vista = vista;
         this.moderador = moderador;

@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.accionVotacion;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.IniciarBallotage;
+import edu.fiuba.paradigmas.modelo.accionFase.IniciarBallotage;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;

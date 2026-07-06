@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.modelo.voto;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Voto {
@@ -41,7 +41,7 @@ public class Voto {
         return this.votado;
     }
 
-    public AccionVotacion resolverDesempate(AccionVotacion resultadoActual) {
+    public AccionFase resolverDesempate(AccionFase resultadoActual) {
         return resultadoActual;
     }
 }

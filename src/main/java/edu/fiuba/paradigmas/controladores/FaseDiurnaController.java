@@ -1,9 +1,9 @@
 package edu.fiuba.paradigmas.controladores;
 
-import edu.fiuba.paradigmas.modelo.fase.BallotageIniciado;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.accionFase.IniciarBallotage;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
-import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
 import edu.fiuba.paradigmas.vistas.FaseDiurnaVista;
 
 import java.util.LinkedList;
@@ -45,8 +45,8 @@ public class FaseDiurnaController extends ControladorDeFasePorTurnos {
 
     @Override
     protected void resolverFase() {
-        ResultadoFase resultado = this.moderador.resolverVotacion();
-        if (resultado instanceof BallotageIniciado) {
+        AccionFase resultado = this.moderador.resolverVotacion();
+        if (resultado instanceof IniciarBallotage) {
             this.orquestador.irAEstadoPartidaPreBallotage(resultado);
         } else {
             this.moderador.avanzarFase();

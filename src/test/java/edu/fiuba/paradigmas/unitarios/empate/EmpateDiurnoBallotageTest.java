@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.empate;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
@@ -37,11 +37,11 @@ public class EmpateDiurnoBallotageTest {
         jugadoresEmpatados.add(jugador1);
         jugadoresEmpatados.add(jugador2);
 
-        AccionVotacion resultado = urnaVotacion.contarVotos();
+        AccionFase resultado = urnaVotacion.contarVotos();
 
         EmpateDiurnoBallotage estrategia = new EmpateDiurnoBallotage();
 
-        AccionVotacion accion = estrategia.resolverEmpate(votosEmitidos, jugadoresEmpatados);
+        AccionFase accion = estrategia.resolverEmpate(votosEmitidos, jugadoresEmpatados);
         accion.ejecutar(fase);
 
         verify(fase, times(1)).iniciarBallotage(jugadoresEmpatados);

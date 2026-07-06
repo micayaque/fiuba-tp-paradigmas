@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.integracion.entrega_3;
 
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.accionFase.EliminarJugador;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
-import edu.fiuba.paradigmas.modelo.fase.JugadorEliminado;
-import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
@@ -31,18 +31,18 @@ public class AlternanciaDeFasesTest {
         assertEquals(1, moderador.numeroDeRonda());
 
         moderador.registrarVoto(mafioso, ciudadano1);
-        ResultadoFase resultadoNoche = moderador.resolverVotacion();
+        AccionFase resultadoNoche = moderador.resolverVotacion();
 
-        assertTrue(resultadoNoche instanceof JugadorEliminado, "El comportamiento nocturno debería ejecutarse con éxito");
+        assertTrue(resultadoNoche instanceof EliminarJugador, "El comportamiento nocturno debería ejecutarse con éxito");
         moderador.comenzarFaseDiurna();
 
         assertEquals(1, moderador.numeroDeRonda(), "La ronda debe mantenerse en 0 durante el día");
 
         moderador.registrarVoto(ciudadano3, ciudadano2);
         moderador.registrarVoto(ciudadano4, ciudadano2);
-        ResultadoFase resultadoDia = moderador.resolverVotacion();
+        AccionFase resultadoDia = moderador.resolverVotacion();
 
-        assertTrue(resultadoDia instanceof JugadorEliminado, "La eliminación diurne debería ejecutarse con éxito");
+        assertTrue(resultadoDia instanceof EliminarJugador, "La eliminación diurne debería ejecutarse con éxito");
 
         moderador.comenzarFaseNocturna();
 

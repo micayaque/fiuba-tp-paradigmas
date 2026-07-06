@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.urna;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
@@ -30,7 +30,7 @@ public class UrnaDeVotacionTest {
         urnaVotacion.agregarVoto(new Voto(ciudadano1));
         urnaVotacion.agregarVoto(new Voto(ciudadano2));
 
-        AccionVotacion resultadoVotacion = urnaVotacion.contarVotos();
+        AccionFase resultadoVotacion = urnaVotacion.contarVotos();
         resultadoVotacion.ejecutar(fase);
 
         List<Jugador> vivos = new ArrayList<>();
@@ -55,7 +55,7 @@ public class UrnaDeVotacionTest {
         urnaVotacion.agregarVoto(new Voto(ganador));
         urnaVotacion.agregarVoto(new Voto(ganador));
 
-        AccionVotacion resultadoVotacion = urnaVotacion.contarVotos();
+        AccionFase resultadoVotacion = urnaVotacion.contarVotos();
         resultadoVotacion.ejecutar(fase);
 
         List<Jugador> vivos = new ArrayList<>();

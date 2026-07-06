@@ -5,7 +5,7 @@ import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.VotoInvalidoExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
@@ -30,7 +30,7 @@ public class SistemaDeEmpateTest {
         fase.recibirVoto(v1, a);
         fase.recibirVoto(v2, b);
 
-        AccionVotacion accion = fase.ejecutarResultadoVotacion();
+        AccionFase accion = fase.ejecutarResultadoVotacion();
         accion.ejecutar(fase);
 
         assertDoesNotThrow(() -> a.votarComoCiudadano(v1, new Urna(new EmpateDiurnoSinEliminacion())),
@@ -56,7 +56,7 @@ public class SistemaDeEmpateTest {
         fase.recibirVoto(v1, a);
         fase.recibirVoto(v2, b);
 
-        AccionVotacion accionPrimeraVuelta = fase.ejecutarResultadoVotacion();
+        AccionFase accionPrimeraVuelta = fase.ejecutarResultadoVotacion();
 
         assertThrows(VotoInvalidoExcepcion.class,
                 () -> fase.recibirVoto(v1, c),
@@ -65,7 +65,7 @@ public class SistemaDeEmpateTest {
         fase.recibirVoto(v1, a);
         fase.recibirVoto(v2, a);
 
-        AccionVotacion accionSegundaVuelta = fase.ejecutarResultadoVotacion();
+        AccionFase accionSegundaVuelta = fase.ejecutarResultadoVotacion();
 
         assertThrows(JugadorMuertoExcepcion.class,
                 () -> a.votarComoCiudadano(b, new Urna(new EmpateDiurnoSinEliminacion())),

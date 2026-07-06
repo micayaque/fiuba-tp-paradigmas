@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.modelo.fase.estadoVotacionDiurna;
 
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
-public class Nominacion extends EstadoVotacionDiurna {
+public class Debate extends EstadoVotacionDiurna {
 
     @Override
     protected void validarCandidato(Jugador votado) {

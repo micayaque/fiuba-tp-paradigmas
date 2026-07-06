@@ -1,6 +1,9 @@
 package edu.fiuba.paradigmas.controladores;
 
-import edu.fiuba.paradigmas.modelo.fase.*;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.accionFase.EliminarJugador;
+import edu.fiuba.paradigmas.modelo.accionFase.FaseSinJugadorEliminado;
+import edu.fiuba.paradigmas.modelo.accionFase.IniciarBallotage;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.*;
 import edu.fiuba.paradigmas.vistas.EstadoPartidaVista;
@@ -12,7 +15,7 @@ public class EstadoPartidaController {
     private final Moderador moderador;
     private final TraductorVisualRol traductorRol;
 
-    public EstadoPartidaController(EstadoPartidaVista vista, Moderador moderador, ResultadoFase resultadoPrevio, Runnable accionBoton, String textoBoton) {
+    public EstadoPartidaController(EstadoPartidaVista vista, Moderador moderador, AccionFase resultadoPrevio, Runnable accionBoton, String textoBoton) {
         this.vista = vista;
         this.moderador = moderador;
 
@@ -32,7 +35,7 @@ public class EstadoPartidaController {
         }
     }
 
-    private void actualizarPantalla(ResultadoFase resultadoPrevio) {
+    private void actualizarPantalla(AccionFase resultadoPrevio) {
         int ronda = this.moderador.numeroDeRonda();
         this.vista.limpiarTablero(ronda);
 
@@ -49,18 +52,20 @@ public class EstadoPartidaController {
 
         if (resultadoPrevio != null) {
 
-            if (resultadoPrevio instanceof JugadorEliminado) {
-                JugadorEliminado eliminacion = (JugadorEliminado) resultadoPrevio;
-                Jugador muerto = eliminacion.victima();
-                this.vista.mostrarResultadoFaseAnterior(muerto.nombre() + " fue asesinado anoche.");
-            } else if (resultadoPrevio instanceof JugadorProtegido) {
-                this.vista.mostrarResultadoFaseAnterior("La fase transcurrió en silencio. Nadie fue eliminado.");
+            if (resultadoPrevio instanceof EliminarJugador) {
+                EliminarJugador eliminacion = (EliminarJugador) resultadoPrevio;
+                Jugador victima = eliminacion.victima();
+                if(vivos.contains(victima)) {
+                    this.vista.mostrarResultadoFaseAnterior("Nadie fue eliminado." + victima.nombre() + "fue protegido.");
+                } else {
+                    this.vista.mostrarResultadoFaseAnterior(victima.nombre() + " fue asesinado anoche.");
+                }
             } else if (resultadoPrevio instanceof FaseSinJugadorEliminado) {
                 this.vista.mostrarResultadoFaseAnterior("La fase transcurrió en silencio. Nadie fue eliminado.");
-            } else if (resultadoPrevio instanceof BallotageIniciado) {
-                BallotageIniciado empate = (BallotageIniciado) resultadoPrevio;
-                String n1 = empate.candidatos().get(0).nombre();
-                String n2 = empate.candidatos().get(1).nombre();
+            } else if (resultadoPrevio instanceof IniciarBallotage) {
+                IniciarBallotage empate = (IniciarBallotage) resultadoPrevio;
+                String n1 = empate.empatados().get(0).nombre();
+                String n2 = empate.empatados().get(1).nombre();
                 this.vista.mostrarResultadoFaseAnterior("Empate entre " + n1 + " y " + n2 + ". ¡Inicia ballotage!");
             }
         }

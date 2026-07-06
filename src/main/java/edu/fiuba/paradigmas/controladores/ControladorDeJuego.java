@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.controladores;
 
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.partida.PartidaEnCurso;
 import edu.fiuba.paradigmas.modelo.partida.ResultadoPartida;
@@ -52,7 +52,7 @@ public class ControladorDeJuego {
         this.cambiarEscena(vista);
     }
 
-    public void irAEstadoPartidaPreDia(ResultadoFase resultadoNoche) {
+    public void irAEstadoPartidaPreDia(AccionFase resultadoNoche) {
         EstadoPartidaVista vista = new EstadoPartidaVista();
         new EstadoPartidaController(vista, this.moderador, resultadoNoche, () -> {
             this.evaluarSiguientePaso();
@@ -60,7 +60,7 @@ public class ControladorDeJuego {
         this.cambiarEscena(vista);
     }
 
-    public void irAEstadoPartidaPreNoche(ResultadoFase resultadoDia) {
+    public void irAEstadoPartidaPreNoche(AccionFase resultadoDia) {
         EstadoPartidaVista vista = new EstadoPartidaVista();
         new EstadoPartidaController(vista, this.moderador, resultadoDia, () -> {
             this.evaluarSiguientePaso();
@@ -86,7 +86,7 @@ public class ControladorDeJuego {
         }
     }
 
-    public void irAEstadoPartidaPreBallotage(ResultadoFase resultadoBallotage) {
+    public void irAEstadoPartidaPreBallotage(AccionFase resultadoBallotage) {
         EstadoPartidaVista vista = new EstadoPartidaVista();
         new EstadoPartidaController(vista, this.moderador, resultadoBallotage, this::irAFaseDiurna, "Comenzar Ballotage");
         this.cambiarEscena(vista);

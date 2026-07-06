@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
@@ -84,7 +84,7 @@ public class JugadorTest {
         Urna urnaVotacion = new Urna(new EmpateNocturnoMafia());
         votante.votarComoMafiosoA(victima, urnaVotacion);
 
-        AccionVotacion resultadoVotacion = urnaVotacion.contarVotos();
+        AccionFase resultadoVotacion = urnaVotacion.contarVotos();
         resultadoVotacion.ejecutar(new FaseNocturna());
 
         List<Jugador> vivos = new ArrayList<>();

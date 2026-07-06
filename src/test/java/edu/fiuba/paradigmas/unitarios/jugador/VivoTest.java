@@ -1,6 +1,6 @@
 package edu.fiuba.paradigmas.unitarios.jugador;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
@@ -42,7 +42,7 @@ public class VivoTest {
         AccionJugador comando = new VotarComoMafioso(votante, victima, urnaVotacion);
         vivo.procesarAccion(comando);
 
-        AccionVotacion resultadoVotacion = urnaVotacion.contarVotos();
+        AccionFase resultadoVotacion = urnaVotacion.contarVotos();
         resultadoVotacion.ejecutar(new FaseNocturna());
 
         List<Jugador> vivos = new ArrayList<>();

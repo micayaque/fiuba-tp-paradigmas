@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.modelo.voto;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.accionVotacion.EliminarJugador;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.accionFase.EliminarJugador;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class VotoDelPadrino extends Voto {
@@ -33,7 +33,7 @@ public class VotoDelPadrino extends Voto {
     }
 
     @Override
-    public AccionVotacion resolverDesempate(AccionVotacion sentenciaActual) {
+    public AccionFase resolverDesempate(AccionFase sentenciaActual) {
         return new EliminarJugador(this.votado());
     }
 }

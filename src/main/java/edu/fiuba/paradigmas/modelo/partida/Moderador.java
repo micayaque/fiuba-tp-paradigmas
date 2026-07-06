@@ -1,12 +1,11 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.fase.ResultadoFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class Moderador {
     private Fase faseActual;
     private int numeroDeRonda;
 
-    private final List<ResultadoFase> historialDePartida = new ArrayList<>();
+//    private final List<EventoFase> historialDePartida = new ArrayList<>();
 
     public Moderador(List<Jugador> jugadores, SistemaDeEmpate sistemaDeEmpateDiurno) {
         this.jugadores = jugadores;
@@ -52,6 +51,12 @@ public class Moderador {
         this.faseActual.recibirProteccion(medico, protegido);
     }
 
+    public AccionFase resolverVotacion() {
+        AccionFase accion = this.faseActual.ejecutarResultadoVotacion();
+//        this.historialDePartida.add(accion);
+        return accion;
+    }
+
     public void comenzarFaseDiurna() {
         jugadores.forEach(Jugador::eliminarProteccion);
         this.faseActual = new FaseDiurna(this.sistemaDeEmpateDiurno);
@@ -64,13 +69,6 @@ public class Moderador {
 
     public ResultadoPartida resolverFase() {
         return this.evaluarGanador();
-    }
-
-    public ResultadoFase resolverVotacion() {
-        AccionVotacion accion = this.faseActual.ejecutarResultadoVotacion();
-        ResultadoFase resultado = accion.generarResultado(this.jugadoresVivos());
-        this.historialDePartida.add(resultado);
-        return resultado;
     }
 
     public ResultadoPartida evaluarGanador() {
