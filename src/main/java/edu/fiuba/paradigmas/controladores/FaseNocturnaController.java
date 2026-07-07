@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.controladores;
 
-import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.fase.OrganizadorDeTurnosNocturnos;
+import edu.fiuba.paradigmas.modelo.historial.Memento;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.vistas.FaseNocturnaVista;
@@ -30,7 +30,7 @@ public class FaseNocturnaController extends ControladorDeFasePorTurnos {
 
     @Override
     protected void resolverFase() {
-        AccionFase resultado = this.moderador.resolverVotacion();
+        Memento resultado = this.moderador.resolverVotacion();
         this.moderador.avanzarFase();
         this.orquestador.irAEstadoPartidaPreDia(resultado);
     }

@@ -5,7 +5,7 @@ import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
 
-public class RecibirVotoDiurno implements AccionJugador {
+public class RecibirVotoDiurno extends AccionJugador {
     private final Jugador candidato;
     private final Urna votacion;
 

@@ -2,6 +2,9 @@ package edu.fiuba.paradigmas.modelo.fase;
 
 import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateNocturnoMafia;
+import edu.fiuba.paradigmas.modelo.excepciones.fase.FaseIncorrectaExcepcion;
+import edu.fiuba.paradigmas.modelo.historial.Memento;
+import edu.fiuba.paradigmas.modelo.historial.MementoDeNoche;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
@@ -21,8 +24,9 @@ public class FaseNocturna implements Fase {
     }
 
     @Override
-    public void recibirProteccion(Jugador medico, Jugador protegido) {
-        medico.protegerA(protegido);
+    public Memento recibirProteccion(Jugador medico, Jugador protegido) {
+        Memento memento = medico.protegerA(protegido);
+        return this.envolverResultado(memento);
     }
 
     @Override
@@ -40,5 +44,21 @@ public class FaseNocturna implements Fase {
     @Override
     public void avanzar(Moderador moderador) {
         moderador.comenzarFaseDiurna();
+    }
+
+    @Override
+    public Memento envolverResultado(Memento resultadoBase) {
+        return new MementoDeNoche(resultadoBase);
+    }
+
+    @Override
+    public Memento recibirInvestigacion(Jugador detective, Jugador sospechoso) {
+        Memento memento = detective.investigarA(sospechoso);
+        return this.envolverResultado(memento);
+    }
+
+    @Override
+    public Memento recibirRevelacion(Jugador sheriff) {
+        throw new FaseIncorrectaExcepcion("El Sheriff no puede revelarse durante la noche.");
     }
 }

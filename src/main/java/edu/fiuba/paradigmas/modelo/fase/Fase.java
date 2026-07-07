@@ -1,6 +1,7 @@
 package edu.fiuba.paradigmas.modelo.fase;
 
 import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.historial.Memento;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 
@@ -15,6 +16,11 @@ public interface Fase {
 
     void recibirVoto(Jugador votante, Jugador votado);
 
-    void recibirProteccion(Jugador medico, Jugador protegido);
+    Memento recibirProteccion(Jugador medico, Jugador protegido);
 
+    Memento envolverResultado(Memento resultadoBase);
+
+    Memento recibirInvestigacion(Jugador detective, Jugador sospechoso);
+
+    Memento recibirRevelacion(Jugador sheriff);
 }

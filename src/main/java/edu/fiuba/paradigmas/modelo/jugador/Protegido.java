@@ -6,7 +6,7 @@ public class Protegido extends Vivo {
 
     @Override
     public void procesarAccion(AccionJugador comando) {
-
+        comando.enProtegido();
     }
 
     @Override

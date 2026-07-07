@@ -3,6 +3,7 @@ package edu.fiuba.paradigmas.modelo.jugador;
 import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
+import edu.fiuba.paradigmas.modelo.historial.Memento;
 import edu.fiuba.paradigmas.modelo.urna.Urna;
 import edu.fiuba.paradigmas.modelo.voto.Voto;
 import edu.fiuba.paradigmas.modelo.partida.VerificacionVictoria;
@@ -61,9 +62,10 @@ public class Jugador {
         this.carta.contarBandoEn(recuento);
     }
 
-    public void revelarseComoSheriff() {
-        AccionJugador comando = new RevelarseComoSheriff(this);
+    public Memento revelarseComoSheriff() {
+        RevelarseComoSheriff comando = new RevelarseComoSheriff(this);
         this.estado.procesarAccion(comando);
+        return comando.guardarEstado();
     }
 
     public void continuarRevelandoseComoSheriff() {
@@ -108,16 +110,16 @@ public class Jugador {
         this.estado.procesarAccion(comando);
     }
 
-    public void morir() {
-        AccionJugador comando = new RecibirEliminacion(this);
+    public Memento morir() {
+        RecibirEliminacion comando = new RecibirEliminacion(this);
         this.estado.procesarAccion(comando);
+        return comando.guardarEstado();
     }
 
-
-
-    public void protegerA(Jugador protegido) {
-        AccionJugador comando = new Proteger(this, protegido);
+    public Memento protegerA(Jugador protegido) {
+        Proteger comando = new Proteger(this, protegido);
         this.estado.procesarAccion(comando);
+        return comando.guardarEstado();
     }
 
     public void continuarProteccionA(Jugador protegido) {
@@ -128,10 +130,10 @@ public class Jugador {
         this.estado.procesarAccion(new RecibirProteccion(this));
     }
 
-    public Bando investigarA(Jugador sospechoso) {
+    public Memento investigarA(Jugador sospechoso) {
         Investigar comando = new Investigar(this, sospechoso);
         this.estado.procesarAccion(comando);
-        return comando.obtenerResultado();
+        return comando.guardarEstado();
     }
 
     public Bando serInvestigado() {

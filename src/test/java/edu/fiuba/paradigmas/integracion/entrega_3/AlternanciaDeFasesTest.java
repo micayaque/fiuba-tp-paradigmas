@@ -3,6 +3,10 @@ package edu.fiuba.paradigmas.integracion.entrega_3;
 import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.accionFase.EliminarJugador;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
+import edu.fiuba.paradigmas.modelo.historial.Memento;
+import edu.fiuba.paradigmas.modelo.historial.MementoDeDia;
+import edu.fiuba.paradigmas.modelo.historial.MementoDeEliminacion;
+import edu.fiuba.paradigmas.modelo.historial.MementoDeNoche;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
@@ -31,21 +35,26 @@ public class AlternanciaDeFasesTest {
         assertEquals(1, moderador.numeroDeRonda());
 
         moderador.registrarVoto(mafioso, ciudadano1);
-        AccionFase resultadoNoche = moderador.resolverVotacion();
 
-        assertTrue(resultadoNoche instanceof EliminarJugador, "El comportamiento nocturno debería ejecutarse con éxito");
+        Memento resultadoNoche = moderador.resolverVotacion();
+        assertTrue(resultadoNoche instanceof MementoDeNoche, "El comportamiento nocturno debería ejecutarse con éxito");
+        MementoDeNoche mementoNoche = (MementoDeNoche) resultadoNoche;
+        assertTrue(mementoNoche.contenido() instanceof MementoDeEliminacion);
         moderador.comenzarFaseDiurna();
 
-        assertEquals(1, moderador.numeroDeRonda(), "La ronda debe mantenerse en 0 durante el día");
+        assertEquals(1, moderador.numeroDeRonda(), "La ronda debe mantenerse en 1 durante el día");
 
         moderador.registrarVoto(ciudadano3, ciudadano2);
         moderador.registrarVoto(ciudadano4, ciudadano2);
-        AccionFase resultadoDia = moderador.resolverVotacion();
 
-        assertTrue(resultadoDia instanceof EliminarJugador, "La eliminación diurne debería ejecutarse con éxito");
+        Memento resultadoDia = moderador.resolverVotacion();
+        assertTrue(resultadoDia instanceof MementoDeDia, "La eliminación diurne debería ejecutarse con éxito");
+
+        MementoDeDia mementoDia = (MementoDeDia) resultadoDia;
+        assertTrue(mementoDia.contenido() instanceof MementoDeEliminacion);
 
         moderador.comenzarFaseNocturna();
 
-        assertEquals(2, moderador.numeroDeRonda(), "Al volver a la noche se inicia la Ronda 1");
+        assertEquals(2, moderador.numeroDeRonda(), "Al volver a la noche se inicia la Ronda 2");
     }
 }

@@ -24,7 +24,7 @@ public abstract class ControladorDeFasePorTurnos {
 
         Jugador jugadorActivo = this.turnosPendientes.poll();
         if (jugadorActivo != null) {
-            List<Jugador> elegibles = this.moderador.jugadoresVivos().stream()
+            List<Jugador> elegibles = this.candidatosValidos().stream()
                     .filter(j -> j != jugadorActivo)
                     .collect(Collectors.toList());
             this.configurarTurnoPara(jugadorActivo, elegibles);
@@ -32,6 +32,10 @@ public abstract class ControladorDeFasePorTurnos {
             this.faseResuelta = true;
             this.resolverFase();
         }
+    }
+
+    protected List<Jugador> candidatosValidos() {
+        return this.moderador.jugadoresVivos();
     }
 
     protected abstract void configurarTurnoPara(Jugador jugadorActivo, List<Jugador> elegibles);

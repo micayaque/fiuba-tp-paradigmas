@@ -1,7 +1,7 @@
 package edu.fiuba.paradigmas.controladores;
 
-import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.bando.Mafia;
+import edu.fiuba.paradigmas.modelo.historial.MementoDeInvestigacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
@@ -67,8 +67,8 @@ public class ControladorDeTurnoNocturno implements IdentificadorRol {
         this.vista.configurarBotonConValidacionDeSeleccion("Investigar", () -> {
             Jugador sospechoso = this.vista.obtenerJugadorSeleccionado();
 
-            Bando bando = this.moderador.registrarInvestigacion(this.jugadorActivo, sospechoso);
-            String textoBando = bando instanceof Mafia ? "Mafia" : "Ciudadano";
+            MementoDeInvestigacion investigacion = (MementoDeInvestigacion) this.moderador.registrarInvestigacion(this.jugadorActivo, sospechoso);
+            String textoBando = investigacion.bandoDescubierto() instanceof Mafia ? "Mafia" : "Ciudadano";
             this.vista.mostrarMensaje("Resultado de la investigación: " +  textoBando);
             this.vista.ocultarSelector();
             this.vista.configurarBotonLibre("Ocultar investigación y continuar", this.controlador::avanzarTurno);

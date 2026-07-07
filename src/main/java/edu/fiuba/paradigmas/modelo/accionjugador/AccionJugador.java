@@ -1,6 +1,11 @@
 package edu.fiuba.paradigmas.modelo.accionjugador;
 
-public interface AccionJugador {
-    void enVivo();
-    void enMuerto();
+public abstract class AccionJugador {
+    public abstract void enVivo();
+
+    public abstract void enMuerto();
+
+    public void enProtegido() {
+        this.enVivo();
+    }
 }

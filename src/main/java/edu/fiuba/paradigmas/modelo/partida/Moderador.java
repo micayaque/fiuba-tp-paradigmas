@@ -1,11 +1,12 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
 import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
-import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
+import edu.fiuba.paradigmas.modelo.historial.HistorialDePartida;
+import edu.fiuba.paradigmas.modelo.historial.Memento;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 import java.util.ArrayList;
@@ -17,12 +18,13 @@ public class Moderador {
     private Fase faseActual;
     private int numeroDeRonda;
 
-//    private final List<EventoFase> historialDePartida = new ArrayList<>();
+    private final HistorialDePartida historial;
 
     public Moderador(List<Jugador> jugadores, SistemaDeEmpate sistemaDeEmpateDiurno) {
         this.jugadores = jugadores;
         this.sistemaDeEmpateDiurno = sistemaDeEmpateDiurno;
         this.numeroDeRonda = 0;
+        this.historial = new HistorialDePartida();
     }
 
     public List<Jugador> jugadoresVivos() {
@@ -48,13 +50,15 @@ public class Moderador {
     }
 
     public void registrarProteccion(Jugador medico, Jugador protegido) {
-        this.faseActual.recibirProteccion(medico, protegido);
+        Memento resultado = this.faseActual.recibirProteccion(medico, protegido);
+        this.historial.registrar(resultado);
     }
 
-    public AccionFase resolverVotacion() {
+    public Memento resolverVotacion() {
         AccionFase accion = this.faseActual.ejecutarResultadoVotacion();
-//        this.historialDePartida.add(accion);
-        return accion;
+        Memento resultado = this.faseActual.envolverResultado(accion.guardarEstado());
+        this.historial.registrar(resultado);
+        return resultado;
     }
 
     public void comenzarFaseDiurna() {
@@ -85,8 +89,11 @@ public class Moderador {
         return this.numeroDeRonda;
     }
 
-    public Bando registrarInvestigacion(Jugador jugadorActivo, Jugador sospechoso) {
-        return jugadorActivo.investigarA(sospechoso);
+    public Memento registrarInvestigacion(Jugador jugadorActivo, Jugador sospechoso) {
+        Memento resultado = this.faseActual.recibirInvestigacion(jugadorActivo, sospechoso);
+        this.historial.registrar(resultado);
+        return resultado;
+
     }
 
     public Fase obtenerFaseActual() {
@@ -95,5 +102,14 @@ public class Moderador {
 
     public void avanzarFase() {
         this.faseActual.avanzar(this);
+    }
+
+    public void registrarRevelacionDeSheriff(Jugador jugador) {
+        Memento resultado = this.faseActual.recibirRevelacion(jugador);
+        this.historial.registrar(resultado);
+    }
+
+    public HistorialDePartida historialDePartida() {
+        return this.historial;
     }
 }

@@ -1,5 +1,8 @@
 package edu.fiuba.paradigmas.integracion.entrega_2;
 
+import edu.fiuba.paradigmas.modelo.historial.Memento;
+import edu.fiuba.paradigmas.modelo.historial.MementoDeInvestigacion;
+import edu.fiuba.paradigmas.modelo.historial.MementoDeProteccion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Detective;
@@ -20,10 +23,11 @@ public class InvestigacionDelDetectiveTest {
          Jugador detective = new Jugador("detective", new Detective());
          Jugador mafioso = new Jugador("mafioso", new Mafioso());
 
-         Bando resultado = detective.investigarA(mafioso);
+         Memento resultado = detective.investigarA(mafioso);
+         MementoDeInvestigacion resultadoInvestigacion = (MementoDeInvestigacion) resultado;
 
          List<Jugador> mafiosos = new ArrayList<>();
-         resultado.vistoPorMafia(mafioso, mafiosos);
+         resultadoInvestigacion.sospechoso().vistoPorMafia(mafiosos);
 
          assertFalse(mafiosos.isEmpty(),
                  "El bando anotado debió comportarse como Mafia y reaccionar al mensaje vistoPorMafia");
@@ -34,10 +38,12 @@ public class InvestigacionDelDetectiveTest {
          Jugador detective = new Jugador("detective", new Detective());
          Jugador ciudadano = new Jugador("ciudadano", new Ciudadano());
 
-         Bando resultado = detective.investigarA(ciudadano);
+         Memento resultado = detective.investigarA(ciudadano);
+         MementoDeInvestigacion resultadoInvestigacion = (MementoDeInvestigacion) resultado;
+         Bando bandoDescubierto = resultadoInvestigacion.bandoDescubierto();
 
          List<Jugador> mafiosos = new ArrayList<>();
-         resultado.vistoPorMafia(ciudadano, mafiosos);
+         bandoDescubierto.vistoPorMafia(ciudadano, mafiosos);
 
          assertTrue(mafiosos.isEmpty(),
                  "El bando anotado debió comportarse como Ciudadano y no reaccionar al mensaje vistoPorMafia");
