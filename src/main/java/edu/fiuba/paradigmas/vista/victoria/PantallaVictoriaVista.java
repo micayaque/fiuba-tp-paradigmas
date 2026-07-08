@@ -28,8 +28,8 @@ public class PantallaVictoriaVista extends StackPane {
         String colorFondo = ganaronCiudadanos ? "#0c3022" : "#1a0b10";
         String colorIcono = ganaronCiudadanos ? "#2ecc71" : "#e74c3c";
 
-        Label lblTituloLinea2 = new Label(ganaronCiudadanos ? "GANÓ" : "WINS");
-        Label lblTituloLinea1 = new Label(ganaronCiudadanos ? "CIUDADANOS!" : "MAFIA!");
+        Label lblTituloLinea1 = new Label(ganaronCiudadanos ? "¡GANARON" : "GANÓ");
+        Label lblTituloLinea2 = new Label(ganaronCiudadanos ? "LOS CIUDADANOS!": "LA MAFIA!");
 
         String subtituloTexto = ganaronCiudadanos ? "¡Se ha hecho justicia!" : "La aldea ha caído";
 
