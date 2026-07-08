@@ -6,6 +6,5 @@ public class PartidaEnCurso implements ResultadoPartida {
 
     @Override
     public void ejecutar(Fase fase, Moderador moderador) {
-        fase.avanzar(moderador);
     }
 }

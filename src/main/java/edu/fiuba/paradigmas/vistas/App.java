@@ -1,67 +1,32 @@
 package edu.fiuba.paradigmas.vistas;
 
-import edu.fiuba.paradigmas.controladores.*;
-import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
-import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.partida.Moderador;
+import edu.fiuba.paradigmas.controladores.ControladorDeJuego;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.List;
-
+/**
+ * JavaFX App
+ */
 public class App extends Application {
-    private Stage escenarioPrincipal;
 
     @Override
-    public void start(Stage escenarioPrincipal) {
-        this.escenarioPrincipal = escenarioPrincipal;
-        this.escenarioPrincipal.setTitle("Mafia");
-        this.escenarioPrincipal.setMinWidth(780);
-        this.escenarioPrincipal.setMinHeight(620);
-        this.escenarioPrincipal.setResizable(true);
+    public void start(Stage stage) {
+        stage.setTitle("La Mafia");
 
-        this.escenarioPrincipal.setMaximized(true);
+        stage.setWidth(480);
+        stage.setHeight(830);
 
-        this.irABienvenida();
-        this.escenarioPrincipal.show();
+        stage.setMinWidth(480);
+        stage.setMinHeight(830);
+
+        ControladorDeJuego controlador = new ControladorDeJuego(stage);
+        controlador.irABienvenida();
+
+        stage.show();
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
 
-    public void irABienvenida() {
-        BienvenidaVista vista = new BienvenidaVista();
-        new BienvenidaController(vista, this);
-        this.escenarioPrincipal.setScene(new Scene(vista));
-    }
-
-    public void irAConfiguracion() {
-        ConfiguracionVista vista = new ConfiguracionVista();
-        new ConfiguracionController(vista, this);
-        this.setScene(vista);
-    }
-
-    public void irARepartoDeRoles(List<Jugador> jugadoresCreados, SistemaDeEmpate estrategia){
-        RepartoVista vista = new RepartoVista();
-        new RepartoController(vista, this, jugadoresCreados, estrategia);
-        this.setScene(vista);
-    }
-
-    public void iniciarPartida(List<Jugador> jugadoresListos, SistemaDeEmpate estrategia) {
-        Moderador moderadorInicial = new Moderador(jugadoresListos, estrategia);
-        moderadorInicial.comenzarFaseNocturna();
-        ControladorDeJuego orquestador = new ControladorDeJuego(this.escenarioPrincipal, moderadorInicial);
-        orquestador.iniciarJuego();
-    }
-    
-    public void setScene(javafx.scene.Parent raiz) {
-        Scene escenaActual = this.escenarioPrincipal.getScene();
-        if (escenaActual != null) {
-            escenaActual.setRoot(raiz);
-        } else {
-            this.escenarioPrincipal.setScene(new Scene(raiz));
-        }
-    }
 }

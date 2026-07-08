@@ -1,99 +1,57 @@
 package edu.fiuba.paradigmas.controladores;
 
-import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
-import edu.fiuba.paradigmas.modelo.fase.FaseNocturna;
-import edu.fiuba.paradigmas.modelo.historial.Memento;
-import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
-import edu.fiuba.paradigmas.modelo.partida.PartidaEnCurso;
-import edu.fiuba.paradigmas.modelo.partida.ResultadoPartida;
-import edu.fiuba.paradigmas.vistas.EstadoPartidaVista;
-import edu.fiuba.paradigmas.vistas.FaseDiurnaVista;
-import edu.fiuba.paradigmas.vistas.FaseNocturnaVista;
+import edu.fiuba.paradigmas.vistas.bienvenida.BienvenidaVista;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.List;
-
 public class ControladorDeJuego {
 
-    private final Stage stage;
-    private final Moderador moderador;
+    private final Stage escenarioPrincipal;
+    private Moderador moderador;
 
-    public ControladorDeJuego(Stage stage, Moderador moderador) {
-        this.stage = stage;
-        this.moderador = moderador;
+    public ControladorDeJuego(Stage stage) {
+        this.escenarioPrincipal = stage;
     }
 
-    public void iniciarJuego() {
-        this.evaluarSiguientePaso();
-    }
-
-    public void evaluarSiguientePaso() {
-        ResultadoPartida resultado = this.moderador.evaluarGanador();
-        if (resultado instanceof PartidaEnCurso) {
-            if (this.moderador.obtenerFaseActual() instanceof FaseNocturna) {
-                this.irAFaseNocturna();
-            } else if (this.moderador.obtenerFaseActual() instanceof FaseDiurna) {
-                this.irAFaseDiurna();
-            }
-        } else {
-            this.irAPantallaDeVictoria(resultado);
-        }
-    }
-
-    public void irAFaseNocturna() {
-        FaseNocturnaVista vista = new FaseNocturnaVista();
-        new FaseNocturnaController(vista, this, this.moderador);
+    public void irABienvenida() {
+        BienvenidaVista vista = new BienvenidaVista();
+        vista.configurarBotonContinuar(this::irAConfiguracion);
         this.cambiarEscena(vista);
     }
 
-    public void irAFaseDiurna() {
-        FaseDiurnaVista vista = new FaseDiurnaVista();
-        new FaseDiurnaController(vista, this, this.moderador);
-        this.cambiarEscena(vista);
+    public void irAConfiguracion() {
+        new ConfiguracionControlador(this);
     }
 
-    private void irAFaseDiurnaBallotage(List<Jugador> empatados) {
-        FaseDiurnaVista vista = new FaseDiurnaVista();
-        new FaseDiurnaController(vista, this, this.moderador, empatados);
-        this.cambiarEscena(vista);
+    public void iniciarPartida(Moderador moderadorConfigurado) {
+        this.moderador = moderadorConfigurado;
+        this.irAFaseApertura();
     }
 
-    public void irAEstadoPartidaPreDia(Memento resultadoNoche) {
-        EstadoPartidaVista vista = new EstadoPartidaVista();
-        new EstadoPartidaController(vista, this.moderador, resultadoNoche,
-                this::evaluarSiguientePaso, "Continuar al Día");
-        this.cambiarEscena(vista);
+    private void irAFaseApertura() {
+        new FaseAperturaControlador(this, this.moderador);
     }
 
-    public void irAEstadoPartidaPreNoche(Memento resultadoDia) {
-        EstadoPartidaVista vista = new EstadoPartidaVista();
-        new EstadoPartidaController(vista, this.moderador, resultadoDia,
-                this::evaluarSiguientePaso, "Que caiga la noche");
-        this.cambiarEscena(vista);
+    public void iniciarPrimeraNoche() {
+        new FaseNocturnaControlador(this, this.moderador);
     }
 
-    public void irAEstadoPartidaPreBallotage(Memento resultadoBallotage, List<Jugador> empatados) {
-        EstadoPartidaVista vista = new EstadoPartidaVista();
-        new EstadoPartidaController(vista, this.moderador, resultadoBallotage,
-                () -> this.irAFaseDiurnaBallotage(empatados), "Comenzar Ballotage");
-        this.cambiarEscena(vista);
-    }
-
-    private void irAPantallaDeVictoria(ResultadoPartida resultado) {
-        EstadoPartidaVista vista = new EstadoPartidaVista();
-        new EstadoPartidaController(vista, this.moderador, null,
-                () -> System.exit(0), "Cerrar Juego");
-        this.cambiarEscena(vista);
-    }
-
-    private void cambiarEscena(javafx.scene.Parent nuevaVista) {
-        Scene escenaActual = this.stage.getScene();
+    public void cambiarEscena(Parent nuevaVista) {
+        Scene escenaActual = this.escenarioPrincipal.getScene();
         if (escenaActual != null) {
             escenaActual.setRoot(nuevaVista);
         } else {
-            this.stage.setScene(new Scene(nuevaVista));
+            this.escenarioPrincipal.setScene(new Scene(nuevaVista));
         }
+    }
+
+    public void irAResumen(Moderador moderadorFinalizado) {
+        new ResumenHistorialControlador(this, moderadorFinalizado);
+    }
+
+    public void volverAlMenu() {
+        this.irABienvenida();
     }
 }

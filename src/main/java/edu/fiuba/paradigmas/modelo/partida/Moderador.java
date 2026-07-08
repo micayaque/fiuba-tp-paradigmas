@@ -1,6 +1,8 @@
 package edu.fiuba.paradigmas.modelo.partida;
 
 import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
+import edu.fiuba.paradigmas.modelo.bando.Mafia;
 import edu.fiuba.paradigmas.modelo.empate.SistemaDeEmpate;
 import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
@@ -39,19 +41,14 @@ public class Moderador {
         return eliminados;
     }
 
-    public void anunciarVictoriaMafia() {
-    }
-
-    public void anunciarVictoriaCiudadanos() {
-    }
-
     public void registrarVoto(Jugador votante, Jugador votado) {
         this.faseActual.recibirVoto(votante, votado);
     }
 
-    public void registrarProteccion(Jugador medico, Jugador protegido) {
+    public Memento registrarProteccion(Jugador medico, Jugador protegido) {
         Memento resultado = this.faseActual.recibirProteccion(medico, protegido);
         this.historial.registrar(resultado);
+        return resultado;
     }
 
     public Memento resolverVotacion() {
@@ -69,10 +66,6 @@ public class Moderador {
     public void comenzarFaseNocturna() {
         this.faseActual = new FaseNocturna();
         this.numeroDeRonda++;
-    }
-
-    public ResultadoPartida resolverFase() {
-        return this.evaluarGanador();
     }
 
     public ResultadoPartida evaluarGanador() {
@@ -96,10 +89,6 @@ public class Moderador {
 
     }
 
-    public Fase obtenerFaseActual() {
-        return this.faseActual;
-    }
-
     public void avanzarFase() {
         this.faseActual.avanzar(this);
     }
@@ -112,4 +101,5 @@ public class Moderador {
     public HistorialDePartida historialDePartida() {
         return this.historial;
     }
+
 }

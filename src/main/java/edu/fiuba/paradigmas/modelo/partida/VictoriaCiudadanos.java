@@ -6,6 +6,5 @@ public class VictoriaCiudadanos implements ResultadoPartida {
 
     @Override
     public void ejecutar(Fase fase, Moderador moderador) {
-        moderador.anunciarVictoriaCiudadanos();
     }
 }

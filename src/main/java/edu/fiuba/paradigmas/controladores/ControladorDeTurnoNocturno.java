@@ -1,24 +1,27 @@
 package edu.fiuba.paradigmas.controladores;
 
-import edu.fiuba.paradigmas.modelo.bando.Mafia;
-import edu.fiuba.paradigmas.modelo.historial.MementoDeInvestigacion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.partida.Moderador;
 import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
-import edu.fiuba.paradigmas.vistas.FaseNocturnaVista;
+import edu.fiuba.paradigmas.vistas.fase.nocturna.InactivoNocturnoVista;
+import edu.fiuba.paradigmas.vistas.fase.nocturna.ResultadoInvestigacionVista;
+import edu.fiuba.paradigmas.vistas.fase.nocturna.VotacionNocturnaVista;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ControladorDeTurnoNocturno implements IdentificadorRol {
 
     private final Jugador jugadorActivo;
-    private final FaseNocturnaVista vista;
     private final Moderador moderador;
-    private final FaseNocturnaController controlador;
+    private final FaseNocturnaControlador controlador;
+    private final List<String> nombresVivos;
 
-    public ControladorDeTurnoNocturno(Jugador jugadorActivo, FaseNocturnaVista vista, Moderador moderador, FaseNocturnaController controlador) {
+    public ControladorDeTurnoNocturno(Jugador jugadorActivo, Moderador moderador, FaseNocturnaControlador controlador) {
         this.jugadorActivo = jugadorActivo;
-        this.vista = vista;
         this.moderador = moderador;
         this.controlador = controlador;
+        this.nombresVivos = new ArrayList<>();
+        this.moderador.jugadoresVivos().forEach(j -> this.nombresVivos.add(j.nombre()));
     }
 
     public void configurarPantalla() {
@@ -27,18 +30,17 @@ public class ControladorDeTurnoNocturno implements IdentificadorRol {
 
     @Override
     public void esMafioso() {
-        this.vista.setTitulo("Mafia - " + this.jugadorActivo.nombre());
-        this.vista.setInstruccion("Elegí a tu víctima para esta noche.");
-
-        this.vista.configurarBotonConValidacionDeSeleccion("Asesinar", () -> {
-            Jugador victima = this.vista.obtenerJugadorSeleccionado();
+        VotacionNocturnaVista vista = new VotacionNocturnaVista("Mafia", "💀", "#ff416c", "Elige a quién eliminar", nombresVivos);
+        vista.configurarAcciones(false, seleccion -> {
             try {
+                Jugador victima = controlador.buscarJugadorPorNombre(seleccion);
                 this.moderador.registrarVoto(this.jugadorActivo, victima);
-                this.controlador.avanzarTurno();
+                this.controlador.avanzarAlSiguienteTurno();
             } catch (RuntimeException excepcion) {
-                this.vista.mostrarMensaje(excepcion.getMessage());
+                vista.mostrarAdvertencia(excepcion.getMessage());
             }
         });
+        this.controlador.orquestador.cambiarEscena(vista);
     }
 
     @Override
@@ -48,46 +50,49 @@ public class ControladorDeTurnoNocturno implements IdentificadorRol {
 
     @Override
     public void esMedico() {
-        this.vista.setTitulo("Médico - " + this.jugadorActivo.nombre());
-        this.vista.setInstruccion("Elegí a qué jugador querés proteger esta noche.");
-
-        this.vista.configurarBotonConValidacionDeSeleccion("Proteger", () -> {
-            Jugador paciente = this.vista.obtenerJugadorSeleccionado();
-
-            this.moderador.registrarProteccion(this.jugadorActivo, paciente);
-            this.controlador.avanzarTurno();
+        VotacionNocturnaVista vista = new VotacionNocturnaVista("Médico", "➕", "#00b894", "Elige a quién proteger", nombresVivos);
+        vista.configurarAcciones(false, seleccion -> {
+            try {
+                Jugador protegido = controlador.buscarJugadorPorNombre(seleccion);
+                this.controlador.registrarEventoNocturno(this.moderador.registrarProteccion(this.jugadorActivo, protegido));
+                this.controlador.avanzarAlSiguienteTurno();
+            } catch (RuntimeException ex) {
+                vista.mostrarAdvertencia(ex.getMessage());
+            }
         });
+        this.controlador.orquestador.cambiarEscena(vista);
     }
 
     @Override
     public void esDetective() {
-        this.vista.setTitulo("Detective - " + this.jugadorActivo.nombre());
-        this.vista.setInstruccion("Elegí a un jugador para investigar su bando.");
-
-        this.vista.configurarBotonConValidacionDeSeleccion("Investigar", () -> {
-            Jugador sospechoso = this.vista.obtenerJugadorSeleccionado();
-
-            MementoDeInvestigacion investigacion = (MementoDeInvestigacion) this.moderador.registrarInvestigacion(this.jugadorActivo, sospechoso);
-            String textoBando = investigacion.bandoDescubierto() instanceof Mafia ? "Mafia" : "Ciudadano";
-            this.vista.mostrarMensaje("Resultado de la investigación: " +  textoBando);
-            this.vista.ocultarSelector();
-            this.vista.configurarBotonLibre("Ocultar investigación y continuar", this.controlador::avanzarTurno);
+        VotacionNocturnaVista vista = new VotacionNocturnaVista("Detective", "🔍", "#3182ce", "Elige a quién investigar", nombresVivos);
+        vista.configurarAcciones(false, seleccion -> {
+            try {
+                Jugador sospechoso = controlador.buscarJugadorPorNombre(seleccion);
+                edu.fiuba.paradigmas.modelo.historial.Memento mementoBruto = this.moderador.registrarInvestigacion(this.jugadorActivo, sospechoso);
+                this.controlador.registrarEventoNocturno(mementoBruto);
+                edu.fiuba.paradigmas.modelo.historial.MementoDeInvestigacion inv = (edu.fiuba.paradigmas.modelo.historial.MementoDeInvestigacion) this.controlador.desenvolver(mementoBruto);
+                String bando = inv.bandoDescubierto().getClass().getSimpleName();
+                ResultadoInvestigacionVista vistaResultado = new ResultadoInvestigacionVista(sospechoso.nombre(), bando);
+                vistaResultado.configurarBotonAvanzar(this.controlador::avanzarAlSiguienteTurno);
+                this.controlador.orquestador.cambiarEscena(vistaResultado);
+            } catch (RuntimeException ex) {
+                vista.mostrarAdvertencia(ex.getMessage());
+            }
         });
+
+        this.controlador.orquestador.cambiarEscena(vista);
     }
 
     @Override
     public void esCiudadano() {
-        this.vista.setTitulo("Ciudadano - " + this.jugadorActivo.nombre());
-        this.vista.setInstruccion("Sos un ciudadano común. No tenés acciones nocturnas.\nTomate unos segundos y simulá estar eligiendo a alguien para no levantar sospechas.");
-        this.vista.ocultarSelector();
-        this.vista.configurarBotonLibre("Ocultar y continuar", this.controlador::avanzarTurno);
+        InactivoNocturnoVista vistaInactiva = new InactivoNocturnoVista();
+        vistaInactiva.configurarBotonAvanzar(this.controlador::avanzarAlSiguienteTurno);
+        this.controlador.orquestador.cambiarEscena(vistaInactiva);
     }
 
     @Override
     public void esSheriff() {
-        this.vista.setTitulo("Sheriff - " + this.jugadorActivo.nombre());
-        this.vista.setInstruccion("Tu rol es de acción diurna. No tenés acciones nocturnas.\nHacé tiempo unos segundos para despistar a la mafia.");
-        this.vista.ocultarSelector();
-        this.vista.configurarBotonLibre("Ocultar y continuar", this.controlador::avanzarTurno);
+        this.esCiudadano();
     }
 }
