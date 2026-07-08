@@ -30,7 +30,7 @@ public class PantallaVictoriaVista extends StackPane {
 
         Label lblTituloLinea1 = new Label(ganaronCiudadanos ? "¡GANARON" : "GANÓ");
         Label lblTituloLinea2 = new Label(ganaronCiudadanos ? "LOS CIUDADANOS!": "LA MAFIA!");
-        
+
         String subtituloTexto = ganaronCiudadanos ? "¡Se ha hecho justicia!" : "La aldea ha caído";
 
         this.setStyle("-fx-background-color: " + colorFondo + ";");

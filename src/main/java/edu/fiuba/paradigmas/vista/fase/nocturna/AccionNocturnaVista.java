@@ -15,12 +15,12 @@ import javafx.scene.text.FontWeight;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class VotacionNocturnaVista extends StackPane {
+public class AccionNocturnaVista extends StackPane {
 
     private final ListaObjetivos listaObjetivos;
     private final EtiquetaAdvertencia lblAdvertencia;
 
-    public VotacionNocturnaVista(String tituloRol, String iconoRol, String colorTema, String accionPrompt, List<String> objetivos) {
+    public AccionNocturnaVista(String tituloRol, String iconoRol, String colorTema, String accionPrompt, List<String> objetivos) {
 
         FondoEstrellas capaFondo = new FondoEstrellas("#060e17", "");
 
