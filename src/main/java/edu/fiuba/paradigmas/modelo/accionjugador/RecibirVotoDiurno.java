@@ -2,10 +2,10 @@ package edu.fiuba.paradigmas.modelo.accionjugador;
 
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.votacion.Urna;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 
-public class RecibirVotoDiurno implements AccionJugador {
+public class RecibirVotoDiurno extends AccionJugador {
     private final Jugador candidato;
     private final Urna votacion;
 
@@ -15,10 +15,12 @@ public class RecibirVotoDiurno implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() { this.votacion.agregarVoto(new Voto(this.candidato)); }
+    public void enVivo() {
+        this.votacion.agregarVoto(new Voto(this.candidato));
+    }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("Un jugador muerto no puede recibir una votación.");
     }
 }

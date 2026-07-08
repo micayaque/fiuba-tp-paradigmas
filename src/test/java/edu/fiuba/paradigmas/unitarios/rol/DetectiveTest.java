@@ -1,20 +1,24 @@
 package edu.fiuba.paradigmas.unitarios.rol;
 
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.excepciones.rol.InvestigacionRepetidaExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Detective;
 import edu.fiuba.paradigmas.modelo.rol.Mafioso;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 import org.junit.jupiter.api.Test;
+
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DetectiveTest {
     @Test
     public void elDetectiveSumaCorrectamenteEnElContadorDeRoles() {
-        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
+        Random random = new Random();
+        CreadorDeJugadores contador = new CreadorDeJugadores(random);
         Detective detective = new Detective();
 
         detective.contarseEn(contador);

@@ -1,9 +1,9 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
 import edu.fiuba.paradigmas.modelo.bando.Mafia;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
 public class Mafioso extends Rol {
@@ -13,14 +13,19 @@ public class Mafioso extends Rol {
     }
 
     @Override
-    public void contarseEn(ValidadorDeComposicionDelMazo contador) {
+    public void contarseEn(CreadorDeJugadores contador) {
         contador.sumarMafioso();
     }
 
     @Override
-    public void votarComoMafiosoA(Jugador victima, UrnaDeVotacion urnaVotacion) {
+    public void votarComoMafiosoA(Jugador victima, Urna urnaVotacion) {
         Voto miVoto = new Voto(victima);
         victima.recibirVotoMafioso(miVoto, urnaVotacion);
+    }
+
+    @Override
+    public void identificarseEn(IdentificadorRol identificador) {
+        identificador.esMafioso();
     }
 
 }

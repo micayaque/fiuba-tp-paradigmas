@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,14 +26,14 @@ public class ComposicionMazoTest {
     public void con5Jugadores_1MafiosoYUnEspecialEsValido() {
         List<Rol> roles = List.of(new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano(), new Ciudadano());
 
-        assertDoesNotThrow(() -> new CreadorDeJugadores().crearPartida(nombres(roles.size()), roles));
+        assertDoesNotThrow(() -> new CreadorDeJugadores(new Random()).crearPartida(nombres(roles.size()), roles));
     }
 
     @Test
     public void con5Jugadores_2MafiososTambienEsValido() {
         List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano());
 
-        assertDoesNotThrow(() -> new CreadorDeJugadores().crearPartida(nombres(roles.size()), roles));
+        assertDoesNotThrow(() -> new CreadorDeJugadores(new Random()).crearPartida(nombres(roles.size()), roles));
     }
 
     @Test
@@ -40,7 +41,7 @@ public class ComposicionMazoTest {
         List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(), new Medico(),
                 new Ciudadano(), new Ciudadano(), new Ciudadano());
 
-        assertDoesNotThrow(() -> new CreadorDeJugadores().crearPartida(nombres(roles.size()), roles));
+        assertDoesNotThrow(() -> new CreadorDeJugadores(new Random()).crearPartida(nombres(roles.size()), roles));
     }
 
     @Test
@@ -49,7 +50,7 @@ public class ComposicionMazoTest {
                 new Detective(), new Medico(), new Sheriff(),
                 new Ciudadano(), new Ciudadano(), new Ciudadano(), new Ciudadano());
 
-        assertDoesNotThrow(() -> new CreadorDeJugadores().crearPartida(nombres(roles.size()), roles));
+        assertDoesNotThrow(() -> new CreadorDeJugadores(new Random()).crearPartida(nombres(roles.size()), roles));
     }
 
     @Test
@@ -58,7 +59,7 @@ public class ComposicionMazoTest {
                 new Detective(), new Ciudadano());
 
         assertThrows(ComposicionInvalidaExcepcion.class,
-                () -> new CreadorDeJugadores().crearPartida(nombres(roles.size()), roles));
+                () -> new CreadorDeJugadores(new Random()).crearPartida(nombres(roles.size()), roles));
     }
 
     @Test
@@ -67,7 +68,7 @@ public class ComposicionMazoTest {
                 new Ciudadano(), new Ciudadano());
 
         assertThrows(ComposicionInvalidaExcepcion.class,
-                () -> new CreadorDeJugadores().crearPartida(nombres(roles.size()), roles));
+                () -> new CreadorDeJugadores(new Random()).crearPartida(nombres(roles.size()), roles));
     }
 
     @Test
@@ -76,7 +77,7 @@ public class ComposicionMazoTest {
                 new Ciudadano(), new Ciudadano());
 
         assertThrows(ComposicionInvalidaExcepcion.class,
-                () -> new CreadorDeJugadores().crearPartida(nombres(roles.size()), roles));
+                () -> new CreadorDeJugadores(new Random()).crearPartida(nombres(roles.size()), roles));
     }
 
     @Test
@@ -84,6 +85,6 @@ public class ComposicionMazoTest {
         List<Rol> roles = List.of(new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano());
 
         assertThrows(CantidadDeJugadoresInvalidaExcepcion.class,
-                () -> new CreadorDeJugadores().crearPartida(nombres(roles.size()), roles));
+                () -> new CreadorDeJugadores(new Random()).crearPartida(nombres(roles.size()), roles));
     }
 }

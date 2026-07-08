@@ -1,8 +1,8 @@
 package edu.fiuba.paradigmas.unitarios.urna;
 
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.accionVotacion.DeclararNocheSinJugadorEliminado;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.accionFase.FaseSinJugadorEliminado;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,7 +73,7 @@ public class VotoTest {
 
         assertTrue(acumulado.empataCon(votoDobleDeReferencia));
         assertTrue(acumulado.mayorEstricto(votoSimpleDeReferencia));
-        AccionVotacion accion = new DeclararNocheSinJugadorEliminado();
+        AccionFase accion = new FaseSinJugadorEliminado();
         assertEquals(accion, acumulado.resolverDesempate(accion));
     }
 
@@ -89,8 +89,8 @@ public class VotoTest {
     @Test
     public void unVotoComunNoAlteraLaAccionNocturnaAlIntentarDesempatar() {
         Voto voto = new Voto(victima);
-        AccionVotacion sentenciaPrevia = new DeclararNocheSinJugadorEliminado();
-        AccionVotacion resultado = voto.resolverDesempate(sentenciaPrevia);
+        AccionFase sentenciaPrevia = new FaseSinJugadorEliminado();
+        AccionFase resultado = voto.resolverDesempate(sentenciaPrevia);
 
         assertEquals(sentenciaPrevia, resultado);
     }

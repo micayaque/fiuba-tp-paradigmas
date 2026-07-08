@@ -1,14 +1,18 @@
 package edu.fiuba.paradigmas.unitarios.rol;
 
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.rol.Sheriff;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SheriffTest {
     @Test
     public void elSheriffSumaCorrectamenteEnElContadorDeRoles() {
-        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
+        Random random = new Random();
+        CreadorDeJugadores contador = new CreadorDeJugadores(random);
         Sheriff sheriff = new Sheriff();
 
         sheriff.contarseEn(contador);

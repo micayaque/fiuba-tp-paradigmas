@@ -4,7 +4,7 @@ import edu.fiuba.paradigmas.modelo.bando.Bando;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 
-public class RecibirInvestigacion implements AccionJugador {
+public class RecibirInvestigacion extends AccionJugador {
     private final Jugador sospechoso;
     private Bando bandoRevelado;
 
@@ -13,12 +13,12 @@ public class RecibirInvestigacion implements AccionJugador {
     }
 
     @Override
-    public void ejecutar() {
+    public void enVivo() {
         this.bandoRevelado = this.sospechoso.continuarRevelandoIdentidad();
     }
 
     @Override
-    public void rechazar() {
+    public void enMuerto() {
         throw new JugadorMuertoExcepcion("No se puede investigar a un jugador muerto.");
     }
 

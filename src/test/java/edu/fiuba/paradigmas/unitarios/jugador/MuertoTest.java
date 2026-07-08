@@ -7,8 +7,8 @@ import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Estado;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.jugador.Muerto;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +36,7 @@ public class MuertoTest {
     public void unEstadoMuertoLanzaExcepcionAlIntentarVotar() {
         Estado muerto = new Muerto();
         Jugador jugador = new Jugador("ciudadano", new Ciudadano());
-        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
+        Urna urnaVotacion = new Urna(new EmpateDiurnoSinEliminacion());
 
         AccionJugador comando = new VotarComoMafioso(jugador, jugador, urnaVotacion);
         assertThrows(JugadorMuertoExcepcion.class, () -> muerto.procesarAccion(comando)
@@ -47,7 +47,7 @@ public class MuertoTest {
     public void unEstadoMuertoLanzaExcepcionAlRecibirUnVoto() {
         Estado muerto = new Muerto();
         Jugador victima = new Jugador("ciudadano", new Ciudadano());
-        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoBallotage());
+        Urna urnaVotacion = new Urna(new EmpateDiurnoBallotage());
 
         AccionJugador comando = new RecibirVotoNocturno(victima, new Voto(victima), urnaVotacion);
 
@@ -83,7 +83,7 @@ public class MuertoTest {
     public void estadoMuertoLanzaExcepcionAlNominar() {
         Estado muerto = new Muerto();
 
-        AccionJugador comando = new VotarComoCiudadano(mock(Jugador.class), mock(Jugador.class), mock(UrnaDeVotacion.class));
+        AccionJugador comando = new VotarComoCiudadano(mock(Jugador.class), mock(Jugador.class), mock(Urna.class));
 
         assertThrows(JugadorMuertoExcepcion.class, () ->
                 muerto.procesarAccion(comando)

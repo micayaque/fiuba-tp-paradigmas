@@ -2,7 +2,7 @@ package edu.fiuba.paradigmas.integracion.entrega_2;
 
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
+import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class NominacionDiurnaTest {
         muerto.morir();
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> fase.recibirNominacion(muerto, vivo),
+                () -> fase.recibirVoto(muerto, vivo),
                 "Un muerto no debería poder nominar");
     }
 
@@ -34,7 +34,7 @@ public class NominacionDiurnaTest {
         nominador.morir();
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> fase.recibirNominacion(nominador, nominado),
+                () -> fase.recibirVoto(nominador, nominado),
                 "No se debería poder nominar a un jugador muerto");
     }
 
@@ -44,9 +44,9 @@ public class NominacionDiurnaTest {
         Jugador nominador = new Jugador("nominador", new Ciudadano());
         Jugador nominado = new Jugador("nominado", new Ciudadano());
 
-        fase.recibirNominacion(nominador, nominado);
+        fase.recibirVoto(nominador, nominado);
 
-        List<Jugador> nominados = fase.iniciarVotacion();
+        List<Jugador> nominados = fase.votados();
 
         assertTrue(nominados.contains(nominado), "El jugador nominado debería aparecer en la lista");
         assertEquals(1, nominados.size(), "Debería haber exactamente un nominado");

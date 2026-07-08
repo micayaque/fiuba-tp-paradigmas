@@ -1,10 +1,10 @@
 package edu.fiuba.paradigmas.unitarios.urna;
 
-import edu.fiuba.paradigmas.modelo.Fase;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
-import edu.fiuba.paradigmas.modelo.votacion.ResultadoVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class UrnaDeVotacionTest {
     @Test
     public void devuelveAlJugadorConLaMayoriaDeVotos() {
         Fase fase = mock(Fase.class);
-        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
+        Urna urnaVotacion = new Urna(new EmpateDiurnoSinEliminacion());
 
         Jugador ciudadano1 = new Jugador("ciudadano1", new Ciudadano());
         Jugador ciudadano2 = new Jugador("ciudadano2", new Ciudadano());
@@ -30,8 +30,8 @@ public class UrnaDeVotacionTest {
         urnaVotacion.agregarVoto(new Voto(ciudadano1));
         urnaVotacion.agregarVoto(new Voto(ciudadano2));
 
-        ResultadoVotacion resultadoVotacion = urnaVotacion.contarVotos();
-        resultadoVotacion.resolver().ejecutar(fase);
+        AccionFase resultadoVotacion = urnaVotacion.contarVotos();
+        resultadoVotacion.ejecutar(fase);
 
         List<Jugador> vivos = new ArrayList<>();
         ciudadano1.estaVivo(vivos);
@@ -44,7 +44,7 @@ public class UrnaDeVotacionTest {
     @Test
     public void unNuevoCandidatoMayorLimpiaLosEmpatesPrevios() {
         Fase  fase = mock(Fase.class);
-        UrnaDeVotacion urnaVotacion = new UrnaDeVotacion(new EmpateDiurnoSinEliminacion());
+        Urna urnaVotacion = new Urna(new EmpateDiurnoSinEliminacion());
         Jugador empatado1 = new Jugador("A", new Ciudadano());
         Jugador empatado2 = new Jugador("B", new Ciudadano());
         Jugador ganador = new Jugador("C", new Ciudadano());
@@ -55,8 +55,8 @@ public class UrnaDeVotacionTest {
         urnaVotacion.agregarVoto(new Voto(ganador));
         urnaVotacion.agregarVoto(new Voto(ganador));
 
-        ResultadoVotacion resultadoVotacion = urnaVotacion.contarVotos();
-        resultadoVotacion.resolver().ejecutar(fase);
+        AccionFase resultadoVotacion = urnaVotacion.contarVotos();
+        resultadoVotacion.ejecutar(fase);
 
         List<Jugador> vivos = new ArrayList<>();
         ganador.estaVivo(vivos);

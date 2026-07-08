@@ -1,11 +1,9 @@
 package edu.fiuba.paradigmas.modelo.rol;
 
-import edu.fiuba.paradigmas.modelo.accionjugador.AccionJugador;
-import edu.fiuba.paradigmas.modelo.accionjugador.RecibirProteccion;
 import edu.fiuba.paradigmas.modelo.bando.Ciudadanos;
- import edu.fiuba.paradigmas.modelo.excepciones.rol.ProteccionRepetidaExcepcion;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
+import edu.fiuba.paradigmas.modelo.excepciones.rol.ProteccionRepetidaExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 
 public class Medico extends Rol {
 
@@ -16,17 +14,22 @@ public class Medico extends Rol {
     }
 
     @Override
-    public void contarseEn(ValidadorDeComposicionDelMazo contador) {
+    public void contarseEn(CreadorDeJugadores contador) {
         contador.sumarMedico();
     }
+
 
     @Override
     public void protegerComoMedico(Jugador protegido) {
          if (protegido == this.ultimoProtegido) {
              throw new ProteccionRepetidaExcepcion("El Médico no puede proteger al mismo jugador dos noches consecutivas.");
          }
-         AccionJugador comando = new RecibirProteccion(protegido);
-         comando.ejecutar();
+         protegido.recibirProteccion();
          this.ultimoProtegido = protegido;
     }
+
+        @Override
+        public void identificarseEn(IdentificadorRol identificador) {
+            identificador.esMedico();
+        }
 }

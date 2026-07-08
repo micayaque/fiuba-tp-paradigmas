@@ -1,12 +1,12 @@
 package edu.fiuba.paradigmas.unitarios.urna;
 
-import edu.fiuba.paradigmas.modelo.Fase;
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.accionVotacion.DeclararNocheSinJugadorEliminado;
+import edu.fiuba.paradigmas.modelo.fase.Fase;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
+import edu.fiuba.paradigmas.modelo.accionFase.FaseSinJugadorEliminado;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
-import edu.fiuba.paradigmas.modelo.fasediurna.FaseDiurna;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
-import edu.fiuba.paradigmas.modelo.votacion.VotoDelPadrino;
+import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
+import edu.fiuba.paradigmas.modelo.voto.VotoDelPadrino;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,8 +38,8 @@ public class VotoDelPadrinoTest {
         assertTrue(votoComunTriple.mayorEstricto(acumulado));
 
         Fase fase = new FaseDiurna(new EmpateDiurnoSinEliminacion());
-        AccionVotacion accionPacifica = new DeclararNocheSinJugadorEliminado();
-        AccionVotacion resolucion = acumulado.resolverDesempate(accionPacifica);
+        AccionFase accionPacifica = new FaseSinJugadorEliminado();
+        AccionFase resolucion = acumulado.resolverDesempate(accionPacifica);
         resolucion.ejecutar(fase);
 
         verify(jugador1, times(1)).morir();
@@ -49,9 +49,9 @@ public class VotoDelPadrinoTest {
     public void votoDelPadrinoResuelveEmpateEjecutandoLaMuerteDeSuCandidato() {
         Fase fase = mock(Fase.class);
         Voto votoPadrino = new VotoDelPadrino(jugador1);
-        AccionVotacion accionPacifica = new DeclararNocheSinJugadorEliminado();
+        AccionFase accionPacifica = new FaseSinJugadorEliminado();
 
-        AccionVotacion nuevaAccion = votoPadrino.resolverDesempate(accionPacifica);
+        AccionFase nuevaAccion = votoPadrino.resolverDesempate(accionPacifica);
 
         nuevaAccion.ejecutar(fase);
 

@@ -1,15 +1,16 @@
 package edu.fiuba.paradigmas.unitarios.rol;
 
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorVivoExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.rol.RolImpostorExcepcion;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +31,8 @@ public class CiudadanoTest {
     public void unCiudadanoSeCuentaComoCiudadanoEnElContador() {
         Rol rolCiudadano = new Ciudadano();
 
-        ValidadorDeComposicionDelMazo contador = new ValidadorDeComposicionDelMazo();
+        Random  random = new Random();
+        CreadorDeJugadores contador = new CreadorDeJugadores(random);
         rolCiudadano.contarseEn(contador);
 
         assertEquals(0, contador.cantidadDeMafiosos());

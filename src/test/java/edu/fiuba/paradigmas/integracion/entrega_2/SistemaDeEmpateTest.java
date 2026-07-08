@@ -4,11 +4,11 @@ import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoBallotage;
 import edu.fiuba.paradigmas.modelo.empate.EmpateDiurnoSinEliminacion;
 import edu.fiuba.paradigmas.modelo.excepciones.fase.VotoInvalidoExcepcion;
 import edu.fiuba.paradigmas.modelo.excepciones.estado.JugadorMuertoExcepcion;
-import edu.fiuba.paradigmas.modelo.fasediurna.*;
-import edu.fiuba.paradigmas.modelo.accionVotacion.AccionVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
+import edu.fiuba.paradigmas.modelo.fase.FaseDiurna;
+import edu.fiuba.paradigmas.modelo.accionFase.AccionFase;
 import edu.fiuba.paradigmas.modelo.jugador.Jugador;
 import edu.fiuba.paradigmas.modelo.rol.Ciudadano;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -25,18 +25,17 @@ public class SistemaDeEmpateTest {
         Jugador v1 = new Jugador("V1", new Ciudadano());
         Jugador v2 = new Jugador("V2", new Ciudadano());
 
-        fase.recibirNominacion(v1, a);
-        fase.recibirNominacion(v2, b);
-        fase.iniciarVotacion();
+        fase.recibirVoto(v1, a);
+        fase.recibirVoto(v2, b);
         fase.recibirVoto(v1, a);
         fase.recibirVoto(v2, b);
 
-        AccionVotacion accion = fase.ejecutarResultadoVotacion();
+        AccionFase accion = fase.ejecutarResultadoVotacion();
         accion.ejecutar(fase);
 
-        assertDoesNotThrow(() -> a.votarComoCiudadano(v1, new UrnaDeVotacion(new EmpateDiurnoSinEliminacion())),
+        assertDoesNotThrow(() -> a.votarComoCiudadano(v1, new Urna(new EmpateDiurnoSinEliminacion())),
                 "El jugador A debería seguir vivo tras una ronda sin eliminación");
-        assertDoesNotThrow(() -> b.votarComoCiudadano(v2,  new UrnaDeVotacion(new EmpateDiurnoSinEliminacion())),
+        assertDoesNotThrow(() -> b.votarComoCiudadano(v2,  new Urna(new EmpateDiurnoSinEliminacion())),
                 "El jugador B debería seguir vivo tras una ronda sin eliminación");
     }
 
@@ -51,16 +50,13 @@ public class SistemaDeEmpateTest {
         Jugador v1 = new Jugador("V1", new Ciudadano());
         Jugador v2 = new Jugador("V2", new Ciudadano());
 
-        fase.recibirNominacion(v1, a);
-        fase.recibirNominacion(v2, b);
-
-        fase.iniciarVotacion();
+        fase.recibirVoto(v1, a);
+        fase.recibirVoto(v2, b);
 
         fase.recibirVoto(v1, a);
         fase.recibirVoto(v2, b);
 
-        AccionVotacion accionPrimeraVuelta = fase.ejecutarResultadoVotacion();
-        accionPrimeraVuelta.ejecutar(fase);
+        AccionFase accionPrimeraVuelta = fase.ejecutarResultadoVotacion();
 
         assertThrows(VotoInvalidoExcepcion.class,
                 () -> fase.recibirVoto(v1, c),
@@ -69,14 +65,13 @@ public class SistemaDeEmpateTest {
         fase.recibirVoto(v1, a);
         fase.recibirVoto(v2, a);
 
-        AccionVotacion accionSegundaVuelta = fase.ejecutarResultadoVotacion();
-        accionSegundaVuelta.ejecutar(fase);
+        AccionFase accionSegundaVuelta = fase.ejecutarResultadoVotacion();
 
         assertThrows(JugadorMuertoExcepcion.class,
-                () -> a.votarComoCiudadano(b, new UrnaDeVotacion(new EmpateDiurnoSinEliminacion())),
+                () -> a.votarComoCiudadano(b, new Urna(new EmpateDiurnoSinEliminacion())),
                 "El jugador A debió ser eliminado tras perder el ballotage");
 
-        assertDoesNotThrow(() -> b.votarComoCiudadano(c, new UrnaDeVotacion(new EmpateDiurnoSinEliminacion())),
+        assertDoesNotThrow(() -> b.votarComoCiudadano(c, new Urna(new EmpateDiurnoSinEliminacion())),
                 "El jugador B debe seguir vivo tras salvarse en el ballotage");
     }
 }

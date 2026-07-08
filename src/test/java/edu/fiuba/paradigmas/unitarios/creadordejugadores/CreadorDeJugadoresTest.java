@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,7 @@ public class CreadorDeJugadoresTest {
 
     @Test
     public void siHayMasNombresQueRolesAsignadosLanzaExcepcionRepartoInvalido() {
-        CreadorDeJugadores creador = new CreadorDeJugadores();
+        CreadorDeJugadores creador = new CreadorDeJugadores(new Random());
         List<String> nombres = nombres(6);
         List<Rol> roles = List.of(new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano(), new Ciudadano());
 
@@ -35,7 +36,7 @@ public class CreadorDeJugadoresTest {
 
     @Test
     public void fallaSiHayMasRolesQueNombresAsignados() {
-        CreadorDeJugadores creador = new CreadorDeJugadores();
+        CreadorDeJugadores creador = new CreadorDeJugadores(new Random());
 
         List<String> nombres = nombres(5);
         List<Rol> roles = List.of(new Mafioso(), new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano(), new Ciudadano());
@@ -48,7 +49,7 @@ public class CreadorDeJugadoresTest {
 
     @Test
     public void seCreanTantosJugadoresComoNombresYRolesSeanPasados() {
-        CreadorDeJugadores creador = new CreadorDeJugadores();
+        CreadorDeJugadores creador = new CreadorDeJugadores(new Random());
 
         List<String> nombres = nombres(5);
         List<Rol> roles = List.of(new Mafioso(), new Detective(), new Ciudadano(), new Ciudadano(), new Ciudadano());

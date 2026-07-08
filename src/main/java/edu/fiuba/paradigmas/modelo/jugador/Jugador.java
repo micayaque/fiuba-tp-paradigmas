@@ -2,10 +2,12 @@ package edu.fiuba.paradigmas.modelo.jugador;
 
 import edu.fiuba.paradigmas.modelo.accionjugador.*;
 import edu.fiuba.paradigmas.modelo.bando.Bando;
-import edu.fiuba.paradigmas.modelo.votacion.Urna;
-import edu.fiuba.paradigmas.modelo.votacion.UrnaDeVotacion;
-import edu.fiuba.paradigmas.modelo.votacion.Voto;
-import edu.fiuba.paradigmas.modelo.creadordejugadores.ValidadorDeComposicionDelMazo;
+import edu.fiuba.paradigmas.modelo.creadordejugadores.CreadorDeJugadores;
+import edu.fiuba.paradigmas.modelo.historial.Memento;
+import edu.fiuba.paradigmas.modelo.urna.Urna;
+import edu.fiuba.paradigmas.modelo.voto.Voto;
+import edu.fiuba.paradigmas.modelo.partida.VerificacionVictoria;
+import edu.fiuba.paradigmas.modelo.rol.IdentificadorRol;
 import edu.fiuba.paradigmas.modelo.rol.Rol;
 
 import java.util.List;
@@ -26,8 +28,12 @@ public class Jugador {
         return nombre;
     }
 
-    public void contarseEn(ValidadorDeComposicionDelMazo contador) {
+    public void contarseEn(CreadorDeJugadores contador) {
         carta.contarseEn(contador);
+    }
+
+    public void identificarRolEn(IdentificadorRol identificador) {
+        this.carta.identificarseEn(identificador);
     }
 
     public void puedeConocerElRolDe(Jugador otroJugador, List<Jugador> conocidos) {
@@ -48,27 +54,49 @@ public class Jugador {
         this.estado.estaVivo(this, vivos);
     }
 
+    public void estaEliminado(List<Jugador> eliminados) {
+        this.estado.estaEliminado(this, eliminados);
+    }
+
+    public void contarBandoEn(VerificacionVictoria recuento) {
+        this.carta.contarBandoEn(recuento);
+    }
+
+    public Memento revelarseComoSheriff() {
+        RevelarseComoSheriff comando = new RevelarseComoSheriff(this);
+        this.estado.procesarAccion(comando);
+        return comando.guardarEstado();
+    }
+
+    public void continuarRevelandoseComoSheriff() {
+        this.carta.revelarComoSheriff();
+    }
+
+    public void eliminarProteccion() {
+        this.estado.eliminarProteccion(this);
+    }
+
     public void vistoPorMafia(List<Jugador> complices) {
         this.carta.vistoPorMafia(this, complices);
     }
 
 
 
-    public void votarComoMafiosoA(Jugador victimaElegida, UrnaDeVotacion urnaVotacionDeMafia) {
+    public void votarComoMafiosoA(Jugador victimaElegida, Urna urnaVotacionDeMafia) {
         AccionJugador comando = new VotarComoMafioso(this, victimaElegida, urnaVotacionDeMafia);
         this.estado.procesarAccion(comando);
     }
 
-    public void continuarVotacionMafiosaConCarta(Jugador victimaElegida, UrnaDeVotacion urnaVotacionDeMafia) {
+    public void continuarVotacionMafiosaConCarta(Jugador victimaElegida, Urna urnaVotacionDeMafia) {
         this.carta.votarComoMafiosoA(victimaElegida, urnaVotacionDeMafia);
     }
 
-    public void recibirVotoMafioso(Voto voto, UrnaDeVotacion urnaVotacionDeMafia) {
+    public void recibirVotoMafioso(Voto voto, Urna urnaVotacionDeMafia) {
         AccionJugador comando = new RecibirVotoNocturno(this, voto, urnaVotacionDeMafia);
         this.estado.procesarAccion(comando);
     }
 
-    public void continuarRecibiendoVotoMafioso(Voto voto, UrnaDeVotacion urnaVotacion) {
+    public void continuarRecibiendoVotoMafioso(Voto voto, Urna urnaVotacion) {
         this.carta.recibirVotoMafioso(voto, urnaVotacion);
     }
 
@@ -82,26 +110,30 @@ public class Jugador {
         this.estado.procesarAccion(comando);
     }
 
-    public void morir() {
-        AccionJugador comando = new RecibirEliminacion(this);
+    public Memento morir() {
+        RecibirEliminacion comando = new RecibirEliminacion(this);
         this.estado.procesarAccion(comando);
+        return comando.guardarEstado();
     }
 
-
-
-    public void protegerA(Jugador protegido) {
-        AccionJugador comando = new Proteger(this, protegido);
+    public Memento protegerA(Jugador protegido) {
+        Proteger comando = new Proteger(this, protegido);
         this.estado.procesarAccion(comando);
+        return comando.guardarEstado();
     }
 
     public void continuarProteccionA(Jugador protegido) {
         this.carta.protegerComoMedico(protegido);
     }
 
-    public Bando investigarA(Jugador sospechoso) {
+    public void recibirProteccion() {
+        this.estado.procesarAccion(new RecibirProteccion(this));
+    }
+
+    public Memento investigarA(Jugador sospechoso) {
         Investigar comando = new Investigar(this, sospechoso);
         this.estado.procesarAccion(comando);
-        return comando.obtenerResultado();
+        return comando.guardarEstado();
     }
 
     public Bando serInvestigado() {
@@ -126,6 +158,10 @@ public class Jugador {
 
     public Rol continuarRevelandoCarta() {
         return this.carta;
+    }
+
+    public void agregarComoObjetivoPrioritario(List<Jugador> objetivos) {
+        this.carta.agregarComoObjetivoPrioritario(this, objetivos);
     }
 
 }
